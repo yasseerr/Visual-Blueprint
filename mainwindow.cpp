@@ -6,6 +6,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //setting up the dock widget layount
+    setCorner(Qt::BottomLeftCorner,Qt::LeftDockWidgetArea);
+    setCorner(Qt::BottomRightCorner,Qt::RightDockWidgetArea);
+    tabifyDockWidget(ui->messagedDockWidget,ui->consoleDockWidget);
+
 }
 
 MainWindow::~MainWindow()
