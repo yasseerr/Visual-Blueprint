@@ -11,6 +11,7 @@
 #define BP_PLATFORMMANAGER_H
 
 #include <QObject>
+#include <QProcess>
 
 class BP_PlatformManager : public QObject
 {
@@ -21,8 +22,18 @@ public:
     //classes to implement according to Framwork/languages
     virtual QStringList listGlobalModules() = 0;
 
+public slots:
+    //slots for the manager process
+    virtual void standardOutputReady() = 0;
+    virtual void errorOutputReady() = 0;
+public:
     QString m_language = "";
     QString m_framwork= "";
+    QString m_compilerPath= "";
+    QString m_managerFile = "";
+
+    QProcess m_managerProcess;
+
 
 
 

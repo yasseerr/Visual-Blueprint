@@ -20,9 +20,14 @@ class BP_PythonManager : public BP_PlatformManager
 public:
     BP_PythonManager(QObject *parent =  nullptr);
 
+
     // BP_PlatformManager interface
 public:
     virtual QStringList listGlobalModules() override;
+
+public slots:
+    virtual void standardOutputReady() override;
+    virtual void errorOutputReady() override;
 };
 
 #endif // BP_PYTHONMANAGER_H

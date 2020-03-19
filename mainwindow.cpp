@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
     setCorner(Qt::BottomRightCorner,Qt::RightDockWidgetArea);
     tabifyDockWidget(ui->messagedDockWidget,ui->consoleDockWidget);
 
+    //testing piping
+    pythonTest = new BP_PythonManager(this);
+    pythonTest->listGlobalModules();
 }
 
 MainWindow::~MainWindow()

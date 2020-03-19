@@ -9,19 +9,34 @@
  ***************************************************************************/
 #include "bp_pythonmanager.h"
 
+#include <QDebug>
+
 BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
     m_language = "python";
     m_framwork = "standard";
-
+    m_compilerPath = "C:/Python38/python.exe";
+    m_managerFile = "./Platform/Python/python_manager.py";
+    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardOutput,this,&BP_PythonManager::standardOutputReady);
+    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardError,this,&BP_PythonManager::errorOutputReady);
 }
 
 QStringList BP_PythonManager::listGlobalModules()
 {
     QStringList returnList;
 
-
-
-
+    m_managerProcess.setProgram(m_compilerPath);
+    m_managerProcess.setArguments(QStringList() << m_managerFile << "listGM");
+    m_managerProcess.start();
     return returnList;
+}
+
+void BP_PythonManager::standardOutputReady()
+{
+    qDebug() << "Data Ready : " << m_managerProcess.readAllStandardOutput();
+}
+
+void BP_PythonManager::errorOutputReady()
+{
+    qDebug() << "Error Ready : " << m_managerProcess.readAllStandardError();
 }

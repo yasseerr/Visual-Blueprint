@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include <Platform/Python/bp_pythonmanager.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,5 +19,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    BP_PythonManager *pythonTest;
 };
 #endif // MAINWINDOW_H
