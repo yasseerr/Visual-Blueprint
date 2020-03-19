@@ -18,7 +18,7 @@ class BP_PythonManager : public BP_PlatformManager
 {
     Q_OBJECT
 public:
-    BP_PythonManager();
+    BP_PythonManager(QObject *parent =  nullptr);
 
     // BP_PlatformManager interface
 public:

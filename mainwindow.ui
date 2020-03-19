@@ -110,70 +110,6 @@
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="projectToolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>24</width>
-     <height>24</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>true</bool>
-   </attribute>
-   <addaction name="action_Build"/>
-   <addaction name="action_Run"/>
-   <addaction name="action_Debug"/>
-   <addaction name="separator"/>
-   <addaction name="actionclean_cache"/>
-  </widget>
-  <widget class="QToolBar" name="editorToolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>true</bool>
-   </attribute>
-   <addaction name="actionZoom_In"/>
-   <addaction name="actionZoom_Out"/>
-   <addaction name="actionFit_Graph"/>
-  </widget>
-  <widget class="QToolBar" name="fileToolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="action_New_Project"/>
-   <addaction name="action_Open_File"/>
-   <addaction name="action_Close_Current_Project"/>
-   <addaction name="separator"/>
-   <addaction name="action_Save"/>
-   <addaction name="actionRevert_To_Saved"/>
-   <addaction name="separator"/>
-   <addaction name="action_Exit"/>
-  </widget>
   <widget class="QDockWidget" name="helpDockWidget">
    <property name="minimumSize">
     <size>
@@ -487,6 +423,66 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QToolBar" name="fileToolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_New_Project"/>
+   <addaction name="action_Open_File"/>
+   <addaction name="action_Close_Current_Project"/>
+   <addaction name="separator"/>
+   <addaction name="action_Save"/>
+   <addaction name="actionRevert_To_Saved"/>
+   <addaction name="separator"/>
+   <addaction name="action_Exit"/>
+  </widget>
+  <widget class="QToolBar" name="graphToolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>true</bool>
+   </attribute>
+   <addaction name="actionZoom_In"/>
+   <addaction name="actionZoom_Out"/>
+   <addaction name="actionFit_Graph"/>
+   <addaction name="separator"/>
+   <addaction name="action_Undo"/>
+   <addaction name="action_Redo"/>
+  </widget>
+  <widget class="QToolBar" name="buildToolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Build"/>
+   <addaction name="action_Run"/>
+   <addaction name="action_Debug"/>
+   <addaction name="actionclean_cache"/>
   </widget>
   <action name="action_New_Project">
    <property name="icon">

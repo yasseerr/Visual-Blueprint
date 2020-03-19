@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2020                                                  *
+ *   Copyright (C) 2020                                                    *
  *                                                                         *
  *   Authors:  Yasser Grimes                                               *
  *   Develeped as a Graduation Project                                     *
@@ -21,10 +21,8 @@ public:
     //classes to implement according to Framwork/languages
     virtual QStringList listGlobalModules() = 0;
 
-
-public:
-    QString m_language;
-    QString m_framwork;
+    QString m_language = "";
+    QString m_framwork= "";
 
 
 
