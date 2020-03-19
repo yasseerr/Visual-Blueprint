@@ -17,11 +17,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     Modeling/importsmodel.cpp \
+    Platform/Python/bp_pythonmanager.cpp \
+    Platform/bp_platformmanager.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Modeling/importsmodel.h \
+    Platform/Python/bp_pythonmanager.h \
+    Platform/bp_platformmanager.h \
     mainwindow.h
 
 FORMS += \
