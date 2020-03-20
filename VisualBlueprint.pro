@@ -16,6 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Core/bp_project.cpp \
+    Modeling/Imports/bp_importsitem.cpp \
+    Modeling/Imports/bp_importsmoduleitem.cpp \
     Modeling/importsmodel.cpp \
     Platform/Python/bp_pythonmanager.cpp \
     Platform/bp_platformmanager.cpp \
@@ -23,6 +26,9 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Core/bp_project.h \
+    Modeling/Imports/bp_importsitem.h \
+    Modeling/Imports/bp_importsmoduleitem.h \
     Modeling/importsmodel.h \
     Platform/Python/bp_pythonmanager.h \
     Platform/bp_platformmanager.h \
@@ -41,3 +47,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES += \
+    Platform/Python/python_manager.py

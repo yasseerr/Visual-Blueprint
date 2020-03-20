@@ -12,31 +12,71 @@ ImportsModel::ImportsModel()
 
 }
 
+QModelIndex ImportsModel::indexForItem(BP_ImportsItem *importItem)
+{
+    if(importItem == m_rootItem)
+        return  QModelIndex();
+
+    int rowNumber = rowForItem(importItem);
+    int columnNumber = 0;
+    return  createIndex(rowNumber,columnNumber,importItem);
+}
+
+BP_ImportsItem *ImportsModel::itemForIndex(const QModelIndex &index) const
+{
+    if(index.isValid())
+        return  static_cast<BP_ImportsItem*>(index.internalPointer());
+    return  m_rootItem;
+}
+
+int ImportsModel::rowForItem(BP_ImportsItem *item) const
+{
+    return  item->parentItem->childItems.indexOf(item);
+}
+
 QModelIndex ImportsModel::index(int row, int column, const QModelIndex &parent) const
 {
-
+    if(hasIndex(row,column,parent))
+    {
+        BP_ImportsItem *parentItem = itemForIndex(parent);
+        BP_ImportsItem *childItem = parentItem->childItems.at(row);
+        return  createIndex(row,column,childItem);
+    }
     return  QModelIndex();
 }
 
 QModelIndex ImportsModel::parent(const QModelIndex &child) const
 {
-
-    return QModelIndex();
+    BP_ImportsItem *childItem = itemForIndex(child);
+    BP_ImportsItem *parentItem = childItem->parentItem;
+    if(parentItem == m_rootItem)
+        return  QModelIndex();
+    int rowNumber = rowForItem(parentItem);
+    int colNumber = 0;
+    return  createIndex(rowNumber,colNumber,parentItem);
 }
 
 int ImportsModel::rowCount(const QModelIndex &parent) const
 {
-
-    return 0;
+    BP_ImportsItem *parentNode = itemForIndex(parent);
+    return parentNode->childItems.size();
 }
 
 int ImportsModel::columnCount(const QModelIndex &parent) const
 {
-
-    return 0;
+    return 2;
 }
 
 QVariant ImportsModel::data(const QModelIndex &index, int role) const
 {
+    if(index.isValid() && role==Qt::DisplayRole)
+    {
+        BP_ImportsItem *importItem = itemForIndex(index);
+        return  importItem->m_name;
+    }
+//    if (index.isValid() && role==Qt::DecorationRole) {
+//        vsNavigatorNode *nNode = nodeForIndex(index);
+//        return QVariant::fromValue(QPixmap(nNode->iconPath));
+//    }
     return QVariant();
 }
