@@ -31,7 +31,7 @@ BP_ImportsItem *ImportsModel::itemForIndex(const QModelIndex &index) const
 
 int ImportsModel::rowForItem(BP_ImportsItem *item) const
 {
-    return  item->parentItem->childItems.indexOf(item);
+    return  item->m_parentItem->childItems.indexOf(item);
 }
 
 QModelIndex ImportsModel::index(int row, int column, const QModelIndex &parent) const
@@ -48,7 +48,7 @@ QModelIndex ImportsModel::index(int row, int column, const QModelIndex &parent) 
 QModelIndex ImportsModel::parent(const QModelIndex &child) const
 {
     BP_ImportsItem *childItem = itemForIndex(child);
-    BP_ImportsItem *parentItem = childItem->parentItem;
+    BP_ImportsItem *parentItem = childItem->m_parentItem;
     if(parentItem == m_rootItem)
         return  QModelIndex();
     int rowNumber = rowForItem(parentItem);
@@ -79,4 +79,14 @@ QVariant ImportsModel::data(const QModelIndex &index, int role) const
 //        return QVariant::fromValue(QPixmap(nNode->iconPath));
 //    }
     return QVariant();
+}
+
+BP_ImportsItem *ImportsModel::rootItem() const
+{
+    return m_rootItem;
+}
+
+void ImportsModel::setRootItem(BP_ImportsItem *rootItem)
+{
+    m_rootItem = rootItem;
 }

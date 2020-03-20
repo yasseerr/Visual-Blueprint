@@ -9,7 +9,7 @@
  ***************************************************************************/
 #include "bp_importsmoduleitem.h"
 
-BP_ImportsModuleItem::BP_ImportsModuleItem(QObject *parent):BP_ImportsItem(parent)
+BP_ImportsModuleItem::BP_ImportsModuleItem(QString name,BP_ImportsItem *parentItem,QObject *parent):BP_ImportsItem(parentItem,parent)
 {
-
+    m_name = name;
 }

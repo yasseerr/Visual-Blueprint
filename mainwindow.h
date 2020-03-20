@@ -5,6 +5,8 @@
 
 #include <Platform/Python/bp_pythonmanager.h>
 
+#include <Modeling/importsmodel.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,8 +19,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void createNewProject();
+
 private:
     Ui::MainWindow *ui;
     BP_PythonManager *pythonTest;
+    ImportsModel *m_importsModel;
+    BP_ImportsItem *m_rootImportsItem;
 };
 #endif // MAINWINDOW_H

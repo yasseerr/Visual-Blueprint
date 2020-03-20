@@ -16,12 +16,12 @@ class BP_ImportsItem : public QObject
 {
     Q_OBJECT
 public:
-    explicit BP_ImportsItem(QObject *parent = nullptr);
+    explicit BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent = nullptr);
 
 
     QString m_name = "Empty";
 
-    BP_ImportsItem *parentItem;
+    BP_ImportsItem *m_parentItem;
     QList<BP_ImportsItem*> childItems;
 
 };

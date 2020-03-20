@@ -17,7 +17,7 @@ BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
     m_language = "python";
     m_framwork = "standard";
-    m_compilerPath = "C:/Python38/python.exe";
+    m_compilerPath = "F:/Program Files/WPy64-3720/python-3.7.2.amd64/python.exe";
     m_managerFile = "./Platform/Python/python_manager.py";
 //    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardOutput,this,&BP_PythonManager::standardOutputReady);
 //    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardError,this,&BP_PythonManager::errorOutputReady);

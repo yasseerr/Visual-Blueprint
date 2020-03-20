@@ -17,7 +17,7 @@
 class BP_ImportsModuleItem : public BP_ImportsItem
 {
 public:
-    BP_ImportsModuleItem(QObject *parent = nullptr);
+    BP_ImportsModuleItem(QString name,BP_ImportsItem *parentItem,QObject *parent = nullptr);
 };
 
 #endif // BP_IMPORTSMODULEITEM_H

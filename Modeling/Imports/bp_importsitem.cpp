@@ -9,7 +9,10 @@
  ***************************************************************************/
 #include "bp_importsitem.h"
 
-BP_ImportsItem::BP_ImportsItem(QObject *parent) : QObject(parent)
+BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QObject(parent),
+  m_parentItem(parentItem)
 {
+    if(m_parentItem != nullptr)
+        m_parentItem->childItems.append(this);
 
 }
