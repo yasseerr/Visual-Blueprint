@@ -10,7 +10,10 @@
 #ifndef IMPORTSITEMWIDGET_H
 #define IMPORTSITEMWIDGET_H
 
+#include <QAbstractItemModel>
 #include <QWidget>
+
+#include <Modeling/Imports/bp_importsitem.h>
 
 namespace Ui {
 class ImportsItemWidget;
@@ -21,8 +24,14 @@ class ImportsItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ImportsItemWidget(QWidget *parent = nullptr);
+    explicit ImportsItemWidget(BP_ImportsItem *importItem,const QModelIndex widgetModelIndex,QWidget *parent = nullptr);
     ~ImportsItemWidget();
+
+    QModelIndex m_widgetModelIndex;
+    BP_ImportsItem *m_importsItem;
+
+public slots:
+    void onInspectClicked();
 
 private:
     Ui::ImportsItemWidget *ui;

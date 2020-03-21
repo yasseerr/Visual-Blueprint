@@ -11,6 +11,8 @@
 #include <QPushButton>
 #include <QTextEdit>
 
+#include <Widgets/importsitemwidget.h>
+
 ImportsModel::ImportsModel()
 {
 
@@ -42,7 +44,8 @@ void ImportsModel::setupIndexesWidgets()
 {
     foreach (auto childItem, m_rootItem->childItems) {
         int childRow = rowForItem(childItem);
-        connectedView->setIndexWidget(createIndex(childRow,1,childItem),new QPushButton("Push"));
+        connectedView->setIndexWidget(createIndex(childRow,1,childItem),
+                                      new ImportsItemWidget(childItem,createIndex(childRow,1,childItem)));
     }
 }
 
@@ -91,7 +94,7 @@ QVariant ImportsModel::data(const QModelIndex &index, int role) const
         }
         else if (index.column() == 1) {
             //connectedView->setIndexWidget(index,new QLabel("import"));
-            return "Hello";
+            return "";
         }
     }
 //    if (index.isValid() && role==Qt::DecorationRole) {

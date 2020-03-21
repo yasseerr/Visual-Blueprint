@@ -10,14 +10,27 @@
 #include "importsitemwidget.h"
 #include "ui_importsitemwidget.h"
 
-ImportsItemWidget::ImportsItemWidget(QWidget *parent) :
+#include <QDebug>
+
+ImportsItemWidget::ImportsItemWidget(BP_ImportsItem *importItem,const QModelIndex widgetModelIndex,QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ImportsItemWidget)
+    ui(new Ui::ImportsItemWidget),
+    m_widgetModelIndex(widgetModelIndex),
+    m_importsItem(importItem)
+
 {
     ui->setupUi(this);
+
+    connect(ui->inspectToolButton,&QToolButton::clicked,this,&ImportsItemWidget::onInspectClicked);
+
 }
 
 ImportsItemWidget::~ImportsItemWidget()
 {
     delete ui;
+}
+
+void ImportsItemWidget::onInspectClicked()
+{
+    qDebug() << "item Clicked" << m_importsItem->m_name;
 }

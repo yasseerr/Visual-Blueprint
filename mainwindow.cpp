@@ -24,6 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
     m_rootImportsItem = new BP_ImportsItem(nullptr,this);
     m_importsModel->setRootItem(m_rootImportsItem);
     createNewProject();
+    ui->importsTreeView->header()->setStretchLastSection(false);
+    ui->importsTreeView->header()->setSectionResizeMode(1,QHeaderView::Fixed);
+    ui->importsTreeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
+    ui->importsTreeView->header()->resizeSection(1,60);
 }
 
 MainWindow::~MainWindow()
@@ -33,13 +37,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::createNewProject()
 {
-    pythonTest = new BP_PythonManager(this);
+
+    setCurrentProject(new BP_Project("Test Project",this));
     //Loading the globlal Modules
-    QStringList globalModules = pythonTest->listGlobalModules();
+    m_currentProject->setupPlatform();
+    QStringList globalModules = currentProject()->platformManager()->listGlobalModules();
     foreach (auto moduleName, globalModules) {
         BP_ImportsModuleItem *moduleItem = new BP_ImportsModuleItem(moduleName,m_rootImportsItem,m_importsModel);
         qDebug()<< "Module Name :" << moduleItem->m_name;
     }
     m_importsModel->setupIndexesWidgets();
+}
+
+BP_Project *MainWindow::currentProject() const
+{
+    return m_currentProject;
+}
+
+void MainWindow::setCurrentProject(BP_Project *currentProject)
+{
+    if (m_currentProject == currentProject)
+        return;
+
+    m_currentProject = currentProject;
+    emit currentProjectChanged(m_currentProject);
 }
 

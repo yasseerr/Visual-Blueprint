@@ -22,6 +22,7 @@ SOURCES += \
     Modeling/importsmodel.cpp \
     Platform/Python/bp_pythonmanager.cpp \
     Platform/bp_platformmanager.cpp \
+    Widgets/importsitemwidget.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -32,9 +33,11 @@ HEADERS += \
     Modeling/importsmodel.h \
     Platform/Python/bp_pythonmanager.h \
     Platform/bp_platformmanager.h \
+    Widgets/importsitemwidget.h \
     mainwindow.h
 
 FORMS += \
+    Widgets/importsitemwidget.ui \
     mainwindow.ui
 
 TRANSLATIONS += \

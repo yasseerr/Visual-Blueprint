@@ -352,7 +352,17 @@ p, li { white-space: pre-wrap; }
       <number>1</number>
      </property>
      <item>
-      <widget class="QTreeView" name="importsTreeView"/>
+      <widget class="QTreeView" name="importsTreeView">
+       <property name="uniformRowHeights">
+        <bool>true</bool>
+       </property>
+       <property name="animated">
+        <bool>true</bool>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
      </item>
     </layout>
    </widget>
