@@ -7,6 +7,10 @@
  ***************************************************************************/
 #include "importsmodel.h"
 
+#include <QLabel>
+#include <QPushButton>
+#include <QTextEdit>
+
 ImportsModel::ImportsModel()
 {
 
@@ -33,6 +37,16 @@ int ImportsModel::rowForItem(BP_ImportsItem *item) const
 {
     return  item->m_parentItem->childItems.indexOf(item);
 }
+
+void ImportsModel::setupIndexesWidgets()
+{
+    foreach (auto childItem, m_rootItem->childItems) {
+        int childRow = rowForItem(childItem);
+        connectedView->setIndexWidget(createIndex(childRow,1,childItem),new QPushButton("Push"));
+    }
+}
+
+
 
 QModelIndex ImportsModel::index(int row, int column, const QModelIndex &parent) const
 {
@@ -71,8 +85,14 @@ QVariant ImportsModel::data(const QModelIndex &index, int role) const
 {
     if(index.isValid() && role==Qt::DisplayRole)
     {
-        BP_ImportsItem *importItem = itemForIndex(index);
-        return  importItem->m_name;
+        if(index.column() == 0){
+            BP_ImportsItem *importItem = itemForIndex(index);
+            return  importItem->m_name;
+        }
+        else if (index.column() == 1) {
+            //connectedView->setIndexWidget(index,new QLabel("import"));
+            return "Hello";
+        }
     }
 //    if (index.isValid() && role==Qt::DecorationRole) {
 //        vsNavigatorNode *nNode = nodeForIndex(index);

@@ -10,6 +10,7 @@
 
 #include <QAbstractItemModel>
 #include <QObject>
+#include <QTreeView>
 
 #include <Modeling/Imports/bp_importsitem.h>
 
@@ -23,6 +24,7 @@ public:
     QModelIndex indexForItem(BP_ImportsItem *importItem);
     BP_ImportsItem* itemForIndex(const QModelIndex &index) const;
     int rowForItem(BP_ImportsItem *item) const;
+    void setupIndexesWidgets();
 
     // QAbstractItemModel interface
 public:
@@ -33,6 +35,8 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     BP_ImportsItem *rootItem() const;
     void setRootItem(BP_ImportsItem *rootItem);
+
+    QTreeView *connectedView;
 
 private:
     BP_ImportsItem *m_rootItem;
