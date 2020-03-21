@@ -24,10 +24,14 @@ public:
     // BP_PlatformManager interface
 public:
     virtual QStringList listGlobalModules() override;
-
+    virtual QList<QPair<QString, QString> > inspectModuleByName(QString moduleName) override;
 public slots:
     virtual void standardOutputReady() override;
     virtual void errorOutputReady() override;
+
+    // BP_PlatformManager interface
+public:
+
 };
 
 #endif // BP_PYTHONMANAGER_H

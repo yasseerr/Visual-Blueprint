@@ -44,9 +44,9 @@ void MainWindow::createNewProject()
     QStringList globalModules = currentProject()->platformManager()->listGlobalModules();
     foreach (auto moduleName, globalModules) {
         BP_ImportsModuleItem *moduleItem = new BP_ImportsModuleItem(moduleName,m_rootImportsItem,m_importsModel);
-        qDebug()<< "Module Name :" << moduleItem->m_name;
+        //qDebug()<< "Module Name :" << moduleItem->m_name;
     }
-    m_importsModel->setupIndexesWidgets();
+    m_importsModel->setupIndexesWidgets(currentProject()->platformManager());
 }
 
 BP_Project *MainWindow::currentProject() const

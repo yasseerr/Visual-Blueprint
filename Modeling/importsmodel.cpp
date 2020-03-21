@@ -40,12 +40,12 @@ int ImportsModel::rowForItem(BP_ImportsItem *item) const
     return  item->m_parentItem->childItems.indexOf(item);
 }
 
-void ImportsModel::setupIndexesWidgets()
+void ImportsModel::setupIndexesWidgets(BP_PlatformManager *platformManager)
 {
     foreach (auto childItem, m_rootItem->childItems) {
         int childRow = rowForItem(childItem);
         connectedView->setIndexWidget(createIndex(childRow,1,childItem),
-                                      new ImportsItemWidget(childItem,createIndex(childRow,1,childItem)));
+                                      new ImportsItemWidget(childItem,platformManager,createIndex(childRow,1,childItem)));
     }
 }
 

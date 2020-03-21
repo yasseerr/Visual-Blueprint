@@ -12,11 +12,12 @@
 
 #include <QDebug>
 
-ImportsItemWidget::ImportsItemWidget(BP_ImportsItem *importItem,const QModelIndex widgetModelIndex,QWidget *parent) :
+ImportsItemWidget::ImportsItemWidget(BP_ImportsItem *importItem,BP_PlatformManager *platformManager,const QModelIndex widgetModelIndex,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ImportsItemWidget),
     m_widgetModelIndex(widgetModelIndex),
-    m_importsItem(importItem)
+    m_importsItem(importItem),
+    m_platformManager(platformManager)
 
 {
     ui->setupUi(this);
@@ -33,4 +34,5 @@ ImportsItemWidget::~ImportsItemWidget()
 void ImportsItemWidget::onInspectClicked()
 {
     qDebug() << "item Clicked" << m_importsItem->m_name;
+    m_platformManager->inspectModuleByName(m_importsItem->m_name);
 }

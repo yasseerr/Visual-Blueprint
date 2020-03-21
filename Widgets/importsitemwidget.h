@@ -15,6 +15,8 @@
 
 #include <Modeling/Imports/bp_importsitem.h>
 
+#include <Platform/bp_platformmanager.h>
+
 namespace Ui {
 class ImportsItemWidget;
 }
@@ -24,11 +26,13 @@ class ImportsItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ImportsItemWidget(BP_ImportsItem *importItem,const QModelIndex widgetModelIndex,QWidget *parent = nullptr);
+    explicit ImportsItemWidget(BP_ImportsItem *importItem,BP_PlatformManager *platformManager
+                               ,const QModelIndex widgetModelIndex,QWidget *parent = nullptr);
     ~ImportsItemWidget();
 
     QModelIndex m_widgetModelIndex;
     BP_ImportsItem *m_importsItem;
+    BP_PlatformManager *m_platformManager;
 
 public slots:
     void onInspectClicked();

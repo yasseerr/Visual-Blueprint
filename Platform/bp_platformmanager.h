@@ -21,11 +21,12 @@ public:
 
     //classes to implement according to Framwork/languages
     virtual QStringList listGlobalModules() = 0;
-
+    virtual QList<QPair<QString,QString>> inspectModuleByName(QString moduleName) = 0;
 public slots:
     //slots for the manager process
     virtual void standardOutputReady() = 0;
     virtual void errorOutputReady() = 0;
+
 public:
     QString m_language = "";
     QString m_framwork= "";

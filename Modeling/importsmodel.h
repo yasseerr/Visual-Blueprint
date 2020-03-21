@@ -14,6 +14,8 @@
 
 #include <Modeling/Imports/bp_importsitem.h>
 
+#include <Platform/bp_platformmanager.h>
+
 class ImportsModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -24,7 +26,7 @@ public:
     QModelIndex indexForItem(BP_ImportsItem *importItem);
     BP_ImportsItem* itemForIndex(const QModelIndex &index) const;
     int rowForItem(BP_ImportsItem *item) const;
-    void setupIndexesWidgets();
+    void setupIndexesWidgets(BP_PlatformManager *platformManager);
 
     // QAbstractItemModel interface
 public:
