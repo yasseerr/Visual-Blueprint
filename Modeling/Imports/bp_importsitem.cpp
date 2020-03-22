@@ -34,3 +34,9 @@ QStringList BP_ImportsItem::getImportHierarchy()
     }
     return  retList;
 }
+
+QVariant BP_ImportsItem::getIconVariant()
+{
+    QIcon itemIcon(":/Data/Images/DefaultIcon/hardware-processor.png");
+    return QVariant::fromValue(itemIcon);
+}

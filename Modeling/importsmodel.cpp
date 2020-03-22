@@ -106,10 +106,10 @@ QVariant ImportsModel::data(const QModelIndex &index, int role) const
             return "";
         }
     }
-//    if (index.isValid() && role==Qt::DecorationRole) {
-//        vsNavigatorNode *nNode = nodeForIndex(index);
-//        return QVariant::fromValue(QPixmap(nNode->iconPath));
-//    }
+    if (index.isValid() && role==Qt::DecorationRole && index.column() == 0) {
+        BP_ImportsItem *importItem = itemForIndex(index);
+        return importItem->getIconVariant();
+    }
     return QVariant();
 }
 

@@ -36,7 +36,7 @@ QStringList BP_PythonManager::listGlobalModules()
     QJsonArray listJson = QJsonDocument::fromJson(listRawData).array();
     foreach (auto item, listJson) {
         returnList << item.toString();
-        qDebug() << item.toString();
+        //qDebug() << item.toString();
     }
     return returnList;
 }
