@@ -12,7 +12,10 @@
 BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QObject(parent),
   m_parentItem(parentItem)
 {
-    if(m_parentItem != nullptr)
+    if(m_parentItem != nullptr){
         m_parentItem->childItems.append(this);
+        if(m_parentItem->m_model != nullptr)
+            m_model = m_parentItem->m_model;
+    }
 
 }

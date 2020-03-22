@@ -36,7 +36,7 @@ public:
     virtual int columnCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
     BP_ImportsItem *rootItem() const;
-    void setRootItem(BP_ImportsItem *rootItem);
+    void setRootItem(BP_ImportsItem *rootItem, ImportsModel *importModel);
 
     QTreeView *connectedView;
 

@@ -109,7 +109,8 @@ BP_ImportsItem *ImportsModel::rootItem() const
     return m_rootItem;
 }
 
-void ImportsModel::setRootItem(BP_ImportsItem *rootItem)
+void ImportsModel::setRootItem(BP_ImportsItem *rootItem,ImportsModel *importModel)
 {
     m_rootItem = rootItem;
+    m_rootItem->m_model = importModel;
 }

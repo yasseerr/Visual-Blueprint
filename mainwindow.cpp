@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->importsTreeView->setModel(m_importsModel);
     m_importsModel->connectedView = ui->importsTreeView;
     m_rootImportsItem = new BP_ImportsItem(nullptr,this);
-    m_importsModel->setRootItem(m_rootImportsItem);
+    m_importsModel->setRootItem(m_rootImportsItem,m_importsModel);
     createNewProject();
     ui->importsTreeView->header()->setStretchLastSection(false);
     ui->importsTreeView->header()->setSectionResizeMode(1,QHeaderView::Fixed);

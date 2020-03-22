@@ -12,6 +12,7 @@
 
 #include <QObject>
 
+class ImportsModel;
 class BP_ImportsItem : public QObject
 {
     Q_OBJECT
@@ -21,6 +22,7 @@ public:
 
     QString m_name = "Empty";
 
+    ImportsModel *m_model;
     BP_ImportsItem *m_parentItem;
     QList<BP_ImportsItem*> childItems;
 

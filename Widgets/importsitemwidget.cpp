@@ -11,6 +11,9 @@
 #include "ui_importsitemwidget.h"
 
 #include <QDebug>
+#include <Modeling/importsmodel.h>
+
+#include <Modeling/Imports/bp_importsmoduleitem.h>
 
 ImportsItemWidget::ImportsItemWidget(BP_ImportsItem *importItem,BP_PlatformManager *platformManager,const QModelIndex widgetModelIndex,QWidget *parent) :
     QWidget(parent),
@@ -34,5 +37,15 @@ ImportsItemWidget::~ImportsItemWidget()
 void ImportsItemWidget::onInspectClicked()
 {
     qDebug() << "item Clicked" << m_importsItem->m_name;
-    m_platformManager->inspectModuleByName(m_importsItem->m_name);
+    QList<QPair<QString,QString>> moduleMembers = m_platformManager->inspectModuleByName(m_importsItem->m_name);
+    foreach (auto moduleMember, moduleMembers) {
+        if(moduleMember.second == "module"){
+            BP_ImportsModuleItem *moduleItem = new BP_ImportsModuleItem(moduleMember.first,m_importsItem,m_importsItem);
+        }
+    }
+    if(m_importsItem->m_model != nullptr){
+        m_importsItem->m_model->connectedView->setExpanded(m_widgetModelIndex,true);
+        emit ((m_importsItem->m_model)->layoutChanged());
+    }
+
 }
