@@ -7,6 +7,7 @@
  ***************************************************************************/
 #include "importsmodel.h"
 
+#include <QDebug>
 #include <QLabel>
 #include <QPushButton>
 #include <QTextEdit>
@@ -47,6 +48,14 @@ void ImportsModel::setupIndexesWidgets(BP_PlatformManager *platformManager)
         connectedView->setIndexWidget(createIndex(childRow,1,childItem),
                                       new ImportsItemWidget(childItem,platformManager,createIndex(childRow,1,childItem)));
     }
+}
+
+void ImportsModel::setupItemWidget(BP_ImportsItem *item, BP_PlatformManager *platformManager)
+{
+    QModelIndex itemIndex = indexForItem(item);
+    qDebug() << "item index " << itemIndex.row();
+    connectedView->setIndexWidget(createIndex(itemIndex.row(),1,item),
+                                  new ImportsItemWidget(item,platformManager,createIndex(itemIndex.row(),1,item)));
 }
 
 

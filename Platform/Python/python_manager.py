@@ -17,9 +17,13 @@ def listGlobalModules():
 
 def inspect_entered_module():
     returnList = []
-    moduleName = sys.argv[2]
-    #moduleName = "networkx"
-    inspectedModule = importlib.import_module(moduleName)
+    inspectedModule = None
+    moduleHierachy = sys.argv[2:]
+    moduleHierachy.reverse()
+    for moduleStep in moduleHierachy:
+        #print("\n {0} \n\n".format(moduleStep))
+        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
+
     module_members = inspect.getmembers(inspectedModule)
     for m_member in module_members:
         #TODO preprocess Type to be Compatible with Cross Language Graph

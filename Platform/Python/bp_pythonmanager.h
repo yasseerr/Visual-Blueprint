@@ -24,13 +24,12 @@ public:
     // BP_PlatformManager interface
 public:
     virtual QStringList listGlobalModules() override;
-    virtual QList<QPair<QString, QString> > inspectModuleByName(QString moduleName) override;
+    virtual QList<QPair<QString, QString> > inspectModuleByName(QStringList moduleHierchy) override;
+
 public slots:
     virtual void standardOutputReady() override;
     virtual void errorOutputReady() override;
 
-    // BP_PlatformManager interface
-public:
 
 };
 

@@ -36,11 +36,12 @@ ImportsItemWidget::~ImportsItemWidget()
 
 void ImportsItemWidget::onInspectClicked()
 {
-    qDebug() << "item Clicked" << m_importsItem->m_name;
-    QList<QPair<QString,QString>> moduleMembers = m_platformManager->inspectModuleByName(m_importsItem->m_name);
+    qDebug() << "item Clicked" << m_importsItem->m_name << " " <<m_importsItem->getImportHierarchy();
+    QList<QPair<QString,QString>> moduleMembers = m_platformManager->inspectModuleByName(m_importsItem->getImportHierarchy());
     foreach (auto moduleMember, moduleMembers) {
         if(moduleMember.second == "module"){
             BP_ImportsModuleItem *moduleItem = new BP_ImportsModuleItem(moduleMember.first,m_importsItem,m_importsItem);
+            m_importsItem->m_model->setupItemWidget(moduleItem,m_platformManager);
         }
     }
     if(m_importsItem->m_model != nullptr){

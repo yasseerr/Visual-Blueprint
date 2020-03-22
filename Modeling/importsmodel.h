@@ -27,6 +27,7 @@ public:
     BP_ImportsItem* itemForIndex(const QModelIndex &index) const;
     int rowForItem(BP_ImportsItem *item) const;
     void setupIndexesWidgets(BP_PlatformManager *platformManager);
+    void setupItemWidget(BP_ImportsItem *item,BP_PlatformManager *platformManager);
 
     // QAbstractItemModel interface
 public:

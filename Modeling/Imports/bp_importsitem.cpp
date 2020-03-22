@@ -9,6 +9,8 @@
  ***************************************************************************/
 #include "bp_importsitem.h"
 
+#include <Modeling/importsmodel.h>
+
 BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QObject(parent),
   m_parentItem(parentItem)
 {
@@ -18,4 +20,17 @@ BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QOb
             m_model = m_parentItem->m_model;
     }
 
+}
+
+QStringList BP_ImportsItem::getImportHierarchy()
+{
+    QStringList retList;
+    BP_ImportsItem *hierarchtStep = this;
+    while (hierarchtStep != nullptr) {
+        retList << hierarchtStep->m_name;
+        hierarchtStep = hierarchtStep->m_parentItem;
+        if(hierarchtStep == m_model->rootItem())
+            break;
+    }
+    return  retList;
 }

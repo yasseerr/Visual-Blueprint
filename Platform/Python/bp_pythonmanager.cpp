@@ -41,10 +41,10 @@ QStringList BP_PythonManager::listGlobalModules()
     return returnList;
 }
 
-QList<QPair<QString, QString>> BP_PythonManager::inspectModuleByName(QString moduleName)
+QList<QPair<QString, QString>> BP_PythonManager::inspectModuleByName(QStringList moduleHierachy)
 {
     QList<QPair<QString,QString>> retList;
-    m_managerProcess.setArguments(QStringList() << m_managerFile << "inspectModule" << moduleName);
+    m_managerProcess.setArguments(QStringList() << m_managerFile << "inspectModule" << moduleHierachy);
     m_managerProcess.start();
     m_managerProcess.waitForFinished();
     QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
@@ -56,7 +56,7 @@ QList<QPair<QString, QString>> BP_PythonManager::inspectModuleByName(QString mod
         importInfo.first = item.toObject().value("name").toString();
         importInfo.second = item.toObject().value("type").toString();
         retList << importInfo;
-        qDebug() << retList;
+        //qDebug() << retList;
     }
     return retList;
 }
