@@ -16,6 +16,7 @@ BP_ImportsFunctionItem::BP_ImportsFunctionItem(QString _name,BP_ImportsItem *par
     BP_ImportsItem(parentItem,parent)
 {
     m_name = _name;
+    setIsInspectable(false);
 }
 
 QVariant BP_ImportsFunctionItem::getIconVariant()

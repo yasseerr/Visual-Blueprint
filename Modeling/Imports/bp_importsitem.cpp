@@ -12,7 +12,7 @@
 #include <Modeling/importsmodel.h>
 
 BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QObject(parent),
-  m_parentItem(parentItem)
+  m_parentItem(parentItem),m_importable(true),m_isExpanded(false),m_isInspectable(true)
 {
     if(m_parentItem != nullptr){
         m_parentItem->childItems.append(this);
@@ -39,4 +39,46 @@ QVariant BP_ImportsItem::getIconVariant()
 {
     QIcon itemIcon(":/Data/Images/DefaultIcon/hardware-processor.png");
     return QVariant::fromValue(itemIcon);
+}
+
+bool BP_ImportsItem::importable() const
+{
+    return m_importable;
+}
+
+bool BP_ImportsItem::isExpanded() const
+{
+    return m_isExpanded;
+}
+
+bool BP_ImportsItem::isInspectable() const
+{
+    return m_isInspectable;
+}
+
+void BP_ImportsItem::setImportable(bool importable)
+{
+    if (m_importable == importable)
+        return;
+
+    m_importable = importable;
+    emit importableChanged(m_importable);
+}
+
+void BP_ImportsItem::setIsExpanded(bool isExpanded)
+{
+    if (m_isExpanded == isExpanded)
+        return;
+
+    m_isExpanded = isExpanded;
+    emit isExpandedChanged(m_isExpanded);
+}
+
+void BP_ImportsItem::setIsInspectable(bool isInspectable)
+{
+    if (m_isInspectable == isInspectable)
+        return;
+
+    m_isInspectable = isInspectable;
+    emit isInspectableChanged(m_isInspectable);
 }

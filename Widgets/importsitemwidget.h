@@ -36,6 +36,7 @@ public:
 
 public slots:
     void onInspectClicked();
+    void onExpandedChanged();
 
 private:
     Ui::ImportsItemWidget *ui;

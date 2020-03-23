@@ -18,7 +18,7 @@ class BP_ImportsFunctionItem : public BP_ImportsItem
 {
     Q_OBJECT
 public:
-    BP_ImportsFunctionItem(QString _name,BP_ImportsItem *parentItem,QObject *parent = nullptr);
+    explicit BP_ImportsFunctionItem(QString _name,BP_ImportsItem *parentItem,QObject *parent = nullptr);
 
     // BP_ImportsItem interface
 public:
