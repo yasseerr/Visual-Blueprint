@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <Modeling/importsmodel.h>
 
+#include <Modeling/Imports/bp_importsfunctionitem.h>
 #include <Modeling/Imports/bp_importsmoduleitem.h>
 
 ImportsItemWidget::ImportsItemWidget(BP_ImportsItem *importItem,BP_PlatformManager *platformManager,const QModelIndex widgetModelIndex,QWidget *parent) :
@@ -42,6 +43,10 @@ void ImportsItemWidget::onInspectClicked()
         if(moduleMember.second == "module"){
             BP_ImportsModuleItem *moduleItem = new BP_ImportsModuleItem(moduleMember.first,m_importsItem,m_importsItem);
             m_importsItem->m_model->setupItemWidget(moduleItem,m_platformManager);
+        }
+        if(moduleMember.second == "function"){
+            BP_ImportsFunctionItem *functionItem = new BP_ImportsFunctionItem(moduleMember.first,m_importsItem,m_importsItem);
+            m_importsItem->m_model->setupItemWidget(functionItem,m_platformManager);
         }
     }
     if(m_importsItem->m_model != nullptr){

@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     Core/bp_project.cpp \
+    Modeling/Imports/bp_importsfunctionitem.cpp \
     Modeling/Imports/bp_importsitem.cpp \
     Modeling/Imports/bp_importsmoduleitem.cpp \
     Modeling/importsmodel.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 
 HEADERS += \
     Core/bp_project.h \
+    Modeling/Imports/bp_importsfunctionitem.h \
     Modeling/Imports/bp_importsitem.h \
     Modeling/Imports/bp_importsmoduleitem.h \
     Modeling/importsmodel.h \
