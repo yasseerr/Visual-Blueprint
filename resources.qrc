@@ -653,5 +653,6 @@
         <file>Data/Images/DefaultIcon/zoom.png</file>
         <file>Data/Images/DefaultIcon/zoom-in.png</file>
         <file>Data/Images/DefaultIcon/zoom-out.png</file>
+        <file>Data/Images/DefaultIcon/class.png</file>
     </qresource>
 </RCC>

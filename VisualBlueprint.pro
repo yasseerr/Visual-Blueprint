@@ -20,6 +20,8 @@ SOURCES += \
     Modeling/Imports/bp_importsfunctionitem.cpp \
     Modeling/Imports/bp_importsitem.cpp \
     Modeling/Imports/bp_importsmoduleitem.cpp \
+    Modeling/Imports/bp_importstypeitem.cpp \
+    Modeling/Imports/bp_importsvariableitem.cpp \
     Modeling/importsmodel.cpp \
     Platform/Python/bp_pythonmanager.cpp \
     Platform/bp_platformmanager.cpp \
@@ -32,6 +34,8 @@ HEADERS += \
     Modeling/Imports/bp_importsfunctionitem.h \
     Modeling/Imports/bp_importsitem.h \
     Modeling/Imports/bp_importsmoduleitem.h \
+    Modeling/Imports/bp_importstypeitem.h \
+    Modeling/Imports/bp_importsvariableitem.h \
     Modeling/importsmodel.h \
     Platform/Python/bp_pythonmanager.h \
     Platform/bp_platformmanager.h \

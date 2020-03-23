@@ -15,6 +15,8 @@
 
 #include <Modeling/Imports/bp_importsfunctionitem.h>
 #include <Modeling/Imports/bp_importsmoduleitem.h>
+#include <Modeling/Imports/bp_importstypeitem.h>
+#include <Modeling/Imports/bp_importsvariableitem.h>
 
 ImportsItemWidget::ImportsItemWidget(BP_ImportsItem *importItem,BP_PlatformManager *platformManager,const QModelIndex widgetModelIndex,QWidget *parent) :
     QWidget(parent),
@@ -48,10 +50,24 @@ void ImportsItemWidget::onInspectClicked()
         }
 
     }
+    //loading functions classes and variables
     foreach (auto moduleMember, moduleMembers) {
         if(moduleMember.second == "function"){
             BP_ImportsFunctionItem *functionItem = new BP_ImportsFunctionItem(moduleMember.first,m_importsItem,m_importsItem);
             m_importsItem->m_model->setupItemWidget(functionItem,m_platformManager);
+        }
+        else if(moduleMember.second == "type"){
+            BP_ImportsTypeItem *functionItem = new BP_ImportsTypeItem(moduleMember.first,m_importsItem,m_importsItem);
+            m_importsItem->m_model->setupItemWidget(functionItem,m_platformManager);
+        }
+        else if(moduleMember.second == "function"){
+            BP_ImportsFunctionItem *functionItem = new BP_ImportsFunctionItem(moduleMember.first,m_importsItem,m_importsItem);
+            m_importsItem->m_model->setupItemWidget(functionItem,m_platformManager);
+        }
+        else if(moduleMember.second != "module") {
+            BP_ImportsVariableItem *variableItem =
+                    new BP_ImportsVariableItem(moduleMember.first + ": "+moduleMember.second,m_importsItem,m_importsItem);
+            m_importsItem->m_model->setupItemWidget(variableItem,m_platformManager);
         }
     }
     if(m_importsItem->m_model != nullptr){
