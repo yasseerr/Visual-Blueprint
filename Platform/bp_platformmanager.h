@@ -22,6 +22,7 @@ public:
     //classes to implement according to Framwork/languages
     virtual QStringList listGlobalModules() = 0;
     virtual QList<QPair<QString,QString>> inspectModuleByName(QStringList moduleHierarchy) = 0;
+    virtual QVariantMap importModule(QStringList moduleHiearchy) = 0;
 
 public slots:
     //slots for the manager process

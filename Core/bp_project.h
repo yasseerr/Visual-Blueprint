@@ -27,6 +27,7 @@ public:
     explicit BP_Project(QString projectName,QObject *parent = nullptr);
 
     void setupPlatform();
+    void importModule(QStringList moduleHierarchy);
 
     QString projectName() const;
 

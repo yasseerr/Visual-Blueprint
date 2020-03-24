@@ -18,6 +18,10 @@ class BP_ImportsModuleItem : public BP_ImportsItem
 {
 public:
     BP_ImportsModuleItem(QString name,BP_ImportsItem *parentItem,QObject *parent = nullptr);
+
+    // BP_ImportsItem interface
+public:
+    virtual void importItem() override;
 };
 
 #endif // BP_IMPORTSMODULEITEM_H

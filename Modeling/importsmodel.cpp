@@ -123,3 +123,19 @@ void ImportsModel::setRootItem(BP_ImportsItem *rootItem,ImportsModel *importMode
     m_rootItem = rootItem;
     m_rootItem->m_model = importModel;
 }
+
+BP_Project *ImportsModel::connectedProject() const
+{
+    return m_connectedProject;
+}
+
+void ImportsModel::setConnectedProject(BP_Project *connectedProject)
+{
+    if (m_connectedProject == connectedProject)
+        return;
+
+    m_connectedProject = connectedProject;
+    emit connectedProjectChanged(m_connectedProject);
+}
+
+

@@ -16,9 +16,12 @@
 
 #include <Platform/bp_platformmanager.h>
 
+#include <Core/bp_project.h>
+
 class ImportsModel : public QAbstractItemModel
 {
     Q_OBJECT
+    Q_PROPERTY(BP_Project* connectedProject READ connectedProject WRITE setConnectedProject NOTIFY connectedProjectChanged)
 public:
     ImportsModel();
 
@@ -41,8 +44,17 @@ public:
 
     QTreeView *connectedView;
 
+    BP_Project* connectedProject() const;
+
+public slots:
+    void setConnectedProject(BP_Project* connectedProject);
+
+signals:
+    void connectedProjectChanged(BP_Project* connectedProject);
+
 private:
     BP_ImportsItem *m_rootItem;
+    BP_Project* m_connectedProject;
 };
 
 #endif // IMPORTSMODEL_H

@@ -58,8 +58,10 @@ void MainWindow::setCurrentProject(BP_Project *currentProject)
 {
     if (m_currentProject == currentProject)
         return;
-
     m_currentProject = currentProject;
+
+    m_importsModel->setConnectedProject(m_currentProject);
+
     emit currentProjectChanged(m_currentProject);
 }
 

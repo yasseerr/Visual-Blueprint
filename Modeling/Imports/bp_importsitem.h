@@ -28,6 +28,7 @@ public:
     explicit BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent = nullptr);
     virtual QStringList getImportHierarchy();
     virtual QVariant getIconVariant();
+    virtual void importItem() = 0;
 
     QString m_name = "Empty";
 

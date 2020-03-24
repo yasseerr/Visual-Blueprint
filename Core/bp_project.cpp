@@ -22,6 +22,11 @@ void BP_Project::setupPlatform()
     m_platformManager = new BP_PythonManager(this);
 }
 
+void BP_Project::importModule(QStringList moduleHierarchy)
+{
+    QVariantMap
+}
+
 QString BP_Project::projectName() const
 {
     return m_projectName;

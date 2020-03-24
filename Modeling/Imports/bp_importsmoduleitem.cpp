@@ -13,3 +13,8 @@ BP_ImportsModuleItem::BP_ImportsModuleItem(QString name,BP_ImportsItem *parentIt
 {
     m_name = name;
 }
+
+void BP_ImportsModuleItem::importItem()
+{
+
+}
