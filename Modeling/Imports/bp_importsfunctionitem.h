@@ -23,6 +23,7 @@ public:
     // BP_ImportsItem interface
 public:
     virtual QVariant getIconVariant() override;
+    virtual void importItem() override;
 };
 
 #endif // BP_IMPORTSFUNCTIONITEM_H

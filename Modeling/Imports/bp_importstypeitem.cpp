@@ -25,3 +25,8 @@ QVariant BP_ImportsTypeItem::getIconVariant()
     QIcon itemIcon(":/Data/Images/DefaultIcon/class.png");
     return QVariant::fromValue(itemIcon);
 }
+
+void BP_ImportsTypeItem::importItem()
+{
+
+}

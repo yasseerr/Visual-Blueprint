@@ -7,25 +7,26 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "bp_importsvariableitem.h"
+#ifndef BP_MODULE_H
+#define BP_MODULE_H
 
-#include <QIcon>
-#include <QVariant>
+#include <QObject>
 
-BP_ImportsVariableItem::BP_ImportsVariableItem(QString _name,BP_ImportsItem *parentItem,QObject *parent):
-    BP_ImportsItem(parentItem,parent)
+class BP_Module : public QObject
 {
-    m_name = _name;
-    setIsInspectable(false);
-}
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    QString m_name;
 
-QVariant BP_ImportsVariableItem::getIconVariant()
-{
-    QIcon itemIcon(":/Data/Images/DefaultIcon/3D-Cube.png");
-    return QVariant::fromValue(itemIcon);
-}
+public:
+    explicit BP_Module(QString name,QObject *parent = nullptr);
+    QString name() const;
 
-void BP_ImportsVariableItem::importItem()
-{
+public slots:
+    void setName(QString name);
 
-}
+signals:
+    void nameChanged(QString name);
+};
+
+#endif // BP_MODULE_H

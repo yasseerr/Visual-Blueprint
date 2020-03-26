@@ -7,25 +7,24 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "bp_importsvariableitem.h"
+#include "bp_module.h"
 
-#include <QIcon>
-#include <QVariant>
-
-BP_ImportsVariableItem::BP_ImportsVariableItem(QString _name,BP_ImportsItem *parentItem,QObject *parent):
-    BP_ImportsItem(parentItem,parent)
+BP_Module::BP_Module(QString _name,QObject *parent) : QObject(parent),
+  m_name(_name)
 {
-    m_name = _name;
-    setIsInspectable(false);
+
 }
 
-QVariant BP_ImportsVariableItem::getIconVariant()
+QString BP_Module::name() const
 {
-    QIcon itemIcon(":/Data/Images/DefaultIcon/3D-Cube.png");
-    return QVariant::fromValue(itemIcon);
+    return m_name;
 }
 
-void BP_ImportsVariableItem::importItem()
+void BP_Module::setName(QString name)
 {
+    if (m_name == name)
+        return;
 
+    m_name = name;
+    emit nameChanged(m_name);
 }

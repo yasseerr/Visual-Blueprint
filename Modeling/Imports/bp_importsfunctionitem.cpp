@@ -24,3 +24,8 @@ QVariant BP_ImportsFunctionItem::getIconVariant()
     QIcon itemIcon(":/Data/Images/DefaultIcon/MD-flash.png");
     return QVariant::fromValue(itemIcon);
 }
+
+void BP_ImportsFunctionItem::importItem()
+{
+
+}

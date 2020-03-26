@@ -11,6 +11,8 @@
 
 #include <Modeling/importsmodel.h>
 
+#include <QDebug>
+
 BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QObject(parent),
   m_parentItem(parentItem),m_importable(true),m_isExpanded(false),m_isInspectable(true)
 {
@@ -39,6 +41,11 @@ QVariant BP_ImportsItem::getIconVariant()
 {
     QIcon itemIcon(":/Data/Images/DefaultIcon/hardware-processor.png");
     return QVariant::fromValue(itemIcon);
+}
+
+void BP_ImportsItem::importItem()
+{
+    qDebug() << "No imports for abstract imports item";
 }
 
 bool BP_ImportsItem::importable() const

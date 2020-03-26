@@ -63,16 +63,14 @@ QList<QPair<QString, QString>> BP_PythonManager::inspectModuleByName(QStringList
 
 QVariantMap BP_PythonManager::importModule(QStringList moduleHiearchy)
 {
-    QVariantMap returnMap;
     m_managerProcess.setArguments(QStringList() << m_managerFile << "importModule" << moduleHiearchy);
     m_managerProcess.start();
     m_managerProcess.waitForFinished();
     QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
     //qDebug() << listRawData;
     qDebug() << m_managerProcess.readAllStandardError();
-    QJsonObject listJson = QJsonDocument::fromJson(listRawData).object();
-
-    return returnMap;
+    QJsonObject jsonObject = QJsonDocument::fromJson(listRawData).object();
+    return jsonObject.toVariantMap();
 }
 
 void BP_PythonManager::standardOutputReady()

@@ -9,6 +9,8 @@
  ***************************************************************************/
 #include "bp_importsmoduleitem.h"
 
+#include <Modeling/importsmodel.h>
+
 BP_ImportsModuleItem::BP_ImportsModuleItem(QString name,BP_ImportsItem *parentItem,QObject *parent):BP_ImportsItem(parentItem,parent)
 {
     m_name = name;
@@ -16,5 +18,5 @@ BP_ImportsModuleItem::BP_ImportsModuleItem(QString name,BP_ImportsItem *parentIt
 
 void BP_ImportsModuleItem::importItem()
 {
-
+    m_model->connectedProject()->importModule(getImportHierarchy());
 }
