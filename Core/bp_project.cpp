@@ -7,6 +7,7 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_function.h"
 #include "bp_module.h"
 #include "bp_project.h"
 
@@ -35,6 +36,15 @@ void BP_Project::importModule(QStringList moduleHierarchy)
     m_importedModules.append(importedModule);
 }
 
+void BP_Project::importFunction(QStringList moduleHierarchy)
+{
+    QVariantMap functionMap = m_platformManager->importFunction(moduleHierarchy);
+//    qDebug()<< "module imported :" << endl << moduleMap;
+    BP_Function *importedFunction = new BP_Function(functionMap.value("name").toString(),this);
+    qDebug() << "Function Name : " << importedFunction->functionName();
+    m_importedFunctions.append(importedFunction);
+}
+
 QString BP_Project::projectName() const
 {
     return m_projectName;
@@ -48,6 +58,11 @@ BP_PlatformManager *BP_Project::platformManager() const
 QList<BP_Module *> BP_Project::importedModules() const
 {
     return m_importedModules;
+}
+
+QList<BP_Function *> BP_Project::importedFunctions() const
+{
+    return m_importedFunctions;
 }
 
 void BP_Project::setProjectName(QString projectName)
@@ -75,4 +90,13 @@ void BP_Project::setImportedModules(QList<BP_Module *> importedModules)
 
     m_importedModules = importedModules;
     emit importedModulesChanged(m_importedModules);
+}
+
+void BP_Project::setImportedFunctions(QList<BP_Function *> importedFunctions)
+{
+    if (m_importedFunctions == importedFunctions)
+        return;
+
+    m_importedFunctions = importedFunctions;
+    emit importedFunctionsChanged(m_importedFunctions);
 }

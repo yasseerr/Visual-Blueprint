@@ -11,6 +11,7 @@
 
 #include <QIcon>
 #include <QVariant>
+#include <Modeling/importsmodel.h>
 
 BP_ImportsFunctionItem::BP_ImportsFunctionItem(QString _name,BP_ImportsItem *parentItem,QObject *parent):
     BP_ImportsItem(parentItem,parent)
@@ -27,5 +28,6 @@ QVariant BP_ImportsFunctionItem::getIconVariant()
 
 void BP_ImportsFunctionItem::importItem()
 {
-
+    BP_ImportsItem::importItem();
+    m_model->connectedProject()->importFunction(getImportHierarchy());
 }

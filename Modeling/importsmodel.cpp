@@ -110,6 +110,11 @@ QVariant ImportsModel::data(const QModelIndex &index, int role) const
         BP_ImportsItem *importItem = itemForIndex(index);
         return importItem->getIconVariant();
     }
+    if (index.isValid() && role==Qt::CheckStateRole && index.column() == 0) {
+        BP_ImportsItem *importItem = itemForIndex(index);
+        //TODO add the partialy checked option later
+        return (importItem->isImported()?Qt::CheckState::Checked:Qt::CheckState::Unchecked);
+    }
     return QVariant();
 }
 

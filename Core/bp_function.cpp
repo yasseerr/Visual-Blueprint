@@ -1,23 +1,29 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2020                                                    *
+ *   Copyright (C) 2020                                                  *
  *                                                                         *
  *   Authors:  Yasser Grimes                                               *
  *   Develeped as a Graduation Project                                     *
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "bp_importsmoduleitem.h"
+#include "bp_function.h"
 
-#include <Modeling/importsmodel.h>
-
-BP_ImportsModuleItem::BP_ImportsModuleItem(QString name,BP_ImportsItem *parentItem,QObject *parent):BP_ImportsItem(parentItem,parent)
+BP_Function::BP_Function(QString _name,QObject *parent) : QObject(parent),m_functionName(_name)
 {
-    m_name = name;
+
 }
 
-void BP_ImportsModuleItem::importItem()
+QString BP_Function::functionName() const
 {
-    BP_ImportsItem::importItem();
-    m_model->connectedProject()->importModule(getImportHierarchy());
+    return m_functionName;
+}
+
+void BP_Function::setFunctionName(QString functionName)
+{
+    if (m_functionName == functionName)
+        return;
+
+    m_functionName = functionName;
+    emit functionNameChanged(m_functionName);
 }

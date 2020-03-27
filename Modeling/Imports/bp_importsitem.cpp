@@ -14,7 +14,7 @@
 #include <QDebug>
 
 BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QObject(parent),
-  m_parentItem(parentItem),m_importable(true),m_isExpanded(false),m_isInspectable(true)
+  m_parentItem(parentItem),m_importable(true),m_isExpanded(false),m_isInspectable(true),m_isImported(false)
 {
     if(m_parentItem != nullptr){
         m_parentItem->childItems.append(this);
@@ -45,7 +45,8 @@ QVariant BP_ImportsItem::getIconVariant()
 
 void BP_ImportsItem::importItem()
 {
-    qDebug() << "No imports for abstract imports item";
+    setIsImported(true);
+    emit m_model->layoutChanged();
 }
 
 bool BP_ImportsItem::importable() const
@@ -61,6 +62,11 @@ bool BP_ImportsItem::isExpanded() const
 bool BP_ImportsItem::isInspectable() const
 {
     return m_isInspectable;
+}
+
+bool BP_ImportsItem::isImported() const
+{
+    return m_isImported;
 }
 
 void BP_ImportsItem::setImportable(bool importable)
@@ -88,4 +94,13 @@ void BP_ImportsItem::setIsInspectable(bool isInspectable)
 
     m_isInspectable = isInspectable;
     emit isInspectableChanged(m_isInspectable);
+}
+
+void BP_ImportsItem::setIsImported(bool isImported)
+{
+    if (m_isImported == isImported)
+        return;
+
+    m_isImported = isImported;
+    emit isImportedChanged(m_isImported);
 }

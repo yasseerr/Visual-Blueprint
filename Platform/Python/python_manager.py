@@ -74,12 +74,47 @@ def importModule():
     sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
     sys.stdout.write(inspectJson)
     sys.stdout.flush()
+
+
+def importFunction():
+    returnDict = {
+        "name": "unknown",
+        "inputs":[],
+        "outputs":[],
+        "module":"",
+        "hasKeyWords": True,
+        "hasPositional": True,
+        "isFullyImported": False
+    }
+    inspectedModule = None
+    moduleHierachy = sys.argv[2:]
+    moduleHierachy.reverse()
+    functionName = moduleHierachy[-1]
+    for moduleStep in moduleHierachy[:-1]:
+        #print("\n {0} \n\n".format(moduleStep))
+        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
+    returnDict["module"] = inspectedModule.__name__
+    module_members = inspect.getmembers(inspectedModule)    
+    importedFunctionTuple = findMemberByName(functionName,module_members)
+    returnDict["name"] = importedFunctionTuple[0]
+    #to do get the function from the module
+
+    inspectJson = json.dumps(returnDict)
+    sys.stdout.write('002')
+    sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
+    sys.stdout.write(inspectJson)
+    sys.stdout.flush()
     
     
 
 #listGlobalModules()
 #inspect_entered_module()
 #heping functions
+
+def findMemberByName(name,membersList):
+    for x in membersList:
+        if name == x[0] : return x
+    return None
 
 def writeIntToStdout(n:int,stringSize=3):
     nStr = str(n)
@@ -92,7 +127,8 @@ def writeIntToStdout(n:int,stringSize=3):
 operation_map = { 
      "listGM":listGlobalModules,
      "inspectModule":inspect_entered_module,
-     "importModule":importModule
+     "importModule":importModule,
+     "importFunction":importFunction
 }
 
 ## select the operation

@@ -88,4 +88,5 @@ void ImportsItemWidget::onExpandedChanged()
 void ImportsItemWidget::on_importToolButton_clicked()
 {
     m_importsItem->importItem();
+    ui->importToolButton->setEnabled(false);
 }

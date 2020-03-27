@@ -26,6 +26,7 @@ public:
     virtual QStringList listGlobalModules() override;
     virtual QList<QPair<QString, QString> > inspectModuleByName(QStringList moduleHierchy) override;
     virtual QVariantMap importModule(QStringList moduleHiearchy) override;
+    virtual QVariantMap importFunction(QStringList moduleHiearchy) override;
 public slots:
     virtual void standardOutputReady() override;
     virtual void errorOutputReady() override;

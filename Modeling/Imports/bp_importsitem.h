@@ -19,10 +19,12 @@ class BP_ImportsItem : public QObject
     Q_PROPERTY(bool importable READ importable WRITE setImportable NOTIFY importableChanged)
     Q_PROPERTY(bool isExpanded READ isExpanded WRITE setIsExpanded NOTIFY isExpandedChanged)
     Q_PROPERTY(bool isInspectable READ isInspectable WRITE setIsInspectable NOTIFY isInspectableChanged)
+    Q_PROPERTY(bool isImported READ isImported WRITE setIsImported NOTIFY isImportedChanged)
 
     bool m_importable;
     bool m_isExpanded;
-    bool m_isInspectable;
+    bool m_isInspectable;  
+    bool m_isImported;
 
 public:
     explicit BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent = nullptr);
@@ -41,15 +43,20 @@ public:
 
     bool isInspectable() const;
 
+    bool isImported() const;
+
 public slots:
     void setImportable(bool importable);
     void setIsExpanded(bool isExpanded);
     void setIsInspectable(bool isInspectable);
 
+    void setIsImported(bool isImported);
+
 signals:
     void importableChanged(bool importable);
     void isExpandedChanged(bool isExpanded);
     void isInspectableChanged(bool isInspectable);
+    void isImportedChanged(bool isImported);
 };
 
 #endif // BP_IMPORTSITEM_H

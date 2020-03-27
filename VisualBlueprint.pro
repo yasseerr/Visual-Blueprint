@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Core/bp_function.cpp \
     Core/bp_module.cpp \
     Core/bp_project.cpp \
     Modeling/Imports/bp_importsfunctionitem.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Core/bp_function.h \
     Core/bp_module.h \
     Core/bp_project.h \
     Modeling/Imports/bp_importsfunctionitem.h \
