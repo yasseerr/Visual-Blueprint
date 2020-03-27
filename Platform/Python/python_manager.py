@@ -77,13 +77,14 @@ def importModule():
 
 
 def importFunction():
+    #TODO get the parameters from the documentation when failed
     returnDict = {
         "name": "unknown",
         "inputs":[],
         "outputs":[],
         "module":"",
-        "hasKeyWords": True,
-        "hasPositional": True,
+        "hasKeyWords": False,
+        "hasPositional": False,
         "isFullyImported": False
     }
     inspectedModule = None
@@ -98,6 +99,33 @@ def importFunction():
     importedFunctionTuple = findMemberByName(functionName,module_members)
     returnDict["name"] = importedFunctionTuple[0]
     #to do get the function from the module
+    functionSignature = inspect.signature(importedFunctionTuple[1])
+    for param_name,parameter in functionSignature.parameters.items():
+        param_map = {
+            "name": param_name,
+            "default": "",
+            "class": "",
+            "constructor":0,
+            "kind":0 # 0: for positionl_kw, 1: for kw
+        }
+        if parameter.kind == inspect.Parameter.POSITIONAL_OR_KEYWORD:
+            param_map["class"] = (parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "")
+            returnDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.KEYWORD_ONLY:
+            param_map["class"] = (parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "")
+            param_map["kind"] = 1
+            returnDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.POSITIONAL_ONLY:
+            param_map["class"] = (parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "")
+            param_map["kind"] = 2
+            returnDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.VAR_POSITIONAL:
+            returnDict["hasPositional"] =  True
+        elif parameter.kind == inspect.Parameter.VAR_KEYWORD:
+            returnDict["hasKeyWords"] = True
+    if functionSignature.return_annotation is not inspect._empty :
+        returnDict["outputs"].append(functionSignature.return_annotation.__name__)
+        
 
     inspectJson = json.dumps(returnDict)
     sys.stdout.write('002')
