@@ -10,6 +10,7 @@
 #include "bp_function.h"
 #include "bp_module.h"
 #include "bp_project.h"
+#include "bp_variable.h"
 
 #include <Platform/Python/bp_pythonmanager.h>
 
@@ -39,10 +40,25 @@ void BP_Project::importModule(QStringList moduleHierarchy)
 void BP_Project::importFunction(QStringList moduleHierarchy)
 {
     QVariantMap functionMap = m_platformManager->importFunction(moduleHierarchy);
-//    qDebug()<< "module imported :" << endl << moduleMap;
+    qDebug()<< "module imported :" << endl << functionMap;
     BP_Function *importedFunction = new BP_Function(functionMap.value("name").toString(),this);
     qDebug() << "Function Name : " << importedFunction->functionName();
     m_importedFunctions.append(importedFunction);
+}
+
+void BP_Project::importVariable(QStringList moduleHierarchy)
+{
+    QVariantMap variableMap = m_platformManager->importVariable(moduleHierarchy);
+    qDebug()<< "variable imported :" << endl << variableMap;
+    BP_Variable *importedVariable = new BP_Variable(this);
+    importedVariable->setVariableName(variableMap.value("name").toString());
+    qDebug() << "Variable Name : " << importedVariable->variableName();
+    m_importedVariables.append(importedVariable);
+}
+
+void BP_Project::importClass(QStringList moduleHierarchy)
+{
+
 }
 
 QString BP_Project::projectName() const
@@ -63,6 +79,11 @@ QList<BP_Module *> BP_Project::importedModules() const
 QList<BP_Function *> BP_Project::importedFunctions() const
 {
     return m_importedFunctions;
+}
+
+QList<BP_Variable *> BP_Project::importedVariables() const
+{
+    return m_importedVariables;
 }
 
 void BP_Project::setProjectName(QString projectName)
@@ -99,4 +120,13 @@ void BP_Project::setImportedFunctions(QList<BP_Function *> importedFunctions)
 
     m_importedFunctions = importedFunctions;
     emit importedFunctionsChanged(m_importedFunctions);
+}
+
+void BP_Project::setImportedVariables(QList<BP_Variable *> importedVariables)
+{
+    if (m_importedVariables == importedVariables)
+        return;
+
+    m_importedVariables = importedVariables;
+    emit importedVariablesChanged(m_importedVariables);
 }

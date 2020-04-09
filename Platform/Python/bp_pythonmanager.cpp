@@ -85,6 +85,24 @@ QVariantMap BP_PythonManager::importFunction(QStringList moduleHiearchy)
     return jsonObject.toVariantMap();
 }
 
+QVariantMap BP_PythonManager::importVariable(QStringList moduleHiearchy)
+{
+    qDebug() << "Variable Module Hiearchy > " << moduleHiearchy;
+    m_managerProcess.setArguments(QStringList() << m_managerFile << "importVariable" << moduleHiearchy);
+    m_managerProcess.start();
+    m_managerProcess.waitForFinished();
+    QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
+    //qDebug() << listRawData;
+    qDebug() << m_managerProcess.readAllStandardError();
+    QJsonObject jsonObject = QJsonDocument::fromJson(listRawData).object();
+    return jsonObject.toVariantMap();
+}
+
+QVariantMap BP_PythonManager::importClass(QStringList moduleHiearchy)
+{
+    return  QVariantMap();
+}
+
 void BP_PythonManager::standardOutputReady()
 {
     qDebug() << "Data Ready : " << m_managerProcess.readAllStandardOutput();

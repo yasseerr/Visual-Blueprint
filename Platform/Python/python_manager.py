@@ -5,6 +5,12 @@ import importlib
 import inspect
 ## Operations On python env
 
+PRIMITIVE_TYPES = [int, float ,bool ,str]
+LIST_TYPES = [list,tuple,set]
+
+
+NONE_CLASS_TYPES = PRIMITIVE_TYPES + LIST_TYPES
+
 def listGlobalModules():
     globalModules = []
     for module in pydoc.pkgutil.iter_modules():
@@ -125,15 +131,73 @@ def importFunction():
             returnDict["hasKeyWords"] = True
     if functionSignature.return_annotation is not inspect._empty :
         returnDict["outputs"].append(functionSignature.return_annotation.__name__)
-        
-
+    
     inspectJson = json.dumps(returnDict)
     sys.stdout.write('002')
     sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
     sys.stdout.write(inspectJson)
     sys.stdout.flush()
+
+
+###__________________________IMPORRING VARIABLES SECTION_____________________________________________
+
+def importVariable():
+    #TODO get the parameters from the documentation when failed
+    inspectedModule = None
+    moduleHierachy = sys.argv[2:]
+    moduleHierachy.reverse()
+    variableName = moduleHierachy[-1]
+    for moduleStep in moduleHierachy[:-1]:
+        #print("\n {0} \n\n".format(moduleStep))
+        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
     
+    module_members = inspect.getmembers(inspectedModule)    
+    importedVariableTuple = findMemberByName(variableName,module_members)
+    variableName = importedVariableTuple[0]
+    variableDict = getVariableDict(importedVariableTuple[1],variableName)
     
+    inspectJson = json.dumps(variableDict)
+    sys.stdout.write('002')
+    sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
+    sys.stdout.write(inspectJson)
+    sys.stdout.flush()
+    
+def getVariableDict(var_obj,var_name,module_arg=None,class_arg=None):
+    returnDict = {
+        "name": var_name,
+        "value":getVariableValue(var_obj),
+        "className":getVariableClass(var_obj),
+        "isPrimitive": isPrimitive(var_obj),
+        "isArray": isArray(var_obj)
+    }
+    return returnDict
+
+
+def isPrimitive(obj):
+    if type(obj) in PRIMITIVE_TYPES:
+        return True
+    else:
+        return False
+
+def isArray(obj):
+    if type(obj) in LIST_TYPES:
+        return True
+    else:
+        return False
+
+def getVariableClass(var_obj):
+    if type(var_obj) in NONE_CLASS_TYPES:
+        return False
+    else:
+        return type(var_obj).__name__
+
+def getVariableValue(var_obj):
+    if(type(var_obj) in PRIMITIVE_TYPES):
+        return var_obj
+    else:
+        #TODO replace unknown by a uninque string
+        return "unknown"
+
 
 #listGlobalModules()
 #inspect_entered_module()
@@ -156,7 +220,8 @@ operation_map = {
      "listGM":listGlobalModules,
      "inspectModule":inspect_entered_module,
      "importModule":importModule,
-     "importFunction":importFunction
+     "importFunction":importFunction,
+     "importVariable":importVariable
 }
 
 ## select the operation

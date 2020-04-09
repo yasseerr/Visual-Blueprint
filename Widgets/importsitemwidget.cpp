@@ -66,7 +66,7 @@ void ImportsItemWidget::onInspectClicked()
         }
         else if(moduleMember.second != "module") {
             BP_ImportsVariableItem *variableItem =
-                    new BP_ImportsVariableItem(moduleMember.first + ": "+moduleMember.second,m_importsItem,m_importsItem);
+                    new BP_ImportsVariableItem(moduleMember.first,m_importsItem,m_importsItem);
             m_importsItem->m_model->setupItemWidget(variableItem,m_platformManager);
         }
     }

@@ -24,6 +24,8 @@ public:
     virtual QList<QPair<QString,QString>> inspectModuleByName(QStringList moduleHierarchy) = 0;
     virtual QVariantMap importModule(QStringList moduleHiearchy) = 0;
     virtual QVariantMap importFunction(QStringList moduleHiearchy) = 0;
+    virtual QVariantMap importVariable(QStringList moduleHiearchy) = 0;
+    virtual QVariantMap importClass(QStringList moduleHiearchy) = 0;
 
 
 public slots:

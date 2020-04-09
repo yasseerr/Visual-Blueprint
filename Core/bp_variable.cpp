@@ -7,26 +7,37 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "bp_importsvariableitem.h"
+#include "bp_variable.h"
 
-#include <QIcon>
-#include <QVariant>
-#include <Modeling/importsmodel.h>
-BP_ImportsVariableItem::BP_ImportsVariableItem(QString _name,BP_ImportsItem *parentItem,QObject *parent):
-    BP_ImportsItem(parentItem,parent)
+BP_Variable::BP_Variable(QObject *parent) : QObject(parent)
 {
-    m_name = _name;
-    setIsInspectable(false);
+
 }
 
-QVariant BP_ImportsVariableItem::getIconVariant()
+QString BP_Variable::variableName() const
 {
-    QIcon itemIcon(":/Data/Images/DefaultIcon/3D-Cube.png");
-    return QVariant::fromValue(itemIcon);
+    return m_variableName;
 }
 
-void BP_ImportsVariableItem::importItem()
+bool BP_Variable::isPrimitive() const
 {
-    BP_ImportsItem::importItem();
-    m_model->connectedProject()->importVariable(getImportHierarchy());
+    return m_isPrimitive;
+}
+
+void BP_Variable::setVariableName(QString variableName)
+{
+    if (m_variableName == variableName)
+        return;
+
+    m_variableName = variableName;
+    emit variableNameChanged(m_variableName);
+}
+
+void BP_Variable::setIsPrimitive(bool isPrimitive)
+{
+    if (m_isPrimitive == isPrimitive)
+        return;
+
+    m_isPrimitive = isPrimitive;
+    emit isPrimitiveChanged(m_isPrimitive);
 }

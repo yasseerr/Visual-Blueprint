@@ -16,6 +16,7 @@
 
 class BP_Module;
 class BP_Function;
+class BP_Variable;
 
 class BP_Project : public QObject
 {
@@ -24,11 +25,13 @@ class BP_Project : public QObject
     Q_PROPERTY(BP_PlatformManager* platformManager READ platformManager WRITE setPlatformManager NOTIFY platformManagerChanged)
     Q_PROPERTY(QList<BP_Module*> importedModules READ importedModules WRITE setImportedModules NOTIFY importedModulesChanged)
     Q_PROPERTY(QList<BP_Function*> importedFunctions READ importedFunctions WRITE setImportedFunctions NOTIFY importedFunctionsChanged)
+    Q_PROPERTY(QList<BP_Variable*> importedVariables READ importedVariables WRITE setImportedVariables NOTIFY importedVariablesChanged)
 
     QString m_projectName;
     BP_PlatformManager* m_platformManager;
     QList<BP_Module*> m_importedModules;
     QList<BP_Function*> m_importedFunctions;
+    QList<BP_Variable*> m_importedVariables;
 
 public:
     explicit BP_Project(QString projectName,QObject *parent = nullptr);
@@ -36,6 +39,8 @@ public:
     void setupPlatform();
     void importModule(QStringList moduleHierarchy);
     void importFunction(QStringList moduleHierarchy);
+    void importVariable(QStringList moduleHierarchy);
+    void importClass(QStringList moduleHierarchy);
 
     QString projectName() const;
 
@@ -44,6 +49,8 @@ public:
     QList<BP_Module*> importedModules() const;
 
     QList<BP_Function*> importedFunctions() const;
+
+    QList<BP_Variable*> importedVariables() const;
 
 public slots:
     void setProjectName(QString projectName);
@@ -54,12 +61,15 @@ public slots:
 
     void setImportedFunctions(QList<BP_Function*> importedFunctions);
 
+    void setImportedVariables(QList<BP_Variable*> importedVariables);
+
 signals:
 
     void projectNameChanged(QString projectName);
     void platformManagerChanged(BP_PlatformManager* platformManager);
     void importedModulesChanged(QList<BP_Module*> importedModules);
     void importedFunctionsChanged(QList<BP_Function*> importedFunctions);
+    void importedVariablesChanged(QList<BP_Variable*> importedVariables);
 };
 
 #endif // BP_PROJECT_H
