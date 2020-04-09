@@ -7,29 +7,23 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "bp_importstypeitem.h"
+#include "bp_class.h"
 
-#include <QIcon>
-#include <QVariant>
-#include "Modeling/importsmodel.h"
-
-BP_ImportsTypeItem::BP_ImportsTypeItem(QString _name,BP_ImportsItem *parentItem,QObject *parent):
-    BP_ImportsItem(parentItem,parent)
+BP_Class::BP_Class(QObject *parent) : QObject(parent)
 {
-    m_name  = _name;
-    setIsInspectable(false);
 
 }
 
-QVariant BP_ImportsTypeItem::getIconVariant()
+QString BP_Class::className() const
 {
-    QIcon itemIcon(":/Data/Images/DefaultIcon/class.png");
-    return QVariant::fromValue(itemIcon);
+    return m_className;
 }
 
-void BP_ImportsTypeItem::importItem()
+void BP_Class::setClassName(QString className)
 {
-    BP_ImportsItem::importItem();
-    m_model->connectedProject()->importClass(getImportHierarchy());
+    if (m_className == className)
+        return;
 
+    m_className = className;
+    emit classNameChanged(m_className);
 }

@@ -36,6 +36,7 @@ def inspect_entered_module():
     module_members = inspect.getmembers(inspectedModule)
     for m_member in module_members:
         #TODO preprocess Type to be Compatible with Cross Language Graph
+        #TODO use isFunction is isClass instead of type(in addition to type)
         m_memberItem = {
             "name": m_member[0],
             "type": type(m_member[1]).__name__
@@ -90,10 +91,94 @@ def getModuleDict(module_obj,module_name):
     return moduleDict
 
 
+###__________________________IMPORTING CLASSES SECTION_____________________________________________
+
+def importClass():
+    #TODO get the parameters from the documentation when failed
+    #TODO add support for subclasses
+    inspectedModule = None
+    moduleHierachy = sys.argv[2:]
+    moduleHierachy.reverse()
+    className = moduleHierachy[-1]
+    for moduleStep in moduleHierachy[:-1]:
+        #print("\n {0} \n\n".format(moduleStep))
+        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
+    module_members = inspect.getmembers(inspectedModule)    
+    importedClassTuple = findMemberByName(className,module_members)
+    className = importedClassTuple[0]
+    classDict = getClassDict(importedClassTuple[1],className)
+    
+    inspectJson = json.dumps(classDict)
+    sys.stdout.write('002')
+    sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
+    sys.stdout.write(inspectJson)
+    sys.stdout.flush()
+
+def getClassDict(class_obj,class_name):
+    classDict = {
+        "name": class_name,
+        "functions": [],
+        "variables": [],
+        "constructors": [],
+
+    }
+    #getting the variables and functions
+    class_members = inspect.getmembers(class_obj)
+    for member_name, member_obj in class_members:
+        if inspect.isfunction(member_obj) or inspect.isbuiltin(member_obj):
+            if(member_name == "__init__"): continue
+            classDict["functions"].append(getFunctionDict(member_obj,member_name))
+        else :
+            classDict["variables"].append(getVariableDict(member_obj,member_name))
+    #setting up the constructor
+    functionSignature = inspect.signature(class_obj.__init__)
+    constructorDict = {
+        "inputs" : [],
+        "hasKeyWords": False,
+        "hasPositional": False,
+        "isFullyImported": False
+    }
+    for param_name, parameter in functionSignature.parameters.items():
+        if param_name == "self":
+            continue
+        param_map = {
+            "name": param_name,
+            "default": "unknown",
+            "class": "unknown",
+            "constructor": 0,
+            "kind": 0 , # 0: for positionl_kw, 1: for kw
+        }
+
+        if parameter.kind == inspect.Parameter.POSITIONAL_OR_KEYWORD:
+            param_map["class"] = (
+                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+            constructorDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.KEYWORD_ONLY:
+            param_map["class"] = (
+                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+            param_map["kind"] = 1
+            constructorDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.POSITIONAL_ONLY:
+            param_map["class"] = (
+                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+            param_map["kind"] = 2
+            constructorDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.VAR_POSITIONAL:
+            constructorDict["hasPositional"] = True
+        elif parameter.kind == inspect.Parameter.VAR_KEYWORD:
+            constructorDict["hasKeyWords"] = True
+        #TODO add the default variable dict
+    classDict["constructors"].append(constructorDict)
+
+    return classDict
+
+
+
 ###__________________________IMPORRING Function SECTION_____________________________________________
 
 def importFunction():
     #TODO get the parameters from the documentation when failed
+    #TODO support wrapper desctiption
     inspectedModule = None
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
@@ -121,7 +206,11 @@ def getFunctionDict(function_obj,function_name):
         "hasPositional": False,
         "isFullyImported": False
     }
-
+    if(inspect.isbuiltin(function_obj)):
+        #TODO implement help parsing for the builtin functions
+        functionDict["hasKeyWords"] = True
+        functionDict["hasPositional"] = True
+        return functionDict
     functionSignature = inspect.signature(function_obj)
     for param_name, parameter in functionSignature.parameters.items():
         param_map = {
@@ -156,6 +245,7 @@ def getFunctionDict(function_obj,function_name):
             functionSignature.return_annotation.__name__)
 
     return functionDict
+
 
 
 ###__________________________IMPORRING VARIABLES SECTION_____________________________________________
@@ -240,7 +330,8 @@ operation_map = {
      "inspectModule":inspect_entered_module,
      "importModule":importModule,
      "importFunction":importFunction,
-     "importVariable":importVariable
+     "importVariable":importVariable,
+     "importClass":importClass,
 }
 
 ## select the operation

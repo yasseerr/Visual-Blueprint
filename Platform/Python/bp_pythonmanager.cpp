@@ -100,7 +100,15 @@ QVariantMap BP_PythonManager::importVariable(QStringList moduleHiearchy)
 
 QVariantMap BP_PythonManager::importClass(QStringList moduleHiearchy)
 {
-    return  QVariantMap();
+    qDebug() << "Class Module Hiearchy > " << moduleHiearchy;
+    m_managerProcess.setArguments(QStringList() << m_managerFile << "importClass" << moduleHiearchy);
+    m_managerProcess.start();
+    m_managerProcess.waitForFinished();
+    QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
+    //qDebug() << listRawData;
+    qDebug() << m_managerProcess.readAllStandardError();
+    QJsonObject jsonObject = QJsonDocument::fromJson(listRawData).object();
+    return jsonObject.toVariantMap();
 }
 
 void BP_PythonManager::standardOutputReady()

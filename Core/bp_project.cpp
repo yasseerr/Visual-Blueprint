@@ -7,6 +7,7 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_class.h"
 #include "bp_function.h"
 #include "bp_module.h"
 #include "bp_project.h"
@@ -58,7 +59,13 @@ void BP_Project::importVariable(QStringList moduleHierarchy)
 
 void BP_Project::importClass(QStringList moduleHierarchy)
 {
-
+    QVariantMap classMap = m_platformManager->importClass(moduleHierarchy);
+    qDebug()<< "class imported :" << endl << classMap;
+    BP_Class *importedClass = new BP_Class(this);
+    importedClass->setClassName(classMap.value("name").toString());
+    qDebug() << "class Name : " << importedClass->className();
+    //TODO add a new function when appending to update the project maybe project signal
+    m_importedClasses.append(importedClass);
 }
 
 QString BP_Project::projectName() const
@@ -84,6 +91,11 @@ QList<BP_Function *> BP_Project::importedFunctions() const
 QList<BP_Variable *> BP_Project::importedVariables() const
 {
     return m_importedVariables;
+}
+
+QList<BP_Class *> BP_Project::importedClasses() const
+{
+    return m_importedClasses;
 }
 
 void BP_Project::setProjectName(QString projectName)
@@ -129,4 +141,13 @@ void BP_Project::setImportedVariables(QList<BP_Variable *> importedVariables)
 
     m_importedVariables = importedVariables;
     emit importedVariablesChanged(m_importedVariables);
+}
+
+void BP_Project::setImportedClasses(QList<BP_Class *> importedClasses)
+{
+    if (m_importedClasses == importedClasses)
+        return;
+
+    m_importedClasses = importedClasses;
+    emit importedClassesChanged(m_importedClasses);
 }
