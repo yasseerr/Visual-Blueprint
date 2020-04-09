@@ -12,6 +12,7 @@ LIST_TYPES = [list,tuple,set]
 NONE_CLASS_TYPES = PRIMITIVE_TYPES + LIST_TYPES
 
 def listGlobalModules():
+    #TODO import bultin functions
     globalModules = []
     for module in pydoc.pkgutil.iter_modules():
         globalModules += [module[1]]
@@ -20,6 +21,8 @@ def listGlobalModules():
     sys.stdout.write(writeIntToStdout(len(modulesJson),9))
     sys.stdout.write(modulesJson)
     sys.stdout.flush()
+
+###__________________________IMPORTING MODULES SECTION_____________________________________________
 
 def inspect_entered_module():
     returnList = []
@@ -45,54 +48,52 @@ def inspect_entered_module():
     sys.stdout.flush()
 
 def importModule():
-    returnDict = {
-        "name": "unknown",
-        "functions":[],
-        "classes":[],
-        "variables":[]
-    }
     inspectedModule = None
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
     for moduleStep in moduleHierachy:
         #print("\n {0} \n\n".format(moduleStep))
         inspectedModule = importlib.import_module(moduleStep,inspectedModule)
-    returnDict["name"] = inspectedModule.__name__
-    module_members = inspect.getmembers(inspectedModule)
-    for m_member in module_members:
-        #TODO preprocess Type to be Compatible with Cross Language Graph
-        #TODO search for items in __dir__ or __all__
-        member_obj = {}
-        if inspect.isfunction(m_member[1]) or inspect.isbuiltin(m_member[1]):
-            member_obj["name"] = m_member[0]
-            returnDict["functions"].append(member_obj)
-            #TODO get the signature of the function after implementing import function
-        elif inspect.isclass(m_member[1]):
-            member_obj["name"] = m_member[0]
-            returnDict["classes"].append(member_obj)
-            #TODO add the class options after implementing the variables and the functions
-        else:
-            member_obj["name"] = m_member[0]
-            returnDict["variables"].append(member_obj)
-            #TODO get the variable characteristiques  after implementing import variable
-    inspectJson = json.dumps(returnDict)
+    module_name = inspectedModule.__name__
+    moduleDict = getModuleDict(inspectedModule,module_name)
+    inspectJson = json.dumps(moduleDict)
     sys.stdout.write('002')
     sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
     sys.stdout.write(inspectJson)
     sys.stdout.flush()
 
+def getModuleDict(module_obj,module_name):
+    moduleDict = {
+        "name": module_name,
+        "functions": [],
+        "classes": [],
+        "variables": []
+    }
+    module_members = inspect.getmembers(module_obj)
+    for m_member in module_members:
+        #TODO preprocess Type to be Compatible with Cross Language Graph
+        #TODO search for items in __dir__ or __all__
+        member_obj = {}
+        if inspect.isfunction(m_member[1]) or inspect.isbuiltin(m_member[1]):
+            member_obj = getFunctionDict(m_member[1],m_member[0])
+            moduleDict["functions"].append(member_obj)
+            #TODO get the signature of the function after implementing import function
+        elif inspect.isclass(m_member[1]):
+            member_obj["name"] = m_member[0]
+            moduleDict["classes"].append(member_obj)
+            #TODO add the class options after implementing the variables and the functions
+        else:
+            member_obj["name"] = m_member[0]
+            moduleDict["variables"].append(member_obj)
+            #TODO get the variable characteristiques  after implementing import variable
+    
+    return moduleDict
+
+
+###__________________________IMPORRING Function SECTION_____________________________________________
 
 def importFunction():
     #TODO get the parameters from the documentation when failed
-    returnDict = {
-        "name": "unknown",
-        "inputs":[],
-        "outputs":[],
-        "module":"",
-        "hasKeyWords": False,
-        "hasPositional": False,
-        "isFullyImported": False
-    }
     inspectedModule = None
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
@@ -100,43 +101,61 @@ def importFunction():
     for moduleStep in moduleHierachy[:-1]:
         #print("\n {0} \n\n".format(moduleStep))
         inspectedModule = importlib.import_module(moduleStep,inspectedModule)
-    returnDict["module"] = inspectedModule.__name__
     module_members = inspect.getmembers(inspectedModule)    
     importedFunctionTuple = findMemberByName(functionName,module_members)
-    returnDict["name"] = importedFunctionTuple[0]
-    #to do get the function from the module
-    functionSignature = inspect.signature(importedFunctionTuple[1])
-    for param_name,parameter in functionSignature.parameters.items():
-        param_map = {
-            "name": param_name,
-            "default": "",
-            "class": "",
-            "constructor":0,
-            "kind":0 # 0: for positionl_kw, 1: for kw
-        }
-        if parameter.kind == inspect.Parameter.POSITIONAL_OR_KEYWORD:
-            param_map["class"] = (parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "")
-            returnDict["inputs"].append(param_map)
-        elif parameter.kind == inspect.Parameter.KEYWORD_ONLY:
-            param_map["class"] = (parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "")
-            param_map["kind"] = 1
-            returnDict["inputs"].append(param_map)
-        elif parameter.kind == inspect.Parameter.POSITIONAL_ONLY:
-            param_map["class"] = (parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "")
-            param_map["kind"] = 2
-            returnDict["inputs"].append(param_map)
-        elif parameter.kind == inspect.Parameter.VAR_POSITIONAL:
-            returnDict["hasPositional"] =  True
-        elif parameter.kind == inspect.Parameter.VAR_KEYWORD:
-            returnDict["hasKeyWords"] = True
-    if functionSignature.return_annotation is not inspect._empty :
-        returnDict["outputs"].append(functionSignature.return_annotation.__name__)
+    functionName = importedFunctionTuple[0]
+    functionDict = getFunctionDict(importedFunctionTuple[1],functionName)
     
-    inspectJson = json.dumps(returnDict)
+    inspectJson = json.dumps(functionDict)
     sys.stdout.write('002')
     sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
     sys.stdout.write(inspectJson)
     sys.stdout.flush()
+
+def getFunctionDict(function_obj,function_name):
+    functionDict = {
+        "name": function_name,
+        "inputs": [],
+        "outputs": [],
+        "hasKeyWords": False,
+        "hasPositional": False,
+        "isFullyImported": False
+    }
+
+    functionSignature = inspect.signature(function_obj)
+    for param_name, parameter in functionSignature.parameters.items():
+        param_map = {
+            "name": param_name,
+            "default": "unknown",
+            "class": "unknown",
+            "constructor": 0,
+            "kind": 0 , # 0: for positionl_kw, 1: for kw
+        }
+        #TODO get the constructor for the variable
+        if parameter.kind == inspect.Parameter.POSITIONAL_OR_KEYWORD:
+            param_map["class"] = (
+                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+            functionDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.KEYWORD_ONLY:
+            param_map["class"] = (
+                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+            param_map["kind"] = 1
+            functionDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.POSITIONAL_ONLY:
+            param_map["class"] = (
+                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+            param_map["kind"] = 2
+            functionDict["inputs"].append(param_map)
+        elif parameter.kind == inspect.Parameter.VAR_POSITIONAL:
+            functionDict["hasPositional"] = True
+        elif parameter.kind == inspect.Parameter.VAR_KEYWORD:
+            functionDict["hasKeyWords"] = True
+        #TODO add the default variable dict
+    if functionSignature.return_annotation is not inspect._empty:
+        returnDict["outputs"].append(
+            functionSignature.return_annotation.__name__)
+
+    return functionDict
 
 
 ###__________________________IMPORRING VARIABLES SECTION_____________________________________________
