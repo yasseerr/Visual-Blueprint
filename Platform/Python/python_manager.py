@@ -25,13 +25,17 @@ def listGlobalModules():
 ###__________________________IMPORTING MODULES SECTION_____________________________________________
 
 def inspect_entered_module():
+    #TODO get the modules using pkgutil.iter_modules(module.__spec__.submodule_search_location)
     returnList = []
     inspectedModule = None
+    inspectedModuleStr = ""
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
     for moduleStep in moduleHierachy:
         #print("\n {0} \n\n".format(moduleStep))
-        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
+        inspectedModuleStr = inspectedModuleStr+moduleStep
+        inspectedModule = importlib.import_module(inspectedModuleStr,inspectedModule)
+        inspectedModuleStr += "."
 
     module_members = inspect.getmembers(inspectedModule)
     for m_member in module_members:
@@ -80,11 +84,11 @@ def getModuleDict(module_obj,module_name):
             moduleDict["functions"].append(member_obj)
             #TODO get the signature of the function after implementing import function
         elif inspect.isclass(m_member[1]):
-            member_obj["name"] = m_member[0]
+            member_obj = getClassDict(m_member[1],m_member[0])
             moduleDict["classes"].append(member_obj)
             #TODO add the class options after implementing the variables and the functions
         else:
-            member_obj["name"] = m_member[0]
+            member_obj = getVariableDict(m_member[1],m_member[0])
             moduleDict["variables"].append(member_obj)
             #TODO get the variable characteristiques  after implementing import variable
     
@@ -119,7 +123,7 @@ def getClassDict(class_obj,class_name):
         "name": class_name,
         "functions": [],
         "variables": [],
-        "constructors": [],
+        "constructors": []
 
     }
     #getting the variables and functions
@@ -277,7 +281,8 @@ def getVariableDict(var_obj,var_name,module_arg=None,class_arg=None):
         "value":getVariableValue(var_obj),
         "className":getVariableClass(var_obj),
         "isPrimitive": isPrimitive(var_obj),
-        "isArray": isArray(var_obj)
+        "isArray": isArray(var_obj),
+        "classModule":""#getClassModule(var_obj)
     }
     return returnDict
 

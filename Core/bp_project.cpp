@@ -51,9 +51,8 @@ void BP_Project::importVariable(QStringList moduleHierarchy)
 {
     QVariantMap variableMap = m_platformManager->importVariable(moduleHierarchy);
     qDebug()<< "variable imported :" << endl << variableMap;
-    BP_Variable *importedVariable = new BP_Variable(this);
-    importedVariable->setVariableName(variableMap.value("name").toString());
-    qDebug() << "Variable Name : " << importedVariable->variableName();
+    BP_Variable *importedVariable = new BP_Variable(this,&variableMap,&moduleHierarchy);
+    qDebug() << "Variable Value : " << importedVariable->value();
     m_importedVariables.append(importedVariable);
 }
 
