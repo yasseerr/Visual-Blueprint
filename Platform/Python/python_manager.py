@@ -26,16 +26,12 @@ def listGlobalModules():
 
 def inspect_entered_module():
     #TODO get the modules using pkgutil.iter_modules(module.__spec__.submodule_search_location)
+    #TODO exclude reimported modules
     returnList = []
     inspectedModule = None
-    inspectedModuleStr = ""
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
-    for moduleStep in moduleHierachy:
-        #print("\n {0} \n\n".format(moduleStep))
-        inspectedModuleStr = inspectedModuleStr+moduleStep
-        inspectedModule = importlib.import_module(inspectedModuleStr,inspectedModule)
-        inspectedModuleStr += "."
+    inspectedModule = getModuleFromHiearchy(moduleHierachy)
 
     module_members = inspect.getmembers(inspectedModule)
     for m_member in module_members:
@@ -56,9 +52,8 @@ def importModule():
     inspectedModule = None
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
-    for moduleStep in moduleHierachy:
-        #print("\n {0} \n\n".format(moduleStep))
-        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
+    inspectedModule = getModuleFromHiearchy(moduleHierachy)
+
     module_name = inspectedModule.__name__
     moduleDict = getModuleDict(inspectedModule,module_name)
     inspectJson = json.dumps(moduleDict)
@@ -95,6 +90,11 @@ def getModuleDict(module_obj,module_name):
     return moduleDict
 
 
+def getModuleFromHiearchy(moduleList:list):
+    moduleStr = str.join('.',moduleList)
+    inspectedModule = importlib.import_module(moduleStr)
+    return inspectedModule
+
 ###__________________________IMPORTING CLASSES SECTION_____________________________________________
 
 def importClass():
@@ -104,9 +104,8 @@ def importClass():
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
     className = moduleHierachy[-1]
-    for moduleStep in moduleHierachy[:-1]:
-        #print("\n {0} \n\n".format(moduleStep))
-        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
+    inspectedModule = getModuleFromHiearchy(moduleHierachy[:-1])
+
     module_members = inspect.getmembers(inspectedModule)    
     importedClassTuple = findMemberByName(className,module_members)
     className = importedClassTuple[0]
@@ -187,9 +186,8 @@ def importFunction():
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
     functionName = moduleHierachy[-1]
-    for moduleStep in moduleHierachy[:-1]:
-        #print("\n {0} \n\n".format(moduleStep))
-        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
+    inspectedModule =  getModuleFromHiearchy(moduleHierachy[:-1])
+
     module_members = inspect.getmembers(inspectedModule)    
     importedFunctionTuple = findMemberByName(functionName,module_members)
     functionName = importedFunctionTuple[0]
@@ -260,13 +258,10 @@ def importVariable():
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
     variableName = moduleHierachy[-1]
-    for moduleStep in moduleHierachy[:-1]:
-        #print("\n {0} \n\n".format(moduleStep))
-        inspectedModule = importlib.import_module(moduleStep,inspectedModule)
-    
+    inspectedModule = getModuleFromHiearchy(moduleHierachy[:-1])
+
     module_members = inspect.getmembers(inspectedModule)    
     importedVariableTuple = findMemberByName(variableName,module_members)
-    variableName = importedVariableTuple[0]
     variableDict = getVariableDict(importedVariableTuple[1],variableName)
     
     inspectJson = json.dumps(variableDict)
@@ -319,6 +314,7 @@ def getVariableValue(var_obj):
 
 def findMemberByName(name,membersList):
     for x in membersList:
+        #print(x[0])
         if name == x[0] : return x
     return None
 
