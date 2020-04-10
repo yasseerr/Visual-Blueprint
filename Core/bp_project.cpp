@@ -60,7 +60,7 @@ void BP_Project::importClass(QStringList moduleHierarchy)
 {
     QVariantMap classMap = m_platformManager->importClass(moduleHierarchy);
     qDebug()<< "class imported :" << endl << classMap;
-    BP_Class *importedClass = new BP_Class(this);
+    BP_Class *importedClass = new BP_Class(&classMap,this);
     importedClass->setClassName(classMap.value("name").toString());
     qDebug() << "class Name : " << importedClass->className();
     //TODO add a new function when appending to update the project maybe project signal

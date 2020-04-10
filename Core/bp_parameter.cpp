@@ -9,9 +9,23 @@
  ***************************************************************************/
 #include "bp_parameter.h"
 
-BP_Parameter::BP_Parameter(QObject *parent) : QObject(parent)
-{
+#include <QVariantMap>
 
+BP_Parameter::BP_Parameter(QObject *parent,QVariantMap *variableMap) : QObject(parent),
+  m_parameterName(""),
+  m_kind(Kind::KEYWORD_ONLY),
+  m_parameterClass(nullptr),
+  m_defualtValue(nullptr)
+{
+    if(variableMap != nullptr){
+
+        m_parameterName = variableMap->value("name").toString();
+        m_kind = (Kind)variableMap->value("kind").toInt();
+
+        //TODO get the class from the className or import it
+        //TODO assign the default parameter
+
+    }
 }
 
 QString BP_Parameter::parameterName() const

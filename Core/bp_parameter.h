@@ -31,12 +31,12 @@ class BP_Parameter : public QObject
 
 public:
     enum Kind{
-        POSITIONAL_ONLY,
         POSITIONAL_OR_KEYWORD,
-        KEYWORD_ONLY
+        KEYWORD_ONLY,
+        POSITIONAL_ONLY
     };
     Q_ENUM(Kind)
-    explicit BP_Parameter(QObject *parent = nullptr);
+    explicit BP_Parameter(QObject *parent = nullptr,QVariantMap *variableMap =nullptr);
 
     QString parameterName() const;
 

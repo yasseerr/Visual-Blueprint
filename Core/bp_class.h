@@ -11,10 +11,12 @@
 #define BP_CLASS_H
 
 #include <QObject>
+#include <QVariantMap>
 
 class BP_Function;
 class BP_Variable;
 class BP_Module;
+class BP_Constructor;
 
 class BP_Class : public QObject
 {
@@ -24,6 +26,8 @@ class BP_Class : public QObject
     Q_PROPERTY(QList<BP_Function*> memberFunctions READ memberFunctions WRITE setMemberFunctions NOTIFY memberFunctionsChanged)
     Q_PROPERTY(BP_Module* owningModule READ owningModule WRITE setOwningModule NOTIFY owningModuleChanged)
     Q_PROPERTY(QStringList moduleHierarchy READ moduleHierarchy WRITE setModuleHierarchy NOTIFY moduleHierarchyChanged)
+    Q_PROPERTY(QList<BP_Constructor*> constructors READ constructors WRITE setConstructors NOTIFY constructorsChanged)
+
     QString m_className;
 
     QList<BP_Variable*> m_memberVariables;
@@ -34,69 +38,35 @@ class BP_Class : public QObject
 
     QStringList m_moduleHierarchy;
 
+    QList<BP_Constructor*> m_constructors;
+
 public:
-    explicit BP_Class(QObject *parent = nullptr);
+    explicit BP_Class(QVariantMap *variableMap = nullptr,QObject *parent = nullptr);
 
     QString className() const;
 
-    QList<BP_Variable*> memberVariables() const
-    {
-        return m_memberVariables;
-    }
+    QList<BP_Variable*> memberVariables() const;
 
-    QList<BP_Function*> memberFunctions() const
-    {
-        return m_memberFunctions;
-    }
+    QList<BP_Function*> memberFunctions() const;
 
-    BP_Module* owningModule() const
-    {
-        return m_owningModule;
-    }
+    BP_Module* owningModule() const;
 
-    QStringList moduleHierarchy() const
-    {
-        return m_moduleHierarchy;
-    }
+    QStringList moduleHierarchy() const;
+
+    QList<BP_Constructor*> constructors() const;
 
 public slots:
     void setClassName(QString className);
 
-    void setMemberVariables(QList<BP_Variable*> memberVariables)
-    {
-        if (m_memberVariables == memberVariables)
-            return;
+    void setMemberVariables(QList<BP_Variable*> memberVariables);
 
-        m_memberVariables = memberVariables;
-        emit memberVariablesChanged(m_memberVariables);
-    }
+    void setMemberFunctions(QList<BP_Function*> memberFunctions);
 
-    void setMemberFunctions(QList<BP_Function*> memberFunctions)
-    {
-        if (m_memberFunctions == memberFunctions)
-            return;
+    void setOwningModule(BP_Module* owningModule);
 
-        m_memberFunctions = memberFunctions;
-        emit memberFunctionsChanged(m_memberFunctions);
-    }
+    void setModuleHierarchy(QStringList moduleHierarchy);
 
-    void setOwningModule(BP_Module* owningModule)
-    {
-        if (m_owningModule == owningModule)
-            return;
-
-        m_owningModule = owningModule;
-        emit owningModuleChanged(m_owningModule);
-    }
-
-    void setModuleHierarchy(QStringList moduleHierarchy)
-    {
-        if (m_moduleHierarchy == moduleHierarchy)
-            return;
-
-        m_moduleHierarchy = moduleHierarchy;
-        emit moduleHierarchyChanged(m_moduleHierarchy);
-    }
+    void setConstructors(QList<BP_Constructor*> constructors);
 
 signals:
 
@@ -105,6 +75,7 @@ signals:
     void memberFunctionsChanged(QList<BP_Function*> memberFunctions);
     void owningModuleChanged(BP_Module* owningModule);
     void moduleHierarchyChanged(QStringList moduleHierarchy);
+    void constructorsChanged(QList<BP_Constructor*> constructors);
 };
 
 #endif // BP_CLASS_H

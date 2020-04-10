@@ -139,7 +139,6 @@ def getClassDict(class_obj,class_name):
         "inputs" : [],
         "hasKeyWords": False,
         "hasPositional": False,
-        "isFullyImported": False
     }
     for param_name, parameter in functionSignature.parameters.items():
         if param_name == "self":
