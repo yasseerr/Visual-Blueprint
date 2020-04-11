@@ -51,7 +51,7 @@ class BP_Variable : public QObject
     QStringList m_classModuleHiearchy;
 
 public:
-    explicit BP_Variable(QObject *parent = nullptr,QVariantMap *variableMap = nullptr,QStringList *moduleHiearchy = nullptr);
+    explicit BP_Variable(QVariantMap *variableMap = nullptr,QObject *parent = nullptr,QStringList *moduleHiearchy = nullptr);
 
     QString variableName() const;
 

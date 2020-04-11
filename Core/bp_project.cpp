@@ -33,7 +33,7 @@ void BP_Project::importModule(QStringList moduleHierarchy)
 {
     QVariantMap moduleMap = m_platformManager->importModule(moduleHierarchy);
 //    qDebug()<< "module imported :" << endl << moduleMap;
-    BP_Module *importedModule = new BP_Module(moduleMap.value("name").toString(),this);
+    BP_Module *importedModule = new BP_Module(&moduleMap,this);
     qDebug() << "module Name : " << importedModule->name();
     m_importedModules.append(importedModule);
 }
@@ -51,7 +51,7 @@ void BP_Project::importVariable(QStringList moduleHierarchy)
 {
     QVariantMap variableMap = m_platformManager->importVariable(moduleHierarchy);
     qDebug()<< "variable imported :" << endl << variableMap;
-    BP_Variable *importedVariable = new BP_Variable(this,&variableMap,&moduleHierarchy);
+    BP_Variable *importedVariable = new BP_Variable(&variableMap,this,&moduleHierarchy);
     qDebug() << "Variable Value : " << importedVariable->value();
     m_importedVariables.append(importedVariable);
 }

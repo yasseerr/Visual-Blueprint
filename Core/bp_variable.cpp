@@ -11,7 +11,7 @@
 #include "bp_module.h"
 #include "bp_variable.h"
 
-BP_Variable::BP_Variable(QObject *parent,QVariantMap *variableMap,QStringList *moduleHiearchy) : QObject(parent),
+BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *moduleHiearchy) : QObject(parent),
    m_variableName(""),
    m_isPrimitive(false),
    m_isArray(false),

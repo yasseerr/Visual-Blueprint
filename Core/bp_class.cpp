@@ -34,19 +34,23 @@ BP_Class::BP_Class(QVariantMap *classMap,QObject *parent) : QObject(parent),
 
     foreach (auto variableVariant, classMap->value("variables").toList()) {
         auto variableMap = variableVariant.toMap();
-        BP_Variable *variable = new BP_Variable(this,&variableMap);
+        BP_Variable *variable = new BP_Variable(&variableMap,this);
+        variable->setIsMember(true);
+        variable->setOwningClass(this);
         m_memberVariables << variable;
     }
 
     //loading functions
 
-    foreach (auto functionVariant, classMap->value("variab").toList()) {
+    foreach (auto functionVariant, classMap->value("functions").toList()) {
         auto functionMap = functionVariant.toMap();
         BP_Function *function_ = new BP_Function(&functionMap,this);
+        function_->setIsMember(true);
+        function_->setOwningClass(this);
         m_memberFunctions << function_;
     }
 
-
+    //support for subclasses
 }
 
 QString BP_Class::className() const
