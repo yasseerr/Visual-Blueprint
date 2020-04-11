@@ -23,6 +23,7 @@ SOURCES += \
     Core/bp_parameter.cpp \
     Core/bp_project.cpp \
     Core/bp_variable.cpp \
+    Modeling/Imports/bp_importedmodel.cpp \
     Modeling/Imports/bp_importsfunctionitem.cpp \
     Modeling/Imports/bp_importsitem.cpp \
     Modeling/Imports/bp_importsmoduleitem.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     Core/bp_parameter.h \
     Core/bp_project.h \
     Core/bp_variable.h \
+    Modeling/Imports/bp_importedmodel.h \
     Modeling/Imports/bp_importsfunctionitem.h \
     Modeling/Imports/bp_importsitem.h \
     Modeling/Imports/bp_importsmoduleitem.h \

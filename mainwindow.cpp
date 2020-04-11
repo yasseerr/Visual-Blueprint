@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCorner(Qt::BottomLeftCorner,Qt::LeftDockWidgetArea);
     setCorner(Qt::BottomRightCorner,Qt::RightDockWidgetArea);
     tabifyDockWidget(ui->messagedDockWidget,ui->consoleDockWidget);
+    tabifyDockWidget(ui->modulesDockWidget,ui->importedDockWidget);
 
     //initiating imports model
     m_importsModel = new ImportsModel();
