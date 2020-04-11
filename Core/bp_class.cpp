@@ -9,19 +9,20 @@
  ***************************************************************************/
 #include "bp_class.h"
 #include "bp_constructor.h"
+#include "bp_function.h"
 #include "bp_variable.h"
 
 #include <QVariantMap>
 
-BP_Class::BP_Class(QVariantMap *variableMap,QObject *parent) : QObject(parent),
+BP_Class::BP_Class(QVariantMap *classMap,QObject *parent) : QObject(parent),
   m_className(""),
   m_owningModule(nullptr)
 {
-    m_className = variableMap->value("name").toString();
+    m_className = classMap->value("name").toString();
     int i = 0;
 
     //loading constructors
-    foreach (auto constructorVariant, variableMap->value("constructors").toList()) {
+    foreach (auto constructorVariant, classMap->value("constructors").toList()) {
         auto constructorMap = constructorVariant.toMap();
         BP_Constructor *new_constructor = new BP_Constructor(&constructorMap,this);
         new_constructor->setConstructorId(i);
@@ -31,13 +32,19 @@ BP_Class::BP_Class(QVariantMap *variableMap,QObject *parent) : QObject(parent),
 
     //loading variables
 
-    foreach (auto variableVariant, variableMap->value("variables").toList()) {
+    foreach (auto variableVariant, classMap->value("variables").toList()) {
         auto variableMap = variableVariant.toMap();
         BP_Variable *variable = new BP_Variable(this,&variableMap);
         m_memberVariables << variable;
     }
 
     //loading functions
+
+    foreach (auto functionVariant, classMap->value("variab").toList()) {
+        auto functionMap = functionVariant.toMap();
+        BP_Function *function_ = new BP_Function(&functionMap,this);
+        m_memberFunctions << function_;
+    }
 
 
 }

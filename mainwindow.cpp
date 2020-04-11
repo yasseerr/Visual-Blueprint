@@ -19,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     //initiating imports model
     m_importsModel = new ImportsModel();
-    ui->importsTreeView->setModel(m_importsModel);
     m_importsModel->connectedView = ui->importsTreeView;
     m_rootImportsItem = new BP_ImportsItem(nullptr,this);
     m_importsModel->setRootItem(m_rootImportsItem,m_importsModel);
+    ui->importsTreeView->setModel(m_importsModel);
     createNewProject();
     ui->importsTreeView->header()->setStretchLastSection(false);
     ui->importsTreeView->header()->setSectionResizeMode(1,QHeaderView::Fixed);

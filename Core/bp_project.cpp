@@ -42,7 +42,7 @@ void BP_Project::importFunction(QStringList moduleHierarchy)
 {
     QVariantMap functionMap = m_platformManager->importFunction(moduleHierarchy);
     qDebug()<< "module imported :" << endl << functionMap;
-    BP_Function *importedFunction = new BP_Function(functionMap.value("name").toString(),this);
+    BP_Function *importedFunction = new BP_Function(&functionMap,this);
     qDebug() << "Function Name : " << importedFunction->functionName();
     m_importedFunctions.append(importedFunction);
 }
