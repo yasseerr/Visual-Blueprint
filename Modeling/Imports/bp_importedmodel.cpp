@@ -11,7 +11,7 @@
 
 #include <Core/bp_project.h>
 
-BP_ImportedModel::BP_ImportedModel():
+BP_ImportedModel::BP_ImportedModel():QAbstractListModel(),
     m_project(nullptr)
 {
 
@@ -22,13 +22,34 @@ int BP_ImportedModel::rowCount(const QModelIndex &parent) const
     return m_importedList.size();
 }
 
+
 QVariant BP_ImportedModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid()) return QVariant();
-    if(index.column() == 0){
+    if(index.column() == 0 || index.column() ==1){
         if(role == Qt::DisplayRole) return m_importedList.at(index.row())->name();
     }
     return QVariant();
+}
+
+int BP_ImportedModel::columnCount(const QModelIndex &parent) const
+{
+    return 3;
+}
+
+bool BP_ImportedModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    return true;
+}
+
+Qt::ItemFlags BP_ImportedModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags defaultFlags  = QAbstractListModel::flags(index);
+    if(index.isValid()){
+
+        return  Qt::ItemIsEditable | defaultFlags;
+    }
+    return  defaultFlags;
 }
 
 BP_Project *BP_ImportedModel::project() const

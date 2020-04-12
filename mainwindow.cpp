@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <Modeling/Imports/bp_importsmoduleitem.h>
+#include <Modeling/Imports/importeddelegat.h>
 
 #include <QDebug>
 #include <QPushButton>
@@ -21,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
     //initializing the importedmodel
     m_impotedModel = new BP_ImportedModel();
     ui->importedListView->setModel(m_impotedModel);
+    ui->importedListView->setEditTriggers(QListView::AllEditTriggers);
+    ui->importedListView->setItemDelegateForColumn(0,new ImportedDelegat());
+    //assign the list delegate
 
     //initiating imports model
     m_importsModel = new ImportsModel();

@@ -506,7 +506,11 @@ p, li { white-space: pre-wrap; }
       <number>1</number>
      </property>
      <item>
-      <widget class="QListView" name="importedListView"/>
+      <widget class="QListView" name="importedListView">
+       <property name="editTriggers">
+        <set>QAbstractItemView::AllEditTriggers</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

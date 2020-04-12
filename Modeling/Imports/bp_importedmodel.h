@@ -33,6 +33,11 @@ public:
 public:
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
+    virtual int columnCount(const QModelIndex &parent) const override;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+
     BP_Project* project() const;
     QList<BP_CoreObject*> importedList() const;
 
@@ -44,6 +49,8 @@ public slots:
 signals:
     void projectChanged(BP_Project* project);
     void importedListChanged(QList<BP_CoreObject*> importedList);
+
+
 };
 
 #endif // BP_IMPORTEDMODEL_H
