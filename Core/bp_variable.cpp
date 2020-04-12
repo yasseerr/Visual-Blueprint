@@ -11,8 +11,7 @@
 #include "bp_module.h"
 #include "bp_variable.h"
 
-BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *moduleHiearchy) : QObject(parent),
-   m_variableName(""),
+BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *moduleHiearchy) : BP_CoreObject(parent),
    m_isPrimitive(false),
    m_isArray(false),
    m_isMember(false),
@@ -23,7 +22,7 @@ BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *m
     //TODO add the class name and the class module
     //TODO check if the variable class is already imported
     if(variableMap != nullptr){
-        m_variableName = variableMap->value("name").toString();
+        setName(variableMap->value("name").toString());
         m_isPrimitive  = variableMap->value("isPrimitive").toBool();
         m_value = variableMap->value("value");
         m_className = variableMap->value("className").toString();
@@ -31,14 +30,10 @@ BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *m
     }
 
     if(moduleHiearchy != nullptr)
-        m_modulHiearchy << *moduleHiearchy;
+        importHiearchy().append(*moduleHiearchy);
 
 }
 
-QString BP_Variable::variableName() const
-{
-    return m_variableName;
-}
 
 bool BP_Variable::isPrimitive() const
 {
@@ -70,10 +65,6 @@ BP_Module *BP_Variable::owningModule() const
     return m_owningModule;
 }
 
-QStringList BP_Variable::modulHiearchy() const
-{
-    return m_modulHiearchy;
-}
 
 QString BP_Variable::className() const
 {
@@ -85,14 +76,6 @@ QStringList BP_Variable::classModuleHiearchy() const
     return m_classModuleHiearchy;
 }
 
-void BP_Variable::setVariableName(QString variableName)
-{
-    if (m_variableName == variableName)
-        return;
-
-    m_variableName = variableName;
-    emit variableNameChanged(m_variableName);
-}
 
 void BP_Variable::setIsPrimitive(bool isPrimitive)
 {
@@ -148,14 +131,6 @@ void BP_Variable::setOwningModule(BP_Module *owningModule)
     emit owningModuleChanged(m_owningModule);
 }
 
-void BP_Variable::setModulHiearchy(QStringList modulHiearchy)
-{
-    if (m_modulHiearchy == modulHiearchy)
-        return;
-
-    m_modulHiearchy = modulHiearchy;
-    emit modulHiearchyChanged(m_modulHiearchy);
-}
 
 void BP_Variable::setClassName(QString className)
 {

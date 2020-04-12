@@ -10,24 +10,23 @@
 #ifndef BP_MODULE_H
 #define BP_MODULE_H
 
+#include "bp_coreobject.h"
+
 #include <QObject>
 class BP_Function;
 class BP_Class;
 class BP_Variable;
 
-class BP_Module : public QObject
+class BP_Module : public BP_CoreObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString alias READ alias WRITE setAlias NOTIFY aliasChanged)
     Q_PROPERTY(QList<BP_Function*> functions READ functions WRITE setFunctions NOTIFY functionsChanged)
     Q_PROPERTY(QList<BP_Class*> classes READ classes WRITE setClasses NOTIFY classesChanged)
     Q_PROPERTY(QList<BP_Variable*> moduleValues READ moduleValues WRITE setModuleValues NOTIFY moduleValuesChanged)
-    Q_PROPERTY(QStringList importHierarchy READ importHierarchy WRITE setImportHierarchy NOTIFY importHierarchyChanged)
 
     //TODO add support for signals and slots
 
-    QString m_name;
 
     QList<BP_Function*> m_functions;
 
@@ -37,12 +36,10 @@ class BP_Module : public QObject
 
     QString m_alias;
 
-    QStringList m_importHierarchy;
-
 public:
 
     explicit BP_Module(QVariantMap *moduleVariant = nullptr,QObject *parent = nullptr);
-    QString name() const;
+
 
     QList<BP_Function*> functions() const;
 
@@ -52,10 +49,7 @@ public:
 
     QString alias() const;
 
-    QStringList importHierarchy() const;
-
 public slots:
-    void setName(QString name);
 
     void setFunctions(QList<BP_Function*> functions);
 
@@ -65,15 +59,14 @@ public slots:
 
     void setAlias(QString alias);
 
-    void setImportHierarchy(QStringList importHierarchy);
 
 signals:
-    void nameChanged(QString name);
+
     void functionsChanged(QList<BP_Function*> functions);
     void classesChanged(QList<BP_Class*> classes);
     void moduleValuesChanged(QList<BP_Variable*> moduleValues);
     void aliasChanged(QString alias);
-    void importHierarchyChanged(QStringList importHierarchy);
+
 };
 
 #endif // BP_MODULE_H

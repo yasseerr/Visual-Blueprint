@@ -14,12 +14,11 @@
 
 #include <QVariantMap>
 
-BP_Module::BP_Module(QVariantMap *moduleVariant,QObject *parent) : QObject(parent),
-  m_name(""),
+BP_Module::BP_Module(QVariantMap *moduleVariant,QObject *parent) : BP_CoreObject(parent),
   m_alias("")
 {
     if(moduleVariant != nullptr){
-        m_name = moduleVariant->value("name").toString();
+        setName(moduleVariant->value("name").toString());
 
         //loading functions
         foreach (auto functionVariant, moduleVariant->value("functions").toList()) {
@@ -50,10 +49,7 @@ BP_Module::BP_Module(QVariantMap *moduleVariant,QObject *parent) : QObject(paren
 
 }
 
-QString BP_Module::name() const
-{
-    return m_name;
-}
+
 
 QList<BP_Function *> BP_Module::functions() const
 {
@@ -75,19 +71,6 @@ QString BP_Module::alias() const
     return m_alias;
 }
 
-QStringList BP_Module::importHierarchy() const
-{
-    return m_importHierarchy;
-}
-
-void BP_Module::setName(QString name)
-{
-    if (m_name == name)
-        return;
-
-    m_name = name;
-    emit nameChanged(m_name);
-}
 
 void BP_Module::setFunctions(QList<BP_Function *> functions)
 {
@@ -125,11 +108,4 @@ void BP_Module::setAlias(QString alias)
     emit aliasChanged(m_alias);
 }
 
-void BP_Module::setImportHierarchy(QStringList importHierarchy)
-{
-    if (m_importHierarchy == importHierarchy)
-        return;
 
-    m_importHierarchy = importHierarchy;
-    emit importHierarchyChanged(m_importHierarchy);
-}

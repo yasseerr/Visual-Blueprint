@@ -7,34 +7,37 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "bp_importedmodel.h"
+#include "bp_coreobject.h"
 
-BP_ImportedModel::BP_ImportedModel():
-    m_project(nullptr)
+BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent)
 {
 
 }
 
-int BP_ImportedModel::rowCount(const QModelIndex &parent) const
+QString BP_CoreObject::name() const
 {
-    return 0;
+    return m_name;
 }
 
-QVariant BP_ImportedModel::data(const QModelIndex &index, int role) const
+QStringList BP_CoreObject::importHiearchy() const
 {
-    return QVariant();
+    return m_importHiearchy;
 }
 
-BP_Project *BP_ImportedModel::project() const
+void BP_CoreObject::setName(QString name)
 {
-    return m_project;
-}
-
-void BP_ImportedModel::setProject(BP_Project *project)
-{
-    if (m_project == project)
+    if (m_name == name)
         return;
 
-    m_project = project;
-    emit projectChanged(m_project);
+    m_name = name;
+    emit nameChanged(m_name);
+}
+
+void BP_CoreObject::setImportHiearchy(QStringList importHiearchy)
+{
+    if (m_importHiearchy == importHiearchy)
+        return;
+
+    m_importHiearchy = importHiearchy;
+    emit importHiearchyChanged(m_importHiearchy);
 }

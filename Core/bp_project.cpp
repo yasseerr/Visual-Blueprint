@@ -43,7 +43,7 @@ void BP_Project::importFunction(QStringList moduleHierarchy)
     QVariantMap functionMap = m_platformManager->importFunction(moduleHierarchy);
     qDebug()<< "module imported :" << endl << functionMap;
     BP_Function *importedFunction = new BP_Function(&functionMap,this);
-    qDebug() << "Function Name : " << importedFunction->functionName();
+    qDebug() << "Function Name : " << importedFunction->name();
     m_importedFunctions.append(importedFunction);
 }
 
@@ -61,8 +61,8 @@ void BP_Project::importClass(QStringList moduleHierarchy)
     QVariantMap classMap = m_platformManager->importClass(moduleHierarchy);
     qDebug()<< "class imported :" << endl << classMap;
     BP_Class *importedClass = new BP_Class(&classMap,this);
-    importedClass->setClassName(classMap.value("name").toString());
-    qDebug() << "class Name : " << importedClass->className();
+    importedClass->setName(classMap.value("name").toString());
+    qDebug() << "class Name : " << importedClass->name();
     //TODO add a new function when appending to update the project maybe project signal
     m_importedClasses.append(importedClass);
 }

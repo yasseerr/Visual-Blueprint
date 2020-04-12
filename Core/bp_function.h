@@ -10,16 +10,17 @@
 #ifndef BP_FUNCTION_H
 #define BP_FUNCTION_H
 
+#include "bp_coreobject.h"
+
 #include <QObject>
 
 class BP_Parameter;
 class BP_Module;
 class BP_Class;
 
-class BP_Function : public QObject
+class BP_Function : public BP_CoreObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString functionName READ functionName WRITE setFunctionName NOTIFY functionNameChanged)
     Q_PROPERTY(QList<BP_Parameter*> inputArgs READ inputArgs WRITE setInputArgs NOTIFY inputArgsChanged)
     Q_PROPERTY(BP_Parameter* returnArg READ returnArg WRITE setReturnArg NOTIFY returnArgChanged)
     Q_PROPERTY(BP_Module* owningModule READ owningModule WRITE setOwningModule NOTIFY owningModuleChanged)
@@ -43,8 +44,6 @@ class BP_Function : public QObject
 public:
     explicit BP_Function(QVariantMap *functionMap,QObject *parent = nullptr);
 
-    QString functionName() const;
-
     QList<BP_Parameter*> inputArgs() const;
 
     BP_Parameter* returnArg() const;
@@ -62,7 +61,6 @@ public:
     bool isFullyImported() const;
 
 public slots:
-    void setFunctionName(QString functionName);
 
     void setInputArgs(QList<BP_Parameter*> inputArgs);
 
@@ -83,7 +81,6 @@ public slots:
 
 signals:
 
-    void functionNameChanged(QString functionName);
     void inputArgsChanged(QList<BP_Parameter*> inputArgs);
     void returnArgChanged(BP_Parameter* returnArg);
     void owningClassChanged(BP_Class* owningClass);

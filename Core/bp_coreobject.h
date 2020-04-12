@@ -7,33 +7,37 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#ifndef BP_IMPORTEDMODEL_H
-#define BP_IMPORTEDMODEL_H
+#ifndef BP_COREOBJECT_H
+#define BP_COREOBJECT_H
 
-#include <QAbstractItemModel>
 #include <QObject>
 
-class BP_Project;
-
-class BP_ImportedModel : public QAbstractListModel
+class BP_CoreObject : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(BP_Project* project READ project WRITE setProject NOTIFY projectChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QStringList importHiearchy READ importHiearchy WRITE setImportHiearchy NOTIFY importHiearchyChanged)
 
-    BP_Project* m_project;
+    QString m_name;
+    QStringList m_importHiearchy;
 
 public:
-    BP_ImportedModel();
 
-    // QAbstractItemModel interface
-public:
-    virtual int rowCount(const QModelIndex &parent) const override;
-    virtual QVariant data(const QModelIndex &index, int role) const override;
-    BP_Project* project() const;
+    explicit BP_CoreObject(QObject *parent = nullptr);
+
+    //TODO get the importstring and type functions for the imported model
+
+    QString name() const;
+    QStringList importHiearchy() const;
+
 public slots:
-    void setProject(BP_Project* project);
+    void setName(QString name);
+    void setImportHiearchy(QStringList importHiearchy);
+
 signals:
-    void projectChanged(BP_Project* project);
+
+void nameChanged(QString name);
+void importHiearchyChanged(QStringList importHiearchy);
 };
 
-#endif // BP_IMPORTEDMODEL_H
+#endif // BP_COREOBJECT_H

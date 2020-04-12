@@ -14,11 +14,11 @@
 
 #include <QVariantMap>
 
-BP_Class::BP_Class(QVariantMap *classMap,QObject *parent) : QObject(parent),
-  m_className(""),
+BP_Class::BP_Class(QVariantMap *classMap,QObject *parent) : BP_CoreObject(parent),
   m_owningModule(nullptr)
 {
-    m_className = classMap->value("name").toString();
+    if(classMap == nullptr) return;
+    setName(classMap->value("name").toString());
     int i = 0;
 
     //loading constructors
@@ -53,10 +53,6 @@ BP_Class::BP_Class(QVariantMap *classMap,QObject *parent) : QObject(parent),
     //support for subclasses
 }
 
-QString BP_Class::className() const
-{
-    return m_className;
-}
 
 QList<BP_Variable *> BP_Class::memberVariables() const
 {
@@ -73,24 +69,11 @@ BP_Module *BP_Class::owningModule() const
     return m_owningModule;
 }
 
-QStringList BP_Class::moduleHierarchy() const
-{
-    return m_moduleHierarchy;
-}
-
 QList<BP_Constructor *> BP_Class::constructors() const
 {
     return m_constructors;
 }
 
-void BP_Class::setClassName(QString className)
-{
-    if (m_className == className)
-        return;
-
-    m_className = className;
-    emit classNameChanged(m_className);
-}
 
 void BP_Class::setMemberVariables(QList<BP_Variable *> memberVariables)
 {
@@ -117,15 +100,6 @@ void BP_Class::setOwningModule(BP_Module *owningModule)
 
     m_owningModule = owningModule;
     emit owningModuleChanged(m_owningModule);
-}
-
-void BP_Class::setModuleHierarchy(QStringList moduleHierarchy)
-{
-    if (m_moduleHierarchy == moduleHierarchy)
-        return;
-
-    m_moduleHierarchy = moduleHierarchy;
-    emit moduleHierarchyChanged(m_moduleHierarchy);
 }
 
 void BP_Class::setConstructors(QList<BP_Constructor *> constructors)

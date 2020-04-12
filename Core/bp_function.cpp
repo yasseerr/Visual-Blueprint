@@ -12,8 +12,7 @@
 
 #include <QVariantMap>
 
-BP_Function::BP_Function(QVariantMap *functionMap,QObject *parent) : QObject(parent),
-    m_functionName(""),
+BP_Function::BP_Function(QVariantMap *functionMap,QObject *parent) : BP_CoreObject(parent),
     m_returnArg(nullptr),
     m_owningClass(nullptr),
     m_owningModule(nullptr),
@@ -24,7 +23,7 @@ BP_Function::BP_Function(QVariantMap *functionMap,QObject *parent) : QObject(par
 {
     if(functionMap != nullptr){
 
-        m_functionName = functionMap->value("name").toString();
+        setName(functionMap->value("name").toString());
         m_hasPositional = functionMap->value("hasPositional").toBool();
         m_hasKeyWords = functionMap->value("hasPositional").toBool();
 
@@ -35,11 +34,6 @@ BP_Function::BP_Function(QVariantMap *functionMap,QObject *parent) : QObject(par
         }
     }
 
-}
-
-QString BP_Function::functionName() const
-{
-    return m_functionName;
 }
 
 QList<BP_Parameter *> BP_Function::inputArgs() const
@@ -82,14 +76,6 @@ bool BP_Function::isFullyImported() const
     return m_isFullyImported;
 }
 
-void BP_Function::setFunctionName(QString functionName)
-{
-    if (m_functionName == functionName)
-        return;
-
-    m_functionName = functionName;
-    emit functionNameChanged(m_functionName);
-}
 
 void BP_Function::setInputArgs(QList<BP_Parameter *> inputArgs)
 {

@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     Core/bp_class.cpp \
     Core/bp_constructor.cpp \
+    Core/bp_coreobject.cpp \
     Core/bp_function.cpp \
     Core/bp_module.cpp \
     Core/bp_parameter.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
 HEADERS += \
     Core/bp_class.h \
     Core/bp_constructor.h \
+    Core/bp_coreobject.h \
     Core/bp_function.h \
     Core/bp_module.h \
     Core/bp_parameter.h \
