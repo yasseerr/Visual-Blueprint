@@ -18,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
     tabifyDockWidget(ui->messagedDockWidget,ui->consoleDockWidget);
     tabifyDockWidget(ui->modulesDockWidget,ui->importedDockWidget);
 
+    //initializing the importedmodel
+    m_impotedModel = new BP_ImportedModel();
+    ui->importedListView->setModel(m_impotedModel);
+
     //initiating imports model
     m_importsModel = new ImportsModel();
     m_importsModel->connectedView = ui->importsTreeView;
@@ -48,6 +52,9 @@ void MainWindow::createNewProject()
         //qDebug()<< "Module Name :" << moduleItem->m_name;
     }
     m_importsModel->setupIndexesWidgets(currentProject()->platformManager());
+
+    //linking the imported model
+    m_impotedModel->setProject(m_currentProject);
 }
 
 BP_Project *MainWindow::currentProject() const

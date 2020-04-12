@@ -36,6 +36,8 @@ void BP_Project::importModule(QStringList moduleHierarchy)
     BP_Module *importedModule = new BP_Module(&moduleMap,this);
     qDebug() << "module Name : " << importedModule->name();
     m_importedModules.append(importedModule);
+
+    emit importedItemsAdded(importedModule);
 }
 
 void BP_Project::importFunction(QStringList moduleHierarchy)
@@ -45,6 +47,8 @@ void BP_Project::importFunction(QStringList moduleHierarchy)
     BP_Function *importedFunction = new BP_Function(&functionMap,this);
     qDebug() << "Function Name : " << importedFunction->name();
     m_importedFunctions.append(importedFunction);
+
+    emit importedItemsAdded(importedFunction);
 }
 
 void BP_Project::importVariable(QStringList moduleHierarchy)
@@ -54,6 +58,9 @@ void BP_Project::importVariable(QStringList moduleHierarchy)
     BP_Variable *importedVariable = new BP_Variable(&variableMap,this,&moduleHierarchy);
     qDebug() << "Variable Value : " << importedVariable->value();
     m_importedVariables.append(importedVariable);
+
+    emit importedItemsAdded(importedVariable);
+
 }
 
 void BP_Project::importClass(QStringList moduleHierarchy)
@@ -65,6 +72,8 @@ void BP_Project::importClass(QStringList moduleHierarchy)
     qDebug() << "class Name : " << importedClass->name();
     //TODO add a new function when appending to update the project maybe project signal
     m_importedClasses.append(importedClass);
+
+    emit importedItemsAdded(importedClass);
 }
 
 QString BP_Project::projectName() const

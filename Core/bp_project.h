@@ -10,6 +10,8 @@
 #ifndef BP_PROJECT_H
 #define BP_PROJECT_H
 
+#include "bp_coreobject.h"
+
 #include <QObject>
 
 #include <Platform/bp_platformmanager.h>
@@ -71,6 +73,7 @@ public slots:
     void setImportedClasses(QList<BP_Class*> importedClasses);
 
 signals:
+    void importedItemsAdded(BP_CoreObject *newImportedObj);
 
     void projectNameChanged(QString projectName);
     void platformManagerChanged(BP_PlatformManager* platformManager);

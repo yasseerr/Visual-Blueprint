@@ -9,6 +9,8 @@
 
 #include <Core/bp_project.h>
 
+#include <Modeling/Imports/bp_importedmodel.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,6 +19,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
     Q_PROPERTY(BP_Project* currentProject READ currentProject WRITE setCurrentProject NOTIFY currentProjectChanged)
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -34,6 +37,7 @@ signals:
 private:
     Ui::MainWindow *ui;
     ImportsModel *m_importsModel;
+    BP_ImportedModel *m_impotedModel;
     BP_ImportsItem *m_rootImportsItem;
     BP_Project* m_currentProject;
 };
