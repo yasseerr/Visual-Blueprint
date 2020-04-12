@@ -11,6 +11,8 @@
 
 #include <QSpinBox>
 
+#include <Widgets/importeddelegatewidget.h>
+
 ImportedDelegat::ImportedDelegat():QItemDelegate()
 {
 
@@ -18,19 +20,22 @@ ImportedDelegat::ImportedDelegat():QItemDelegate()
 
 QWidget *ImportedDelegat::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QSpinBox *spinBoxDelegate = new QSpinBox(parent);
-    return  spinBoxDelegate;
+    //open percistance editor
+    ImportedDelegateWidget *editorWidget = new ImportedDelegateWidget(parent);
+    return  editorWidget;
 }
 
 void ImportedDelegat::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QSpinBox *sb = static_cast<QSpinBox*>(editor);
-    sb->setValue(20);
+    ImportedDelegateWidget *idw = static_cast<ImportedDelegateWidget*>(editor);
+    idw->setImportedName(index.data().toString());
+    idw->setImportedSourceModule(index.data(Qt::UserRole+1).toString());
+
 }
 
 void ImportedDelegat::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QSpinBox *sb = static_cast<QSpinBox*>(editor);
+    //QSpinBox *sb = static_cast<QSpinBox*>(editor);
 
 }
 
