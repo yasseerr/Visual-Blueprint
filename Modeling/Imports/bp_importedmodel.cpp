@@ -30,7 +30,7 @@ QVariant BP_ImportedModel::data(const QModelIndex &index, int role) const
         if(role == Qt::DisplayRole) return m_importedList.at(index.row())->name();
         else if (role == Qt::UserRole+1) {
             //Hierarchy role
-            return  "hierarchy";
+            return  m_importedList.at(index.row())->getImportSourceString();
         }
     }
     return QVariant();

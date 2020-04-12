@@ -13,7 +13,7 @@
 
 #include <Widgets/importeddelegatewidget.h>
 
-ImportedDelegat::ImportedDelegat():QItemDelegate()
+ImportedDelegat::ImportedDelegat(QListView *listView):QItemDelegate(),m_connectedListView(listView)
 {
 
 }
@@ -22,6 +22,7 @@ QWidget *ImportedDelegat::createEditor(QWidget *parent, const QStyleOptionViewIt
 {
     //open percistance editor
     ImportedDelegateWidget *editorWidget = new ImportedDelegateWidget(parent);
+    editorWidget->setBackgroundRole(QPalette::ColorRole::Button);
     return  editorWidget;
 }
 
@@ -30,6 +31,7 @@ void ImportedDelegat::setEditorData(QWidget *editor, const QModelIndex &index) c
     ImportedDelegateWidget *idw = static_cast<ImportedDelegateWidget*>(editor);
     idw->setImportedName(index.data().toString());
     idw->setImportedSourceModule(index.data(Qt::UserRole+1).toString());
+    //m_connectedListView->openPersistentEditor(index);
 
 }
 

@@ -11,13 +11,14 @@
 #define IMPORTEDDELEGAT_H
 
 #include <QItemDelegate>
+#include <QListView>
 #include <QObject>
 
 class ImportedDelegat : public QItemDelegate
 {
     Q_OBJECT
 public:
-    ImportedDelegat();
+    ImportedDelegat(QListView *listView=nullptr);
 
     // QAbstractItemDelegate interface
 public:
@@ -25,6 +26,8 @@ public:
     virtual void setEditorData(QWidget *editor, const QModelIndex &index) const override;
     virtual void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
     virtual void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+private:
+    QListView *m_connectedListView;
 };
 
 #endif // IMPORTEDDELEGAT_H

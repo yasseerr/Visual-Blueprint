@@ -30,7 +30,7 @@ BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *m
     }
 
     if(moduleHiearchy != nullptr)
-        importHiearchy().append(*moduleHiearchy);
+        setImportHiearchy(*moduleHiearchy);
 
 }
 

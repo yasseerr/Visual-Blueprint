@@ -26,6 +26,7 @@ public:
     explicit BP_CoreObject(QObject *parent = nullptr);
 
     //TODO get the importstring and type functions for the imported model
+    QString getImportSourceString();
 
     QString name() const;
     QStringList importHiearchy() const;

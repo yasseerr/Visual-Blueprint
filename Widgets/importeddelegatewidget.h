@@ -35,6 +35,8 @@ public slots:
 
     void setImportedSourceModule(QString importedSourceModule);
 
+    void onRemoveImportClicked();
+
 signals:
     void importedNameChanged(QString importedName);
 

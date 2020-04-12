@@ -10,11 +10,14 @@
 #include "importeddelegatewidget.h"
 #include "ui_importeddelegatewidget.h"
 
+#include <QDebug>
+
 ImportedDelegateWidget::ImportedDelegateWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ImportedDelegateWidget)
 {
     ui->setupUi(this);
+    connect(ui->removeButton,&QToolButton::clicked,this,&ImportedDelegateWidget::onRemoveImportClicked);
 }
 
 ImportedDelegateWidget::~ImportedDelegateWidget()
@@ -48,4 +51,9 @@ void ImportedDelegateWidget::setImportedSourceModule(QString importedSourceModul
      ui->hiearchylabel->setText(importedSourceModule);
     m_importedSourceModule = importedSourceModule;
     emit importedSourceModuleChanged(m_importedSourceModule);
+}
+
+void ImportedDelegateWidget::onRemoveImportClicked()
+{
+    qDebug() << "item removed";
 }

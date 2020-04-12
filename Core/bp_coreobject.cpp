@@ -8,10 +8,27 @@
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
 #include "bp_coreobject.h"
+#include "bp_module.h"
 
 BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent)
 {
 
+}
+
+QString BP_CoreObject::getImportSourceString()
+{
+    QString retString="";
+
+    for (int i = m_importHiearchy.size()-1; i > 0  ; i--) {
+        retString += m_importHiearchy.at(i);
+        if(i!=1) retString += '.';
+    }
+    BP_Module *module = dynamic_cast<BP_Module*>(this);
+    if(module != nullptr){
+        if(m_importHiearchy.size()>1) retString += '.';
+        retString += m_importHiearchy.at(0);
+    }
+    return  retString;
 }
 
 QString BP_CoreObject::name() const
