@@ -37,6 +37,7 @@ signals:
     // BP_MemberItem interface
 public:
     virtual QVariant getDesctiptionData(int role) override;
+    virtual bool setDescriptionData(QVariant data, int role) override;
 };
 
 #endif // BP_ONEVARIABLEMEMBERITEM_H

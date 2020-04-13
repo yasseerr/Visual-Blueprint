@@ -112,6 +112,9 @@ bool BP_MembersModel::setData(const QModelIndex &index, const QVariant &value, i
         //TODO add check for the variable name
         selectedMemberItem->setMemberName(value.toString());
         emit dataChanged(index,index,QVector<int>()<<Qt::DisplayRole);
+    }else if (index.column() == 1) {
+        selectedMemberItem->setDescriptionData(value,role);
+        emit dataChanged(index,index,QVector<int>()<<Qt::DisplayRole <<Qt::DecorationRole);
     }
     return  false;
 }

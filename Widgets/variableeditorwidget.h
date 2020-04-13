@@ -30,9 +30,17 @@ public:
     void setEditorData(QString className,int multiplicityIndex);
     void setComboModel(QStringList classesList);
 
+    QString getClassName();
+    int getMultiplictyIndex();
+
     BP_Project *m_project;
     QStandardItemModel *multiplicityModel;
     QStringListModel *classesModel;
+
+public slots:
+    void onConfirmClicked();
+signals:
+    void changeCommited(QWidget *editor);
 
 private:
     Ui::VariableEditorWidget *ui;

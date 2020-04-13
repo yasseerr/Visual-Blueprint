@@ -33,6 +33,11 @@ QVariant BP_MemberItem::getDesctiptionData(int role)
         return  QVariant();
 }
 
+bool BP_MemberItem::setDescriptionData(QVariant data, int role)
+{
+    return false;
+}
+
 void BP_MemberItem::setMemberName(QString memberName)
 {
     if (m_memberName == memberName)

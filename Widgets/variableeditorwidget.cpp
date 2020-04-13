@@ -10,6 +10,7 @@
 #include "variableeditorwidget.h"
 #include "ui_variableeditorwidget.h"
 
+#include <QDebug>
 #include <QStringListModel>
 
 VariableEditorWidget::VariableEditorWidget(QWidget *parent) :
@@ -29,6 +30,8 @@ VariableEditorWidget::VariableEditorWidget(QWidget *parent) :
     multiplicityModel->appendRow(listItem);
     multiplicityModel->appendRow(matrixItem);
     ui->comboBox->setModel(multiplicityModel);
+
+    connect(ui->toolButton,&QToolButton::clicked,this,&VariableEditorWidget::onConfirmClicked);
 }
 
 VariableEditorWidget::~VariableEditorWidget()
@@ -46,4 +49,20 @@ void VariableEditorWidget::setComboModel(QStringList classesList)
 {
     classesModel->setStringList(classesList);
     ui->classComboBox->setModel(classesModel);
+}
+
+QString VariableEditorWidget::getClassName()
+{
+    return ui->classComboBox->currentText();
+}
+
+int VariableEditorWidget::getMultiplictyIndex()
+{
+    return  ui->comboBox->currentIndex();
+}
+
+void VariableEditorWidget::onConfirmClicked()
+{
+    qDebug() << "confirmed";
+    emit changeCommited(this);
 }

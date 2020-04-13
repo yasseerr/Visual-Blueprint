@@ -28,6 +28,7 @@ public:
 
     QString memberName() const;
     virtual QVariant getDesctiptionData(int role);
+    virtual bool setDescriptionData(QVariant data,int role);
 
 public slots:
     void setMemberName(QString memberName);

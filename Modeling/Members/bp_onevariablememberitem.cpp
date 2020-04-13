@@ -43,8 +43,11 @@ void BP_OneVariableMemberItem::updateMemberName()
 QVariant BP_OneVariableMemberItem::getDesctiptionData(int role)
 {
     if(role == Qt::DecorationRole){
-        QIcon retIcon(":/Data/Images/DefaultIcon/list.png");
-        return QVariant::fromValue(retIcon);
+        if(m_containedVariable->isArray())
+            return QVariant::fromValue(QIcon(":/Data/Images/DefaultIcon/list.png"));
+        else {
+            return QVariant::fromValue(QIcon(":/Data/Images/DefaultIcon/3D-Cube.png"));
+        }
     }
     else if (role == Qt::DisplayRole) {
         return m_containedVariable->className();
@@ -54,4 +57,17 @@ QVariant BP_OneVariableMemberItem::getDesctiptionData(int role)
         return m_containedVariable->isArray()?1:0;
     }
     else return  QVariant();
+}
+
+bool BP_OneVariableMemberItem::setDescriptionData(QVariant data, int role)
+{
+    if(role == Qt::EditRole){
+        //TODO add the class hierarchy
+        m_containedVariable->setClassName(data.toMap().value("className").toString());
+        m_containedVariable->setIsArray((data.toMap().value("multiplicity").toInt()==0?false:true));
+        return true;
+    }
+    else{
+        return false;
+    }
 }

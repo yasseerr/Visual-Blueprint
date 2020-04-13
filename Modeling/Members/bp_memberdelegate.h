@@ -21,6 +21,7 @@ class BP_MemberDelegate : public QItemDelegate
 public:
     BP_MemberDelegate(BP_Project *connectedProject);
     QStringList getProjectClasses() const;
+    void changesCommited(QWidget *editor);
 
     BP_Project *m_connectedProject;
     // QAbstractItemDelegate interface

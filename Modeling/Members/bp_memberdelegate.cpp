@@ -29,11 +29,16 @@ void BP_MemberDelegate::setEditorData(QWidget *editor, const QModelIndex &index)
     varEdit->setEditorData(index.data().toString(),index.data(Qt::UserRole+1).toInt());
     QStringList projectClasses =  getProjectClasses();
     varEdit->setComboModel(projectClasses);
+    connect(varEdit,&VariableEditorWidget::changeCommited,this,&BP_MemberDelegate::changesCommited);
 }
 
 void BP_MemberDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     VariableEditorWidget *varEdit = static_cast<VariableEditorWidget*>(editor);
+    QVariantMap dataMap;
+    dataMap.insert("className",varEdit->getClassName());
+    dataMap.insert("multiplicity",varEdit->getMultiplictyIndex());
+    model->setData(index,dataMap);
 
 }
 
@@ -48,4 +53,10 @@ QStringList BP_MemberDelegate::getProjectClasses() const
         retList << bp_class->name();
     }
     return  retList;
+}
+
+void BP_MemberDelegate::changesCommited(QWidget *editor)
+{
+    emit commitData(editor);
+    emit closeEditor(editor);
 }
