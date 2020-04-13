@@ -8,6 +8,9 @@
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
 #include "bp_membersmodel.h"
+#include "bp_onevariablememberitem.h"
+
+#include <Core/bp_project.h>
 
 BP_MembersModel::BP_MembersModel(BP_Project *_project,QTreeView *connectedTreeView):
     m_connectedTreeView(connectedTreeView)
@@ -94,7 +97,20 @@ QVariant BP_MembersModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags BP_MembersModel::flags(const QModelIndex &index) const
 {
+    if(itemForIndex(index)->m_parentItem == m_rootItem ) return QAbstractItemModel::flags(index);
     return  QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool BP_MembersModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if(!index.isValid()) return false;
+    BP_MemberItem *selectedMemberItem = itemForIndex(index);
+    if(index.column() == 0){
+        //TODO add check for the variable name
+        selectedMemberItem->setMemberName(value.toString());
+        emit dataChanged(index,index,QVector<int>()<<Qt::DisplayRole);
+    }
+    return  false;
 }
 
 BP_Project *BP_MembersModel::connectedProject() const
@@ -107,6 +123,18 @@ void BP_MembersModel::updateModel()
     if(m_connectedProject == nullptr) return;
     //loading variables
 
+
+}
+
+void BP_MembersModel::addMemberVariable()
+{
+    BP_OneVariableMemberItem *variableMemberItem = new BP_OneVariableMemberItem(m_variablesItems,m_variablesItems);
+    QVariantMap newVariableMap = BP_Variable::getDefaultVariantMap();
+    BP_Variable *newVariable = new BP_Variable(&newVariableMap,m_connectedProject);
+    variableMemberItem->setContainedVariable(newVariable);
+    m_connectedProject->addMemberVariable(newVariable);
+    emit layoutChanged();
+    m_connectedTreeView->edit(indexForItem(variableMemberItem));
 
 }
 

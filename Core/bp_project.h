@@ -31,12 +31,16 @@ class BP_Project : public QObject
     Q_PROPERTY(QList<BP_Variable*> importedVariables READ importedVariables WRITE setImportedVariables NOTIFY importedVariablesChanged)
     Q_PROPERTY(QList<BP_Class*> importedClasses READ importedClasses WRITE setImportedClasses NOTIFY importedClassesChanged)
 
+    Q_PROPERTY(QList<BP_Variable*> memberVariables READ memberVariables WRITE setMemberVariables NOTIFY memberVariablesChanged)
+
     QString m_projectName;
     BP_PlatformManager* m_platformManager;
     QList<BP_Module*> m_importedModules;
     QList<BP_Function*> m_importedFunctions;
     QList<BP_Variable*> m_importedVariables;
     QList<BP_Class*> m_importedClasses;
+
+    QList<BP_Variable*> m_memberVariables;
 
 public:
     explicit BP_Project(QString projectName,QObject *parent = nullptr);
@@ -46,6 +50,8 @@ public:
     void importFunction(QStringList moduleHierarchy);
     void importVariable(QStringList moduleHierarchy);
     void importClass(QStringList moduleHierarchy);
+
+    void addMemberVariable(BP_Variable *newVariable);
 
     QString projectName() const;
 
@@ -58,6 +64,8 @@ public:
     QList<BP_Variable*> importedVariables() const;
 
     QList<BP_Class*> importedClasses() const;
+
+    QList<BP_Variable*> memberVariables() const;
 
 public slots:
     void setProjectName(QString projectName);
@@ -72,6 +80,8 @@ public slots:
 
     void setImportedClasses(QList<BP_Class*> importedClasses);
 
+    void setMemberVariables(QList<BP_Variable*> memberVariables);
+
 signals:
     void importedItemsAdded(BP_CoreObject *newImportedObj);
 
@@ -81,6 +91,7 @@ signals:
     void importedFunctionsChanged(QList<BP_Function*> importedFunctions);
     void importedVariablesChanged(QList<BP_Variable*> importedVariables);
     void importedClassesChanged(QList<BP_Class*> importedClasses);
+    void memberVariablesChanged(QList<BP_Variable*> memberVariables);
 };
 
 #endif // BP_PROJECT_H

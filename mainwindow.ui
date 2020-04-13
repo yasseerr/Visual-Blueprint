@@ -392,7 +392,11 @@ p, li { white-space: pre-wrap; }
       <number>1</number>
      </property>
      <item>
-      <widget class="QTreeView" name="membersTreeView"/>
+      <widget class="QTreeView" name="membersTreeView">
+       <property name="rootIsDecorated">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

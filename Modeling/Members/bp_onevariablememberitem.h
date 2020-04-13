@@ -14,14 +14,25 @@
 
 #include <QWidget>
 
+#include <Core/bp_variable.h>
+
 class BP_OneVariableMemberItem : public BP_MemberItem
 {
     Q_OBJECT
+    Q_PROPERTY(BP_Variable* containedVariable READ containedVariable WRITE setContainedVariable NOTIFY containedVariableChanged)
+    BP_Variable* m_containedVariable;
+
 public:
     explicit BP_OneVariableMemberItem(BP_MemberItem *parentItem,QObject *parent = nullptr);
 
-signals:
+    BP_Variable* containedVariable() const;
 
+public slots:
+    void setContainedVariable(BP_Variable* containedVariable);
+    void updateMemberName();
+
+signals:
+    void containedVariableChanged(BP_Variable* containedVariable);
 };
 
 #endif // BP_ONEVARIABLEMEMBERITEM_H

@@ -79,6 +79,11 @@ void BP_Project::importClass(QStringList moduleHierarchy)
     emit importedItemsAdded(importedClass);
 }
 
+void BP_Project::addMemberVariable(BP_Variable *newVariable)
+{
+    m_memberVariables << newVariable;
+}
+
 QString BP_Project::projectName() const
 {
     return m_projectName;
@@ -107,6 +112,11 @@ QList<BP_Variable *> BP_Project::importedVariables() const
 QList<BP_Class *> BP_Project::importedClasses() const
 {
     return m_importedClasses;
+}
+
+QList<BP_Variable *> BP_Project::memberVariables() const
+{
+    return m_memberVariables;
 }
 
 void BP_Project::setProjectName(QString projectName)
@@ -161,4 +171,13 @@ void BP_Project::setImportedClasses(QList<BP_Class *> importedClasses)
 
     m_importedClasses = importedClasses;
     emit importedClassesChanged(m_importedClasses);
+}
+
+void BP_Project::setMemberVariables(QList<BP_Variable *> memberVariables)
+{
+    if (m_memberVariables == memberVariables)
+        return;
+
+    m_memberVariables = memberVariables;
+    emit memberVariablesChanged(m_memberVariables);
 }

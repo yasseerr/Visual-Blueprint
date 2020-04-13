@@ -50,6 +50,8 @@ class BP_Variable : public BP_CoreObject
 public:
     explicit BP_Variable(QVariantMap *variableMap = nullptr,QObject *parent = nullptr,QStringList *moduleHiearchy = nullptr);
 
+    static QVariantMap getDefaultVariantMap();
+
 
     bool isPrimitive() const;
 

@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     //initiating members model
     m_membersModel = new BP_MembersModel(m_currentProject,ui->membersTreeView);
     ui->membersTreeView->setModel(m_membersModel);
+    ui->membersTreeView->expandAll();
     ui->membersTreeView->header()->setStretchLastSection(false);
     ui->membersTreeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
     ui->membersTreeView->header()->setSectionResizeMode(1,QHeaderView::Stretch);
@@ -85,3 +86,8 @@ void MainWindow::setCurrentProject(BP_Project *currentProject)
     emit currentProjectChanged(m_currentProject);
 }
 
+
+void MainWindow::on_actionAdd_Variable_triggered()
+{
+    m_membersModel->addMemberVariable();
+}

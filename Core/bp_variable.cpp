@@ -34,6 +34,16 @@ BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *m
 
 }
 
+QVariantMap BP_Variable::getDefaultVariantMap()
+{
+    QVariantMap retMap;
+    retMap.insert("name","NewVariable");
+    retMap.insert("isPrimitive",true);
+    retMap.insert("value",0);
+    retMap.insert("className","unknown");
+    return retMap;
+}
+
 
 bool BP_Variable::isPrimitive() const
 {

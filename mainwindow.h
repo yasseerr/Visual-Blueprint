@@ -36,6 +36,9 @@ public slots:
 signals:
     void currentProjectChanged(BP_Project* currentProject);
 
+private slots:
+    void on_actionAdd_Variable_triggered();
+
 private:
     Ui::MainWindow *ui;
     ImportsModel *m_importsModel;
