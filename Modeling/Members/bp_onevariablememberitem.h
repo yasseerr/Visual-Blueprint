@@ -33,6 +33,10 @@ public slots:
 
 signals:
     void containedVariableChanged(BP_Variable* containedVariable);
+
+    // BP_MemberItem interface
+public:
+    virtual QVariant getDesctiptionData(int role) override;
 };
 
 #endif // BP_ONEVARIABLEMEMBERITEM_H

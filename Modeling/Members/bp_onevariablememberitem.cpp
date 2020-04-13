@@ -10,6 +10,8 @@
 #include "bp_onevariablememberitem.h"
 
 #include <QDebug>
+#include <QIcon>
+#include <QVariant>
 
 BP_OneVariableMemberItem::BP_OneVariableMemberItem(BP_MemberItem *parentItem,QObject *parent) : BP_MemberItem(parentItem,parent)
 {
@@ -36,4 +38,16 @@ void BP_OneVariableMemberItem::updateMemberName()
     //when the name changed in the model propagate the change to the BP_Varible
     m_containedVariable->setName(memberName());
     qDebug() << "Variable Name Changed: " << m_containedVariable->name();
+}
+
+QVariant BP_OneVariableMemberItem::getDesctiptionData(int role)
+{
+    if(role == Qt::DecorationRole){
+        QIcon retIcon(":/Data/Images/DefaultIcon/list.png");
+        return QVariant::fromValue(retIcon);
+    }
+    else if (role == Qt::DisplayRole) {
+        return m_containedVariable->className();
+    }
+    else return  QVariant();
 }

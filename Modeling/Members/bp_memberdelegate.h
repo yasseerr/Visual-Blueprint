@@ -7,34 +7,24 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#ifndef BP_MEMBERITEM_H
-#define BP_MEMBERITEM_H
+#ifndef BP_MEMBERDELEGATE_H
+#define BP_MEMBERDELEGATE_H
 
+#include <QItemDelegate>
 #include <QObject>
-class BP_MembersModel;
-class BP_MemberItem : public QObject
+
+class BP_MemberDelegate : public QItemDelegate
 {
     Q_OBJECT
-    Q_PROPERTY(QString memberName READ memberName WRITE setMemberName NOTIFY memberNameChanged)
-
-    QString m_memberName;
-
 public:
-    explicit BP_MemberItem(BP_MemberItem *parentItem,QObject *parent = nullptr);
+    BP_MemberDelegate();
 
-    BP_MembersModel *m_model;
-    BP_MemberItem *m_parentItem;
-    QList<BP_MemberItem*> childItems;
-
-    QString memberName() const;
-    virtual QVariant getDesctiptionData(int role);
-
-public slots:
-    void setMemberName(QString memberName);
-
-signals:
-
-    void memberNameChanged(QString memberName);
+    // QAbstractItemDelegate interface
+public:
+    virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+    virtual void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+    virtual void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-#endif // BP_MEMBERITEM_H
+#endif // BP_MEMBERDELEGATE_H

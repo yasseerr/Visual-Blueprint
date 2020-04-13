@@ -7,34 +7,31 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#ifndef BP_MEMBERITEM_H
-#define BP_MEMBERITEM_H
+#include "bp_memberdelegate.h"
 
-#include <QObject>
-class BP_MembersModel;
-class BP_MemberItem : public QObject
+#include <Widgets/variableeditorwidget.h>
+
+BP_MemberDelegate::BP_MemberDelegate()
 {
-    Q_OBJECT
-    Q_PROPERTY(QString memberName READ memberName WRITE setMemberName NOTIFY memberNameChanged)
 
-    QString m_memberName;
+}
 
-public:
-    explicit BP_MemberItem(BP_MemberItem *parentItem,QObject *parent = nullptr);
+QWidget *BP_MemberDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    return  new VariableEditorWidget(parent);
+}
 
-    BP_MembersModel *m_model;
-    BP_MemberItem *m_parentItem;
-    QList<BP_MemberItem*> childItems;
+void BP_MemberDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
 
-    QString memberName() const;
-    virtual QVariant getDesctiptionData(int role);
+}
 
-public slots:
-    void setMemberName(QString memberName);
+void BP_MemberDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
 
-signals:
+}
 
-    void memberNameChanged(QString memberName);
-};
-
-#endif // BP_MEMBERITEM_H
+void BP_MemberDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    editor->setGeometry(option.rect);
+}

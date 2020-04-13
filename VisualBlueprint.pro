@@ -31,6 +31,7 @@ SOURCES += \
     Modeling/Imports/bp_importstypeitem.cpp \
     Modeling/Imports/bp_importsvariableitem.cpp \
     Modeling/Imports/importeddelegat.cpp \
+    Modeling/Members/bp_memberdelegate.cpp \
     Modeling/Members/bp_memberitem.cpp \
     Modeling/Members/bp_membersmodel.cpp \
     Modeling/Members/bp_onevariablememberitem.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
     Platform/bp_platformmanager.cpp \
     Widgets/importeddelegatewidget.cpp \
     Widgets/importsitemwidget.cpp \
+    Widgets/variableeditorwidget.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -59,6 +61,7 @@ HEADERS += \
     Modeling/Imports/bp_importstypeitem.h \
     Modeling/Imports/bp_importsvariableitem.h \
     Modeling/Imports/importeddelegat.h \
+    Modeling/Members/bp_memberdelegate.h \
     Modeling/Members/bp_memberitem.h \
     Modeling/Members/bp_membersmodel.h \
     Modeling/Members/bp_onevariablememberitem.h \
@@ -68,11 +71,13 @@ HEADERS += \
     Platform/bp_platformmanager.h \
     Widgets/importeddelegatewidget.h \
     Widgets/importsitemwidget.h \
+    Widgets/variableeditorwidget.h \
     mainwindow.h
 
 FORMS += \
     Widgets/importeddelegatewidget.ui \
     Widgets/importsitemwidget.ui \
+    Widgets/variableeditorwidget.ui \
     mainwindow.ui
 
 TRANSLATIONS += \

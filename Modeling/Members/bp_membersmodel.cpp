@@ -91,6 +91,9 @@ QVariant BP_MembersModel::data(const QModelIndex &index, int role) const
     if(index.isValid()){
         if(role == Qt::DisplayRole && index.column() == 0)
             return   itemForIndex(index)->memberName();
+        if(index.column() == 1){
+            return  itemForIndex(index)->getDesctiptionData(role);
+        }
     }
     return QVariant();
 }

@@ -7,34 +7,29 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#ifndef BP_MEMBERITEM_H
-#define BP_MEMBERITEM_H
+#ifndef VARIABLEEDITORWIDGET_H
+#define VARIABLEEDITORWIDGET_H
 
-#include <QObject>
-class BP_MembersModel;
-class BP_MemberItem : public QObject
+#include <QStandardItemModel>
+#include <QWidget>
+
+#include <Core/bp_project.h>
+
+namespace Ui {
+class VariableEditorWidget;
+}
+
+class VariableEditorWidget : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QString memberName READ memberName WRITE setMemberName NOTIFY memberNameChanged)
-
-    QString m_memberName;
-
 public:
-    explicit BP_MemberItem(BP_MemberItem *parentItem,QObject *parent = nullptr);
+    explicit VariableEditorWidget(QWidget *parent = nullptr);
+    ~VariableEditorWidget();
+    BP_Project *m_project;
+    QStandardItemModel *multiplicityModel;
 
-    BP_MembersModel *m_model;
-    BP_MemberItem *m_parentItem;
-    QList<BP_MemberItem*> childItems;
-
-    QString memberName() const;
-    virtual QVariant getDesctiptionData(int role);
-
-public slots:
-    void setMemberName(QString memberName);
-
-signals:
-
-    void memberNameChanged(QString memberName);
+private:
+    Ui::VariableEditorWidget *ui;
 };
 
-#endif // BP_MEMBERITEM_H
+#endif // VARIABLEEDITORWIDGET_H

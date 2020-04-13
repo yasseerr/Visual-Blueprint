@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QPushButton>
 
+#include <Modeling/Members/bp_memberdelegate.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -43,8 +45,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->membersTreeView->setModel(m_membersModel);
     ui->membersTreeView->expandAll();
     ui->membersTreeView->header()->setStretchLastSection(false);
-    ui->membersTreeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
+    //ui->membersTreeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
     ui->membersTreeView->header()->setSectionResizeMode(1,QHeaderView::Stretch);
+    ui->membersTreeView->setItemDelegateForColumn(1,new BP_MemberDelegate());
     m_membersModel->m_variablesItems->createVariablesMenu(QList<QAction*>() << ui->actionAdd_Variable);
 }
 

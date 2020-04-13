@@ -9,6 +9,8 @@
  ***************************************************************************/
 #include "bp_memberitem.h"
 
+#include <QVariant>
+
 BP_MemberItem::BP_MemberItem(BP_MemberItem *parentItem,QObject *parent) : QObject(parent),m_parentItem(parentItem),m_memberName("")
 {
     if(m_parentItem != nullptr){
@@ -21,6 +23,14 @@ BP_MemberItem::BP_MemberItem(BP_MemberItem *parentItem,QObject *parent) : QObjec
 QString BP_MemberItem::memberName() const
 {
     return m_memberName;
+}
+
+QVariant BP_MemberItem::getDesctiptionData(int role)
+{
+    if(role == Qt::DisplayRole)
+        return "";
+    else
+        return  QVariant();
 }
 
 void BP_MemberItem::setMemberName(QString memberName)
