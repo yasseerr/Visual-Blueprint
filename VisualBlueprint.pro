@@ -31,6 +31,10 @@ SOURCES += \
     Modeling/Imports/bp_importstypeitem.cpp \
     Modeling/Imports/bp_importsvariableitem.cpp \
     Modeling/Imports/importeddelegat.cpp \
+    Modeling/Members/bp_memberitem.cpp \
+    Modeling/Members/bp_membersmodel.cpp \
+    Modeling/Members/bp_onevariablememberitem.cpp \
+    Modeling/Members/bp_variablesmemberitem.cpp \
     Modeling/importsmodel.cpp \
     Platform/Python/bp_pythonmanager.cpp \
     Platform/bp_platformmanager.cpp \
@@ -55,6 +59,10 @@ HEADERS += \
     Modeling/Imports/bp_importstypeitem.h \
     Modeling/Imports/bp_importsvariableitem.h \
     Modeling/Imports/importeddelegat.h \
+    Modeling/Members/bp_memberitem.h \
+    Modeling/Members/bp_membersmodel.h \
+    Modeling/Members/bp_onevariablememberitem.h \
+    Modeling/Members/bp_variablesmemberitem.h \
     Modeling/importsmodel.h \
     Platform/Python/bp_pythonmanager.h \
     Platform/bp_platformmanager.h \
