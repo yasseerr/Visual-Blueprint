@@ -11,19 +11,29 @@
 #define BP_MEMBERITEM_H
 
 #include <QObject>
-class BP_MemberModel;
+class BP_MembersModel;
 class BP_MemberItem : public QObject
 {
     Q_OBJECT
-public:
-    explicit BP_MemberItem(QObject *parent = nullptr);
+    Q_PROPERTY(QString memberName READ memberName WRITE setMemberName NOTIFY memberNameChanged)
 
-    BP_MemberModel *m_model;
+    QString m_memberName;
+
+public:
+    explicit BP_MemberItem(BP_MemberItem *parentItem,QObject *parent = nullptr);
+
+    BP_MembersModel *m_model;
     BP_MemberItem *m_parentItem;
     QList<BP_MemberItem*> childItems;
 
+    QString memberName() const;
+
+public slots:
+    void setMemberName(QString memberName);
+
 signals:
 
+    void memberNameChanged(QString memberName);
 };
 
 #endif // BP_MEMBERITEM_H

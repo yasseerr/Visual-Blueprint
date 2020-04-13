@@ -11,6 +11,8 @@
 
 #include <Modeling/Imports/bp_importedmodel.h>
 
+#include <Modeling/Members/bp_membersmodel.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -39,6 +41,7 @@ private:
     ImportsModel *m_importsModel;
     BP_ImportedModel *m_impotedModel;
     BP_ImportsItem *m_rootImportsItem;
+    BP_MembersModel *m_membersModel;
     BP_Project* m_currentProject;
 };
 #endif // MAINWINDOW_H

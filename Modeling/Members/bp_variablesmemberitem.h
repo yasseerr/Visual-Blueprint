@@ -13,12 +13,18 @@
 #include "bp_memberitem.h"
 
 #include <QObject>
+#include <QToolBar>
 
 class BP_VariablesMemberItem : public BP_MemberItem
 {
     Q_OBJECT
+
+    QToolBar *variablesToolBar;
+
 public:
-    explicit BP_VariablesMemberItem(QObject *parent = nullptr);
+    explicit BP_VariablesMemberItem(BP_MemberItem *parentItem,QObject *parent = nullptr);
+    void createVariablesMenu(const QList<QAction*> mainWindowAction);
+
 
 signals:
 

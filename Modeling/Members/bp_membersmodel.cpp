@@ -9,9 +9,13 @@
  ***************************************************************************/
 #include "bp_membersmodel.h"
 
-BP_MembersModel::BP_MembersModel()
+BP_MembersModel::BP_MembersModel(BP_Project *_project,QTreeView *connectedTreeView):
+    m_connectedTreeView(connectedTreeView)
 {
-
+    m_rootItem = new BP_MemberItem(nullptr,this);
+    m_rootItem->m_model = this;
+    m_variablesItems = new BP_VariablesMemberItem(m_rootItem,m_rootItem);
+    setConnectedProject(_project);
 }
 
 QModelIndex BP_MembersModel::indexForItem(BP_MemberItem *importItem)
@@ -21,6 +25,16 @@ QModelIndex BP_MembersModel::indexForItem(BP_MemberItem *importItem)
 
     int rowNumber = rowForItem(importItem);
     int columnNumber = 0;
+    return  createIndex(rowNumber,columnNumber,importItem);
+}
+
+QModelIndex BP_MembersModel::widgetIndexForItem(BP_MemberItem *importItem)
+{
+    if(importItem == m_rootItem)
+        return  QModelIndex();
+
+    int rowNumber = rowForItem(importItem);
+    int columnNumber = 1;
     return  createIndex(rowNumber,columnNumber,importItem);
 }
 
@@ -71,7 +85,11 @@ int BP_MembersModel::columnCount(const QModelIndex &parent) const
 
 QVariant BP_MembersModel::data(const QModelIndex &index, int role) const
 {
-    return   "in build";
+    if(index.isValid()){
+        if(role == Qt::DisplayRole && index.column() == 0)
+            return   itemForIndex(index)->memberName();
+    }
+    return QVariant();
 }
 
 Qt::ItemFlags BP_MembersModel::flags(const QModelIndex &index) const
@@ -84,11 +102,21 @@ BP_Project *BP_MembersModel::connectedProject() const
     return m_connectedProject;
 }
 
+void BP_MembersModel::updateModel()
+{
+    if(m_connectedProject == nullptr) return;
+    //loading variables
+
+
+}
+
 void BP_MembersModel::setConnectedProject(BP_Project *connectedProject)
 {
     if (m_connectedProject == connectedProject)
         return;
-
     m_connectedProject = connectedProject;
+
+
+
     emit connectedProjectChanged(m_connectedProject);
 }

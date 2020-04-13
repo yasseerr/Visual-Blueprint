@@ -18,7 +18,7 @@ class BP_OneVariableMemberItem : public BP_MemberItem
 {
     Q_OBJECT
 public:
-    explicit BP_OneVariableMemberItem(QObject *parent = nullptr);
+    explicit BP_OneVariableMemberItem(BP_MemberItem *parentItem,QObject *parent = nullptr);
 
 signals:
 

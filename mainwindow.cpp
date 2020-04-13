@@ -37,6 +37,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->importsTreeView->header()->setSectionResizeMode(1,QHeaderView::Fixed);
     ui->importsTreeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
     ui->importsTreeView->header()->resizeSection(1,60);
+
+    //initiating members model
+    m_membersModel = new BP_MembersModel(m_currentProject,ui->membersTreeView);
+    ui->membersTreeView->setModel(m_membersModel);
+    ui->membersTreeView->header()->setStretchLastSection(false);
+    ui->membersTreeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
+    ui->membersTreeView->header()->setSectionResizeMode(1,QHeaderView::Stretch);
+    m_membersModel->m_variablesItems->createVariablesMenu(QList<QAction*>() << ui->actionAdd_Variable);
 }
 
 MainWindow::~MainWindow()

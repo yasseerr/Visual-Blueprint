@@ -9,7 +9,7 @@
  ***************************************************************************/
 #include "bp_onevariablememberitem.h"
 
-BP_OneVariableMemberItem::BP_OneVariableMemberItem(QObject *parent) : BP_MemberItem(parent)
+BP_OneVariableMemberItem::BP_OneVariableMemberItem(BP_MemberItem *parentItem,QObject *parent) : BP_MemberItem(parentItem,parent)
 {
 
 }
