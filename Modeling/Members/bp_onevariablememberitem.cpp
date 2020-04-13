@@ -49,5 +49,9 @@ QVariant BP_OneVariableMemberItem::getDesctiptionData(int role)
     else if (role == Qt::DisplayRole) {
         return m_containedVariable->className();
     }
+    else if (role == Qt::UserRole+1){
+
+        return m_containedVariable->isArray()?1:0;
+    }
     else return  QVariant();
 }

@@ -13,12 +13,16 @@
 #include <QItemDelegate>
 #include <QObject>
 
+#include <Core/bp_project.h>
+
 class BP_MemberDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    BP_MemberDelegate();
+    BP_MemberDelegate(BP_Project *connectedProject);
+    QStringList getProjectClasses() const;
 
+    BP_Project *m_connectedProject;
     // QAbstractItemDelegate interface
 public:
     virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;

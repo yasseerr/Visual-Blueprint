@@ -10,9 +10,12 @@
 #include "variableeditorwidget.h"
 #include "ui_variableeditorwidget.h"
 
+#include <QStringListModel>
+
 VariableEditorWidget::VariableEditorWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::VariableEditorWidget)
+    ui(new Ui::VariableEditorWidget),
+    classesModel(new QStringListModel(this))
 {
     ui->setupUi(this);
     multiplicityModel = new QStandardItemModel(this);
@@ -31,4 +34,16 @@ VariableEditorWidget::VariableEditorWidget(QWidget *parent) :
 VariableEditorWidget::~VariableEditorWidget()
 {
     delete ui;
+}
+
+void VariableEditorWidget::setEditorData(QString className, int multiplicityIndex)
+{
+    //ui->lineEdit->setText(className);
+    ui->comboBox->setCurrentIndex(multiplicityIndex);
+}
+
+void VariableEditorWidget::setComboModel(QStringList classesList)
+{
+    classesModel->setStringList(classesList);
+    ui->classComboBox->setModel(classesModel);
 }

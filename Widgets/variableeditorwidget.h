@@ -11,6 +11,7 @@
 #define VARIABLEEDITORWIDGET_H
 
 #include <QStandardItemModel>
+#include <QStringListModel>
 #include <QWidget>
 
 #include <Core/bp_project.h>
@@ -25,8 +26,13 @@ class VariableEditorWidget : public QWidget
 public:
     explicit VariableEditorWidget(QWidget *parent = nullptr);
     ~VariableEditorWidget();
+
+    void setEditorData(QString className,int multiplicityIndex);
+    void setComboModel(QStringList classesList);
+
     BP_Project *m_project;
     QStandardItemModel *multiplicityModel;
+    QStringListModel *classesModel;
 
 private:
     Ui::VariableEditorWidget *ui;

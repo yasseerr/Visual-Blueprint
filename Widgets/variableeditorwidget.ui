@@ -17,6 +17,9 @@
    <bool>true</bool>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
    <property name="leftMargin">
     <number>2</number>
    </property>
@@ -30,12 +33,16 @@
     <number>1</number>
    </property>
    <item>
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="comboBox">
+     <property name="sizeAdjustPolicy">
+      <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+     </property>
+    </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="text">
-      <string/>
+    <widget class="QComboBox" name="classComboBox">
+     <property name="sizeAdjustPolicy">
+      <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
      </property>
     </widget>
    </item>

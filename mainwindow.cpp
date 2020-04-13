@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->membersTreeView->header()->setStretchLastSection(false);
     //ui->membersTreeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
     ui->membersTreeView->header()->setSectionResizeMode(1,QHeaderView::Stretch);
-    ui->membersTreeView->setItemDelegateForColumn(1,new BP_MemberDelegate());
+    ui->membersTreeView->setItemDelegateForColumn(1,new BP_MemberDelegate(currentProject()));
     m_membersModel->m_variablesItems->createVariablesMenu(QList<QAction*>() << ui->actionAdd_Variable);
 }
 
