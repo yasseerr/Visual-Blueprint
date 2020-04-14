@@ -9,6 +9,9 @@
  ***************************************************************************/
 #include "bp_graphnodesmodel.h"
 
+#include <Core/bp_class.h>
+#include <Core/bp_function.h>
+#include <Core/bp_module.h>
 #include <Core/bp_variable.h>
 
 BP_GraphNodesModel::BP_GraphNodesModel(BP_Project *connectedProject):QAbstractItemModel()
@@ -108,6 +111,36 @@ void BP_GraphNodesModel::updateModule()
     foreach (BP_Variable* importedVar, m_connectedProject->importedVariables()) {
         BP_GraphNodeItem *varItem =new BP_GraphNodeItem(variablesItem,variablesItem);
         varItem->setCoreObject(importedVar);
+    }
+
+    BP_GraphNodeItem *classessItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Classes");
+    foreach (auto class_, m_connectedProject->importedClasses()) {
+        BP_GraphNodeItem *classItem = new BP_GraphNodeItem(classessItem,classessItem);
+        classItem->setCoreObject(class_);
+    }
+
+    BP_GraphNodeItem *functionsItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Functions");
+    foreach (auto function_, m_connectedProject->importedFunctions()) {
+        BP_GraphNodeItem *functionItem = new BP_GraphNodeItem(functionsItem,functionsItem);
+        functionItem->setCoreObject(function_);
+    }
+
+    foreach (auto module, m_connectedProject->importedModules()) {
+        BP_GraphNodeItem *moduleItem = new BP_GraphNodeItem(m_rootItem,m_rootItem);
+        moduleItem->setCoreObject(module);
+
+        foreach (auto class_, module->classes()) {
+            BP_GraphNodeItem *classItem = new BP_GraphNodeItem(moduleItem,moduleItem);
+            classItem->setCoreObject(class_);
+        }
+        foreach (BP_Variable* variable, module->moduleValues()) {
+            BP_GraphNodeItem *valueItem = new BP_GraphNodeItem(moduleItem,moduleItem);
+            valueItem->setCoreObject(variable);
+        }
+        foreach (auto function_, module->functions()) {
+            BP_GraphNodeItem *functionItem = new BP_GraphNodeItem(moduleItem,moduleItem);
+            functionItem->setCoreObject(function_);
+        }
     }
     emit layoutChanged();
 }

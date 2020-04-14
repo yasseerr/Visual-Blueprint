@@ -10,6 +10,9 @@
     <height>720</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -17,6 +20,9 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QTabWidget" name="functionsWidget">
+      <property name="focusPolicy">
+       <enum>Qt::TabFocus</enum>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -320,11 +326,7 @@ p, li { white-space: pre-wrap; }
     <number>8</number>
    </attribute>
    <widget class="QWidget" name="consoleWidgetContents">
-    <layout class="QVBoxLayout" name="verticalLayout_6">
-     <item>
-      <widget class="QTreeView" name="tmpTreeView"/>
-     </item>
-    </layout>
+    <layout class="QVBoxLayout" name="verticalLayout_6"/>
    </widget>
   </widget>
   <widget class="QDockWidget" name="modulesDockWidget">
@@ -408,6 +410,9 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
   <widget class="QToolBar" name="fileToolBar">
+   <property name="focusPolicy">
+    <enum>Qt::ClickFocus</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -466,6 +471,9 @@ p, li { white-space: pre-wrap; }
    <addaction name="action_Run"/>
    <addaction name="action_Debug"/>
    <addaction name="actionclean_cache"/>
+   <addaction name="separator"/>
+   <addaction name="actionopen_Node_Selection"/>
+   <addaction name="actionAdd_Variable"/>
   </widget>
   <widget class="QDockWidget" name="importedDockWidget">
    <property name="windowTitle">
@@ -662,11 +670,24 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionopen_Node_Selection">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/Data/Images/DefaultIcon/list-unordered.png</normaloff>:/Data/Images/DefaultIcon/list-unordered.png</iconset>
+   </property>
    <property name="text">
-    <string>open Node Selection</string>
+    <string>Invoke Node</string>
+   </property>
+   <property name="toolTip">
+    <string>Invoke Node</string>
    </property>
    <property name="shortcut">
     <string>Space</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+   <property name="priority">
+    <enum>QAction::NormalPriority</enum>
    </property>
   </action>
   <zorder>importedDockWidget</zorder>

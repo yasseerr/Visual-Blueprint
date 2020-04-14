@@ -36,6 +36,10 @@ private:
     BP_GraphNodesModel *m_graphNodesModel;
     QSortFilterProxyModel *m_graphProxyModel;
 
+
+    // QWidget interface
+protected:
+    virtual void focusOutEvent(QFocusEvent *event) override;
 };
 
 #endif // GRAPHNODESSELECTIONDIALOG_H

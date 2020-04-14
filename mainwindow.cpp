@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //setting up the shortcuts
+    //ui->actionopen_Node_Selection->setShortcutContext(Qt::ShortcutContext::ApplicationShortcut);
+
     //setting up the dock widget layount
     setCorner(Qt::BottomLeftCorner,Qt::LeftDockWidgetArea);
     setCorner(Qt::BottomRightCorner,Qt::RightDockWidgetArea);
@@ -52,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //initiating GraphNodesModel
     m_graphNodeModel = new BP_GraphNodesModel(m_currentProject);
-    ui->tmpTreeView->setModel(m_graphNodeModel);
+    //ui->tmpTreeView->setModel(m_graphNodeModel);
     m_graphNodesDialog = new GraphNodesSelectionDialog(m_graphNodeModel,this);
 }
 
@@ -103,6 +106,7 @@ void MainWindow::on_actionAdd_Variable_triggered()
 void MainWindow::on_actionopen_Node_Selection_triggered()
 {
     m_graphNodesDialog->show();
+    m_graphNodesDialog->setFocus();
     qDebug() << "it should be opened by now";
 }
 

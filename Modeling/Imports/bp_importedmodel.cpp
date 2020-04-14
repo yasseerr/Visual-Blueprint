@@ -32,6 +32,11 @@ QVariant BP_ImportedModel::data(const QModelIndex &index, int role) const
             //Hierarchy role
             return  m_importedList.at(index.row())->getImportSourceString();
         }
+        //TODO add icons to the imported
+//        else if (role == Qt::DecorationRole) {
+//            //Hierarchy role
+//            //return  m_importedList.at(index.row())-;
+//        }
     }
     return QVariant();
 }
