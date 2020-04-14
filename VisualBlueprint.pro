@@ -41,6 +41,7 @@ SOURCES += \
     Modeling/importsmodel.cpp \
     Platform/Python/bp_pythonmanager.cpp \
     Platform/bp_platformmanager.cpp \
+    Widgets/graphnodesselectiondialog.cpp \
     Widgets/importeddelegatewidget.cpp \
     Widgets/importsitemwidget.cpp \
     Widgets/variableeditorwidget.cpp \
@@ -73,12 +74,14 @@ HEADERS += \
     Modeling/importsmodel.h \
     Platform/Python/bp_pythonmanager.h \
     Platform/bp_platformmanager.h \
+    Widgets/graphnodesselectiondialog.h \
     Widgets/importeddelegatewidget.h \
     Widgets/importsitemwidget.h \
     Widgets/variableeditorwidget.h \
     mainwindow.h
 
 FORMS += \
+    Widgets/graphnodesselectiondialog.ui \
     Widgets/importeddelegatewidget.ui \
     Widgets/importsitemwidget.ui \
     Widgets/variableeditorwidget.ui \

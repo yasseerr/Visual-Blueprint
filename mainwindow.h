@@ -15,6 +15,8 @@
 
 #include <Modeling/Graph/bp_graphnodesmodel.h>
 
+#include <Widgets/graphnodesselectiondialog.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -41,6 +43,10 @@ signals:
 private slots:
     void on_actionAdd_Variable_triggered();
 
+    void on_actionopen_Node_Selection_triggered();
+
+    void on_actionclean_cache_triggered();
+
 private:
     Ui::MainWindow *ui;
     ImportsModel *m_importsModel;
@@ -48,6 +54,7 @@ private:
     BP_ImportsItem *m_rootImportsItem;
     BP_MembersModel *m_membersModel;
     BP_GraphNodesModel *m_graphNodeModel;
+    GraphNodesSelectionDialog * m_graphNodesDialog;
     BP_Project* m_currentProject;
 };
 #endif // MAINWINDOW_H

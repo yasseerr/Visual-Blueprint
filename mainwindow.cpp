@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     //initiating GraphNodesModel
     m_graphNodeModel = new BP_GraphNodesModel(m_currentProject);
     ui->tmpTreeView->setModel(m_graphNodeModel);
+    m_graphNodesDialog = new GraphNodesSelectionDialog(m_graphNodeModel,this);
 }
 
 MainWindow::~MainWindow()
@@ -97,4 +98,16 @@ void MainWindow::setCurrentProject(BP_Project *currentProject)
 void MainWindow::on_actionAdd_Variable_triggered()
 {
     m_membersModel->addMemberVariable();
+}
+
+void MainWindow::on_actionopen_Node_Selection_triggered()
+{
+    m_graphNodesDialog->show();
+    qDebug() << "it should be opened by now";
+}
+
+void MainWindow::on_actionclean_cache_triggered()
+{
+    m_graphNodesDialog->show();
+    qDebug() << "it should be opened by now";
 }

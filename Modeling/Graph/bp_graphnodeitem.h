@@ -25,6 +25,8 @@ class BP_GraphNodeItem : public QObject
 public:
     explicit BP_GraphNodeItem(BP_GraphNodeItem *parentItem = nullptr,QObject *parent = nullptr,QString displayName="");
 
+    ~ BP_GraphNodeItem();
+
     BP_GraphNodesModel *m_model;
     BP_GraphNodeItem *m_parentItem;
     QList<BP_GraphNodeItem*> childItems;
@@ -34,6 +36,7 @@ public:
 
 public slots:
     void setCoreObject(BP_CoreObject* coreObject);
+    void clearChildes();
 
 signals:
 

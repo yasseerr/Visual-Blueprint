@@ -69,7 +69,7 @@ int BP_GraphNodesModel::rowCount(const QModelIndex &parent) const
 
 int BP_GraphNodesModel::columnCount(const QModelIndex &parent) const
 {
-    return 2;
+    return 1;
 }
 
 QVariant BP_GraphNodesModel::data(const QModelIndex &index, int role) const
@@ -100,8 +100,8 @@ BP_Project *BP_GraphNodesModel::connectedProject() const
 
 void BP_GraphNodesModel::updateModule()
 {
-    if(rowCount(QModelIndex())>0)
-        this->removeRows(0,rowCount(QModelIndex()));
+    //TODO add the new imported items instead of refreshing
+    m_rootItem->clearChildes();
 
     //adding the imported library
     BP_GraphNodeItem *variablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Variables");

@@ -18,6 +18,14 @@ BP_GraphNodeItem::BP_GraphNodeItem(BP_GraphNodeItem *parentItem,QObject *parent,
     }
 }
 
+BP_GraphNodeItem::~BP_GraphNodeItem()
+{
+    foreach (auto item, childItems) {
+        childItems.removeOne(item);
+        item->deleteLater();
+    }
+}
+
 BP_CoreObject *BP_GraphNodeItem::coreObject() const
 {
     return m_coreObject;
@@ -30,6 +38,14 @@ void BP_GraphNodeItem::setCoreObject(BP_CoreObject *coreObject)
 
     m_coreObject = coreObject;
     emit coreObjectChanged(m_coreObject);
+}
+
+void BP_GraphNodeItem::clearChildes()
+{
+    foreach (auto item, childItems) {
+        childItems.removeOne(item);
+        item->deleteLater();
+    }
 }
 
 

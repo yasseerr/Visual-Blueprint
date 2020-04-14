@@ -661,6 +661,14 @@ p, li { white-space: pre-wrap; }
     <string>add member variable</string>
    </property>
   </action>
+  <action name="actionopen_Node_Selection">
+   <property name="text">
+    <string>open Node Selection</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
   <zorder>importedDockWidget</zorder>
   <zorder>membersDockWidget</zorder>
  </widget>
