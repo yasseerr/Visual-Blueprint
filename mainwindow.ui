@@ -319,7 +319,13 @@ p, li { white-space: pre-wrap; }
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="QWidget" name="consoleWidgetContents"/>
+   <widget class="QWidget" name="consoleWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_6">
+     <item>
+      <widget class="QTreeView" name="tmpTreeView"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="modulesDockWidget">
    <property name="minimumSize">

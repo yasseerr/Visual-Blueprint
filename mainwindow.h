@@ -13,6 +13,8 @@
 
 #include <Modeling/Members/bp_membersmodel.h>
 
+#include <Modeling/Graph/bp_graphnodesmodel.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -45,6 +47,7 @@ private:
     BP_ImportedModel *m_impotedModel;
     BP_ImportsItem *m_rootImportsItem;
     BP_MembersModel *m_membersModel;
+    BP_GraphNodesModel *m_graphNodeModel;
     BP_Project* m_currentProject;
 };
 #endif // MAINWINDOW_H

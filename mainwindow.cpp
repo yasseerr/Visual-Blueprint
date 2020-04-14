@@ -49,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->membersTreeView->header()->setSectionResizeMode(1,QHeaderView::Stretch);
     ui->membersTreeView->setItemDelegateForColumn(1,new BP_MemberDelegate(currentProject()));
     m_membersModel->m_variablesItems->createVariablesMenu(QList<QAction*>() << ui->actionAdd_Variable);
+
+    //initiating GraphNodesModel
+    m_graphNodeModel = new BP_GraphNodesModel(m_currentProject);
+    ui->tmpTreeView->setModel(m_graphNodeModel);
 }
 
 MainWindow::~MainWindow()
