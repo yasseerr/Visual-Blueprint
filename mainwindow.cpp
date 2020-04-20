@@ -9,6 +9,8 @@
 
 #include <Modeling/Members/bp_memberdelegate.h>
 
+#include <Graph/bp_graphview.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -79,6 +81,10 @@ void MainWindow::createNewProject()
 
     //linking the imported model
     m_impotedModel->setProject(m_currentProject);
+
+
+    //adding the functions tabs
+    ui->functionsWidget->addTab(m_currentProject->entryGraph(),"Constructor Graph");
 }
 
 BP_Project *MainWindow::currentProject() const

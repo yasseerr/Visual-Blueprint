@@ -20,6 +20,7 @@ class BP_Module;
 class BP_Function;
 class BP_Variable;
 class BP_Class;
+class BP_GraphView;
 
 class BP_Project : public QObject
 {
@@ -32,6 +33,8 @@ class BP_Project : public QObject
     Q_PROPERTY(QList<BP_Class*> importedClasses READ importedClasses WRITE setImportedClasses NOTIFY importedClassesChanged)
 
     Q_PROPERTY(QList<BP_Variable*> memberVariables READ memberVariables WRITE setMemberVariables NOTIFY memberVariablesChanged)
+    Q_PROPERTY(BP_GraphView* entryGraph READ entryGraph WRITE setEntryGraph NOTIFY entryGraphChanged)
+    Q_PROPERTY(QList<BP_GraphView*> functionsGraphs READ functionsGraphs WRITE setFunctionsGraphs NOTIFY functionsGraphsChanged)
 
     QString m_projectName;
     BP_PlatformManager* m_platformManager;
@@ -39,8 +42,9 @@ class BP_Project : public QObject
     QList<BP_Function*> m_importedFunctions;
     QList<BP_Variable*> m_importedVariables;
     QList<BP_Class*> m_importedClasses;
-
     QList<BP_Variable*> m_memberVariables;
+    BP_GraphView* m_entryGraph;
+    QList<BP_GraphView*> m_functionsGraphs;
 
 public:
     explicit BP_Project(QString projectName,QObject *parent = nullptr);
@@ -67,6 +71,10 @@ public:
 
     QList<BP_Variable*> memberVariables() const;
 
+    BP_GraphView* entryGraph() const;
+
+    QList<BP_GraphView*> functionsGraphs() const;
+
 public slots:
     void setProjectName(QString projectName);
 
@@ -82,6 +90,10 @@ public slots:
 
     void setMemberVariables(QList<BP_Variable*> memberVariables);
 
+    void setEntryGraph(BP_GraphView* entryGraph);
+
+    void setFunctionsGraphs(QList<BP_GraphView*> functionsGraphs);
+
 signals:
     void importedItemsAdded(BP_CoreObject *newImportedObj);
 
@@ -92,6 +104,8 @@ signals:
     void importedVariablesChanged(QList<BP_Variable*> importedVariables);
     void importedClassesChanged(QList<BP_Class*> importedClasses);
     void memberVariablesChanged(QList<BP_Variable*> memberVariables);
+    void entryGraphChanged(BP_GraphView* entryGraph);
+    void functionsGraphsChanged(QList<BP_GraphView*> functionsGraphs);
 };
 
 #endif // BP_PROJECT_H

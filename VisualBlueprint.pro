@@ -24,6 +24,8 @@ SOURCES += \
     Core/bp_parameter.cpp \
     Core/bp_project.cpp \
     Core/bp_variable.cpp \
+    Graph/bp_graphview.cpp \
+    Graph/bp_node.cpp \
     Modeling/Graph/bp_graphnodeitem.cpp \
     Modeling/Graph/bp_graphnodesmodel.cpp \
     Modeling/Imports/bp_importedmodel.cpp \
@@ -57,6 +59,8 @@ HEADERS += \
     Core/bp_parameter.h \
     Core/bp_project.h \
     Core/bp_variable.h \
+    Graph/bp_graphview.h \
+    Graph/bp_node.h \
     Modeling/Graph/bp_graphnodeitem.h \
     Modeling/Graph/bp_graphnodesmodel.h \
     Modeling/Imports/bp_importedmodel.h \

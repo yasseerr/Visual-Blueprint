@@ -18,10 +18,12 @@
 #include <QDebug>
 #include <QVariantMap>
 
+#include <Graph/bp_graphview.h>
+
 BP_Project::BP_Project(QString projectName,QObject *parent) : QObject(parent),
     m_projectName(projectName)
 {
-
+    setEntryGraph(new BP_GraphView());
 }
 
 void BP_Project::setupPlatform()
@@ -119,6 +121,16 @@ QList<BP_Variable *> BP_Project::memberVariables() const
     return m_memberVariables;
 }
 
+BP_GraphView *BP_Project::entryGraph() const
+{
+    return m_entryGraph;
+}
+
+QList<BP_GraphView *> BP_Project::functionsGraphs() const
+{
+    return m_functionsGraphs;
+}
+
 void BP_Project::setProjectName(QString projectName)
 {
     if (m_projectName == projectName)
@@ -180,4 +192,22 @@ void BP_Project::setMemberVariables(QList<BP_Variable *> memberVariables)
 
     m_memberVariables = memberVariables;
     emit memberVariablesChanged(m_memberVariables);
+}
+
+void BP_Project::setEntryGraph(BP_GraphView *entryGraph)
+{
+    if (m_entryGraph == entryGraph)
+        return;
+
+    m_entryGraph = entryGraph;
+    emit entryGraphChanged(m_entryGraph);
+}
+
+void BP_Project::setFunctionsGraphs(QList<BP_GraphView *> functionsGraphs)
+{
+    if (m_functionsGraphs == functionsGraphs)
+        return;
+
+    m_functionsGraphs = functionsGraphs;
+    emit functionsGraphsChanged(m_functionsGraphs);
 }
