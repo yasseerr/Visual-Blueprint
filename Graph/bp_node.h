@@ -26,7 +26,7 @@ class BP_Node :public QObject, public QGraphicsItem
     BP_GraphView* m_connectedGraph;
 
 public:
-    BP_Node();
+    BP_Node(QObject *parent = nullptr);
     BP_Node(BP_GraphView *graphView);
     BP_CoreObject* coreObject() const;
     BP_GraphView* connectedGraph() const;

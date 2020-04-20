@@ -10,6 +10,8 @@
 #include "bp_coreobject.h"
 #include "bp_module.h"
 
+#include <Graph/bp_node.h>
+
 BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent)
 {
 
@@ -29,6 +31,13 @@ QString BP_CoreObject::getImportSourceString()
         retString += m_importHiearchy.at(0);
     }
     return  retString;
+}
+
+BP_Node *BP_CoreObject::createNodeForObject(QObject *parent)
+{
+    BP_Node *objectNode = new BP_Node(parent);
+    objectNode->setCoreObject(this);
+    return  objectNode;
 }
 
 QString BP_CoreObject::name() const

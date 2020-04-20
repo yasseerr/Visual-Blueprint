@@ -8,10 +8,18 @@
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
 #include "bp_graphview.h"
+#include "bp_node.h"
 
-BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph")
+BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(new QGraphicsScene())
 {
+    this->setScene(m_scene);
+}
 
+void BP_GraphView::addNode(BP_Node *newNode)
+{
+    m_nodes.append(newNode);
+    m_scene->addItem(newNode);
+    m_scene->update(newNode->boundingRect());
 }
 
 QString BP_GraphView::graphName() const

@@ -13,6 +13,9 @@
 #include <QDebug>
 #include <QFocusEvent>
 
+#include <Graph/bp_graphview.h>
+#include <Graph/bp_node.h>
+
 GraphNodesSelectionDialog::GraphNodesSelectionDialog(BP_GraphNodesModel *graphNodesModel, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::GraphNodesSelectionDialog),
@@ -30,6 +33,7 @@ GraphNodesSelectionDialog::GraphNodesSelectionDialog(BP_GraphNodesModel *graphNo
     ui->nodesTreeView->expandAll();
     //m_graphProxyModel.setfi
     connect(ui->lineEdit,&QLineEdit::textChanged,this,&GraphNodesSelectionDialog::selectionTextChanged);
+    connect(ui->nodesTreeView,&QTreeView::clicked,this,&GraphNodesSelectionDialog::graphTreeClickedEvent);
 
 }
 
@@ -38,17 +42,43 @@ GraphNodesSelectionDialog::~GraphNodesSelectionDialog()
     delete ui;
 }
 
+BP_Project *GraphNodesSelectionDialog::currentProject() const
+{
+    return m_currentProject;
+}
+
 void GraphNodesSelectionDialog::selectionTextChanged(QString newText)
 {
     m_graphProxyModel->setFilterFixedString(newText);
     ui->nodesTreeView->expandAll();
 }
 
+void GraphNodesSelectionDialog::graphTreeClickedEvent(QModelIndex index)
+{
+    qDebug() << "item clicked : " << index.row();
+    BP_GraphNodeItem *item = m_graphNodesModel->itemForIndex(m_graphProxyModel->mapToSource(index));
+    if(item->coreObject() != nullptr){
+        BP_Node *node = item->coreObject()->createNodeForObject(m_currentProject->entryGraph());
+        node->setCoreObject(item->coreObject());
+        m_currentProject->entryGraph()->addNode(node);
+    }
+
+}
+
+void GraphNodesSelectionDialog::setCurrentProject(BP_Project *currentProject)
+{
+    if (m_currentProject == currentProject)
+        return;
+
+    m_currentProject = currentProject;
+    emit currentProjectChanged(m_currentProject);
+}
+
 void GraphNodesSelectionDialog::focusOutEvent(QFocusEvent *event)
 {
     QDialog::focusOutEvent(event);
     qDebug() << "focus out";
-//    if(ui->lineEdit->hasFocus() || ui->nodesTreeView->hasFocus()) return;
+    //    if(ui->lineEdit->hasFocus() || ui->nodesTreeView->hasFocus()) return;
     //    this->reject();
 }
 

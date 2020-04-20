@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_graphNodeModel = new BP_GraphNodesModel(m_currentProject);
     //ui->tmpTreeView->setModel(m_graphNodeModel);
     m_graphNodesDialog = new GraphNodesSelectionDialog(m_graphNodeModel,this);
+    m_graphNodesDialog->setCurrentProject(m_currentProject);
 }
 
 MainWindow::~MainWindow()
@@ -84,7 +85,8 @@ void MainWindow::createNewProject()
 
 
     //adding the functions tabs
-    ui->functionsWidget->addTab(m_currentProject->entryGraph(),"Constructor Graph");
+    int tabIndex = ui->functionsWidget->addTab(m_currentProject->entryGraph(),"Constructor Graph");
+    ui->functionsWidget->setCurrentIndex(tabIndex);
 }
 
 BP_Project *MainWindow::currentProject() const

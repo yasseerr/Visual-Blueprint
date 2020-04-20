@@ -7,11 +7,14 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_graphview.h"
 #include "bp_node.h"
 
 #include <QPainter>
 
-BP_Node::BP_Node()
+#include <Core/bp_coreobject.h>
+
+BP_Node::BP_Node(QObject *parent):QObject(parent),m_coreObject(nullptr)
 {
 
 }
@@ -58,4 +61,6 @@ void BP_Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 {
     painter->setBrush(Qt::green);
     painter->drawRect(boundingRect());
+    if(m_coreObject != nullptr)
+        painter->drawText(0,0,m_coreObject->name());
 }
