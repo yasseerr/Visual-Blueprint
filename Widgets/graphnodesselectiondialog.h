@@ -40,6 +40,7 @@ private:
     // QWidget interface
 protected:
     virtual void focusOutEvent(QFocusEvent *event) override;
+    virtual void focusInEvent(QFocusEvent *event) override;
 };
 
 #endif // GRAPHNODESSELECTIONDIALOG_H

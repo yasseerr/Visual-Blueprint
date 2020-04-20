@@ -10,6 +10,7 @@
 #include "variableeditorwidget.h"
 #include "ui_variableeditorwidget.h"
 
+#include <QAbstractItemView>
 #include <QDebug>
 #include <QStringListModel>
 
@@ -30,6 +31,7 @@ VariableEditorWidget::VariableEditorWidget(QWidget *parent) :
     multiplicityModel->appendRow(listItem);
     multiplicityModel->appendRow(matrixItem);
     ui->comboBox->setModel(multiplicityModel);
+    ui->comboBox->view()->setMinimumWidth(100);
 
     connect(ui->toolButton,&QToolButton::clicked,this,&VariableEditorWidget::onConfirmClicked);
 }
@@ -49,6 +51,18 @@ void VariableEditorWidget::setComboModel(QStringList classesList)
 {
     classesModel->setStringList(classesList);
     ui->classComboBox->setModel(classesModel);
+    ui->classComboBox->view()->setMinimumWidth(calculateClassesDropDownWidth(classesList));
+}
+
+int VariableEditorWidget::calculateClassesDropDownWidth(QStringList classesList)
+{
+    int maxLenght = 0;
+    foreach (QString className, classesList) {
+       int classNameWidth = ui->classComboBox->fontMetrics().boundingRect(className).width();
+       if(classNameWidth > maxLenght)
+           maxLenght = classNameWidth;
+    }
+    return  maxLenght;
 }
 
 QString VariableEditorWidget::getClassName()

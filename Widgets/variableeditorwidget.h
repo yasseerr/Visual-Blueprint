@@ -29,6 +29,7 @@ public:
 
     void setEditorData(QString className,int multiplicityIndex);
     void setComboModel(QStringList classesList);
+    int calculateClassesDropDownWidth(QStringList classesList);
 
     QString getClassName();
     int getMultiplictyIndex();

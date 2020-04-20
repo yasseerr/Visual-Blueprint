@@ -12,6 +12,7 @@
 #include <Widgets/variableeditorwidget.h>
 
 #include <Core/bp_class.h>
+#include <Core/bp_module.h>
 
 BP_MemberDelegate::BP_MemberDelegate(BP_Project *connectedProject):m_connectedProject(connectedProject)
 {
@@ -51,6 +52,11 @@ QStringList BP_MemberDelegate::getProjectClasses() const
     QStringList retList;
     foreach(BP_Class *bp_class, m_connectedProject->importedClasses()) {
         retList << bp_class->name();
+    }
+    foreach (BP_Module *module, m_connectedProject->importedModules()) {
+        foreach(BP_Class *bp_class, module->classes()) {
+            retList << bp_class->name();
+        }
     }
     return  retList;
 }

@@ -49,5 +49,11 @@ void GraphNodesSelectionDialog::focusOutEvent(QFocusEvent *event)
     QDialog::focusOutEvent(event);
     qDebug() << "focus out";
 //    if(ui->lineEdit->hasFocus() || ui->nodesTreeView->hasFocus()) return;
-//    this->reject();
+    //    this->reject();
+}
+
+void GraphNodesSelectionDialog::focusInEvent(QFocusEvent *event)
+{
+    QDialog::focusInEvent(event);
+    ui->lineEdit->setFocus();
 }
