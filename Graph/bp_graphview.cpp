@@ -15,8 +15,10 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
     this->setScene(m_scene);
 }
 
-void BP_GraphView::addNode(BP_Node *newNode)
+void BP_GraphView::addNode(BP_Node *newNode,QPoint globalPosition)
 {
+    auto newNodePos = mapFromGlobal(globalPosition);
+    newNode->setPos(newNodePos);
     m_nodes.append(newNode);
     m_scene->addItem(newNode);
     m_scene->update(newNode->boundingRect());

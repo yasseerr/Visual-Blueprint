@@ -115,6 +115,7 @@ void MainWindow::on_actionopen_Node_Selection_triggered()
 {
     m_graphNodesDialog->show();
     m_graphNodesDialog->setFocus();
+    //the position of the generated node is in the dialog geometry
     m_graphNodesDialog->setGeometry(QRect(QCursor::pos(),m_graphNodesDialog->geometry().size()));
     qDebug() << "it should be opened by now";
 }

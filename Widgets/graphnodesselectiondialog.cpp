@@ -60,7 +60,9 @@ void GraphNodesSelectionDialog::graphTreeClickedEvent(QModelIndex index)
     if(item->coreObject() != nullptr){
         BP_Node *node = item->coreObject()->createNodeForObject(m_currentProject->entryGraph());
         node->setCoreObject(item->coreObject());
-        m_currentProject->entryGraph()->addNode(node);
+
+        m_currentProject->entryGraph()->addNode(node,this->pos());
+        this->hide();
     }
 
 }

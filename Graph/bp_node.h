@@ -25,6 +25,12 @@ class BP_Node :public QObject, public QGraphicsItem
     BP_CoreObject* m_coreObject;
     BP_GraphView* m_connectedGraph;
 
+
+    //TODO create node fonts
+
+    //painter members
+    QRectF m_bounds;
+
 public:
     BP_Node(QObject *parent = nullptr);
     BP_Node(BP_GraphView *graphView);

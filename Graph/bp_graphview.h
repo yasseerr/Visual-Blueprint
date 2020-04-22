@@ -25,7 +25,7 @@ class BP_GraphView : public QGraphicsView
 public:
     BP_GraphView();
 
-    void addNode(BP_Node *newNode);
+    void addNode(BP_Node *newNode,QPoint globalPosition);
 
     QString graphName() const;
     QList<BP_Node*> nodes() const;
