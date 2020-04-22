@@ -401,6 +401,9 @@ p, li { white-space: pre-wrap; }
      </property>
      <item>
       <widget class="QTreeView" name="membersTreeView">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="rootIsDecorated">
         <bool>true</bool>
        </property>

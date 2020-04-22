@@ -14,6 +14,8 @@
 #include <Core/bp_class.h>
 #include <Core/bp_module.h>
 
+#include <QPainter>
+
 BP_MemberDelegate::BP_MemberDelegate(BP_Project *connectedProject):m_connectedProject(connectedProject)
 {
 
@@ -47,6 +49,15 @@ void BP_MemberDelegate::updateEditorGeometry(QWidget *editor, const QStyleOption
 {
     editor->setGeometry(option.rect);
 }
+
+//void BP_MemberDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+//{
+//    if(option.state & QStyle::State_Selected){
+//        painter->setBrush(option.palette.highlight());
+//        painter->drawRect(option.rect);
+//    }
+//    //QItemDelegate::paint(painter,option,index);
+//}
 QStringList BP_MemberDelegate::getProjectClasses() const
 {
     QStringList retList;

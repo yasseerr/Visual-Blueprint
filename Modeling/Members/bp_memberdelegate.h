@@ -12,10 +12,11 @@
 
 #include <QItemDelegate>
 #include <QObject>
+#include <QStyledItemDelegate>
 
 #include <Core/bp_project.h>
 
-class BP_MemberDelegate : public QItemDelegate
+class BP_MemberDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
@@ -30,6 +31,7 @@ public:
     virtual void setEditorData(QWidget *editor, const QModelIndex &index) const override;
     virtual void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
     virtual void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    //virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 #endif // BP_MEMBERDELEGATE_H
