@@ -11,6 +11,10 @@
 #include "bp_module.h"
 #include "bp_variable.h"
 
+#include <Graph/bp_node.h>
+
+#include <Graph/Nodes/bp_variablenode.h>
+
 BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *moduleHiearchy) : BP_CoreObject(parent),
    m_isPrimitive(false),
    m_isArray(false),
@@ -158,4 +162,12 @@ void BP_Variable::setClassModuleHiearchy(QStringList classModuleHiearchy)
 
     m_classModuleHiearchy = classModuleHiearchy;
     emit classModuleHiearchyChanged(m_classModuleHiearchy);
+}
+
+BP_Node *BP_Variable::createNodeForObject(QObject *parent)
+{
+    BP_VariableNode *variableNode = new BP_VariableNode(this);
+    variableNode->setParent(parent);
+    variableNode->setCoreObject(this);
+    return  variableNode;
 }

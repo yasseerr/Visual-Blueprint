@@ -96,6 +96,10 @@ signals:
     void owningModuleChanged(BP_Module* owningModule);
     void classNameChanged(QString className);
     void classModuleHiearchyChanged(QStringList classModuleHiearchy);
+
+    // BP_CoreObject interface
+public:
+    virtual BP_Node *createNodeForObject(QObject *parent) override;
 };
 
 #endif // BP_VARIABLE_H
