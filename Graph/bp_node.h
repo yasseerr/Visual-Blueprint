@@ -28,6 +28,7 @@ class BP_Node :public QObject, public QGraphicsItem
 
     //TODO create node fonts
 
+public :
     //painter members
     QRectF m_bounds;
 
@@ -49,6 +50,7 @@ signals:
 public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    virtual void calculateBounds();
 };
 
 #endif // BP_NODE_H

@@ -24,8 +24,10 @@ SOURCES += \
     Core/bp_parameter.cpp \
     Core/bp_project.cpp \
     Core/bp_variable.cpp \
+    Graph/Nodes/bp_functionnode.cpp \
     Graph/Nodes/bp_variablenode.cpp \
     Graph/Slots/bp_dataslot.cpp \
+    Graph/Slots/bp_flowslot.cpp \
     Graph/bp_graphview.cpp \
     Graph/bp_node.cpp \
     Graph/bp_slot.cpp \
@@ -62,8 +64,10 @@ HEADERS += \
     Core/bp_parameter.h \
     Core/bp_project.h \
     Core/bp_variable.h \
+    Graph/Nodes/bp_functionnode.h \
     Graph/Nodes/bp_variablenode.h \
     Graph/Slots/bp_dataslot.h \
+    Graph/Slots/bp_flowslot.h \
     Graph/bp_graphview.h \
     Graph/bp_node.h \
     Graph/bp_slot.h \

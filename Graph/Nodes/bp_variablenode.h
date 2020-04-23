@@ -28,11 +28,11 @@ class BP_VariableNode : public BP_Node
     BP_DataSlot* m_outputSlot;
 
 public:
-    BP_VariableNode(BP_Variable *variable = nullptr);
+    BP_VariableNode();
 
     // QGraphicsItem interface
 public:
-    virtual QRectF boundingRect() const override;
+    void calculateBounds() override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     BP_Variable* variableObject() const;
     BP_DataSlot* outputSlot() const;

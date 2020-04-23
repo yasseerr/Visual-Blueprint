@@ -12,6 +12,8 @@
 
 #include <QVariantMap>
 
+#include <Graph/Nodes/bp_functionnode.h>
+
 BP_Function::BP_Function(QVariantMap *functionMap,QObject *parent) : BP_CoreObject(parent),
     m_returnArg(nullptr),
     m_owningClass(nullptr),
@@ -147,4 +149,13 @@ void BP_Function::setIsFullyImported(bool isFullyImported)
 
     m_isFullyImported = isFullyImported;
     emit isFullyImportedChanged(m_isFullyImported);
+}
+
+BP_Node *BP_Function::createNodeForObject(QObject *parent)
+{
+    BP_FunctionNode *functionNode = new BP_FunctionNode();
+    functionNode->setParent(parent);
+    functionNode->setCoreObject(this);
+    functionNode->setFunctionObject(this);
+    return  functionNode;
 }

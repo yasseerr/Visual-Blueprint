@@ -12,6 +12,9 @@
 
 BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(new QGraphicsScene())
 {
+    //configure the view
+    this->setMouseTracking(true);
+
     this->setScene(m_scene);
 }
 

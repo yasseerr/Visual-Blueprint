@@ -11,16 +11,20 @@
 
 #include <Graph/Slots/bp_dataslot.h>
 
-BP_VariableNode::BP_VariableNode(BP_Variable *variable):BP_Node(),m_variableObject(variable),m_outputSlot(new BP_DataSlot(this))
+BP_VariableNode::BP_VariableNode():BP_Node(),m_variableObject(nullptr),m_outputSlot(new BP_DataSlot(this))
 {
-    m_outputSlot->setPos(0,0);
     m_outputSlot->setParentItem(this);
+
 }
 
-QRectF BP_VariableNode::boundingRect() const
+void BP_VariableNode::calculateBounds()
 {
-    return  BP_Node::boundingRect();
+    BP_Node::calculateBounds();
+    m_bounds.setHeight(30);
+    m_bounds.setWidth(m_bounds.width()+30);
+    m_outputSlot->setPos(m_outputSlot->mapFromParent(m_bounds.width()-17,-7));
 }
+
 
 void BP_VariableNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -41,7 +45,6 @@ void BP_VariableNode::setVariableObject(BP_Variable *variableObject)
 {
     if (m_variableObject == variableObject)
         return;
-
     m_variableObject = variableObject;
     emit variableObjectChanged(m_variableObject);
 }

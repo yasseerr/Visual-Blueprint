@@ -7,37 +7,18 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "bp_slot.h"
+#ifndef BP_FLOWSLOT_H
+#define BP_FLOWSLOT_H
 
-#include <QPainter>
+#include <QObject>
 
-BP_Slot::BP_Slot(QObject *parent) : QObject(parent)
+#include <Graph/bp_slot.h>
+
+class BP_FlowSlot : public BP_Slot
 {
-    setPos(0,0);
-}
+    Q_OBJECT
+public:
+    BP_FlowSlot(QObject *parent = nullptr);
+};
 
-QRectF BP_Slot::boundingRect() const
-{
-    return QRectF(0,0,15,15);
-}
-
-void BP_Slot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    painter->setBrush(Qt::blue);
-    painter->drawEllipse(boundingRect());
-
-}
-
-BP_Node *BP_Slot::parentNode() const
-{
-    return m_parentNode;
-}
-
-void BP_Slot::setParentNode(BP_Node *parentNode)
-{
-    if (m_parentNode == parentNode)
-        return;
-
-    m_parentNode = parentNode;
-    emit parentNodeChanged(m_parentNode);
-}
+#endif // BP_FLOWSLOT_H

@@ -89,6 +89,10 @@ signals:
     void hasKeyWordsChanged(bool hasKeyWords);
     void hasPositionalChanged(bool hasPositional);
     void isFullyImportedChanged(bool isFullyImported);
+
+    // BP_CoreObject interface
+public:
+    virtual BP_Node *createNodeForObject(QObject *parent) override;
 };
 
 #endif // BP_FUNCTION_H

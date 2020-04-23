@@ -14,9 +14,11 @@
 
 #include <Core/bp_coreobject.h>
 
-BP_Node::BP_Node(QObject *parent):QObject(parent),m_coreObject(nullptr),m_bounds(0,0,100,50)
+BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50)
 {
 
+    //Graphic item configurations
+    this->setFlags(ItemIsMovable|ItemIsSelectable);
 }
 
 BP_Node::BP_Node(BP_GraphView *graphView):m_connectedGraph(graphView)
@@ -40,11 +42,7 @@ void BP_Node::setCoreObject(BP_CoreObject *coreObject)
         return;
 
     m_coreObject = coreObject;
-
-    if(m_coreObject != nullptr){
-        m_bounds = QFontMetrics(QFont()).boundingRect(m_coreObject->name());
-    }
-
+    calculateBounds();
     emit coreObjectChanged(m_coreObject);
 }
 
@@ -65,7 +63,14 @@ QRectF BP_Node::boundingRect() const
 void BP_Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(Qt::green);
-    painter->fillRect(boundingRect(),Qt::green);
+    painter->drawRect(boundingRect());
     if(m_coreObject != nullptr)
         painter->drawText(0,0,m_coreObject->name());
+}
+
+void BP_Node::calculateBounds()
+{
+    if(m_coreObject != nullptr){
+        m_bounds = QFontMetrics(QFont()).boundingRect(m_coreObject->name());
+    }
 }
