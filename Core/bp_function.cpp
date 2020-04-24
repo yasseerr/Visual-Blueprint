@@ -155,7 +155,7 @@ BP_Node *BP_Function::createNodeForObject(QObject *parent)
 {
     BP_FunctionNode *functionNode = new BP_FunctionNode();
     functionNode->setParent(parent);
-    functionNode->setCoreObject(this);
     functionNode->setFunctionObject(this);
+    functionNode->setCoreObject(this);
     return  functionNode;
 }

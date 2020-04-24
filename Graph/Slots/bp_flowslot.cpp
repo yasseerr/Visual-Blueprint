@@ -9,7 +9,17 @@
  ***************************************************************************/
 #include "bp_flowslot.h"
 
-BP_FlowSlot::BP_FlowSlot(QObject *parent):BP_Slot(parent)
+#include <qpainter.h>
+
+BP_FlowSlot::BP_FlowSlot(BP_Node *parent):BP_Slot(parent)
 {
+    trianglePolygone << QPoint(0,0) << QPoint(0,14) << QPoint(12,7);
+}
+
+void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+
+    painter->setBrush(Qt::white);
+    painter->drawPolygon(trianglePolygone);
 
 }

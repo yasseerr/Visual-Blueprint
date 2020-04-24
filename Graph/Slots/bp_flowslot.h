@@ -17,8 +17,15 @@
 class BP_FlowSlot : public BP_Slot
 {
     Q_OBJECT
+
+
+    QPolygon trianglePolygone;
 public:
-    BP_FlowSlot(QObject *parent = nullptr);
+    BP_FlowSlot(BP_Node *parent = nullptr);
+
+    // QGraphicsItem interface
+public:
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 #endif // BP_FLOWSLOT_H

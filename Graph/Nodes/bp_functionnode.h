@@ -41,16 +41,18 @@ private:
 
 public:
     BP_FunctionNode(QObject *parent = nullptr);
+
+public:
+
+    void loadCurrentFunction();
+
     BP_FlowSlot* executionflowInSlot() const;
     BP_FlowSlot* executionflowOutSlot() const;
 
     QList<BP_DataSlot*> inputParameters() const;
     BP_DataSlot* returnSlot() const;
 
-    BP_Function* functionObject() const
-    {
-        return m_functionObject;
-    }
+    BP_Function* functionObject() const;
 
 public slots:
     void setExecutionflowInSlot(BP_FlowSlot* executionflowInSlot);

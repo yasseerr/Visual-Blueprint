@@ -7,13 +7,14 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_node.h"
 #include "bp_slot.h"
 
 #include <QPainter>
 
-BP_Slot::BP_Slot(QObject *parent) : QObject(parent)
+BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent)
 {
-    setPos(0,0);
+    setParentItem(parent);
 }
 
 QRectF BP_Slot::boundingRect() const
@@ -23,7 +24,7 @@ QRectF BP_Slot::boundingRect() const
 
 void BP_Slot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::blue);
+    painter->setBrush(Qt::yellow);
     painter->drawEllipse(boundingRect());
 
 }

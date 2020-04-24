@@ -25,7 +25,7 @@ class BP_Slot : public QObject , public QGraphicsItem
     BP_Node* m_parentNode;
 
 public:
-    explicit BP_Slot(QObject *parent = nullptr);
+    explicit BP_Slot(BP_Node *parent = nullptr);
 
 signals:
     void parentNodeChanged(BP_Node* parentNode);
