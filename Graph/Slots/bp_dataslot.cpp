@@ -56,7 +56,8 @@ void BP_DataSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         painter->drawText(0,15,"return");
         painter->drawEllipse(QRectF(m_parameterWidth,3,16,16));
     }else {
-        painter->drawText(20,15,m_parameterObject->parameterName());
+        if(m_parameterObject)
+            painter->drawText(20,15,m_parameterObject->parameterName());
         painter->drawEllipse(QRectF(0,3,16,16));
     }
 }

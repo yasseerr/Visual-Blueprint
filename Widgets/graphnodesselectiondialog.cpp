@@ -29,11 +29,13 @@ GraphNodesSelectionDialog::GraphNodesSelectionDialog(BP_GraphNodesModel *graphNo
     m_graphProxyModel->setFilterCaseSensitivity(Qt::CaseSensitivity::CaseInsensitive);
     m_graphProxyModel->setSourceModel(m_graphNodesModel);
     m_graphProxyModel->setRecursiveFilteringEnabled(true);
+    //m_graphProxyModel->setDynamicSortFilter(true);
     ui->nodesTreeView->setModel(m_graphProxyModel);
     ui->nodesTreeView->expandAll();
     //m_graphProxyModel.setfi
     connect(ui->lineEdit,&QLineEdit::textChanged,this,&GraphNodesSelectionDialog::selectionTextChanged);
     connect(ui->nodesTreeView,&QTreeView::clicked,this,&GraphNodesSelectionDialog::graphTreeClickedEvent);
+    //connect(m_graphNodesModel,&BP_GraphNodesModel::layoutChanged,this,&GraphNodesSelectionDialog::updateProxyModel);
 
 }
 
@@ -62,9 +64,16 @@ void GraphNodesSelectionDialog::graphTreeClickedEvent(QModelIndex index)
         node->setCoreObject(item->coreObject());
 
         m_currentProject->entryGraph()->addNode(node,this->pos());
+        //thi is added to fix the bug when the model change and the selected item does not exist there anymore
+        ui->nodesTreeView->setCurrentIndex(m_graphNodesModel->indexForItem(m_graphNodesModel->rootItem()));
         this->hide();
     }
 
+}
+
+void GraphNodesSelectionDialog::updateProxyModel()
+{
+    emit m_graphProxyModel->layoutChanged();
 }
 
 void GraphNodesSelectionDialog::setCurrentProject(BP_Project *currentProject)

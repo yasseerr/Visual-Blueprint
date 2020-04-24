@@ -44,7 +44,6 @@ public:
     BP_GraphNodeItem* rootItem() const;
     BP_Project* connectedProject() const;
 
-
 public slots:
     void updateModule();
 

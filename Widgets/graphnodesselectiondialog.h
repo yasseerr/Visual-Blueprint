@@ -34,6 +34,7 @@ public:
 public slots:
     void selectionTextChanged(QString newText);
     void graphTreeClickedEvent(QModelIndex index);
+    void updateProxyModel();
 
     void setCurrentProject(BP_Project* currentProject);
 
