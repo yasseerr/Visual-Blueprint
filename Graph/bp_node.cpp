@@ -10,6 +10,7 @@
 #include "bp_graphview.h"
 #include "bp_node.h"
 
+#include <QDebug>
 #include <QPainter>
 
 #include <Core/bp_coreobject.h>
@@ -66,6 +67,20 @@ void BP_Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->drawRect(boundingRect());
     if(m_coreObject != nullptr)
         painter->drawText(0,0,m_coreObject->name());
+}
+
+void BP_Node::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dragMoveEvent(event);
+    //TODO only update the links for optimisation
+    //qDebug() << "dragged";
+    //scene()->update();
+}
+
+void BP_Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseMoveEvent(event);
+    scene()->update();
 }
 
 void BP_Node::calculateBounds()

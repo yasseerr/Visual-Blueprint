@@ -27,8 +27,13 @@ class BP_Slot : public QObject , public QGraphicsItem
 
     QList<BP_Link*> m_connectedLinks;
 
+    //created on mouse clicked and the added when there is a full connection
+    BP_Link *temporaryLink;
+
 public:
     explicit BP_Slot(BP_Node *parent = nullptr);
+
+    virtual QPointF getAnchorPoint();
 
 signals:
     void parentNodeChanged(BP_Node* parentNode);
@@ -44,6 +49,12 @@ public:
 public slots:
     void setParentNode(BP_Node* parentNode);
     void setConnectedLinks(QList<BP_Link*> connectedLinks);
+
+    // QGraphicsItem interface
+protected:
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // BP_SLOT_H

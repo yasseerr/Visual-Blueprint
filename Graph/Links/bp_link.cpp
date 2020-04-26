@@ -20,21 +20,21 @@ BP_Link::BP_Link(QObject *parent):QObject(parent),QGraphicsItem(),m_inSlot(nullp
 
 QRectF BP_Link::boundingRect() const
 {
-    if(m_outSlot == nullptr && m_inSlot == nullptr)
-        return QRectF(0,0,0,0);
-    else if(m_outSlot == nullptr && m_inSlot != nullptr)
-        return  QRectF(m_inSlot->pos(),m_tempOutputPoint);
+    if(m_outSlot == nullptr && m_inSlot != nullptr)
+        return  QRectF(m_inSlot->getAnchorPoint(),m_tempOutputPoint);
     else if(m_outSlot != nullptr && m_inSlot != nullptr)
-        return  QRectF(m_inSlot->pos(),m_outSlot->pos());
+        return  QRectF(m_inSlot->getAnchorPoint(),m_outSlot->getAnchorPoint());
+    else
+        return  QRectF(0,0,0,0);
 }
 
 void BP_Link::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(Qt::black);
     if(m_outSlot == nullptr && m_inSlot != nullptr)
-        painter->drawLine(m_inSlot->pos(),m_tempOutputPoint);
+        painter->drawLine(m_inSlot->getAnchorPoint(),m_tempOutputPoint);
     if(m_outSlot != nullptr && m_inSlot != nullptr)
-        painter->drawLine(m_inSlot->pos(),m_outSlot->pos());
+        painter->drawLine(m_inSlot->getAnchorPoint(),m_outSlot->getAnchorPoint());
 }
 
 BP_Slot *BP_Link::inSlot() const
@@ -58,6 +58,8 @@ void BP_Link::setInSlot(BP_Slot *inSlot)
         return;
 
     m_inSlot = inSlot;
+    m_inSlotPoint = m_inSlot->getAnchorPoint();
+
     emit inSlotChanged(m_inSlot);
 }
 
@@ -67,6 +69,7 @@ void BP_Link::setOutSlot(BP_Slot *outSlot)
         return;
 
     m_outSlot = outSlot;
+    m_outSlotPoint = m_outSlot->getAnchorPoint();
     emit outSlotChanged(m_outSlot);
 }
 

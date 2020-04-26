@@ -62,7 +62,21 @@ void BP_DataSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     }
 }
 
+QPointF BP_DataSlot::getAnchorPoint()
+{
+    QPoint offset;
+    if(isOutput()){
+        offset.setX(m_parameterWidth+8);
+        offset.setY(3+8);
+    }else {
+        offset.setX(8);
+        offset.setY(3+8);
+    }
+    return this->scenePos() + offset;
+}
+
 bool BP_DataSlot::isOutput() const
 {
+
     return m_isOutput;
 }

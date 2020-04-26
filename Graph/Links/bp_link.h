@@ -20,9 +20,15 @@ class BP_Link :public QObject, public QGraphicsItem
     Q_OBJECT
     Q_PROPERTY(BP_Slot* inSlot READ inSlot WRITE setInSlot NOTIFY inSlotChanged)
     Q_PROPERTY(BP_Slot* outSlot READ outSlot WRITE setOutSlot NOTIFY outSlotChanged)
+    Q_PROPERTY(QPointF tempOutputPoint READ tempOutputPoint WRITE setTempOutputPoint NOTIFY tempOutputPointChanged)
 
     BP_Slot* m_inSlot;
     BP_Slot* m_outSlot;
+
+
+    QPointF m_tempOutputPoint;
+    QPointF m_inSlotPoint;
+    QPointF m_outSlotPoint;
 
 public:
     BP_Link(QObject *parent = nullptr);
@@ -36,13 +42,18 @@ public:
     BP_Slot* inSlot() const;
     BP_Slot* outSlot() const;
 
+    QPointF tempOutputPoint() const;
+
 public slots:
     void setInSlot(BP_Slot* inSlot);
     void setOutSlot(BP_Slot* outSlot);
 
+    void setTempOutputPoint(QPointF tempOutputPoint);
+
 signals:
     void inSlotChanged(BP_Slot* inSlot);
     void outSlotChanged(BP_Slot* outSlot);
+    void tempOutputPointChanged(QPointF tempOutputPoint);
 };
 
 #endif // BP_LINK_H
