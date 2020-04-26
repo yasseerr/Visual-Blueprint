@@ -11,6 +11,10 @@
 
 #include <Graph/Slots/bp_dataslot.h>
 
+#include <qpainter.h>
+
+#include <Core/bp_variable.h>
+
 BP_VariableNode::BP_VariableNode():BP_Node(),m_variableObject(nullptr),m_outputSlot(new BP_DataSlot(this))
 {
     m_outputSlot->setParentItem(this);
@@ -28,7 +32,11 @@ void BP_VariableNode::calculateBounds()
 
 void BP_VariableNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    BP_Node::paint(painter,option,widget);
+    //BP_Node::paint(painter,option,widget);
+    //painter->setPen(Qt::);
+    painter->setBrush(Qt::GlobalColor::green);
+    painter->drawRoundedRect(boundingRect(),2,2);
+    painter->drawText(5,7,m_variableObject->name());
 }
 
 BP_Variable *BP_VariableNode::variableObject() const

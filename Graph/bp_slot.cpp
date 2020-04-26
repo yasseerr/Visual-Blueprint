@@ -34,6 +34,11 @@ BP_Node *BP_Slot::parentNode() const
     return m_parentNode;
 }
 
+QList<BP_Link *> BP_Slot::connectedLinks() const
+{
+    return m_connectedLinks;
+}
+
 void BP_Slot::setParentNode(BP_Node *parentNode)
 {
     if (m_parentNode == parentNode)
@@ -41,4 +46,13 @@ void BP_Slot::setParentNode(BP_Node *parentNode)
 
     m_parentNode = parentNode;
     emit parentNodeChanged(m_parentNode);
+}
+
+void BP_Slot::setConnectedLinks(QList<BP_Link *> connectedLinks)
+{
+    if (m_connectedLinks == connectedLinks)
+        return;
+
+    m_connectedLinks = connectedLinks;
+    emit connectedLinksChanged(m_connectedLinks);
 }

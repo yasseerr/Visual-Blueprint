@@ -7,43 +7,42 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#ifndef BP_SLOT_H
-#define BP_SLOT_H
+#ifndef BP_LINK_H
+#define BP_LINK_H
 
 #include <QGraphicsItem>
 #include <QObject>
 
-class BP_Node;
-class BP_Link;
-//TODO add the link member
+class BP_Slot;
 
-class BP_Slot : public QObject , public QGraphicsItem
+class BP_Link :public QObject, public QGraphicsItem
 {
     Q_OBJECT
-    Q_PROPERTY(BP_Node* parentNode READ parentNode WRITE setParentNode NOTIFY parentNodeChanged)
-    Q_PROPERTY(QList<BP_Link*> connectedLinks READ connectedLinks WRITE setConnectedLinks NOTIFY connectedLinksChanged)
+    Q_PROPERTY(BP_Slot* inSlot READ inSlot WRITE setInSlot NOTIFY inSlotChanged)
+    Q_PROPERTY(BP_Slot* outSlot READ outSlot WRITE setOutSlot NOTIFY outSlotChanged)
 
-    BP_Node* m_parentNode;
-
-    QList<BP_Link*> m_connectedLinks;
+    BP_Slot* m_inSlot;
+    BP_Slot* m_outSlot;
 
 public:
-    explicit BP_Slot(BP_Node *parent = nullptr);
+    BP_Link(QObject *parent = nullptr);
 
-signals:
-    void parentNodeChanged(BP_Node* parentNode);
-
-    void connectedLinksChanged(QList<BP_Link*> connectedLinks);
-
+    // QGraphicsItem interface
 public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    BP_Node* parentNode() const;
-    QList<BP_Link*> connectedLinks() const;
+
+
+    BP_Slot* inSlot() const;
+    BP_Slot* outSlot() const;
 
 public slots:
-    void setParentNode(BP_Node* parentNode);
-    void setConnectedLinks(QList<BP_Link*> connectedLinks);
+    void setInSlot(BP_Slot* inSlot);
+    void setOutSlot(BP_Slot* outSlot);
+
+signals:
+    void inSlotChanged(BP_Slot* inSlot);
+    void outSlotChanged(BP_Slot* outSlot);
 };
 
-#endif // BP_SLOT_H
+#endif // BP_LINK_H

@@ -27,16 +27,16 @@
     <number>2</number>
    </property>
    <property name="leftMargin">
-    <number>7</number>
+    <number>4</number>
    </property>
    <property name="topMargin">
-    <number>7</number>
+    <number>4</number>
    </property>
    <property name="rightMargin">
-    <number>7</number>
+    <number>4</number>
    </property>
    <property name="bottomMargin">
-    <number>7</number>
+    <number>4</number>
    </property>
    <item>
     <widget class="QLineEdit" name="lineEdit">

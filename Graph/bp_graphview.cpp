@@ -16,6 +16,7 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
     this->setMouseTracking(true);
 
     this->setScene(m_scene);
+    setRenderHint(QPainter::Antialiasing);
 }
 
 void BP_GraphView::addNode(BP_Node *newNode,QPoint globalPosition)

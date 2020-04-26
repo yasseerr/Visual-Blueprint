@@ -124,7 +124,7 @@ void BP_FunctionNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     //Drawing the header
     painter->setBrush(Qt::darkBlue);
     painter->setPen(Qt::white);
-    painter->drawRect(1,1,m_bounds.width()-2,30);
+    painter->drawRect(0,0,m_bounds.width(),30);
     painter->drawText(30,15,m_functionObject->name());
 
     //drawing the parameter section
