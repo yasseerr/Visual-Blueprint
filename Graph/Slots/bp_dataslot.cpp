@@ -16,6 +16,7 @@
 
 BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_isOutput(false),m_parameterWidth(50)
 {
+    setParentNode(parent);
 
 }
 
@@ -73,6 +74,16 @@ QPointF BP_DataSlot::getAnchorPoint()
         offset.setY(3+8);
     }
     return this->scenePos() + offset;
+}
+
+bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
+{
+    if(!BP_Slot::acceptConnection(secondSlot)) return false;
+    auto dataSlot = dynamic_cast<BP_DataSlot*>(secondSlot);
+    if(!dataSlot) return false;
+    else if(dataSlot->isOutput() == this->isOutput()) return false;
+    //TODO check the type
+    return true;
 }
 
 bool BP_DataSlot::isOutput() const

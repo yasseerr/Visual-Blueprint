@@ -23,6 +23,8 @@ class BP_FlowSlot : public BP_Slot
 public:
     BP_FlowSlot(BP_Node *parent = nullptr);
 
+    virtual bool acceptConnection(BP_Slot *secondSlot) override;
+
     // QGraphicsItem interface
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

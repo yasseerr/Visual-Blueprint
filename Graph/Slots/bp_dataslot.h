@@ -44,6 +44,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     virtual QPointF getAnchorPoint() override;
+    virtual bool acceptConnection(BP_Slot *secondSlot) override;
 
 };
 

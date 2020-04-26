@@ -29,6 +29,13 @@ QPointF BP_Slot::getAnchorPoint()
     return scenePos() + QPoint(7,7);
 }
 
+bool BP_Slot::acceptConnection(BP_Slot *secondSlot)
+{
+    if(secondSlot->parentNode() == this->parentNode())
+        return false;
+    return true;
+}
+
 
 QRectF BP_Slot::boundingRect() const
 {
@@ -76,6 +83,7 @@ void BP_Slot::mousePressEvent(QGraphicsSceneMouseEvent *event)
     temporaryLink = new BP_Link();
     temporaryLink->setInSlot(this);
     this->scene()->addItem(temporaryLink);
+    temporaryLink->setTempOutputPoint(event->scenePos());
 }
 
 void BP_Slot::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -94,11 +102,21 @@ void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     if(selectedItem != nullptr){
         qDebug() << " selected item " << selectedItem->parentNode()->coreObject()->name();
         //TODO filter the allowed connection
-        temporaryLink->setOutSlot(selectedItem);
-        m_connectedLinks << temporaryLink;
+        if(acceptConnection(selectedItem)){
+            temporaryLink->setOutSlot(selectedItem);
+            m_connectedLinks << temporaryLink;
+        }
+        else{
+            temporaryLink->setVisible(false);
+            scene()->removeItem(temporaryLink);
+            temporaryLink->deleteLater();
+        }
+
     }
     else{
+        temporaryLink->setVisible(false);
         scene()->removeItem(temporaryLink);
+        temporaryLink->deleteLater();
     }
     scene()->update();
 }

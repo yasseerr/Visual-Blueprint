@@ -34,6 +34,7 @@ public:
     explicit BP_Slot(BP_Node *parent = nullptr);
 
     virtual QPointF getAnchorPoint();
+    virtual bool acceptConnection(BP_Slot *secondSlot);
 
 signals:
     void parentNodeChanged(BP_Node* parentNode);

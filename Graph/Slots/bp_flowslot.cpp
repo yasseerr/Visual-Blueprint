@@ -16,6 +16,14 @@ BP_FlowSlot::BP_FlowSlot(BP_Node *parent):BP_Slot(parent)
     trianglePolygone << QPoint(0,0) << QPoint(0,14) << QPoint(12,7);
 }
 
+bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
+{
+    BP_Slot::acceptConnection(secondSlot);
+    auto flowSlot = dynamic_cast<BP_FlowSlot*>(secondSlot);
+    if(!flowSlot) return false;
+    return true;
+}
+
 void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
