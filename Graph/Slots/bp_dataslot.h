@@ -21,10 +21,13 @@ class BP_DataSlot : public BP_Slot
     Q_OBJECT
     Q_PROPERTY(BP_Parameter* parameterObject READ parameterObject WRITE setParameterObject NOTIFY parameterObjectChanged)
     Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
+    Q_PROPERTY(bool showName READ showName WRITE setShowName NOTIFY showNameChanged)
     BP_Parameter* m_parameterObject;   
     bool m_isOutput;
 
     int m_parameterWidth = 0;
+    bool m_showName;
+
 public:
     BP_DataSlot(BP_Node *parent = nullptr);
     BP_Parameter* parameterObject() const;
@@ -33,11 +36,15 @@ public slots:
     void setParameterObject(BP_Parameter* parameterObject);
     void setIsOutput(bool isOutput);
 
+    void setShowName(bool showName);
+
 signals:
     void parameterObjectChanged(BP_Parameter* parameterObject);
 
     // QGraphicsItem interface
     void isOutputChanged(bool isOutput);
+
+    void showNameChanged(bool showName);
 
 public:
     virtual QRectF boundingRect() const override;
@@ -46,6 +53,7 @@ public:
     virtual QPointF getAnchorPoint() override;
     virtual bool acceptConnection(BP_Slot *secondSlot) override;
 
+    bool showName() const;
 };
 
 #endif // BP_DATASLOT_H

@@ -13,12 +13,14 @@
 
 #include <qpainter.h>
 
+#include <Core/bp_parameter.h>
 #include <Core/bp_variable.h>
 
 BP_VariableNode::BP_VariableNode():BP_Node(),m_variableObject(nullptr),m_outputSlot(new BP_DataSlot(this))
 {
     m_outputSlot->setParentItem(this);
-
+    m_outputSlot->setIsOutput(true);
+    m_outputSlot->setShowName(false);
 }
 
 void BP_VariableNode::calculateBounds()
@@ -54,6 +56,11 @@ void BP_VariableNode::setVariableObject(BP_Variable *variableObject)
     if (m_variableObject == variableObject)
         return;
     m_variableObject = variableObject;
+
+    BP_Parameter *param = new BP_Parameter(m_outputSlot);
+    m_variableObject->getAsParameter(param);
+    m_outputSlot->setParameterObject(param);
+
     emit variableObjectChanged(m_variableObject);
 }
 

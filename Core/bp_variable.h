@@ -17,6 +17,7 @@
 
 class BP_Class;
 class BP_Module;
+class BP_Parameter;
 
 class BP_Variable : public BP_CoreObject
 {
@@ -51,6 +52,8 @@ public:
     explicit BP_Variable(QVariantMap *variableMap = nullptr,QObject *parent = nullptr,QStringList *moduleHiearchy = nullptr);
 
     static QVariantMap getDefaultVariantMap();
+
+    virtual void getAsParameter(BP_Parameter* param);
 
 
     bool isPrimitive() const;

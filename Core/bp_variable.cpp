@@ -9,6 +9,7 @@
  ***************************************************************************/
 #include "bp_class.h"
 #include "bp_module.h"
+#include "bp_parameter.h"
 #include "bp_variable.h"
 
 #include <Graph/bp_node.h>
@@ -46,6 +47,18 @@ QVariantMap BP_Variable::getDefaultVariantMap()
     retMap.insert("value",0);
     retMap.insert("className","unknown");
     return retMap;
+}
+
+void BP_Variable::getAsParameter(BP_Parameter *param)
+{
+    if(!param) return;
+    param->setKind(BP_Parameter::Kind::POSITIONAL_OR_KEYWORD);
+    param->setDefualtValue(this);
+    param->setParameterName(this->name());
+    //TODO create a class map and assign the class to the
+    //parameter throught the name
+    //param->setParameterClass()
+
 }
 
 

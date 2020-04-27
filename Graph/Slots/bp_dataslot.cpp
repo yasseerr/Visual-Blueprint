@@ -14,7 +14,8 @@
 
 #include <Core/bp_parameter.h>
 
-BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_isOutput(false),m_parameterWidth(50)
+BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_isOutput(false),m_parameterWidth(50),
+    m_showName(true)
 {
     setParentNode(parent);
 
@@ -44,6 +45,15 @@ void BP_DataSlot::setIsOutput(bool isOutput)
     emit isOutputChanged(m_isOutput);
 }
 
+void BP_DataSlot::setShowName(bool showName)
+{
+    if (m_showName == showName)
+        return;
+
+    m_showName = showName;
+    emit showNameChanged(m_showName);
+}
+
 QRectF BP_DataSlot::boundingRect() const
 {
     return  QRectF(0,0,20+m_parameterWidth,20);
@@ -54,9 +64,14 @@ void BP_DataSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setPen(Qt::yellow);
     painter->setBrush(Qt::white);
     if(isOutput()){
-        painter->drawText(0,15,"return");
-        painter->drawEllipse(QRectF(m_parameterWidth,3,16,16));
+        if(m_showName){
+            painter->drawText(0,15,"return");
+            painter->drawEllipse(QRectF(m_parameterWidth,3,16,16));
+        }else {
+            painter->drawEllipse(QRectF(0,3,16,16));
+        }
     }else {
+        //TODO add m_showName constraint when its an input
         if(m_parameterObject)
             painter->drawText(20,15,m_parameterObject->parameterName());
         painter->drawEllipse(QRectF(0,3,16,16));
@@ -66,10 +81,15 @@ void BP_DataSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 QPointF BP_DataSlot::getAnchorPoint()
 {
     QPoint offset;
-    if(isOutput()){
+    if(isOutput() && m_showName){
         offset.setX(m_parameterWidth+8);
         offset.setY(3+8);
-    }else {
+    }
+    else if(isOutput() && !m_showName){
+        offset.setX(8);
+        offset.setY(3+8);
+    }
+    else {
         offset.setX(8);
         offset.setY(3+8);
     }
@@ -84,6 +104,11 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
     else if(dataSlot->isOutput() == this->isOutput()) return false;
     //TODO check the type
     return true;
+}
+
+bool BP_DataSlot::showName() const
+{
+    return m_showName;
 }
 
 bool BP_DataSlot::isOutput() const

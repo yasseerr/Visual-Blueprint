@@ -17,9 +17,11 @@
 class BP_FlowSlot : public BP_Slot
 {
     Q_OBJECT
-
+    Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
 
     QPolygon trianglePolygone;
+    bool m_isOutput;
+
 public:
     BP_FlowSlot(BP_Node *parent = nullptr);
 
@@ -28,6 +30,11 @@ public:
     // QGraphicsItem interface
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    bool isOutput() const;
+public slots:
+    void setIsOutput(bool isOutput);
+signals:
+    void isOutputChanged(bool isOutput);
 };
 
 #endif // BP_FLOWSLOT_H

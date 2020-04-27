@@ -18,9 +18,10 @@ BP_FlowSlot::BP_FlowSlot(BP_Node *parent):BP_Slot(parent)
 
 bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
 {
-    BP_Slot::acceptConnection(secondSlot);
+    if(!BP_Slot::acceptConnection(secondSlot)) return false;
     auto flowSlot = dynamic_cast<BP_FlowSlot*>(secondSlot);
     if(!flowSlot) return false;
+    if(isOutput() == flowSlot->isOutput())return false;
     return true;
 }
 
@@ -30,4 +31,18 @@ void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setBrush(Qt::white);
     painter->drawPolygon(trianglePolygone);
 
+}
+
+bool BP_FlowSlot::isOutput() const
+{
+    return m_isOutput;
+}
+
+void BP_FlowSlot::setIsOutput(bool isOutput)
+{
+    if (m_isOutput == isOutput)
+        return;
+
+    m_isOutput = isOutput;
+    emit isOutputChanged(m_isOutput);
 }
