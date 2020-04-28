@@ -27,6 +27,7 @@ SOURCES += \
     Graph/Links/bp_link.cpp \
     Graph/Nodes/bp_classinstancenode.cpp \
     Graph/Nodes/bp_functionnode.cpp \
+    Graph/Nodes/bp_intnode.cpp \
     Graph/Nodes/bp_variablenode.cpp \
     Graph/Slots/bp_dataslot.cpp \
     Graph/Slots/bp_flowslot.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
     Graph/Links/bp_link.h \
     Graph/Nodes/bp_classinstancenode.h \
     Graph/Nodes/bp_functionnode.h \
+    Graph/Nodes/bp_intnode.h \
     Graph/Nodes/bp_variablenode.h \
     Graph/Slots/bp_dataslot.h \
     Graph/Slots/bp_flowslot.h \

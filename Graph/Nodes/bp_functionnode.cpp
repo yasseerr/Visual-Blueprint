@@ -33,7 +33,7 @@ BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent)
 void BP_FunctionNode::loadCurrentFunction()
 {
     //loading outputs
-    //Check that there is a valid output
+    //Check that there is a valid outputd
     m_returnSlot = new BP_DataSlot(this);
     m_returnSlot->setParameterObject(m_functionObject->returnArg());
     m_returnSlot->setIsOutput(true);

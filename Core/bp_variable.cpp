@@ -14,6 +14,7 @@
 
 #include <Graph/bp_node.h>
 
+#include <Graph/Nodes/bp_intnode.h>
 #include <Graph/Nodes/bp_variablenode.h>
 
 BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *moduleHiearchy) : BP_CoreObject(parent),
@@ -179,7 +180,8 @@ void BP_Variable::setClassModuleHiearchy(QStringList classModuleHiearchy)
 
 BP_Node *BP_Variable::createNodeForObject(QObject *parent)
 {
-    BP_VariableNode *variableNode = new BP_VariableNode();
+    //BP_VariableNode *variableNode = new BP_VariableNode();
+    BP_IntNode *variableNode = new BP_IntNode();
     variableNode->setParent(parent);
     variableNode->setCoreObject(this);
     variableNode->setVariableObject(this);
