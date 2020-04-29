@@ -181,7 +181,7 @@ void BP_Variable::setClassModuleHiearchy(QStringList classModuleHiearchy)
 BP_Node *BP_Variable::createNodeForObject(QObject *parent)
 {
     //BP_VariableNode *variableNode = new BP_VariableNode();
-    BP_IntNode *variableNode = new BP_IntNode();
+    BP_VariableNode *variableNode = new BP_VariableNode();
     variableNode->setParent(parent);
     variableNode->setCoreObject(this);
     variableNode->setVariableObject(this);

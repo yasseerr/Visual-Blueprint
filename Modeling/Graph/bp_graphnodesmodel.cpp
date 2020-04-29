@@ -106,6 +106,13 @@ void BP_GraphNodesModel::updateModule()
     //TODO add the new imported items instead of refreshing
     m_rootItem->clearChildes();
 
+    //Adding the tools
+    BP_GraphNodeItem *AddVariablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Add Variable");
+
+    BP_GraphNodeItem *addIntegerItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add Integer");
+    addIntegerItem->setIsTool(true);
+    addIntegerItem->toolType = BP_GraphNodeItem::INTEGER;
+
     //adding the imported library
     BP_GraphNodeItem *variablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Variables");
     foreach (BP_Variable* importedVar, m_connectedProject->importedVariables()) {

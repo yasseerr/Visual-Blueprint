@@ -59,15 +59,20 @@ void GraphNodesSelectionDialog::graphTreeClickedEvent(QModelIndex index)
 {
     qDebug() << "item clicked : " << index.row();
     BP_GraphNodeItem *item = m_graphNodesModel->itemForIndex(m_graphProxyModel->mapToSource(index));
-    if(item->coreObject() != nullptr){
+    if(!item->isTool() && item->coreObject() != nullptr){
         BP_Node *node = item->coreObject()->createNodeForObject(m_currentProject->entryGraph());
         node->setCoreObject(item->coreObject());
 
         m_currentProject->entryGraph()->addNode(node,this->pos());
-        //thi is added to fix the bug when the model change and the selected item does not exist there anymore
-        ui->nodesTreeView->setCurrentIndex(m_graphNodesModel->indexForItem(m_graphNodesModel->rootItem()));
-        this->hide();
+
     }
+    else {
+        BP_Node *node = item->createToolNode(m_currentProject->entryGraph());
+        m_currentProject->entryGraph()->addNode(node,this->pos());
+    }
+    //thi is added to fix the bug when the model change and the selected item does not exist there anymore
+    ui->nodesTreeView->setCurrentIndex(m_graphNodesModel->indexForItem(m_graphNodesModel->rootItem()));
+    this->hide();
 
 }
 

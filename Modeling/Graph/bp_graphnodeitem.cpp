@@ -9,7 +9,9 @@
  ***************************************************************************/
 #include "bp_graphnodeitem.h"
 
-BP_GraphNodeItem::BP_GraphNodeItem(BP_GraphNodeItem *parentItem,QObject *parent,QString displayName) : QObject(parent),m_parentItem(parentItem),m_displayName(displayName),m_coreObject(nullptr)
+#include <Graph/Nodes/bp_intnode.h>
+
+BP_GraphNodeItem::BP_GraphNodeItem(BP_GraphNodeItem *parentItem,QObject *parent,QString displayName) : QObject(parent),m_parentItem(parentItem),m_displayName(displayName),m_coreObject(nullptr),m_isTool(false)
 {
     if(m_parentItem != nullptr){
         m_parentItem->childItems.append(this);
@@ -26,9 +28,31 @@ BP_GraphNodeItem::~BP_GraphNodeItem()
     }
 }
 
+BP_Node *BP_GraphNodeItem::createToolNode(QObject *parent)
+{
+    BP_Node *retNode = nullptr;
+    switch (toolType) {
+    case INTEGER:
+        retNode = new BP_IntNode();
+        break;
+    case STRING:
+        retNode = new BP_IntNode();
+    default:
+        retNode =  new BP_IntNode();
+        break;
+    }
+    retNode->setParent(parent);
+    return  retNode;
+}
+
 BP_CoreObject *BP_GraphNodeItem::coreObject() const
 {
     return m_coreObject;
+}
+
+bool BP_GraphNodeItem::isTool() const
+{
+    return m_isTool;
 }
 
 void BP_GraphNodeItem::setCoreObject(BP_CoreObject *coreObject)
@@ -46,6 +70,15 @@ void BP_GraphNodeItem::clearChildes()
         childItems.removeOne(item);
         item->deleteLater();
     }
+}
+
+void BP_GraphNodeItem::setIsTool(bool isTool)
+{
+    if (m_isTool == isTool)
+        return;
+
+    m_isTool = isTool;
+    emit isToolChanged(m_isTool);
 }
 
 
