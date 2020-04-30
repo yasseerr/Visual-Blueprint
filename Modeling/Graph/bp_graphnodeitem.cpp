@@ -10,6 +10,7 @@
 #include "bp_graphnodeitem.h"
 
 #include <Graph/Nodes/bp_intnode.h>
+#include <Graph/Nodes/bp_stringnode.h>
 
 BP_GraphNodeItem::BP_GraphNodeItem(BP_GraphNodeItem *parentItem,QObject *parent,QString displayName) : QObject(parent),m_parentItem(parentItem),m_displayName(displayName),m_coreObject(nullptr),m_isTool(false)
 {
@@ -31,16 +32,12 @@ BP_GraphNodeItem::~BP_GraphNodeItem()
 BP_Node *BP_GraphNodeItem::createToolNode(QObject *parent)
 {
     BP_Node *retNode = nullptr;
-    switch (toolType) {
-    case INTEGER:
+    if(toolType == INTEGER)
         retNode = new BP_IntNode();
-        break;
-    case STRING:
-        retNode = new BP_IntNode();
-    default:
+    else if(toolType == STRING)
+        retNode = new BP_StringNode();
+    else
         retNode =  new BP_IntNode();
-        break;
-    }
     retNode->setParent(parent);
     return  retNode;
 }

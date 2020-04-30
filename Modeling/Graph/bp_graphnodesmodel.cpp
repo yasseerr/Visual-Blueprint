@@ -113,6 +113,10 @@ void BP_GraphNodesModel::updateModule()
     addIntegerItem->setIsTool(true);
     addIntegerItem->toolType = BP_GraphNodeItem::INTEGER;
 
+    BP_GraphNodeItem *addStringItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add String");
+    addStringItem->setIsTool(true);
+    addStringItem->toolType = BP_GraphNodeItem::STRING;
+
     //adding the imported library
     BP_GraphNodeItem *variablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Variables");
     foreach (BP_Variable* importedVar, m_connectedProject->importedVariables()) {
