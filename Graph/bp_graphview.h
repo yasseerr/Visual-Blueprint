@@ -15,12 +15,14 @@
 
 class BP_Project;
 class BP_Node;
+class BP_EventNode;
 
 class BP_GraphView : public QGraphicsView
 {
     Q_OBJECT
     Q_PROPERTY(QString graphName READ graphName WRITE setGraphName NOTIFY graphNameChanged)
     Q_PROPERTY(QList<BP_Node*> nodes READ nodes WRITE setNodes NOTIFY nodesChanged)
+    Q_PROPERTY(BP_EventNode* entryNode READ entryNode WRITE setEntryNode NOTIFY entryNodeChanged)
 
 public:
     BP_GraphView();
@@ -30,20 +32,27 @@ public:
     QString graphName() const;
     QList<BP_Node*> nodes() const;
 
+    BP_EventNode* entryNode() const;
+
 public slots:
     void setGraphName(QString graphName);
 
     void setNodes(QList<BP_Node*> nodes);
+
+    void setEntryNode(BP_EventNode* entryNode);
 
 signals:
     void graphNameChanged(QString graphName);
 
     void nodesChanged(QList<BP_Node*> nodes);
 
+    void entryNodeChanged(BP_EventNode* entryNode);
+
 private:
     QGraphicsScene *m_scene;
     QString m_graphName;
     QList<BP_Node*> m_nodes;
+    BP_EventNode* m_entryNode;
 };
 
 #endif // BP_GRAPHVIEW_H

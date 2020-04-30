@@ -9,6 +9,7 @@
  ***************************************************************************/
 #include "bp_graphnodeitem.h"
 
+#include <Graph/Nodes/bp_eventnode.h>
 #include <Graph/Nodes/bp_intnode.h>
 #include <Graph/Nodes/bp_stringnode.h>
 
@@ -35,7 +36,7 @@ BP_Node *BP_GraphNodeItem::createToolNode(QObject *parent)
     if(toolType == INTEGER)
         retNode = new BP_IntNode();
     else if(toolType == STRING)
-        retNode = new BP_StringNode();
+        retNode = new BP_EventNode();
     else
         retNode =  new BP_IntNode();
     retNode->setParent(parent);

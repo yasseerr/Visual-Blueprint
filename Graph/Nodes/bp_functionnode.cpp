@@ -27,7 +27,7 @@ BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent)
     m_executionflowOutSlot = new BP_FlowSlot(this);
     m_executionflowOutSlot->setParentItem(this);
     m_executionflowOutSlot->setPos(2,7);
-    m_executionflowInSlot->setIsOutput(true);
+    m_executionflowOutSlot->setIsOutput(true);
 }
 
 void BP_FunctionNode::loadCurrentFunction()

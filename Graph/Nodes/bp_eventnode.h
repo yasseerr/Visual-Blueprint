@@ -31,6 +31,7 @@ public:
 
     void addEventFlow(BP_FlowSlot *flow);
     BP_FlowSlot* getEventFlow(QString flowName);
+    void createFlow(QString flowName);
 
     // QGraphicsItem interface
 public:

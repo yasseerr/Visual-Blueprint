@@ -28,14 +28,14 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
 void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(Qt::white);
-    painter->drawText(0,4,flowName());
+    painter->drawText(0,9,flowName());
     painter->setBrush(Qt::white);
     painter->drawPolygon(trianglePolygone);
 }
 
 QRectF BP_FlowSlot::boundingRect() const
 {
-    return QRectF(0,0,15+flowNameWidth,15);
+    return QRectF(0,0,20+flowNameWidth,15);
 }
 
 QPointF BP_FlowSlot::getAnchorPoint()
@@ -75,7 +75,7 @@ void BP_FlowSlot::setFlowName(QString flowName)
     m_flowName = flowName;
 
     flowNameWidth = QFontMetrics(QFont()).boundingRect(this->flowName()).width();
-    trianglePolygone.translate(flowNameWidth,0);
+    trianglePolygone.translate(flowNameWidth+5,0);
 
     emit flowNameChanged(m_flowName);
 }
