@@ -24,8 +24,10 @@ SOURCES += \
     Core/bp_parameter.cpp \
     Core/bp_project.cpp \
     Core/bp_variable.cpp \
+    Graph/Links/bp_flowlink.cpp \
     Graph/Links/bp_link.cpp \
     Graph/Nodes/bp_classinstancenode.cpp \
+    Graph/Nodes/bp_eventnode.cpp \
     Graph/Nodes/bp_functionnode.cpp \
     Graph/Nodes/bp_intnode.cpp \
     Graph/Nodes/bp_stringnode.cpp \
@@ -68,8 +70,10 @@ HEADERS += \
     Core/bp_parameter.h \
     Core/bp_project.h \
     Core/bp_variable.h \
+    Graph/Links/bp_flowlink.h \
     Graph/Links/bp_link.h \
     Graph/Nodes/bp_classinstancenode.h \
+    Graph/Nodes/bp_eventnode.h \
     Graph/Nodes/bp_functionnode.h \
     Graph/Nodes/bp_intnode.h \
     Graph/Nodes/bp_stringnode.h \
