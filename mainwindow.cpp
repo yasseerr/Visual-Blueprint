@@ -5,11 +5,17 @@
 #include <Modeling/Imports/importeddelegat.h>
 
 #include <QDebug>
+#include <QDir>
 #include <QPushButton>
 
 #include <Modeling/Members/bp_memberdelegate.h>
 
 #include <Graph/bp_graphview.h>
+#include <grantlee/engine.h>
+#include <grantlee/context.h>
+#include <grantlee/template.h>
+#include "grantlee_templates.h"
+#include "grantlee_textdocument.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -60,6 +66,23 @@ MainWindow::MainWindow(QWidget *parent)
     //ui->tmpTreeView->setModel(m_graphNodeModel);
     m_graphNodesDialog = new GraphNodesSelectionDialog(m_graphNodeModel,this);
     m_graphNodesDialog->setCurrentProject(m_currentProject);
+
+    //testing the grantlee library
+    auto grantleEngin =new Grantlee::Engine(this);
+    //grantleEngin->addDefaultLibrary("customplugin");
+    //grantleEngin->addPluginPath("F:/Program/Grantlee5/lib/grantlee/5.2");
+    auto loader = QSharedPointer<Grantlee::FileSystemTemplateLoader>::create();
+    loader->setTemplateDirs(QStringList{QApplication::applicationDirPath()+"/templates"});
+    //grantleEngin->
+    //auto t = grantleEngin->newTemplate("my name is as usual {{ name }}","template1");
+
+    grantleEngin->addTemplateLoader(loader);
+    auto t = grantleEngin->loadByName("template1.txt");
+    QVariantHash mapping ;
+    mapping.insert("name","yasser");
+    Grantlee::Context c(mapping);
+    qDebug() <<"template" << t->render(&c);
+
 }
 
 MainWindow::~MainWindow()

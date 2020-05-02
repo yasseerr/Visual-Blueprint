@@ -15,6 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+#adding the grantlee library
+
 SOURCES += \
     Core/bp_class.cpp \
     Core/bp_constructor.cpp \
@@ -126,3 +128,6 @@ RESOURCES += \
 
 DISTFILES += \
     Platform/Python/python_manager.py
+
+INCLUDEPATH += F:/Program/Grantlee5/include
+LIBS += -LF:/Program/Grantlee5/lib -lGrantlee_Templatesd -lGrantlee_TextDocumentd
