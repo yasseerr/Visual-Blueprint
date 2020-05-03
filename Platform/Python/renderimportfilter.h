@@ -14,11 +14,7 @@
 
 class RenderImportFilter : Grantlee::Filter
 {
-    Q_OBJECT
-public:
-    RenderImportFilter();
 
-    // Filter interface
 public:
     virtual QVariant doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const override;
 };

@@ -9,16 +9,12 @@
  ***************************************************************************/
 #include "renderimportfilter.h"
 
-RenderImportFilter::RenderImportFilter()
-{
-
-}
 
 QVariant RenderImportFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
 {
-    if(input.type() == QVariant::Type::List){
-        if(input.toString() == "module")
-    }
+//    if(input.type() == QVariant::Type::List){
+//        if(input.toString() == "module")
+//    }
     return input;
 
 }

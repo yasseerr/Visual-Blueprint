@@ -1,0 +1,91 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(VisualBlueprint LANGUAGES CXX)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
+# Check http://doc.qt.io/qt-5/deployment-android.html for more information.
+# They need to be set before the find_package(Qt5 ...) call.
+
+#if(ANDROID)
+#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
+#        set(ANDROID_EXTRA_LIBS
+#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
+#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
+#    endif()
+#endif()
+
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Grantlee5 REQUIRED)
+
+
+
+#if(ANDROID)
+#  add_library(Cmake_test SHARED
+#    main.cpp
+#    mainwindow.cpp
+#    mainwindow.h
+#    mainwindow.ui
+#  )
+#else()
+
+file(GLOB core_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/Core/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Core/*h
+    )
+file(GLOB graph_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Links/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Nodes/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Slots/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/*h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Links/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Nodes/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Slots/*.h
+    )
+file(GLOB modeling_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/Graph/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/Imports/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/Members/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/*h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/Graph/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/Imports/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/Members/*.h
+    )
+file(GLOB platform_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/*h
+    )
+file(GLOB widgets_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/*.ui
+    )
+
+
+add_executable(VisualBlueprint
+   main.cpp 
+   mainwindow.cpp
+   mainwindow.ui
+   resources.qrc
+   ${core_sources}
+   ${graph_sources}
+   ${modeling_sources}
+   ${platform_sources}
+   ${widgets_sources}
+)
+#endif()
+
+target_link_libraries(VisualBlueprint PRIVATE Qt5::Widgets Grantlee5::Templates)

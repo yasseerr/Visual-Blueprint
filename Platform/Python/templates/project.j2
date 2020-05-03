@@ -1,8 +1,16 @@
 #importing modules
-{%for module in project.importedModules reversed%}}
+{%for module in project.importedModules %}}
 from  {{ module.name }} import *
 {%endfor%}}
 
+#importing classes
+{%for classObj in project.importedClasses %}}
+{#the lenght of the import object {{classObj.importHiearchy|length}}#}
+{%auto%}}
+{%for step in classObj.importHiearchy reversed%}}
+{%endfor%}}
+from {{classObj.importHiearchy|join:"."}}  import {{ classObj.name }}
+{%endfor%}}
 
 class {{project.projectName}}(object):
     def __init__(self):
