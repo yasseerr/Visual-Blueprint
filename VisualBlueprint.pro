@@ -55,6 +55,7 @@ SOURCES += \
     Modeling/Members/bp_variablesmemberitem.cpp \
     Modeling/importsmodel.cpp \
     Platform/Python/bp_pythonmanager.cpp \
+    Platform/Python/renderimportfilter.cpp \
     Platform/bp_platformmanager.cpp \
     Widgets/graphnodesselectiondialog.cpp \
     Widgets/importeddelegatewidget.cpp \
@@ -101,6 +102,7 @@ HEADERS += \
     Modeling/Members/bp_variablesmemberitem.h \
     Modeling/importsmodel.h \
     Platform/Python/bp_pythonmanager.h \
+    Platform/Python/renderimportfilter.h \
     Platform/bp_platformmanager.h \
     Widgets/graphnodesselectiondialog.h \
     Widgets/importeddelegatewidget.h \

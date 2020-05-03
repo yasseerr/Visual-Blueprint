@@ -10,6 +10,7 @@
 #ifndef BP_PROJECT_H
 #define BP_PROJECT_H
 
+#include "bp_class.h"
 #include "bp_coreobject.h"
 #include "bp_module.h"
 
@@ -20,10 +21,11 @@
 //class BP_Module;
 class BP_Function;
 class BP_Variable;
-class BP_Class;
+//class BP_Class;
 class BP_GraphView;
 
 Q_DECLARE_METATYPE(QList<BP_Module*>)
+Q_DECLARE_METATYPE(QList<BP_Class*>)
 class BP_Project : public QObject
 {
     Q_OBJECT
