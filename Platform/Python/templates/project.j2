@@ -1,0 +1,10 @@
+#importing modules
+{%for module in project.importedModules reversed%}}
+from  {{ module.name }} import *
+{%endfor%}}
+
+
+class {{project.projectName}}(object):
+    def __init__(self):
+        pass
+

@@ -67,22 +67,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_graphNodesDialog = new GraphNodesSelectionDialog(m_graphNodeModel,this);
     m_graphNodesDialog->setCurrentProject(m_currentProject);
 
-    //testing the grantlee library
-    auto grantleEngin =new Grantlee::Engine(this);
-    //grantleEngin->addDefaultLibrary("customplugin");
-    //grantleEngin->addPluginPath("F:/Program/Grantlee5/lib/grantlee/5.2");
-    auto loader = QSharedPointer<Grantlee::FileSystemTemplateLoader>::create();
-    loader->setTemplateDirs(QStringList{QApplication::applicationDirPath()+"/templates"});
-    //grantleEngin->
-    //auto t = grantleEngin->newTemplate("my name is as usual {{ name }}","template1");
-
-    grantleEngin->addTemplateLoader(loader);
-    auto t = grantleEngin->loadByName("template1.txt");
-    QVariantHash mapping ;
-    mapping.insert("name","yasser");
-    Grantlee::Context c(mapping);
-    qDebug() <<"template" << t->render(&c);
-
 }
 
 MainWindow::~MainWindow()
@@ -93,7 +77,7 @@ MainWindow::~MainWindow()
 void MainWindow::createNewProject()
 {
 
-    setCurrentProject(new BP_Project("Test Project",this));
+    setCurrentProject(new BP_Project("Test_Project",this));
     //Loading the globlal Modules
     m_currentProject->setupPlatform();
     QStringList globalModules = currentProject()->platformManager()->listGlobalModules();
@@ -147,4 +131,10 @@ void MainWindow::on_actionclean_cache_triggered()
 {
     m_graphNodesDialog->show();
     qDebug() << "it should be opened by now";
+}
+
+void MainWindow::on_action_Build_triggered()
+{
+    statusBar()->showMessage("building project ...");
+    m_currentProject->platformManager()->compileProject(m_currentProject);
 }

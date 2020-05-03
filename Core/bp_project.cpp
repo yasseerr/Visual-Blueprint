@@ -20,6 +20,7 @@
 
 #include <Graph/bp_graphview.h>
 
+
 BP_Project::BP_Project(QString projectName,QObject *parent) : QObject(parent),
     m_projectName(projectName)
 {
@@ -96,7 +97,7 @@ BP_PlatformManager *BP_Project::platformManager() const
     return m_platformManager;
 }
 
-QList<BP_Module *> BP_Project::importedModules() const
+QList<BP_Module*> BP_Project::importedModules() const
 {
     return m_importedModules;
 }
@@ -149,7 +150,7 @@ void BP_Project::setPlatformManager(BP_PlatformManager *platformManager)
     emit platformManagerChanged(m_platformManager);
 }
 
-void BP_Project::setImportedModules(QList<BP_Module *> importedModules)
+void BP_Project::setImportedModules(QList<BP_Module*> importedModules)
 {
     if (m_importedModules == importedModules)
         return;

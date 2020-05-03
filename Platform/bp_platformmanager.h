@@ -13,6 +13,12 @@
 #include <QObject>
 #include <QProcess>
 
+#include <grantlee/engine.h>
+#include <grantlee_templates.h>
+#include <grantlee_textdocument.h>
+
+class BP_Project;
+
 class BP_PlatformManager : public QObject
 {
     Q_OBJECT
@@ -27,6 +33,8 @@ public:
     virtual QVariantMap importVariable(QStringList moduleHiearchy) = 0;
     virtual QVariantMap importClass(QStringList moduleHiearchy) = 0;
 
+    virtual void compileProject(BP_Project *project) = 0;
+
 
 public slots:
     //slots for the manager process
@@ -40,6 +48,7 @@ public:
     QString m_managerFile = "";
 
     QProcess m_managerProcess;
+    Grantlee::Engine *grantleeEngine;
 
 
 

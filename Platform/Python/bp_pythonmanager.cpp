@@ -14,6 +14,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include <Core/bp_project.h>
+
 BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
     m_language = "python";
@@ -109,6 +111,15 @@ QVariantMap BP_PythonManager::importClass(QStringList moduleHiearchy)
     qDebug() << m_managerProcess.readAllStandardError();
     QJsonObject jsonObject = QJsonDocument::fromJson(listRawData).object();
     return jsonObject.toVariantMap();
+}
+
+void BP_PythonManager::compileProject(BP_Project *project)
+{
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/project.j2");
+    QVariantHash mapping ;
+    mapping.insert("project",QVariant::fromValue(project));
+    Grantlee::Context c(mapping);
+    qDebug() <<"compilation : " << projectTemplate->render(&c);
 }
 
 void BP_PythonManager::standardOutputReady()

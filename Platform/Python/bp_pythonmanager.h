@@ -29,6 +29,7 @@ public:
     virtual QVariantMap importFunction(QStringList moduleHiearchy) override;
     virtual QVariantMap importVariable(QStringList moduleHiearchy) override;
     virtual QVariantMap importClass(QStringList moduleHiearchy) override;
+    virtual void compileProject(BP_Project *project) override;
 public slots:
     virtual void standardOutputReady() override;
     virtual void errorOutputReady() override;
