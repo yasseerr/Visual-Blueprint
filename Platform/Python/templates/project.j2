@@ -1,16 +1,24 @@
 #importing modules
 {%for module in project.importedModules %}}
-from  {{ module.name }} import *
+{{ module.importHiearchy|renderImport:"module" }}
 {%endfor%}}
 
 #importing classes
 {%for classObj in project.importedClasses %}}
 {#the lenght of the import object {{classObj.importHiearchy|length}}#}
-{%auto%}}
-{%for step in classObj.importHiearchy reversed%}}
+{{classObj.importHiearchy|renderImport:"class"}}
 {%endfor%}}
-from {{classObj.importHiearchy|join:"."}}  import {{ classObj.name }}
+
+#importing Functions
+{%for functionObj in project.importedFunctions %}}
+{{functionObj.importHiearchy|renderImport:"function"}}
 {%endfor%}}
+
+#importing Variables
+{%for variableObj in project.importedVariables %}}
+{{variableObj.importHiearchy|renderImport:"variable"}}
+{%endfor%}}
+
 
 class {{project.projectName}}(object):
     def __init__(self):

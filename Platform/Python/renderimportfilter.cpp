@@ -9,12 +9,30 @@
  ***************************************************************************/
 #include "renderimportfilter.h"
 
+#include <QDebug>
+#include <grantlee/util.h>
 
 QVariant RenderImportFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
 {
+    qDebug() << Grantlee::getSafeString(argument).get();
     if(input.canConvert<QVariantList>()){
-        //if(input.toString() == "module")
-       return input.toList().count()+10;
+       if(Grantlee::getSafeString(argument) == "class" ||
+               Grantlee::getSafeString(argument) == "function" ||
+               Grantlee::getSafeString(argument) == "variable"){
+            QStringList importHierarchy = input.toStringList();
+            QString className = importHierarchy.first();
+            importHierarchy.takeFirst();
+            std::reverse(importHierarchy.begin(),importHierarchy.end());
+            QString modulepath = importHierarchy.join(".");
+            return "from "+modulepath+" import "+className;
+       }
+       else if (Grantlee::getSafeString(argument) == "module") {
+           QStringList importHierarchy = input.toStringList();
+           std::reverse(importHierarchy.begin(),importHierarchy.end());
+           QString modulepath = importHierarchy.join(".");
+           return "from "+modulepath+" import *";
+       }
+        return input.toList().count()+10;
     }
     return  "failed";
 

@@ -12,20 +12,25 @@
 
 #include "bp_class.h"
 #include "bp_coreobject.h"
+#include "bp_function.h"
 #include "bp_module.h"
+#include "bp_variable.h"
 
 #include <QObject>
 
 #include <Platform/bp_platformmanager.h>
 
 //class BP_Module;
-class BP_Function;
-class BP_Variable;
+//class BP_Function;
+//class BP_Variable;
 //class BP_Class;
 class BP_GraphView;
 
+//registring types to be recognised by Grantlee
 Q_DECLARE_METATYPE(QList<BP_Module*>)
 Q_DECLARE_METATYPE(QList<BP_Class*>)
+Q_DECLARE_METATYPE(QList<BP_Function*>)
+Q_DECLARE_METATYPE(QList<BP_Variable*>)
 class BP_Project : public QObject
 {
     Q_OBJECT
