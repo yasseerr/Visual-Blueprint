@@ -69,10 +69,10 @@ file(GLOB modeling_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/Modeling/Members/*.h
     )
 file(GLOB platform_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/bp_platformmanager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/bP_platformmanager.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/bp_platformmanager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/bp_platformmanager.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/bp_pythonmanager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/bP_pythonmanager.h
     )
 file(GLOB widgets_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/*.cpp

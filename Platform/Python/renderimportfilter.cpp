@@ -12,10 +12,10 @@
 
 QVariant RenderImportFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
 {
-//    if(input.type() == QVariant::Type::List){
-//        //if(input.toString() == "module")
-//       return input.toList().count()+10;
-//    }
+    if(input.canConvert<QVariantList>()){
+        //if(input.toString() == "module")
+       return input.toList().count()+10;
+    }
     return  "failed";
 
 }

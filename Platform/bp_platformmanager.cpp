@@ -16,8 +16,8 @@ BP_PlatformManager::BP_PlatformManager(QObject *parent) : QObject(parent)
 {
     QCoreApplication::addLibraryPath(QApplication::applicationDirPath()+"/grantlee/5.2");
     grantleeEngine = new Grantlee::Engine(this);
-    //grantleEngin->addDefaultLibrary("customplugin");
-    grantleeEngine->loadLibrary("grantlee_VBL_plugind");
+    grantleeEngine->addDefaultLibrary("grantlee_VBL_plugin");
+    //grantleeEngine->loadLibrary("vbl_plugin");
     //grantleeEngine->addPluginPath(QApplication::applicationDirPath()+"/grantlee/5.2");
     auto loader = QSharedPointer<Grantlee::FileSystemTemplateLoader>::create();
     loader->setTemplateDirs(QStringList{QApplication::applicationDirPath()+"/templates",QApplication::applicationDirPath()+"/Platform"});
