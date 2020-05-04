@@ -12,11 +12,12 @@
 
 #include <grantlee/filter.h>
 
-class RenderImportFilter : Grantlee::Filter
+class RenderImportFilter :public Grantlee::Filter
 {
 
 public:
     virtual QVariant doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const override;
+    bool isSafe() const override;
 };
 
 #endif // RENDERIMPORTFILTER_H

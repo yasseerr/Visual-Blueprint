@@ -7,20 +7,12 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "renderimportfilter.h"
+#include "vbl_grantleelibrary.h"
+
+//#include <QtPlugin>
+
+//Q_EXPORT_PLUGIN2(vbl_grantleelibrary,VBL_GrantLeeLibrary);
 
 
-QVariant RenderImportFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
-{
-//    if(input.type() == QVariant::Type::List){
-//        //if(input.toString() == "module")
-//       return input.toList().count()+10;
-//    }
-    return  "failed";
 
-}
 
-bool RenderImportFilter::isSafe() const
-{
-    return true;
-}

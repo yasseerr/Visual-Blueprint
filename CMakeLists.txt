@@ -11,6 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(GRANTLEE_PLUGIN_INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/grantlee/5.2)
+
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check http://doc.qt.io/qt-5/deployment-android.html for more information.
 # They need to be set before the find_package(Qt5 ...) call.
@@ -26,6 +28,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Grantlee5 REQUIRED)
+
+#grantlee custom filters
+
+#QT5_WRAP_CPP(MOC_BUILT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Platform/vbl_grantleelibrary.h)
 
 
 
@@ -65,8 +71,8 @@ file(GLOB modeling_sources
 file(GLOB platform_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/*h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/bp_platformmanager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/bP_platformmanager.h
     )
 file(GLOB widgets_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/*.cpp
@@ -88,4 +94,50 @@ add_executable(VisualBlueprint
 )
 #endif()
 
+#add_library(grantlee_VBL_plugin MODULE
+#  #${CMAKE_CURRENT_SOURCE_DIR}/Platform/vbl_grantleelibrary.h
+#  ${CMAKE_CURRENT_SOURCE_DIR}/Platform/vbl_grantleelibrary.cpp
+#  ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/renderimportfilter.cpp
+#)
+#grantlee_adjust_plugin_name(grantlee_VBL_plugin)
+
+#target_link_libraries(grantlee_VBL_plugin
+#  Grantlee5::Templates
+#  Grantlee5::TextDocument
+#)
+
+#GRANTLEE FILTERS CONFIG 2
+add_library(grantlee_VBL_plugin MODULE
+  #${CMAKE_CURRENT_SOURCE_DIR}/Platform/vbl_grantleelibrary.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/Platform/vbl_grantleelibrary.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Python/renderimportfilter.cpp
+)
+set_property(TARGET grantlee_VBL_plugin PROPERTY
+    EXPORT_NAME vbl_plugin
+)
+target_link_libraries(grantlee_VBL_plugin PRIVATE
+  Grantlee5::Templates
+)
+target_compile_features(grantlee_VBL_plugin PRIVATE
+  cxx_auto_type
+)
+grantlee_adjust_plugin_name(grantlee_VBL_plugin)
+
+install(TARGETS grantlee_VBL_plugin
+  EXPORT grantlee_targets
+  LIBRARY DESTINATION ${GRANTLEE_PLUGIN_INSTALL_DIR}
+  COMPONENT Templates
+)
+
+
+
+
 target_link_libraries(VisualBlueprint PRIVATE Qt5::Widgets Grantlee5::Templates)
+
+
+#install(TARGETS grantlee_VBL_plugin
+#        RUNTIME DESTINATION ${GRANTLEE_PLUGIN_INSTALL_DIR}
+#        LIBRARY DESTINATION ${GRANTLEE_PLUGIN_INSTALL_DIR}
+#        ARCHIVE DESTINATION ${GRANTLEE_PLUGIN_INSTALL_DIR}
+#        COMPONENT Devel
+#)
