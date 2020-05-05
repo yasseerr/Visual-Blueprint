@@ -54,6 +54,8 @@ public:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
     virtual void calculateBounds();
+    virtual QString renderNode();
+    virtual BP_Node* nextNode();
 
 };
 

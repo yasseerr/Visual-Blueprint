@@ -15,6 +15,8 @@
 
 #include <Core/bp_coreobject.h>
 
+#include <Platform/bp_platformmanager.h>
+
 BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50)
 {
 
@@ -88,4 +90,15 @@ void BP_Node::calculateBounds()
     if(m_coreObject != nullptr){
         m_bounds = QFontMetrics(QFont()).boundingRect(m_coreObject->name());
     }
+}
+
+QString BP_Node::renderNode(BP_PlatformManager *platform)
+{
+    return "";
+}
+
+BP_Node *BP_Node::nextNode()
+{
+    return nullptr;
+
 }
