@@ -53,6 +53,9 @@ public slots:
 signals:
     void rootItemChanged(BP_GraphNodeItem* rootItem);
     void connectedProjectChanged(BP_Project* connectedProject);
+
+    //notify the proxy models
+    void contentChanged();
 };
 
 #endif // BP_GRAPHNODESMODEL_H

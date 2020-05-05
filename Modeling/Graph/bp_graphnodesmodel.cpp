@@ -103,9 +103,9 @@ BP_Project *BP_GraphNodesModel::connectedProject() const
 
 void BP_GraphNodesModel::updateModule()
 {
+    emit layoutAboutToBeChanged();
     //TODO add the new imported items instead of refreshing
     m_rootItem->clearChildes();
-
     //Adding the tools
     BP_GraphNodeItem *AddVariablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Add Variable");
 
@@ -153,7 +153,10 @@ void BP_GraphNodesModel::updateModule()
             functionItem->setCoreObject(function_);
         }
     }
+//    beginInsertRows(indexForItem(m_rootItem),0,m_rootItem->childItems.count()-1);
+//    endInsertRows();
     emit layoutChanged();
+    //emit contentChanged();
 }
 
 void BP_GraphNodesModel::setRootItem(BP_GraphNodeItem *rootItem)

@@ -66,6 +66,7 @@ void BP_GraphNodeItem::clearChildes()
 {
     foreach (auto item, childItems) {
         childItems.removeOne(item);
+        item->clearChildes();
         item->deleteLater();
     }
 }

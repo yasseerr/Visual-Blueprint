@@ -35,7 +35,7 @@ GraphNodesSelectionDialog::GraphNodesSelectionDialog(BP_GraphNodesModel *graphNo
     //m_graphProxyModel.setfi
     connect(ui->lineEdit,&QLineEdit::textChanged,this,&GraphNodesSelectionDialog::selectionTextChanged);
     connect(ui->nodesTreeView,&QTreeView::clicked,this,&GraphNodesSelectionDialog::graphTreeClickedEvent);
-    //connect(m_graphNodesModel,&BP_GraphNodesModel::layoutChanged,this,&GraphNodesSelectionDialog::updateProxyModel);
+    connect(m_graphNodesModel,&BP_GraphNodesModel::contentChanged,this,&GraphNodesSelectionDialog::updateProxyModel);
 
 }
 
@@ -51,8 +51,8 @@ BP_Project *GraphNodesSelectionDialog::currentProject() const
 
 void GraphNodesSelectionDialog::selectionTextChanged(QString newText)
 {
-    m_graphProxyModel->setFilterFixedString(newText);
-    ui->nodesTreeView->setCurrentIndex(QModelIndex());
+    m_graphProxyModel->setFilterRegExp(newText);
+    emit m_graphProxyModel->layoutChanged();
     ui->nodesTreeView->expandAll();
 }
 
@@ -72,7 +72,11 @@ void GraphNodesSelectionDialog::graphTreeClickedEvent(QModelIndex index)
         m_currentProject->entryGraph()->addNode(node,this->pos());
     }
     //thi is added to fix the bug when the model change and the selected item does not exist there anymore
-    ui->nodesTreeView->setCurrentIndex(m_graphNodesModel->indexForItem(m_graphNodesModel->rootItem()));
+    //ui->nodesTreeView->setCurrentIndex(m_graphNodesModel->indexForItem(m_graphNodesModel->rootItem()));
+    ui->nodesTreeView->clearSelection();
+    //ui->nodesTreeView->clearFocus();
+    ui->nodesTreeView->setCurrentIndex(QModelIndex());
+//    m_graphProxyModel->setFilterRegExp("");
     this->hide();
 
 }
@@ -80,6 +84,12 @@ void GraphNodesSelectionDialog::graphTreeClickedEvent(QModelIndex index)
 void GraphNodesSelectionDialog::updateProxyModel()
 {
     emit m_graphProxyModel->layoutChanged();
+    m_graphProxyModel->setSourceModel(m_graphNodesModel);
+    //emit m_graphProxyModel->layoutChanged();
+    //m_graphProxyModel->revert();
+    //ui->nodesTreeView->update();
+    //m_graphProxyModel->;
+    //emit m_graphProxyModel->layoutChanged();
 }
 
 void GraphNodesSelectionDialog::setCurrentProject(BP_Project *currentProject)
