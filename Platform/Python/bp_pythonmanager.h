@@ -30,6 +30,10 @@ public:
     virtual QVariantMap importVariable(QStringList moduleHiearchy) override;
     virtual QVariantMap importClass(QStringList moduleHiearchy) override;
     virtual void compileProject(BP_Project *project) override;
+
+    QString renderEventNode(BP_EventNode *node) override;
+    QString renderFunctionNode(BP_FunctionNode *node) override;
+
 public slots:
     virtual void standardOutputReady() override;
     virtual void errorOutputReady() override;

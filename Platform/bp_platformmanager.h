@@ -18,6 +18,11 @@
 #include <grantlee_textdocument.h>
 
 class BP_Project;
+class BP_EventNode;
+class BP_FunctionNode;
+class BP_VariableNode;
+class BP_IntNode;
+class BP_StringNode;
 
 class BP_PlatformManager : public QObject
 {
@@ -34,6 +39,9 @@ public:
     virtual QVariantMap importClass(QStringList moduleHiearchy) = 0;
 
     virtual void compileProject(BP_Project *project) = 0;
+
+    virtual QString renderEventNode(BP_EventNode *node) = 0;
+    virtual QString renderFunctionNode(BP_FunctionNode *node) = 0;
 
 
 public slots:

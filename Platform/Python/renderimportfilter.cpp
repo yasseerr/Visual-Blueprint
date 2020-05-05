@@ -42,3 +42,17 @@ bool RenderImportFilter::isSafe() const
 {
     return true;
 }
+
+QVariant RenderParametersFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
+{
+    auto parameterList = input.toList();
+    foreach (QVariant parameter, parameterList) {
+        qDebug()<< "parameterName"   << parameter.toHash().value("parameterName").toString();
+    }
+    return "parameter";
+}
+
+bool RenderParametersFilter::isSafe() const
+{
+    return true;
+}

@@ -15,6 +15,8 @@
 
 #include <QPainter>
 
+#include <Platform/bp_platformmanager.h>
+
 BP_EventNode::BP_EventNode():BP_Node()
 {
 
@@ -74,6 +76,17 @@ void BP_EventNode::calculateBounds()
         eventFlows.values().at(i)->setPos(maxWidth - eventFlows.values().at(i)->boundingRect().width(),30+30*i);
     }
 
+}
+
+QString BP_EventNode::renderNode(BP_PlatformManager *platform)
+{
+    return platform->renderEventNode(this);
+}
+
+BP_Node *BP_EventNode::nextNode()
+{
+    if(eventFlows.size()==0) return nullptr;
+    return eventFlows.first()->connectedLinks().first()->outSlot()->parentNode();
 }
 
 QString BP_EventNode::eventName() const

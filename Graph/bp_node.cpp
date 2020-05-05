@@ -100,5 +100,4 @@ QString BP_Node::renderNode(BP_PlatformManager *platform)
 BP_Node *BP_Node::nextNode()
 {
     return nullptr;
-
 }

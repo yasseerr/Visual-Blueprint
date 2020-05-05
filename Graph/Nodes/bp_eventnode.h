@@ -40,6 +40,9 @@ public:
     // BP_Node interface
 public:
     virtual void calculateBounds() override;
+    QString renderNode(BP_PlatformManager *platform) override;
+    BP_Node * nextNode() override;
+
     QString eventName() const;
 public slots:
     void setEventName(QString eventName);

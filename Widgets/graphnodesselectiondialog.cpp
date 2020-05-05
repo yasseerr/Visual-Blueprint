@@ -52,6 +52,7 @@ BP_Project *GraphNodesSelectionDialog::currentProject() const
 void GraphNodesSelectionDialog::selectionTextChanged(QString newText)
 {
     m_graphProxyModel->setFilterFixedString(newText);
+    ui->nodesTreeView->setCurrentIndex(QModelIndex());
     ui->nodesTreeView->expandAll();
 }
 

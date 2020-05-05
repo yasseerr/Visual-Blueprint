@@ -17,6 +17,10 @@
 #include <Core/bp_function.h>
 #include <Core/bp_parameter.h>
 
+#include <Platform/bp_platformmanager.h>
+
+#include <Graph/Links/bp_link.h>
+
 BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent)
 {
     //adding the execution flow
@@ -170,4 +174,16 @@ void BP_FunctionNode::calculateBounds()
         m_inputParameters.at(i)->setPos(3,60+30*i);
     }
 
+}
+
+QString BP_FunctionNode::renderNode(BP_PlatformManager *platform)
+{
+    return platform->renderFunctionNode(this);
+
+}
+
+BP_Node *BP_FunctionNode::nextNode()
+{
+    if(m_executionflowOutSlot->connectedLinks().size()==0) return nullptr;
+    return m_executionflowOutSlot->connectedLinks().first()->outSlot()->parentNode();
 }

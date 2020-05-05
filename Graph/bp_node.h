@@ -15,6 +15,7 @@
 
 class BP_GraphView;
 class BP_CoreObject;
+class BP_PlatformManager;
 
 class BP_Node :public QObject, public QGraphicsItem
 {
@@ -54,7 +55,7 @@ public:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
     virtual void calculateBounds();
-    virtual QString renderNode();
+    virtual QString renderNode(BP_PlatformManager *platform);
     virtual BP_Node* nextNode();
 
 };

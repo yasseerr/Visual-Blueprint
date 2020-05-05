@@ -16,6 +16,12 @@
 
 #include <Core/bp_project.h>
 
+#include <Graph/bp_graphview.h>
+#include <Graph/bp_node.h>
+
+#include <Graph/Nodes/bp_eventnode.h>
+#include <Graph/Nodes/bp_functionnode.h>
+
 BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
     m_language = "python";
@@ -115,11 +121,37 @@ QVariantMap BP_PythonManager::importClass(QStringList moduleHiearchy)
 
 void BP_PythonManager::compileProject(BP_Project *project)
 {
+    //rendering the imports
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/project.j2");
     QVariantHash mapping ;
     mapping.insert("project",QVariant::fromValue(project));
+    //filing the init function with entryGraph content
+    QStringList mainCodeList;
+    BP_Node *currentCompilationNode = project->entryGraph()->entryNode();
+    while (currentCompilationNode) {
+        QString nodeRenderedCode = currentCompilationNode->renderNode(this);
+        mainCodeList << nodeRenderedCode;
+        currentCompilationNode = currentCompilationNode->nextNode();
+    }
+    mapping.insert("mainCodeList",mainCodeList);
     Grantlee::Context c(mapping);
+
     qDebug() <<"compilation : " << projectTemplate->render(&c);
+}
+
+QString BP_PythonManager::renderEventNode(BP_EventNode *node)
+{
+    return "#this is a event placeholder";
+}
+
+QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
+{
+    //return "this is a function placeholder";
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/Function.j2");
+    QVariantHash mapping ;
+    mapping.insert("function",QVariant::fromValue(node->functionObject()));
+    Grantlee::Context c(mapping);
+    return projectTemplate->render(&c);
 }
 
 void BP_PythonManager::standardOutputReady()

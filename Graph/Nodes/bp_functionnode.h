@@ -73,6 +73,8 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     virtual void calculateBounds() override;
+    QString renderNode(BP_PlatformManager *platform) override;
+    BP_Node * nextNode() override;
 };
 
 #endif // BP_FUNCTIONNODE_H

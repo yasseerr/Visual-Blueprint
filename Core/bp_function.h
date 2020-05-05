@@ -11,12 +11,15 @@
 #define BP_FUNCTION_H
 
 #include "bp_coreobject.h"
+#include "bp_parameter.h"
 
 #include <QObject>
 
-class BP_Parameter;
+//class BP_Parameter;
 class BP_Module;
 class BP_Class;
+
+Q_DECLARE_METATYPE(QList<BP_Parameter*>)
 
 class BP_Function : public BP_CoreObject
 {
