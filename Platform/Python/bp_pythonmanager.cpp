@@ -21,6 +21,10 @@
 
 #include <Graph/Nodes/bp_eventnode.h>
 #include <Graph/Nodes/bp_functionnode.h>
+#include <Graph/Nodes/bp_intnode.h>
+#include <Graph/Nodes/bp_stringnode.h>
+
+#include <Graph/Links/bp_link.h>
 
 BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
@@ -147,11 +151,43 @@ QString BP_PythonManager::renderEventNode(BP_EventNode *node)
 QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
 {
     //return "this is a function placeholder";
+    //rendering the variables nodes
+    QStringList functionInputsDeclaration;
+    foreach (auto inputSlot, node->inputParameters()) {
+        if(inputSlot->connectedLinks().size()>0){
+            functionInputsDeclaration << inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+        }
+    }
+
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/Function.j2");
     QVariantHash mapping ;
-    mapping.insert("function",QVariant::fromValue(node->functionObject()));
+    mapping.insert("function",QVariant::fromValue(node));
+    mapping.insert("functionInputsDeclaration",functionInputsDeclaration);
+
+    //temporary solution for parameter refrences
+    QStringList parameterRefrences;
+    foreach (auto paramSlot, node->inputParameters()) {
+        //TODO support multipe links
+        //TODO handle the different type of links
+        if(paramSlot->connectedLinks().size()>0){
+            parameterRefrences << paramSlot->connectedLinks().first()->inSlot()->reference();
+        }
+    }
+
+    mapping.insert("parameterRefrences",parameterRefrences);
+
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);
+}
+
+QString BP_PythonManager::renderIntegerNode(BP_IntNode *node)
+{
+    return node->outputSlot()->reference()+" = "+QString::number(node->variableObject()->value().toInt());
+}
+
+QString BP_PythonManager::renderStringNode(BP_StringNode *node)
+{
+    return node->variableObject()->name()  + " = " + node->variableObject()->value().toString();
 }
 
 void BP_PythonManager::standardOutputReady()

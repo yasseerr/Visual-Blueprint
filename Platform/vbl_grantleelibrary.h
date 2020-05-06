@@ -45,7 +45,7 @@ public:
         Q_UNUSED(name);
         QHash<QString, Grantlee::Filter *> m_filters;
         m_filters.insert(QStringLiteral("renderImport"),new RenderImportFilter());
-        m_filters.insert(QStringLiteral("renderParameters"),new RenderParametersFilter());
+        m_filters.insert(QStringLiteral("renderParameter"),new RenderParameterFilter());
         qDebug() << "filter requested";
         return m_filters;
     }

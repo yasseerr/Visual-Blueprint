@@ -15,10 +15,14 @@
 
 #include <Graph/bp_node.h>
 
-class BP_Function;
-class BP_FlowSlot;
-class BP_DataSlot;
+#include <Graph/Slots/bp_dataslot.h>
 
+#include <Core/bp_function.h>
+
+//class BP_Function;
+class BP_FlowSlot;
+//class BP_DataSlot;
+Q_DECLARE_METATYPE(QList<BP_DataSlot*>)
 class BP_FunctionNode : public BP_Node
 {
     Q_OBJECT

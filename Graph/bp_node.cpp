@@ -17,15 +17,20 @@
 
 #include <Platform/bp_platformmanager.h>
 
+int BP_Node::nodeCount = 0;
+
 BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50)
 {
-
+    nodeId = nodeCount;
+    nodeCount++;
     //Graphic item configurations
     this->setFlags(ItemIsMovable|ItemIsSelectable);
 }
 
 BP_Node::BP_Node(BP_GraphView *graphView):m_connectedGraph(graphView)
 {
+    nodeId = nodeCount;
+    nodeCount++;
 
 }
 

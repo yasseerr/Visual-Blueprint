@@ -7,25 +7,14 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#ifndef RENDERIMPORTFILTER_H
-#define RENDERIMPORTFILTER_H
+#ifndef GRAPH_INTERFACE_H
+#define GRAPH_INTERFACE_H
 
-#include <grantlee/filter.h>
+//used to fix circular dependencies for the between included
 
-class RenderImportFilter :public Grantlee::Filter
-{
+#include "Graph/bp_slot.h"
+#include "Graph/Links/bp_link.h"
 
-public:
-    virtual QVariant doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const override;
-    bool isSafe() const override;
-};
 
-class RenderParameterFilter :public Grantlee::Filter
-{
 
-public:
-    virtual QVariant doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const override;
-    bool isSafe() const override;
-};
-
-#endif // RENDERIMPORTFILTER_H
+#endif // GRAPH_INTERFACE_H

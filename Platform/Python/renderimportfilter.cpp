@@ -9,6 +9,7 @@
  ***************************************************************************/
 #include "renderimportfilter.h"
 
+#include <Graph/Slots/bp_dataslot.h>
 #include <QDebug>
 #include <grantlee/util.h>
 
@@ -43,16 +44,15 @@ bool RenderImportFilter::isSafe() const
     return true;
 }
 
-QVariant RenderParametersFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
+QVariant RenderParameterFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
 {
-    auto parameterList = input.toList();
-    foreach (QVariant parameter, parameterList) {
-        qDebug()<< "parameterName"   << parameter.toHash().value("parameterName").toString();
-    }
-    return "parameter";
+//    auto parameter = input.value<BP_DataSlot*>();
+//    //return parameterList.value("");
+//    return parameter->reference();
+    return  "notConverted";
 }
 
-bool RenderParametersFilter::isSafe() const
+bool RenderParameterFilter::isSafe() const
 {
     return true;
 }

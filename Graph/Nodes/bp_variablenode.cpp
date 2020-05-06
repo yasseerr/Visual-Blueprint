@@ -60,6 +60,7 @@ void BP_VariableNode::setVariableObject(BP_Variable *variableObject)
     BP_Parameter *param = new BP_Parameter(m_outputSlot);
     m_variableObject->getAsParameter(param);
     m_outputSlot->setParameterObject(param);
+    m_outputSlot->setReference(variableObject->name());
 
     emit variableObjectChanged(m_variableObject);
 }

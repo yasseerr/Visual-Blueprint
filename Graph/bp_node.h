@@ -32,7 +32,8 @@ class BP_Node :public QObject, public QGraphicsItem
 public :
     //painter members
     QRectF m_bounds;
-
+    static int nodeCount;
+    int nodeId;
 public:
     BP_Node(QObject *parent = nullptr);
     BP_Node(BP_GraphView *graphView);

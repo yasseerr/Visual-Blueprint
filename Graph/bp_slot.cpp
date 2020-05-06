@@ -19,7 +19,7 @@
 
 #include <Core/bp_coreobject.h>
 
-BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent)
+BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown")
 {
     setParentItem(parent);
 }
@@ -59,6 +59,11 @@ QList<BP_Link *> BP_Slot::connectedLinks() const
     return m_connectedLinks;
 }
 
+QString BP_Slot::reference() const
+{
+    return m_reference;
+}
+
 void BP_Slot::setParentNode(BP_Node *parentNode)
 {
     if (m_parentNode == parentNode)
@@ -77,6 +82,15 @@ void BP_Slot::setConnectedLinks(QList<BP_Link *> connectedLinks)
     emit connectedLinksChanged(m_connectedLinks);
 }
 
+void BP_Slot::setReference(QString reference)
+{
+    if (m_reference == reference)
+        return;
+
+    m_reference = reference;
+    emit referenceChanged(m_reference);
+}
+
 void BP_Slot::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "pressed at position" << event->pos();
@@ -88,7 +102,7 @@ void BP_Slot::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void BP_Slot::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "mouse moved " << event->pos();
+    //qDebug() << "mouse moved " << event->pos();
     temporaryLink->setTempOutputPoint(temporaryLink->mapFromScene(mapToScene(event->pos())));
     //TODO update only the rect arround the link
     scene()->update();
@@ -105,6 +119,7 @@ void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         if(acceptConnection(selectedItem)){
             temporaryLink->setOutSlot(selectedItem);
             m_connectedLinks << temporaryLink;
+            selectedItem->m_connectedLinks << temporaryLink;
         }
         else{
             temporaryLink->setVisible(false);

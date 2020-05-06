@@ -22,7 +22,7 @@ class BP_DataSlot : public BP_Slot
     Q_PROPERTY(BP_Parameter* parameterObject READ parameterObject WRITE setParameterObject NOTIFY parameterObjectChanged)
     Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
     Q_PROPERTY(bool showName READ showName WRITE setShowName NOTIFY showNameChanged)
-    BP_Parameter* m_parameterObject;   
+    BP_Parameter* m_parameterObject;
     bool m_isOutput;
 
     int m_parameterWidth = 0;
@@ -56,4 +56,5 @@ public:
     bool showName() const;
 };
 
+Q_DECLARE_METATYPE(BP_DataSlot*)
 #endif // BP_DATASLOT_H

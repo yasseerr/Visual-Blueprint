@@ -42,6 +42,8 @@ public:
 
     virtual QString renderEventNode(BP_EventNode *node) = 0;
     virtual QString renderFunctionNode(BP_FunctionNode *node) = 0;
+    virtual QString renderIntegerNode(BP_IntNode *node) = 0;
+    virtual QString renderStringNode(BP_StringNode *node) = 0;
 
 
 public slots:

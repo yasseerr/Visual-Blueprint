@@ -18,6 +18,9 @@
 #include <Core/bp_parameter.h>
 #include <Core/bp_variable.h>
 
+#include <Platform/bp_platformmanager.h>
+
+
 BP_IntNode::BP_IntNode():BP_VariableNode(),m_spinbox(new QSpinBox()),m_spinItem(new QGraphicsProxyWidget())
 {
     //initiation of the spinbox
@@ -41,6 +44,8 @@ BP_IntNode::BP_IntNode():BP_VariableNode(),m_spinbox(new QSpinBox()),m_spinItem(
     setCoreObject(intVariable);
     setVariableObject(intVariable);
 
+    outputSlot()->setReference("integer_"+QString::number(nodeId));
+
 }
 
 void BP_IntNode::onSpinBoxValueChanged(int val)
@@ -62,4 +67,9 @@ void BP_IntNode::calculateBounds()
     m_bounds.setTopLeft(QPoint(0,0));
 
     outputSlot()->setPos(m_bounds.width()-17,5);
+}
+
+QString BP_IntNode::renderNode(BP_PlatformManager *platform)
+{
+    return platform->renderIntegerNode(this);
 }

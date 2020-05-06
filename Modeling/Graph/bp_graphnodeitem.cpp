@@ -36,7 +36,7 @@ BP_Node *BP_GraphNodeItem::createToolNode(QObject *parent)
     if(toolType == INTEGER)
         retNode = new BP_IntNode();
     else if(toolType == STRING)
-        retNode = new BP_EventNode();
+        retNode = new BP_StringNode();
     else
         retNode =  new BP_IntNode();
     retNode->setParent(parent);

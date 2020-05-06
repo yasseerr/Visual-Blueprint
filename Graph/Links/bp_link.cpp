@@ -9,9 +9,11 @@
  ***************************************************************************/
 #include "bp_link.h"
 
+#pragma once
 #include <Graph/bp_slot.h>
 
 #include <QPainter>
+
 
 BP_Link::BP_Link(QObject *parent):QObject(parent),QGraphicsItem(),m_inSlot(nullptr),m_outSlot(nullptr)
 {

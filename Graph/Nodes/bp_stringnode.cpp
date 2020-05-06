@@ -15,6 +15,8 @@
 
 #include <Core/bp_variable.h>
 
+#include <Platform/bp_platformmanager.h>
+
 
 BP_StringNode::BP_StringNode(QObject *parent):BP_VariableNode(),m_textEdit(new QLineEdit("")),m_textItem(new QGraphicsProxyWidget())
 {
@@ -34,7 +36,7 @@ BP_StringNode::BP_StringNode(QObject *parent):BP_VariableNode(),m_textEdit(new Q
     variable->setValue("");
     variable->setIsMember(false);
     variable->setIsPrimitive(true);
-    variable->setName("varstring");
+    variable->setName("varstring_"+QString::number(nodeId));
     variable->setIsArray("false");
 
     setCoreObject(variable);
@@ -49,7 +51,7 @@ BP_StringNode::~BP_StringNode()
 
 void BP_StringNode::onTextChanged(QString text)
 {
-    m_textEdit->setText(text);
+    variableObject()->setValue(text);
 }
 
 void BP_StringNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -66,4 +68,9 @@ void BP_StringNode::calculateBounds()
 
     outputSlot()->setPos(m_bounds.width()-17,5);
 
+}
+
+QString BP_StringNode::renderNode(BP_PlatformManager *platform)
+{
+    return  platform->renderStringNode(this);
 }

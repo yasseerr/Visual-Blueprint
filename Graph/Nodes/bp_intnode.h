@@ -22,6 +22,8 @@ class BP_IntNode : public BP_VariableNode
 
     QSpinBox *m_spinbox;
     QGraphicsProxyWidget *m_spinItem;
+
+    static int intNodesCount;
 public:
     BP_IntNode();
 
@@ -35,6 +37,7 @@ public:
     // BP_Node interface
 public:
     virtual void calculateBounds() override;
+    virtual QString renderNode(BP_PlatformManager *platform) override;
 };
 
 #endif // BP_INTNODE_H
