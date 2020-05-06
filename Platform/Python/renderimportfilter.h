@@ -28,4 +28,12 @@ public:
     bool isSafe() const override;
 };
 
+class IndentFilter :public Grantlee::Filter
+{
+
+public:
+    virtual QVariant doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const override;
+    bool isSafe() const override;
+};
+
 #endif // RENDERIMPORTFILTER_H

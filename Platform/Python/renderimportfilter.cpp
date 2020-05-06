@@ -56,3 +56,20 @@ bool RenderParameterFilter::isSafe() const
 {
     return true;
 }
+
+QVariant IndentFilter::doFilter(const QVariant &input, const QVariant &argument, bool autoescape) const
+{
+    int indentCount = Grantlee::getSafeString(argument).get().toInt();
+    //qDebug() << "indentation by : " << indentCount;
+    QString indentation = QString("\t").repeated(indentCount);
+    //qDebug() << "indentation : " << indentation;
+    QString returnString = Grantlee::getSafeString(input);
+    //qDebug() << "return String : "  << returnString;
+    returnString.replace("\n","\n"+indentation);
+    return  returnString;
+}
+
+bool IndentFilter::isSafe() const
+{
+    return true;
+}

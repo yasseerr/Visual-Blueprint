@@ -46,6 +46,7 @@ public:
         QHash<QString, Grantlee::Filter *> m_filters;
         m_filters.insert(QStringLiteral("renderImport"),new RenderImportFilter());
         m_filters.insert(QStringLiteral("renderParameter"),new RenderParameterFilter());
+        m_filters.insert(QStringLiteral("indentString"),new IndentFilter());
         qDebug() << "filter requested";
         return m_filters;
     }

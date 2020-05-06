@@ -9,7 +9,9 @@
  ***************************************************************************/
 #include "bp_pythonmanager.h"
 
+#include <QApplication>
 #include <QDebug>
+#include <QDir>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -140,7 +142,19 @@ void BP_PythonManager::compileProject(BP_Project *project)
     mapping.insert("mainCodeList",mainCodeList);
     Grantlee::Context c(mapping);
 
-    qDebug() <<"compilation : " << projectTemplate->render(&c);
+    QString generatedCode = projectTemplate->render(&c);
+    qDebug() << generatedCode.toUtf8();
+
+    //saving to file
+    QDir compilationDir = QApplication::applicationDirPath();
+    if(!compilationDir.exists("Compilation")) compilationDir.mkdir("Compilation");
+    compilationDir.cd("Compilation");
+
+    QFile outputFile(compilationDir.path()+"/"+project->projectName()+".py");
+    outputFile.open(QIODevice::WriteOnly|QIODevice::Text);
+    QTextStream ts(&outputFile);
+    ts << generatedCode;
+    outputFile.close();
 }
 
 QString BP_PythonManager::renderEventNode(BP_EventNode *node)
@@ -187,7 +201,7 @@ QString BP_PythonManager::renderIntegerNode(BP_IntNode *node)
 
 QString BP_PythonManager::renderStringNode(BP_StringNode *node)
 {
-    return node->variableObject()->name()  + " = " + node->variableObject()->value().toString();
+    return node->variableObject()->name()  + " = \"" + node->variableObject()->value().toString()+"\"";
 }
 
 void BP_PythonManager::standardOutputReady()
