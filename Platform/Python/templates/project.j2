@@ -1,26 +1,22 @@
 #importing modules
-{%for module in project.importedModules %}}
-{{ module.importHiearchy|renderImport:"module" }}
-{%endfor%}}
-
+{%for module in project.importedModules %}{{ module.importHiearchy|renderImport:"module" }}
+{%endfor%}
 #importing classes
-{%for classObj in project.importedClasses %}}
-{#the lenght of the import object {{classObj.importHiearchy|length}}#}
-{{classObj.importHiearchy|renderImport:"class"}}
-{%endfor%}}
-
+{%for classObj in project.importedClasses %}{{classObj.importHiearchy|renderImport:"class"}}
+{%endfor%}{#the lenght of the import object {{classObj.importHiearchy|length}}#}
 #importing Functions
-{%for functionObj in project.importedFunctions %}}
-{{functionObj.importHiearchy|renderImport:"function"}}
-{%endfor%}}
-
+{%for functionObj in project.importedFunctions %}{{functionObj.importHiearchy|renderImport:"function"}}
+{%endfor%}
 #importing Variables
-{%for variableObj in project.importedVariables %}}
-{{variableObj.importHiearchy|renderImport:"variable"}}
-{%endfor%}}
+{%for variableObj in project.importedVariables %}{{variableObj.importHiearchy|renderImport:"variable"}}
+{%endfor%}
 
-
+#Project class
 class {{project.projectName}}(object):
-    def __init__(self):
-        pass
 
+	def __init__(self):
+		#loading the entrygraph code
+{%for code_ in mainCodeList %}{{ code_|indentString:"2" }}
+{%endfor%}
+
+test = {{project.projectName}}()

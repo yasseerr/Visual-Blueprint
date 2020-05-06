@@ -39,6 +39,7 @@ public:
     virtual QVariantMap importClass(QStringList moduleHiearchy) = 0;
 
     virtual void compileProject(BP_Project *project) = 0;
+    virtual void runProject(BP_Project *project) = 0;
 
     virtual QString renderEventNode(BP_EventNode *node) = 0;
     virtual QString renderFunctionNode(BP_FunctionNode *node) = 0;

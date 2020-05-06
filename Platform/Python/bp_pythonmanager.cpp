@@ -157,6 +157,18 @@ void BP_PythonManager::compileProject(BP_Project *project)
     outputFile.close();
 }
 
+void BP_PythonManager::runProject(BP_Project *project)
+{
+    compileProject(project);
+    QString projectFilePath = "./Compilation/"+project->projectName()+".py";
+    m_managerProcess.setArguments(QStringList() << projectFilePath);
+    m_managerProcess.start();
+    m_managerProcess.waitForFinished();
+    QByteArray executionOutput =  m_managerProcess.readAllStandardOutput();
+    qDebug() << executionOutput;
+    qDebug() << m_managerProcess.readAllStandardError();
+}
+
 QString BP_PythonManager::renderEventNode(BP_EventNode *node)
 {
     return "#this is a event placeholder";

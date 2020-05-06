@@ -49,6 +49,8 @@ private slots:
 
     void on_action_Build_triggered();
 
+    void on_action_Run_triggered();
+
 private:
     Ui::MainWindow *ui;
     ImportsModel *m_importsModel;

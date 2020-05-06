@@ -135,6 +135,12 @@ void MainWindow::on_actionclean_cache_triggered()
 
 void MainWindow::on_action_Build_triggered()
 {
-    statusBar()->showMessage("building project ...");
+    statusBar()->showMessage("building project ...",2000);
     m_currentProject->platformManager()->compileProject(m_currentProject);
+}
+
+void MainWindow::on_action_Run_triggered()
+{
+    statusBar()->showMessage("runing project ...",3000);
+    m_currentProject->platformManager()->runProject(m_currentProject);
 }
