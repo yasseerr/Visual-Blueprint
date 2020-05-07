@@ -122,7 +122,8 @@ def getClassDict(class_obj,class_name):
         "name": class_name,
         "functions": [],
         "variables": [],
-        "constructors": []
+        "constructors": [],
+        "type":"class"
 
     }
     #getting the variables and functions
@@ -205,7 +206,8 @@ def getFunctionDict(function_obj,function_name):
         "outputs": [],
         "hasKeyWords": False,
         "hasPositional": False,
-        "isFullyImported": False
+        "isFullyImported": False,
+        "type":"func"
     }
     if(inspect.isbuiltin(function_obj)):
         #TODO implement help parsing for the builtin functions
@@ -276,7 +278,8 @@ def getVariableDict(var_obj,var_name,module_arg=None,class_arg=None):
         "className":getVariableClass(var_obj),
         "isPrimitive": isPrimitive(var_obj),
         "isArray": isArray(var_obj),
-        "classModule":""#getClassModule(var_obj)
+        "classModule":"",#getClassModule(var_obj),
+        "type":"var"
     }
     return returnDict
 
@@ -306,10 +309,47 @@ def getVariableValue(var_obj):
         #TODO replace unknown by a uninque string
         return "unknown"
 
+###__________________________Loading builtins SECTION_____________________________________________
+
+
+def loadBuiltins():
+    retList = []
+    inspectedModule = importlib.import_module("builtins")
+
+    module_members = inspect.getmembers(inspectedModule)
+    #print(len(module_members))
+    for memberName,memberObj in module_members:
+        #print(memberName)
+        retList.append(getObjectDict(memberObj,memberName))
+    inspectJson = json.dumps(retList)
+    #print(len(inspectJson))
+    sys.stdout.write('002')
+    sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
+    sys.stdout.write(inspectJson)
+    sys.stdout.flush()
+
+
+
+###_____________________________________Helper_Function________________________________________________
+
 
 #listGlobalModules()
 #inspect_entered_module()
 #heping functions
+
+def getObjectDict(obj,name,type=["variable"]):
+    obj_dict = {}
+    if inspect.isfunction(obj) or inspect.isbuiltin(obj) or inspect.ismethoddescriptor(obj):
+        obj_dict = getFunctionDict(obj,name)
+        type[0] = 'function'
+    elif inspect.isclass(obj):
+        obj_dict = getClassDict(obj,name)
+        type[0] = 'class'
+    else:
+        obj_dict = getVariableDict(obj,name)
+        type[0] = 'variable'
+
+    return obj_dict
 
 def findMemberByName(name,membersList):
     for x in membersList:
@@ -323,7 +363,7 @@ def writeIntToStdout(n:int,stringSize=3):
     return nStr
 
 
-#operation Mapping
+#________________________________________Operation_Mapping______________________________________________
 
 operation_map = { 
      "listGM":listGlobalModules,
@@ -332,6 +372,7 @@ operation_map = {
      "importFunction":importFunction,
      "importVariable":importVariable,
      "importClass":importClass,
+     "loadBuiltins":loadBuiltins
 }
 
 ## select the operation

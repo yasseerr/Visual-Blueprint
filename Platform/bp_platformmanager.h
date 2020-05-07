@@ -32,6 +32,7 @@ public:
 
     //classes to implement according to Framwork/languages
     virtual QStringList listGlobalModules() = 0;
+    virtual void loadBuiltins(BP_Project *project) = 0;
     virtual QList<QPair<QString,QString>> inspectModuleByName(QStringList moduleHierarchy) = 0;
     virtual QVariantMap importModule(QStringList moduleHiearchy) = 0;
     virtual QVariantMap importFunction(QStringList moduleHiearchy) = 0;

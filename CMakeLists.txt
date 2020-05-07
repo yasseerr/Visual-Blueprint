@@ -84,6 +84,9 @@ file(GLOB widgets_sources
 add_executable(VisualBlueprint
    main.cpp 
    mainwindow.cpp
+   mainwindow.h
+   bp_utils.h
+   bp_utils.cpp
    mainwindow.ui
    resources.qrc
    ${core_sources}

@@ -24,6 +24,7 @@ public:
     // BP_PlatformManager interface
 public:
     virtual QStringList listGlobalModules() override;
+    void loadBuiltins(BP_Project *project) override;
     virtual QList<QPair<QString, QString> > inspectModuleByName(QStringList moduleHierchy) override;
     virtual QVariantMap importModule(QStringList moduleHiearchy) override;
     virtual QVariantMap importFunction(QStringList moduleHiearchy) override;

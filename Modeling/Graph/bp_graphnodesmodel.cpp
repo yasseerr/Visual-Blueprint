@@ -153,6 +153,13 @@ void BP_GraphNodesModel::updateModule()
             functionItem->setCoreObject(function_);
         }
     }
+    //adding the builtins
+    BP_GraphNodeItem *builtinsItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"builtins");
+    foreach (auto obj_, m_connectedProject->builtins()) {
+        BP_GraphNodeItem *objItem = new BP_GraphNodeItem(builtinsItem,builtinsItem);
+        objItem->setCoreObject(obj_);
+    }
+
 //    beginInsertRows(indexForItem(m_rootItem),0,m_rootItem->childItems.count()-1);
 //    endInsertRows();
     emit layoutChanged();
@@ -174,6 +181,7 @@ void BP_GraphNodesModel::setConnectedProject(BP_Project *connectedProject)
         return;
 
     m_connectedProject = connectedProject;
+    updateModule();
     connect(m_connectedProject,&BP_Project::importedItemsAdded,this,&BP_GraphNodesModel::updateModule);
     emit connectedProjectChanged(m_connectedProject);
 }

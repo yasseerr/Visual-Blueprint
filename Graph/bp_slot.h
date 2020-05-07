@@ -22,7 +22,8 @@ class BP_Link;
 //Q_DECLARE_OPAQUE_POINTER(BP_Link*)
 //Q_DECLARE_OPAQUE_POINTER(QList<BP_Link*>)
 //Q_DECLARE_METATYPE(BP_Link*)
-//Q_DECLARE_METATYPE(QList<BP_Link*>)
+//typedef QList<BP_Link *> LinkList;
+//Q_DECLARE_METATYPE(LinkList)
 
 class BP_Slot : public QObject , public QGraphicsItem
 {

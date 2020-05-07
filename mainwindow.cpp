@@ -1,3 +1,4 @@
+#include "bp_utils.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -31,6 +32,12 @@ MainWindow::MainWindow(QWidget *parent)
     setCorner(Qt::BottomRightCorner,Qt::RightDockWidgetArea);
     tabifyDockWidget(ui->messagedDockWidget,ui->consoleDockWidget);
     tabifyDockWidget(ui->modulesDockWidget,ui->importedDockWidget);
+    ui->modulesDockWidget->raise();
+    ui->messagedDockWidget->raise();
+
+    //Setting the utils
+    BP_Utils::textEdit = ui->messagesTextEdit;
+    BP_Utils::log("message display connected");
 
     //initializing the importedmodel
     m_impotedModel = new BP_ImportedModel();
@@ -67,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_graphNodesDialog = new GraphNodesSelectionDialog(m_graphNodeModel,this);
     m_graphNodesDialog->setCurrentProject(m_currentProject);
 
+
 }
 
 MainWindow::~MainWindow()
@@ -94,6 +102,8 @@ void MainWindow::createNewProject()
     //adding the functions tabs
     int tabIndex = ui->functionsWidget->addTab(m_currentProject->entryGraph(),"Constructor Graph");
     ui->functionsWidget->setCurrentIndex(tabIndex);
+
+    //load the builtins
 }
 
 BP_Project *MainWindow::currentProject() const

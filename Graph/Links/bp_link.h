@@ -13,11 +13,11 @@
 #include <QGraphicsItem>
 #include <QObject>
 
-//#include <Graph/bp_slot.h>
+#include <Graph/bp_slot.h>
 
 class BP_Slot;
 
-Q_DECLARE_OPAQUE_POINTER(BP_Slot*)
+
 class BP_Link :public QObject, public QGraphicsItem
 {
     Q_OBJECT
@@ -58,7 +58,7 @@ signals:
     void outSlotChanged(BP_Slot* outSlot);
     void tempOutputPointChanged(QPointF tempOutputPoint);
 };
-Q_DECLARE_METATYPE(BP_Link*)
-Q_DECLARE_METATYPE(QList<BP_Link*>)
+//Q_DECLARE_METATYPE(BP_Link*)
+//Q_DECLARE_METATYPE(QList<BP_Link*>)
 
 #endif // BP_LINK_H

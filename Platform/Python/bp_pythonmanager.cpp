@@ -15,6 +15,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <bp_utils.h>
 
 #include <Core/bp_project.h>
 
@@ -53,6 +54,35 @@ QStringList BP_PythonManager::listGlobalModules()
         //qDebug() << item.toString();
     }
     return returnList;
+}
+
+void BP_PythonManager::loadBuiltins(BP_Project *project)
+{
+    QStringList returnList;
+
+    m_managerProcess.setArguments(QStringList() << m_managerFile << "loadBuiltins");
+    m_managerProcess.start();
+    m_managerProcess.waitForFinished();
+    QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
+    QJsonArray listJson = QJsonDocument::fromJson(listRawData).array();
+    auto builtinsList = listJson.toVariantList();
+    foreach (auto builtinVariant, builtinsList ) {
+        QVariantMap builinMap = builtinVariant.toMap();
+        //TODO collapse to getCoreObjectFromVariant
+        if(builinMap.value("type").toString() == "func"){
+            BP_Function *builtinFunc = new BP_Function(&builinMap,project);
+            project->addBuiltin(builtinFunc);
+        }
+        else if(builinMap.value("type").toString() == "var"){
+            BP_Variable *builtinVar = new BP_Variable(&builinMap,project);
+            project->addBuiltin(builtinVar);
+        }
+        else if(builinMap.value("type").toString() == "class"){
+            BP_Class *builtinClass = new BP_Class(&builinMap,project);
+            project->addBuiltin(builtinClass);
+        }
+
+    }
 }
 
 QList<QPair<QString, QString>> BP_PythonManager::inspectModuleByName(QStringList moduleHierachy)
@@ -165,8 +195,8 @@ void BP_PythonManager::runProject(BP_Project *project)
     m_managerProcess.start();
     m_managerProcess.waitForFinished();
     QByteArray executionOutput =  m_managerProcess.readAllStandardOutput();
-    qDebug() << executionOutput;
-    qDebug() << m_managerProcess.readAllStandardError();
+    BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
+    BP_Utils::log(m_managerProcess.readAllStandardError(),"PythonManager",BP_Utils::Error);
 }
 
 QString BP_PythonManager::renderEventNode(BP_EventNode *node)

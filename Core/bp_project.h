@@ -40,6 +40,7 @@ class BP_Project : public QObject
     Q_PROPERTY(QList<BP_Function*> importedFunctions READ importedFunctions WRITE setImportedFunctions NOTIFY importedFunctionsChanged)
     Q_PROPERTY(QList<BP_Variable*> importedVariables READ importedVariables WRITE setImportedVariables NOTIFY importedVariablesChanged)
     Q_PROPERTY(QList<BP_Class*> importedClasses READ importedClasses WRITE setImportedClasses NOTIFY importedClassesChanged)
+    Q_PROPERTY(QList<BP_CoreObject*> builtins READ builtins WRITE setBuiltins NOTIFY builtinsChanged)
 
     Q_PROPERTY(QList<BP_Variable*> memberVariables READ memberVariables WRITE setMemberVariables NOTIFY memberVariablesChanged)
     Q_PROPERTY(BP_GraphView* entryGraph READ entryGraph WRITE setEntryGraph NOTIFY entryGraphChanged)
@@ -53,7 +54,8 @@ class BP_Project : public QObject
     QList<BP_Class*> m_importedClasses;
     QList<BP_Variable*> m_memberVariables;
     BP_GraphView* m_entryGraph;
-    QList<BP_GraphView*> m_functionsGraphs;
+    QList<BP_GraphView*> m_functionsGraphs;    
+    QList<BP_CoreObject*> m_builtins;
 
 public:
     explicit BP_Project(QString projectName,QObject *parent = nullptr);
@@ -65,6 +67,7 @@ public:
     void importClass(QStringList moduleHierarchy);
 
     void addMemberVariable(BP_Variable *newVariable);
+    void addBuiltin(BP_CoreObject *builtInObj);
 
     QString projectName() const;
 
@@ -83,6 +86,8 @@ public:
     BP_GraphView* entryGraph() const;
 
     QList<BP_GraphView*> functionsGraphs() const;
+
+    QList<BP_CoreObject*> builtins() const;
 
 public slots:
     void setProjectName(QString projectName);
@@ -103,6 +108,8 @@ public slots:
 
     void setFunctionsGraphs(QList<BP_GraphView*> functionsGraphs);
 
+    void setBuiltins(QList<BP_CoreObject*> builtins);
+
 signals:
     void importedItemsAdded(BP_CoreObject *newImportedObj);
 
@@ -115,6 +122,7 @@ signals:
     void memberVariablesChanged(QList<BP_Variable*> memberVariables);
     void entryGraphChanged(BP_GraphView* entryGraph);
     void functionsGraphsChanged(QList<BP_GraphView*> functionsGraphs);
+    void builtinsChanged(QList<BP_CoreObject*> builtins);
 };
 
 #endif // BP_PROJECT_H

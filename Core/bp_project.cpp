@@ -30,6 +30,7 @@ BP_Project::BP_Project(QString projectName,QObject *parent) : QObject(parent),
 void BP_Project::setupPlatform()
 {
     m_platformManager = new BP_PythonManager(this);
+    m_platformManager->loadBuiltins(this);
 }
 
 void BP_Project::importModule(QStringList moduleHierarchy)
@@ -87,6 +88,11 @@ void BP_Project::addMemberVariable(BP_Variable *newVariable)
     m_memberVariables << newVariable;
 }
 
+void BP_Project::addBuiltin(BP_CoreObject *builtInObj)
+{
+    m_builtins << builtInObj;
+}
+
 QString BP_Project::projectName() const
 {
     return m_projectName;
@@ -130,6 +136,11 @@ BP_GraphView *BP_Project::entryGraph() const
 QList<BP_GraphView *> BP_Project::functionsGraphs() const
 {
     return m_functionsGraphs;
+}
+
+QList<BP_CoreObject *> BP_Project::builtins() const
+{
+    return m_builtins;
 }
 
 void BP_Project::setProjectName(QString projectName)
@@ -211,4 +222,13 @@ void BP_Project::setFunctionsGraphs(QList<BP_GraphView *> functionsGraphs)
 
     m_functionsGraphs = functionsGraphs;
     emit functionsGraphsChanged(m_functionsGraphs);
+}
+
+void BP_Project::setBuiltins(QList<BP_CoreObject *> builtins)
+{
+    if (m_builtins == builtins)
+        return;
+
+    m_builtins = builtins;
+    emit builtinsChanged(m_builtins);
 }
