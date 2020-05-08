@@ -44,6 +44,19 @@ find_package(Grantlee5 REQUIRED)
 #  )
 #else()
 
+#copy the platform files used by vtk
+file(GLOB pythonPlatform
+    ${CMAKE_SOURCE_DIR}/Platform/Python/*.py
+    )
+file(COPY ${pythonPlatform}
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Platform/Python)
+file(GLOB pythonTemplates
+     ${CMAKE_SOURCE_DIR}/Platform/Python/templates/*.j2
+)
+file(COPY ${pythonTemplates}
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Platform/templates)
+
+
 file(GLOB core_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/*h

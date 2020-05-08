@@ -111,9 +111,11 @@ QVariantMap BP_PythonManager::importModule(QStringList moduleHiearchy)
     m_managerProcess.start();
     m_managerProcess.waitForFinished();
     QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
-    //qDebug() << listRawData;
+    qDebug() <<  listRawData;
     qDebug() << m_managerProcess.readAllStandardError();
+    //QJsonParseError jsonError;
     QJsonObject jsonObject = QJsonDocument::fromJson(listRawData).object();
+    //qDebug() << jsonError.errorString() << jsonError.offset;
     return jsonObject.toVariantMap();
 }
 
@@ -123,7 +125,7 @@ QVariantMap BP_PythonManager::importFunction(QStringList moduleHiearchy)
     m_managerProcess.start();
     m_managerProcess.waitForFinished();
     QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
-    //qDebug() << listRawData;
+    qDebug() << listRawData.size();
     qDebug() << m_managerProcess.readAllStandardError();
     QJsonObject jsonObject = QJsonDocument::fromJson(listRawData).object();
     return jsonObject.toVariantMap();
@@ -195,8 +197,9 @@ void BP_PythonManager::runProject(BP_Project *project)
     m_managerProcess.start();
     m_managerProcess.waitForFinished();
     QByteArray executionOutput =  m_managerProcess.readAllStandardOutput();
-    BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
-    BP_Utils::log(m_managerProcess.readAllStandardError(),"PythonManager",BP_Utils::Error);
+    if(executionOutput.size()>0)BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
+    QByteArray errorData  = m_managerProcess.readAllStandardError();
+    if(errorData.size()>0)BP_Utils::log(m_managerProcess.readAllStandardError(),"PythonManager",BP_Utils::Error);
 }
 
 QString BP_PythonManager::renderEventNode(BP_EventNode *node)

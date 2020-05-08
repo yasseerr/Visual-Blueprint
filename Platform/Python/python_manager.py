@@ -1,5 +1,6 @@
 import pydoc
 import json
+import simplejson
 import sys
 import importlib
 import inspect
@@ -16,6 +17,8 @@ def listGlobalModules():
     globalModules = []
     for module in pydoc.pkgutil.iter_modules():
         globalModules += [module[1]]
+    for module in sys.builtin_module_names:
+        globalModules += [module]
     modulesJson = json.dumps(globalModules)
     sys.stdout.write('001')
     sys.stdout.write(writeIntToStdout(len(modulesJson),9))
@@ -53,10 +56,10 @@ def importModule():
     moduleHierachy = sys.argv[2:]
     moduleHierachy.reverse()
     inspectedModule = getModuleFromHiearchy(moduleHierachy)
-
     module_name = inspectedModule.__name__
     moduleDict = getModuleDict(inspectedModule,module_name)
-    inspectJson = json.dumps(moduleDict)
+    inspectJson = simplejson.dumps(moduleDict,ignore_nan=True)
+    #print(len(inspectJson))
     sys.stdout.write('002')
     sys.stdout.write(writeIntToStdout(len(inspectJson), 9))
     sys.stdout.write(inspectJson)
@@ -209,43 +212,45 @@ def getFunctionDict(function_obj,function_name):
         "isFullyImported": False,
         "type":"func"
     }
-    if(inspect.isbuiltin(function_obj)):
-        #TODO implement help parsing for the builtin functions
+    # if(inspect.isbuiltin(function_obj)):
+    #     #TODO implement help parsing for the builtin functions
+    #     functionDict["hasKeyWords"] = True
+    #     functionDict["hasPositional"] = True
+    #     return functionDict
+    try:
+        functionSignature = inspect.signature(function_obj)
+        for param_name, parameter in functionSignature.parameters.items():
+            param_map = {
+                "name": param_name,
+                "default": "unknown",
+                "class": "unknown",
+                "constructor": 0,
+                "kind": 0,  # 0: for positionl_kw, 1: for kw
+            }
+            #TODO get the constructor for the variable
+            if parameter.kind == inspect.Parameter.POSITIONAL_OR_KEYWORD:
+                param_map["class"] = (
+                    parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+                functionDict["inputs"].append(param_map)
+            elif parameter.kind == inspect.Parameter.KEYWORD_ONLY:
+                param_map["class"] = (
+                    parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+                param_map["kind"] = 1
+                functionDict["inputs"].append(param_map)
+            elif parameter.kind == inspect.Parameter.POSITIONAL_ONLY:
+                param_map["class"] = (parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
+                param_map["kind"] = 2
+                functionDict["inputs"].append(param_map)
+            elif parameter.kind == inspect.Parameter.VAR_POSITIONAL:
+                functionDict["hasPositional"] = True
+            elif parameter.kind == inspect.Parameter.VAR_KEYWORD:
+                functionDict["hasKeyWords"] = True
+            #TODO add the default variable dict
+        if functionSignature.return_annotation is not inspect._empty:
+            functionDict["outputs"].append(functionSignature.return_annotation.__name__)
+    except :
         functionDict["hasKeyWords"] = True
         functionDict["hasPositional"] = True
-        return functionDict
-    functionSignature = inspect.signature(function_obj)
-    for param_name, parameter in functionSignature.parameters.items():
-        param_map = {
-            "name": param_name,
-            "default": "unknown",
-            "class": "unknown",
-            "constructor": 0,
-            "kind": 0 , # 0: for positionl_kw, 1: for kw
-        }
-        #TODO get the constructor for the variable
-        if parameter.kind == inspect.Parameter.POSITIONAL_OR_KEYWORD:
-            param_map["class"] = (
-                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
-            functionDict["inputs"].append(param_map)
-        elif parameter.kind == inspect.Parameter.KEYWORD_ONLY:
-            param_map["class"] = (
-                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
-            param_map["kind"] = 1
-            functionDict["inputs"].append(param_map)
-        elif parameter.kind == inspect.Parameter.POSITIONAL_ONLY:
-            param_map["class"] = (
-                parameter.annotation.__name__ if parameter.annotation is not inspect._empty else "unknown")
-            param_map["kind"] = 2
-            functionDict["inputs"].append(param_map)
-        elif parameter.kind == inspect.Parameter.VAR_POSITIONAL:
-            functionDict["hasPositional"] = True
-        elif parameter.kind == inspect.Parameter.VAR_KEYWORD:
-            functionDict["hasKeyWords"] = True
-        #TODO add the default variable dict
-    if functionSignature.return_annotation is not inspect._empty:
-        returnDict["outputs"].append(
-            functionSignature.return_annotation.__name__)
 
     return functionDict
 
