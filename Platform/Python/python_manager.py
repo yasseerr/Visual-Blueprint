@@ -4,6 +4,7 @@ import simplejson
 import sys
 import importlib
 import inspect
+import re
 ## Operations On python env
 
 PRIMITIVE_TYPES = [int, float ,bool ,str]
@@ -249,10 +250,43 @@ def getFunctionDict(function_obj,function_name):
         if functionSignature.return_annotation is not inspect._empty:
             functionDict["outputs"].append(functionSignature.return_annotation.__name__)
     except :
+        getFunctionParametersFromDoc(function_obj,functionDict)
         functionDict["hasKeyWords"] = True
         functionDict["hasPositional"] = True
 
     return functionDict
+
+def getFunctionParametersFromDoc(func,funcDict):
+    try:
+        functionDoc = pydoc.getdoc(func)
+        functionSignatureString = functionDoc.splitlines()[0]
+        #TODO add support for multi declaration
+        ##create the pattern
+        signaturePattern = r"(?P<name>\w*)\((?P<args>.*)\)"
+        argPattern = r"\s?(?P<name>\w*)=?(?P<value>.*)"
+
+        pt = re.match(signaturePattern,functionSignatureString)
+        argsString = pt.group("args")
+        #TODO fix the parameters that have commas inside brackets as parameter *[a,t]
+        rawArgsArray = argsString.split(",")
+        for argString in rawArgsArray:
+            argpt = re.match(argPattern,argString)
+            argName = argpt.group('name')
+            argValue = argpt.group('value')
+            #TODO handle the default values
+            #TODO handle the positional args
+            if(argName == ''): continue
+            ##extract values from the patern    
+            param_map = {
+                "name": argName,
+                "default": "unknown",
+                "class": "unknown",
+                "constructor": 0,
+                "kind": 0 ,  # 0: for positionl_kw, 1: for kw
+            }
+            funcDict["inputs"].append(param_map)
+    except :
+        pass
 
 
 

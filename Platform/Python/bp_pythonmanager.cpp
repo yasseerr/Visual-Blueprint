@@ -199,7 +199,7 @@ void BP_PythonManager::runProject(BP_Project *project)
     QByteArray executionOutput =  m_managerProcess.readAllStandardOutput();
     if(executionOutput.size()>0)BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
     QByteArray errorData  = m_managerProcess.readAllStandardError();
-    if(errorData.size()>0)BP_Utils::log(m_managerProcess.readAllStandardError(),"PythonManager",BP_Utils::Error);
+    if(errorData.size()>0)BP_Utils::log(errorData,"PythonManager",BP_Utils::Error);
 }
 
 QString BP_PythonManager::renderEventNode(BP_EventNode *node)
