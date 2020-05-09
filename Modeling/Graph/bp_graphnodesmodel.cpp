@@ -124,10 +124,16 @@ void BP_GraphNodesModel::updateModule()
         varItem->setCoreObject(importedVar);
     }
 
+    //adding the classes items
     BP_GraphNodeItem *classessItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Classes");
     foreach (auto class_, m_connectedProject->importedClasses()) {
         BP_GraphNodeItem *classItem = new BP_GraphNodeItem(classessItem,classessItem);
         classItem->setCoreObject(class_);
+        //adding the classes members
+        foreach (auto member, class_->memberFunctions()) {
+            BP_GraphNodeItem *classMember = new BP_GraphNodeItem(classItem,classItem);
+            classMember->setCoreObject(member);
+        }
     }
 
     BP_GraphNodeItem *functionsItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Functions");
@@ -143,6 +149,11 @@ void BP_GraphNodesModel::updateModule()
         foreach (auto class_, module->classes()) {
             BP_GraphNodeItem *classItem = new BP_GraphNodeItem(moduleItem,moduleItem);
             classItem->setCoreObject(class_);
+            //adding the classes members
+            foreach (auto member, class_->memberFunctions()) {
+                BP_GraphNodeItem *classMember = new BP_GraphNodeItem(classItem,classItem);
+                classMember->setCoreObject(member);
+            }
         }
         foreach (BP_Variable* variable, module->moduleValues()) {
             BP_GraphNodeItem *valueItem = new BP_GraphNodeItem(moduleItem,moduleItem);
@@ -158,7 +169,16 @@ void BP_GraphNodesModel::updateModule()
     foreach (auto obj_, m_connectedProject->builtins()) {
         BP_GraphNodeItem *objItem = new BP_GraphNodeItem(builtinsItem,builtinsItem);
         objItem->setCoreObject(obj_);
+        auto classObj = qobject_cast<BP_Class*>(obj_);
+        if(classObj){
+            //adding the classes members
+            foreach (auto member, classObj->memberFunctions()) {
+                BP_GraphNodeItem *classMember = new BP_GraphNodeItem(objItem,objItem);
+                classMember->setCoreObject(member);
+            }
+        }
     }
+
 
 //    beginInsertRows(indexForItem(m_rootItem),0,m_rootItem->childItems.count()-1);
 //    endInsertRows();

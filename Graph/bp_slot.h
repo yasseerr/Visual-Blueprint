@@ -68,6 +68,8 @@ public slots:
     // QGraphicsItem interface
     void setReference(QString reference);
 
+    virtual void showNextNodeOptions();
+
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;

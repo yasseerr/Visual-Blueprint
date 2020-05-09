@@ -106,3 +106,4 @@ BP_Node *BP_Node::nextNode()
 {
     return nullptr;
 }
+

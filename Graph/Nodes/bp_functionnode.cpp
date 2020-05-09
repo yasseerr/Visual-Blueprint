@@ -21,7 +21,7 @@
 
 #include <Graph/Links/bp_link.h>
 
-BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent)
+BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent),m_selfSlot(nullptr)
 {
     //adding the execution flow
     m_executionflowInSlot = new BP_FlowSlot(this);
@@ -41,6 +41,12 @@ void BP_FunctionNode::loadCurrentFunction()
     m_returnSlot = new BP_DataSlot(this);
     m_returnSlot->setParameterObject(m_functionObject->returnArg());
     m_returnSlot->setIsOutput(true);
+
+    //member slot
+    if(m_functionObject->isMember()){
+        m_selfSlot = new BP_DataSlot(this);
+        //m_selfSlot->setShowName("self");
+    }
 
     //input args
     foreach (auto param, m_functionObject->inputArgs()) {
@@ -125,6 +131,15 @@ void BP_FunctionNode::setFunctionObject(BP_Function *functionObject)
     emit functionObjectChanged(m_functionObject);
 }
 
+void BP_FunctionNode::setSelfSlot(BP_DataSlot *selfSlot)
+{
+    if (m_selfSlot == selfSlot)
+        return;
+
+    m_selfSlot = selfSlot;
+    emit selfSlotChanged(m_selfSlot);
+}
+
 void BP_FunctionNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     //Drawing the header
@@ -156,6 +171,14 @@ void BP_FunctionNode::calculateBounds()
     int outputWidth = 30 + QFontMetrics(QFont()).boundingRect("return").width();
     maxWidth = maxWidth>outputWidth? maxWidth:outputWidth;
     maxHeight += 30;
+
+    //self variable bound
+    if(functionObject()->isMember()){
+        int outputWidth = 30 + QFontMetrics(QFont()).boundingRect("self").width();
+        maxWidth = maxWidth>outputWidth? maxWidth:outputWidth;
+        maxHeight += 30;
+    }
+
     //parameter bounds
     foreach (auto paramSlot, m_inputParameters) {
         int paramWidth = 30 + QFontMetrics(QFont()).boundingRect(paramSlot->parameterObject()->parameterName()).width();
@@ -169,9 +192,12 @@ void BP_FunctionNode::calculateBounds()
     m_bounds.setY(0);
     //setting the child items position
     m_returnSlot->setPos(m_bounds.width()-m_returnSlot->boundingRect().width(),30);
+    if(functionObject()->isMember()){
+        m_selfSlot->setPos(3,60);
+    }
     m_executionflowOutSlot->setPos(m_bounds.width()-15,7);
     for (int i = 0; i < m_inputParameters.size(); ++i) {
-        m_inputParameters.at(i)->setPos(3,60+30*i);
+        m_inputParameters.at(i)->setPos(3,(m_functionObject->isMember()?90:60)+30*i);
     }
 
 }
@@ -186,4 +212,9 @@ BP_Node *BP_FunctionNode::nextNode()
 {
     if(m_executionflowOutSlot->connectedLinks().size()==0) return nullptr;
     return m_executionflowOutSlot->connectedLinks().first()->outSlot()->parentNode();
+}
+
+BP_DataSlot *BP_FunctionNode::selfSlot() const
+{
+    return m_selfSlot;
 }

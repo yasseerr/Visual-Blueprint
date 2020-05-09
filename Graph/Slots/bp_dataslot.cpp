@@ -74,6 +74,8 @@ void BP_DataSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         //TODO add m_showName constraint when its an input
         if(m_parameterObject)
             painter->drawText(20,15,m_parameterObject->parameterName());
+        else
+            painter->drawText(20,15,"self");
         painter->drawEllipse(QRectF(0,3,16,16));
     }
 }
@@ -104,6 +106,11 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
     else if(dataSlot->isOutput() == this->isOutput()) return false;
     //TODO check the type
     return true;
+}
+
+void BP_DataSlot::showNextNodeOptions()
+{
+
 }
 
 bool BP_DataSlot::showName() const

@@ -31,6 +31,7 @@ class BP_FunctionNode : public BP_Node
     Q_PROPERTY(BP_FlowSlot* executionflowOutSlot READ executionflowOutSlot WRITE setExecutionflowOutSlot NOTIFY executionflowOutSlotChanged)
     Q_PROPERTY(QList<BP_DataSlot*> inputParameters READ inputParameters WRITE setInputParameters NOTIFY inputParametersChanged)
     Q_PROPERTY(BP_DataSlot* returnSlot READ returnSlot WRITE setReturnSlot NOTIFY returnSlotChanged)
+    Q_PROPERTY(BP_DataSlot* selfSlot READ selfSlot WRITE setSelfSlot NOTIFY selfSlotChanged)
     Q_PROPERTY(BP_Function* functionObject READ functionObject WRITE setFunctionObject NOTIFY functionObjectChanged)
 
     BP_FlowSlot* m_executionflowInSlot;
@@ -42,6 +43,8 @@ class BP_FunctionNode : public BP_Node
 private:
     QPushButton *addPositionalParameterButton;
     //TODO work out how to add the keywords
+
+    BP_DataSlot* m_selfSlot;
 
 public:
     BP_FunctionNode(QObject *parent = nullptr);
@@ -65,6 +68,8 @@ public slots:
     void setReturnSlot(BP_DataSlot* returnSlot);
     void setFunctionObject(BP_Function* functionObject);
 
+    void setSelfSlot(BP_DataSlot* selfSlot);
+
 signals:
     void executionflowInSlotChanged(BP_FlowSlot* executionflowInSlot);
     void executionflowOutSlotChanged(BP_FlowSlot* executionflowOutSlot);
@@ -73,12 +78,15 @@ signals:
     void functionObjectChanged(BP_Function* functionObject);
 
     // QGraphicsItem interface
+    void selfSlotChanged(BP_DataSlot* selfSlot);
+
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     virtual void calculateBounds() override;
     QString renderNode(BP_PlatformManager *platform) override;
     BP_Node * nextNode() override;
+    BP_DataSlot* selfSlot() const;
 };
 
 #endif // BP_FUNCTIONNODE_H

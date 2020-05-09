@@ -52,7 +52,7 @@ public:
 
     virtual QPointF getAnchorPoint() override;
     virtual bool acceptConnection(BP_Slot *secondSlot) override;
-
+    virtual void showNextNodeOptions() override;
     bool showName() const;
 };
 
