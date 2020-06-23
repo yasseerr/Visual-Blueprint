@@ -7,21 +7,30 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#ifndef BP_CLASSINSTANCENODE_H
-#define BP_CLASSINSTANCENODE_H
+#ifndef BP_GRAPHUTILS_H
+#define BP_GRAPHUTILS_H
 
-#include "bp_variablenode.h"
+#define RegisterNodeType(X) int X::nodeTypeID= BP_GraphUtils::getInstance()->addNodeType(X::staticMetaObject);
+#define RegisterToolNodeType(X,Category) int X::nodeTypeID = BP_GraphUtils::getInstance()->addNodeType(X::staticMetaObject,true,Category);
 
+#include <QMap>
 #include <QObject>
 
-//TODO create temporary instances
-class BP_ClassInstanceNode : public BP_VariableNode
+class BP_GraphUtils : public QObject
 {
     Q_OBJECT
-    Q_CLASSINFO("name","Instance")
+
+    static BP_GraphUtils* instance ;
+    QMap<QString,QMetaObject> m_nodeTypesMap;
+    QMap<QString,QList<QMetaObject>*> m_toolNodesByCategory;
+
 public:
-    Q_INVOKABLE BP_ClassInstanceNode();
-    static int nodeTypeID ;
+    explicit BP_GraphUtils(QObject *parent = nullptr);
+    static BP_GraphUtils* getInstance();
+    int addNodeType(QMetaObject metaObj,bool isTool = false,QString category= "");
+
+signals:
+
 };
 
-#endif // BP_CLASSINSTANCENODE_H
+#endif // BP_GRAPHUTILS_H

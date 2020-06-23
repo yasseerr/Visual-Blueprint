@@ -26,6 +26,8 @@ Q_DECLARE_METATYPE(QList<BP_DataSlot*>)
 class BP_FunctionNode : public BP_Node
 {
     Q_OBJECT
+    Q_CLASSINFO("name","Function")
+
     //TODO add support for multiple flow inputs/outputs
     Q_PROPERTY(BP_FlowSlot* executionflowInSlot READ executionflowInSlot WRITE setExecutionflowInSlot NOTIFY executionflowInSlotChanged)
     Q_PROPERTY(BP_FlowSlot* executionflowOutSlot READ executionflowOutSlot WRITE setExecutionflowOutSlot NOTIFY executionflowOutSlotChanged)
@@ -47,7 +49,8 @@ private:
     BP_DataSlot* m_selfSlot;
 
 public:
-    BP_FunctionNode(QObject *parent = nullptr);
+    Q_INVOKABLE BP_FunctionNode(QObject *parent = nullptr);
+    static int nodeTypeID ;
 
 public:
 

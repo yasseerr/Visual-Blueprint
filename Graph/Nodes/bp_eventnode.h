@@ -20,6 +20,7 @@ class BP_FlowSlot;
 class BP_EventNode : public BP_Node
 {
     Q_OBJECT
+    Q_CLASSINFO("name","Event")
     Q_PROPERTY(QString eventName READ eventName WRITE setEventName NOTIFY eventNameChanged)
     QString m_eventName;
 
@@ -27,7 +28,8 @@ class BP_EventNode : public BP_Node
     QMap<QString, BP_FlowSlot *> eventFlows;
 
 public:
-    BP_EventNode();
+    Q_INVOKABLE BP_EventNode();
+    static int nodeTypeID ;
 
     void addEventFlow(BP_FlowSlot *flow);
     BP_FlowSlot* getEventFlow(QString flowName);

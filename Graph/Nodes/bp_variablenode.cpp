@@ -16,6 +16,9 @@
 #include <Core/bp_parameter.h>
 #include <Core/bp_variable.h>
 
+#include <Graph/bp_graphutils.h>
+
+
 RegisterNodeType(BP_VariableNode)
 //int BP_VariableNode::nodeTypeID = BP_VariableNode::setupNodeType(X::staticMetaObject);
 

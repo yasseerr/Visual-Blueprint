@@ -19,12 +19,14 @@
 class BP_FloatNode : public BP_VariableNode
 {
     Q_OBJECT
-
+    Q_CLASSINFO("name","Float")
     QDoubleSpinBox *m_floatSpinBox;
     QGraphicsProxyWidget *m_floatItem;
 public:
-    BP_FloatNode();
+    Q_INVOKABLE BP_FloatNode();
     ~ BP_FloatNode();
+
+    static int nodeTypeID ;
 
 public slots:
     void onValueChanged(double value);

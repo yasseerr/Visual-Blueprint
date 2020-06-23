@@ -19,13 +19,14 @@
 class BP_IntNode : public BP_VariableNode
 {
     Q_OBJECT
-
+    Q_CLASSINFO("name","Integer")
     QSpinBox *m_spinbox;
     QGraphicsProxyWidget *m_spinItem;
 
     static int intNodesCount;
 public:
-    BP_IntNode();
+    Q_INVOKABLE BP_IntNode();
+    static int nodeTypeID ;
 
 public slots:
     void onSpinBoxValueChanged(int val);

@@ -20,12 +20,13 @@
 class BP_StringNode : public BP_VariableNode
 {
     Q_OBJECT
-
+    Q_CLASSINFO("name","String")
     QLineEdit *m_textEdit;
     QGraphicsProxyWidget *m_textItem;
 
 public:
-    BP_StringNode(QObject *parent = nullptr);
+    Q_INVOKABLE BP_StringNode(QObject *parent = nullptr);
+    static int nodeTypeID ;
     ~BP_StringNode();
 
 public slots:

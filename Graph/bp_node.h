@@ -13,8 +13,6 @@
 #include <QGraphicsItem>
 #include <QObject>
 
-#define RegisterNodeType(X) int X::nodeTypeID = BP_Node::setupNodeType(X::staticMetaObject);
-
 class BP_GraphView;
 class BP_CoreObject;
 class BP_PlatformManager;
@@ -42,6 +40,7 @@ public :
     //static QMetaObject* nodeTypesArray[100];
     static std::vector<QMetaObject>* nodeTypesVector;
     static int nodeTypesCount;
+    static int nodeTypeID;
     int nodeId;
 public:
     Q_INVOKABLE BP_Node(QObject *parent = nullptr);
