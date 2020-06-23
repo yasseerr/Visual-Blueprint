@@ -111,11 +111,15 @@ void BP_GraphNodesModel::updateModule()
 
     BP_GraphNodeItem *addIntegerItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add Integer");
     addIntegerItem->setIsTool(true);
-    addIntegerItem->toolType = BP_GraphNodeItem::INTEGER;
+    addIntegerItem->toolType = BP_GraphNodeItem::INTEGER_TOOL;
 
     BP_GraphNodeItem *addStringItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add String");
     addStringItem->setIsTool(true);
-    addStringItem->toolType = BP_GraphNodeItem::STRING;
+    addStringItem->toolType = BP_GraphNodeItem::STRING_TOOL;
+
+    BP_GraphNodeItem *addFloatItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add Float");
+    addFloatItem->setIsTool(true);
+    addFloatItem->toolType = BP_GraphNodeItem::FLOAT_TOOL;
 
     //adding the imported library
     BP_GraphNodeItem *variablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Variables");

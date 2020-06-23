@@ -10,6 +10,7 @@
 #include "bp_graphnodeitem.h"
 
 #include <Graph/Nodes/bp_eventnode.h>
+#include <Graph/Nodes/bp_floatnode.h>
 #include <Graph/Nodes/bp_intnode.h>
 #include <Graph/Nodes/bp_stringnode.h>
 
@@ -33,12 +34,26 @@ BP_GraphNodeItem::~BP_GraphNodeItem()
 BP_Node *BP_GraphNodeItem::createToolNode(QObject *parent)
 {
     BP_Node *retNode = nullptr;
-    if(toolType == INTEGER)
+    switch (toolType) {
+    case INTEGER_TOOL:
         retNode = new BP_IntNode();
-    else if(toolType == STRING)
+        break;
+    case STRING_TOOL:
         retNode = new BP_StringNode();
-    else
-        retNode =  new BP_IntNode();
+    case FLOAT_TOOL:
+        retNode = new BP_FloatNode();
+    default:
+        retNode = new BP_FloatNode();
+    }
+
+//    if(toolType == INTEGER_)
+//    {}
+//    else if(toolType == STRING)
+//    {}
+//    else if(toolType == BP_GraFLOAT)
+//    {retNode = new BP_FloatNode();}
+//    else
+//        retNode =  new BP_IntNode();
     retNode->setParent(parent);
     return  retNode;
 }

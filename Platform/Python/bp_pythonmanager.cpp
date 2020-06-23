@@ -23,6 +23,7 @@
 #include <Graph/bp_node.h>
 
 #include <Graph/Nodes/bp_eventnode.h>
+#include <Graph/Nodes/bp_floatnode.h>
 #include <Graph/Nodes/bp_functionnode.h>
 #include <Graph/Nodes/bp_intnode.h>
 #include <Graph/Nodes/bp_stringnode.h>
@@ -242,6 +243,11 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
 QString BP_PythonManager::renderIntegerNode(BP_IntNode *node)
 {
     return node->outputSlot()->reference()+" = "+QString::number(node->variableObject()->value().toInt());
+}
+
+QString BP_PythonManager::renderFloatNode(BP_FloatNode *node)
+{
+    return node->variableObject()->name()  + " = " + QString::number(node->variableObject()->value().toFloat());
 }
 
 QString BP_PythonManager::renderStringNode(BP_StringNode *node)

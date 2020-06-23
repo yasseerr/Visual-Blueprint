@@ -145,6 +145,7 @@ def getClassDict(class_obj,class_name):
         "hasKeyWords": False,
         "hasPositional": False,
     }
+    #TODO ignore self parameter
     for param_name, parameter in functionSignature.parameters.items():
         if param_name == "self":
             continue
@@ -221,6 +222,7 @@ def getFunctionDict(function_obj,function_name):
     try:
         functionSignature = inspect.signature(function_obj)
         for param_name, parameter in functionSignature.parameters.items():
+            if(param_name == 'self') : continue
             param_map = {
                 "name": param_name,
                 "default": "unknown",
@@ -276,6 +278,7 @@ def getFunctionParametersFromDoc(func,funcDict):
             #TODO handle the default values
             #TODO handle the positional args
             if(argName == ''): continue
+            if(argName == 'self'): continue
             ##extract values from the patern    
             param_map = {
                 "name": argName,

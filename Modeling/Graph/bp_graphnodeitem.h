@@ -29,7 +29,7 @@ class BP_GraphNodeItem : public QObject
 public:
 
     enum TOOL_TYPE{
-        NO_TOOL,INTEGER,STRING
+        NO_TOOL = 7,INTEGER_TOOL,STRING_TOOL,FLOAT_TOOL
     };
     Q_ENUM(TOOL_TYPE)
     explicit BP_GraphNodeItem(BP_GraphNodeItem *parentItem = nullptr,QObject *parent = nullptr,QString displayName="");

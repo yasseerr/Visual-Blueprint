@@ -36,6 +36,7 @@ public:
     QString renderEventNode(BP_EventNode *node) override;
     QString renderFunctionNode(BP_FunctionNode *node) override;
     QString renderIntegerNode(BP_IntNode *node) override;
+    QString renderFloatNode(BP_FloatNode *node) override;
     QString renderStringNode(BP_StringNode *node) override;
 
 public slots:

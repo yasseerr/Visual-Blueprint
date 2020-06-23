@@ -23,6 +23,7 @@ class BP_FunctionNode;
 class BP_VariableNode;
 class BP_IntNode;
 class BP_StringNode;
+class BP_FloatNode;
 
 class BP_PlatformManager : public QObject
 {
@@ -45,6 +46,7 @@ public:
     virtual QString renderEventNode(BP_EventNode *node) = 0;
     virtual QString renderFunctionNode(BP_FunctionNode *node) = 0;
     virtual QString renderIntegerNode(BP_IntNode *node) = 0;
+    virtual QString renderFloatNode(BP_FloatNode *node) = 0;
     virtual QString renderStringNode(BP_StringNode *node) = 0;
 
 
