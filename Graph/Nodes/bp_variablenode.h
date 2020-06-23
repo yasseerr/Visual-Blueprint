@@ -20,6 +20,7 @@ class BP_DataSlot;
 class BP_VariableNode : public BP_Node
 {
     Q_OBJECT
+    Q_CLASSINFO("name","Variable")
     Q_PROPERTY(BP_Variable* variableObject READ variableObject WRITE setVariableObject NOTIFY variableObjectChanged)
     Q_PROPERTY(BP_DataSlot* outputSlot READ outputSlot WRITE setOutputSlot NOTIFY outputSlotChanged)
 
@@ -28,14 +29,16 @@ class BP_VariableNode : public BP_Node
     BP_DataSlot* m_outputSlot;
 
 public:
-    BP_VariableNode();
-
+    Q_INVOKABLE BP_VariableNode();
+    static int nodeTypeID ;
     // QGraphicsItem interface
 public:
     void calculateBounds() override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     BP_Variable* variableObject() const;
     BP_DataSlot* outputSlot() const;
+
+    QString getNodeTypeString() override;
 
 public slots:
     void setVariableObject(BP_Variable* variableObject);

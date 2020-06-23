@@ -36,6 +36,7 @@ public:
     // BP_Node interface
 public:
     virtual QString renderNode(BP_PlatformManager *platform) override;
+    QString getNodeTypeString() override;
 };
 
 #endif // BP_FLOATNODE_H

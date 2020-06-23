@@ -74,3 +74,8 @@ QString BP_StringNode::renderNode(BP_PlatformManager *platform)
 {
     return  platform->renderStringNode(this);
 }
+
+QString BP_StringNode::getNodeTypeString()
+{
+    return "String";
+}

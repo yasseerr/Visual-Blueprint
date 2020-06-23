@@ -73,3 +73,8 @@ QString BP_IntNode::renderNode(BP_PlatformManager *platform)
 {
     return platform->renderIntegerNode(this);
 }
+
+QString BP_IntNode::getNodeTypeString()
+{
+    return "Integer";
+}

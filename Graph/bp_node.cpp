@@ -11,13 +11,22 @@
 #include "bp_node.h"
 
 #include <QDebug>
+#include <QMetaClassInfo>
 #include <QPainter>
 
 #include <Core/bp_coreobject.h>
 
 #include <Platform/bp_platformmanager.h>
 
+std::vector<QMetaObject>* BP_Node::nodeTypesVector = new std::vector<QMetaObject>();
+//QMap<QString,const QMetaObject*>* BP_Node::nodesMap = new  QMap<QString,const QMetaObject*>;
+//QList<QMetaObject>* BP_Node::nodeTypesList = initializeNodesTypes();
 int BP_Node::nodeCount = 0;
+//QMetaType* BP_Node::nodeTypesArray =QMetaObject[100];
+//QMetaObject* BP_Node::nodeTypesArray = new QMetaObject[100];
+//int BP_Node::nodeTypesCount = 1;
+//QMap<QString,BP_Node* (*)()>* BP_Node::nodesMap = new  QMap<QString,BP_Node* (*)()>;
+int BP_Node::nodeTypesCount = 0;
 
 BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50)
 {
@@ -31,7 +40,34 @@ BP_Node::BP_Node(BP_GraphView *graphView):m_connectedGraph(graphView)
 {
     nodeId = nodeCount;
     nodeCount++;
+}
 
+QList<QMetaObject>* BP_Node::initializeNodesTypes()
+{
+    //TODO setup the number of nodes types as parameter
+    QList<QMetaObject>* ret = new QList<QMetaObject>();
+    for (int i = 0; i < 100; ++i) {
+        ret->append(QMetaObject());
+    }
+    return ret;
+}
+
+int BP_Node::setupNodeType(QMetaObject metaObj)
+{
+    //nodesMap->insert(metaObj);
+    //nodeTypesList->append(metaObj);
+    //nodeTypesArray[nodeTypesCount] = &metaObj;
+    nodeTypesVector->push_back(metaObj);
+    //nodeTypesList->reserve(200);
+    qDebug("testing the creation of instances");
+    BP_Node *obj1 = qobject_cast<BP_Node*>(metaObj.newInstance());
+    qDebug()<< "this is the new node: "<< obj1->getNodeTypeString();
+    return nodeTypesCount + 1;
+}
+
+BP_Node *BP_Node::Create()
+{
+    return new BP_Node();
 }
 
 BP_CoreObject *BP_Node::coreObject() const
@@ -105,5 +141,10 @@ QString BP_Node::renderNode(BP_PlatformManager *platform)
 BP_Node *BP_Node::nextNode()
 {
     return nullptr;
+}
+
+QString BP_Node::getNodeTypeString()
+{
+    return "Node";
 }
 

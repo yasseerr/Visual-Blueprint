@@ -10,6 +10,7 @@
 #ifndef BP_GRAPHNODEITEM_H
 #define BP_GRAPHNODEITEM_H
 
+#include <QMap>
 #include <QObject>
 
 #include <Core/bp_coreobject.h>
@@ -26,12 +27,13 @@ class BP_GraphNodeItem : public QObject
     BP_CoreObject* m_coreObject;
     bool m_isTool;
 
+
 public:
 
     enum TOOL_TYPE{
         NO_TOOL = 7,INTEGER_TOOL,STRING_TOOL,FLOAT_TOOL
     };
-    Q_ENUM(TOOL_TYPE)
+    //Q_ENUM(TOOL_TYPE)
     explicit BP_GraphNodeItem(BP_GraphNodeItem *parentItem = nullptr,QObject *parent = nullptr,QString displayName="");
 
     ~ BP_GraphNodeItem();

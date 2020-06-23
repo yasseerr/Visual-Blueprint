@@ -89,6 +89,11 @@ BP_Node *BP_EventNode::nextNode()
     return eventFlows.first()->connectedLinks().first()->outSlot()->parentNode();
 }
 
+QString BP_EventNode::getNodeTypeString()
+{
+    return "Event";
+}
+
 QString BP_EventNode::eventName() const
 {
     return m_eventName;

@@ -42,12 +42,14 @@ public:
     virtual void calculateBounds() override;
     QString renderNode(BP_PlatformManager *platform) override;
     BP_Node * nextNode() override;
-
+    virtual QString getNodeTypeString() override;
     QString eventName() const;
 public slots:
     void setEventName(QString eventName);
 signals:
     void eventNameChanged(QString eventName);
+
+
 };
 
 #endif // BP_EVENTNODE_H

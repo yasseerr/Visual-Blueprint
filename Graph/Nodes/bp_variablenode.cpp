@@ -16,6 +16,9 @@
 #include <Core/bp_parameter.h>
 #include <Core/bp_variable.h>
 
+RegisterNodeType(BP_VariableNode)
+//int BP_VariableNode::nodeTypeID = BP_VariableNode::setupNodeType(X::staticMetaObject);
+
 BP_VariableNode::BP_VariableNode():BP_Node(),m_variableObject(nullptr),m_outputSlot(new BP_DataSlot(this))
 {
     m_outputSlot->setParentItem(this);
@@ -49,6 +52,11 @@ BP_Variable *BP_VariableNode::variableObject() const
 BP_DataSlot *BP_VariableNode::outputSlot() const
 {
     return m_outputSlot;
+}
+
+QString BP_VariableNode::getNodeTypeString()
+{
+    return "Variable";
 }
 
 void BP_VariableNode::setVariableObject(BP_Variable *variableObject)

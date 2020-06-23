@@ -14,6 +14,8 @@
 #include <Graph/Nodes/bp_intnode.h>
 #include <Graph/Nodes/bp_stringnode.h>
 
+//all the tools should register
+
 BP_GraphNodeItem::BP_GraphNodeItem(BP_GraphNodeItem *parentItem,QObject *parent,QString displayName) : QObject(parent),m_parentItem(parentItem),m_displayName(displayName),m_coreObject(nullptr),m_isTool(false)
 {
     if(m_parentItem != nullptr){

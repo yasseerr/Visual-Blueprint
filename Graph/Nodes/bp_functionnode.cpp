@@ -218,3 +218,8 @@ BP_DataSlot *BP_FunctionNode::selfSlot() const
 {
     return m_selfSlot;
 }
+
+QString BP_FunctionNode::getNodeTypeString()
+{
+    return "Function";
+}

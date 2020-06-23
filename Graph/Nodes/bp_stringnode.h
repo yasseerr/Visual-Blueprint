@@ -39,6 +39,7 @@ public:
 public:
     virtual void calculateBounds() override;
     virtual QString renderNode(BP_PlatformManager *platform) override;
+    QString getNodeTypeString() override;
 };
 
 #endif // BP_STRINGNODE_H

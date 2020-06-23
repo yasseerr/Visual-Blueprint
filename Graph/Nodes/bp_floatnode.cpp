@@ -69,3 +69,8 @@ QString BP_FloatNode::renderNode(BP_PlatformManager *platform)
 {
     return platform->renderFloatNode(this);
 }
+
+QString BP_FloatNode::getNodeTypeString()
+{
+    return "Float";
+}

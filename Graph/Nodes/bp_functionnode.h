@@ -87,6 +87,8 @@ public:
     QString renderNode(BP_PlatformManager *platform) override;
     BP_Node * nextNode() override;
     BP_DataSlot* selfSlot() const;
+
+    QString getNodeTypeString() override;
 };
 
 #endif // BP_FUNCTIONNODE_H
