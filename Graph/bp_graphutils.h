@@ -29,6 +29,12 @@ public:
     static BP_GraphUtils* getInstance();
     int addNodeType(QMetaObject metaObj,bool isTool = false,QString category= "");
 
+    QMap<QString, QMetaObject> getNodeTypesMap() const;
+    void setNodeTypesMap(const QMap<QString, QMetaObject> &nodeTypesMap);
+
+    QMap<QString, QList<QMetaObject> *> getToolNodesByCategory() const;
+    void setToolNodesByCategory(const QMap<QString, QList<QMetaObject> *> &toolNodesByCategory);
+
 signals:
 
 };

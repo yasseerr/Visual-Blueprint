@@ -18,6 +18,10 @@
 
 #include <Platform/bp_platformmanager.h>
 
+#include "Graph/bp_graphutils.h"
+
+RegisterToolNodeType(BP_FloatNode,"Add Variable")
+
 BP_FloatNode::BP_FloatNode():BP_VariableNode(),m_floatSpinBox(new QDoubleSpinBox()),m_floatItem(new QGraphicsProxyWidget())
 {
     connect(m_floatSpinBox,SIGNAL(valueChanged(double)),this,SLOT(onValueChanged(double)));

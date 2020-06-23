@@ -39,7 +39,7 @@ public:
     ~ BP_GraphNodeItem();
 
     BP_Node *createToolNode(QObject *parent = nullptr);
-
+    QMetaObject toolNodeMetaObject;
 
     BP_GraphNodesModel *m_model;
     BP_GraphNodeItem *m_parentItem;

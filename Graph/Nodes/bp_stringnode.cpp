@@ -16,6 +16,9 @@
 #include <Core/bp_variable.h>
 
 #include <Platform/bp_platformmanager.h>
+#include "Graph/bp_graphutils.h"
+
+RegisterToolNodeType(BP_StringNode,"Add Variable")
 
 
 BP_StringNode::BP_StringNode(QObject *parent):BP_VariableNode(),m_textEdit(new QLineEdit("")),m_textItem(new QGraphicsProxyWidget())

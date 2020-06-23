@@ -14,6 +14,10 @@
 #include <Core/bp_module.h>
 #include <Core/bp_variable.h>
 
+#include <Graph/bp_graphutils.h>
+
+#include <QMetaClassInfo>
+
 BP_GraphNodesModel::BP_GraphNodesModel(BP_Project *connectedProject):QAbstractItemModel()
 {
     m_rootItem = new BP_GraphNodeItem();
@@ -107,19 +111,17 @@ void BP_GraphNodesModel::updateModule()
     //TODO add the new imported items instead of refreshing
     m_rootItem->clearChildes();
     //Adding the tools
-    BP_GraphNodeItem *AddVariablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Add Variable");
+    foreach (auto categoryName, BP_GraphUtils::getInstance()->getToolNodesByCategory().keys()) {
+        BP_GraphNodeItem *categoryNameItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,categoryName);
+        auto categoryList = BP_GraphUtils::getInstance()->getToolNodesByCategory().value(categoryName);
+        for (auto i = categoryList->begin() ; i != categoryList->end(); ++i) {
+            QString toolName = (*i).classInfo((*i).indexOfClassInfo("name")).value();
+            BP_GraphNodeItem *addToolItem  = new BP_GraphNodeItem(categoryNameItem,categoryNameItem,"Add "+toolName);
+            addToolItem->setIsTool(true);
+            addToolItem->toolNodeMetaObject = (*i);
+        }
+    }
 
-    BP_GraphNodeItem *addIntegerItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add Integer");
-    addIntegerItem->setIsTool(true);
-    addIntegerItem->toolType = BP_GraphNodeItem::INTEGER_TOOL;
-
-    BP_GraphNodeItem *addStringItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add String");
-    addStringItem->setIsTool(true);
-    addStringItem->toolType = BP_GraphNodeItem::STRING_TOOL;
-
-    BP_GraphNodeItem *addFloatItem  = new BP_GraphNodeItem(AddVariablesItem,AddVariablesItem,"Add Float");
-    addFloatItem->setIsTool(true);
-    addFloatItem->toolType = BP_GraphNodeItem::FLOAT_TOOL;
 
     //adding the imported library
     BP_GraphNodeItem *variablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Variables");

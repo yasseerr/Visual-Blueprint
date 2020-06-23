@@ -19,7 +19,9 @@
 #include <Core/bp_variable.h>
 
 #include <Platform/bp_platformmanager.h>
+#include "Graph/bp_graphutils.h"
 
+RegisterToolNodeType(BP_IntNode,"Add Variable")
 
 BP_IntNode::BP_IntNode():BP_VariableNode(),m_spinbox(new QSpinBox()),m_spinItem(new QGraphicsProxyWidget())
 {

@@ -35,18 +35,7 @@ BP_GraphNodeItem::~BP_GraphNodeItem()
 
 BP_Node *BP_GraphNodeItem::createToolNode(QObject *parent)
 {
-    BP_Node *retNode = nullptr;
-    switch (toolType) {
-    case INTEGER_TOOL:
-        retNode = new BP_IntNode();
-        break;
-    case STRING_TOOL:
-        retNode = new BP_StringNode();
-    case FLOAT_TOOL:
-        retNode = new BP_FloatNode();
-    default:
-        retNode = new BP_FloatNode();
-    }
+    BP_Node *retNode = qobject_cast<BP_Node*>(toolNodeMetaObject.newInstance());
 
 //    if(toolType == INTEGER_)
 //    {}
