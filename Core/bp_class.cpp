@@ -14,6 +14,8 @@
 
 #include <QVariantMap>
 
+#include <Graph/Nodes/bp_classinstancenode.h>
+
 BP_Class::BP_Class(QVariantMap *classMap,QObject *parent) : BP_CoreObject(parent),
   m_owningModule(nullptr)
 {
@@ -72,6 +74,16 @@ BP_Module *BP_Class::owningModule() const
 QList<BP_Constructor *> BP_Class::constructors() const
 {
     return m_constructors;
+}
+
+BP_Node *BP_Class::createNodeForObject(QObject *parent)
+{
+    BP_ClassInstanceNode *classNode = new BP_ClassInstanceNode();
+    classNode->setSourceClass(this);
+    classNode->setParent(parent);
+    classNode->setCoreObject(this);
+    classNode->setConstructorId(0);
+    return  classNode;
 }
 
 

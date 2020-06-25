@@ -255,6 +255,11 @@ QString BP_PythonManager::renderStringNode(BP_StringNode *node)
     return node->variableObject()->name()  + " = \"" + node->variableObject()->value().toString()+"\"";
 }
 
+QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
+{
+    return "";
+}
+
 void BP_PythonManager::standardOutputReady()
 {
     qDebug() << "Data Ready : " << m_managerProcess.readAllStandardOutput();

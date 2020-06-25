@@ -24,6 +24,7 @@ class BP_VariableNode;
 class BP_IntNode;
 class BP_StringNode;
 class BP_FloatNode;
+class BP_ClassInstanceNode;
 
 class BP_PlatformManager : public QObject
 {
@@ -48,6 +49,7 @@ public:
     virtual QString renderIntegerNode(BP_IntNode *node) = 0;
     virtual QString renderFloatNode(BP_FloatNode *node) = 0;
     virtual QString renderStringNode(BP_StringNode *node) = 0;
+    virtual QString renderClassInstanceNode(BP_ClassInstanceNode *node) = 0;
 
 
 public slots:

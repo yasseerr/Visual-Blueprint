@@ -23,7 +23,8 @@ BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *m
    m_isMember(false),
    m_owningClass(nullptr),
    m_owningModule(nullptr),
-   m_className("")
+   m_className(""),
+   m_sourceClass(nullptr)
 {
     //TODO add the class name and the class module
     //TODO check if the variable class is already imported
@@ -178,6 +179,15 @@ void BP_Variable::setClassModuleHiearchy(QStringList classModuleHiearchy)
     emit classModuleHiearchyChanged(m_classModuleHiearchy);
 }
 
+void BP_Variable::setSourceClass(BP_Class *sourceClass)
+{
+    if (m_sourceClass == sourceClass)
+        return;
+
+    m_sourceClass = sourceClass;
+    emit sourceClassChanged(m_sourceClass);
+}
+
 BP_Node *BP_Variable::createNodeForObject(QObject *parent)
 {
     //BP_VariableNode *variableNode = new BP_VariableNode();
@@ -186,4 +196,9 @@ BP_Node *BP_Variable::createNodeForObject(QObject *parent)
     variableNode->setCoreObject(this);
     variableNode->setVariableObject(this);
     return  variableNode;
+}
+
+BP_Class *BP_Variable::sourceClass() const
+{
+    return m_sourceClass;
 }

@@ -38,6 +38,7 @@ public:
     QString renderIntegerNode(BP_IntNode *node) override;
     QString renderFloatNode(BP_FloatNode *node) override;
     QString renderStringNode(BP_StringNode *node) override;
+    QString renderClassInstanceNode(BP_ClassInstanceNode *node) override;
 
 public slots:
     virtual void standardOutputReady() override;

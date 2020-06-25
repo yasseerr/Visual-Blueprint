@@ -28,6 +28,7 @@ class BP_Variable : public BP_CoreObject
     Q_PROPERTY(bool isArray READ isArray WRITE setIsArray NOTIFY isArrayChanged)
     Q_PROPERTY(bool isMember READ isMember WRITE setIsMember NOTIFY isMemberChanged)
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
+    Q_PROPERTY(BP_Class* sourceClass READ sourceClass WRITE setSourceClass NOTIFY sourceClassChanged)
     Q_PROPERTY(BP_Class* owningClass READ owningClass WRITE setOwningClass NOTIFY owningClassChanged)
     Q_PROPERTY(BP_Module* owningModule READ owningModule WRITE setOwningModule NOTIFY owningModuleChanged)
 
@@ -47,6 +48,8 @@ class BP_Variable : public BP_CoreObject
     QString m_className;
 
     QStringList m_classModuleHiearchy;
+
+    BP_Class* m_sourceClass;
 
 public:
     explicit BP_Variable(QVariantMap *variableMap = nullptr,QObject *parent = nullptr,QStringList *moduleHiearchy = nullptr);
@@ -90,6 +93,8 @@ public slots:
 
     void setClassModuleHiearchy(QStringList classModuleHiearchy);
 
+    void setSourceClass(BP_Class* sourceClass);
+
 signals:
     void isPrimitiveChanged(bool isPrimitive);
     void isArrayChanged(bool isArray);
@@ -101,8 +106,11 @@ signals:
     void classModuleHiearchyChanged(QStringList classModuleHiearchy);
 
     // BP_CoreObject interface
+    void sourceClassChanged(BP_Class* sourceClass);
+
 public:
-    virtual BP_Node *createNodeForObject(QObject *parent) override;
+virtual BP_Node *createNodeForObject(QObject *parent) override;
+BP_Class* sourceClass() const;
 };
 
 #endif // BP_VARIABLE_H

@@ -52,6 +52,8 @@ public:
 
     QList<BP_Constructor*> constructors() const;
 
+    BP_Node * createNodeForObject(QObject *parent = nullptr) override;
+
 public slots:
 
 
