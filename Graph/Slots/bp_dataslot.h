@@ -22,11 +22,13 @@ class BP_DataSlot : public BP_Slot
     Q_PROPERTY(BP_Parameter* parameterObject READ parameterObject WRITE setParameterObject NOTIFY parameterObjectChanged)
     Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
     Q_PROPERTY(bool showName READ showName WRITE setShowName NOTIFY showNameChanged)
+    Q_PROPERTY(QString returnName READ returnName WRITE setReturnName NOTIFY returnNameChanged)
     BP_Parameter* m_parameterObject;
     bool m_isOutput;
-
     int m_parameterWidth = 0;
     bool m_showName;
+
+    QString m_returnName;
 
 public:
     BP_DataSlot(BP_Node *parent = nullptr);
@@ -38,6 +40,15 @@ public slots:
 
     void setShowName(bool showName);
 
+    void setReturnName(QString returnName)
+    {
+        if (m_returnName == returnName)
+            return;
+
+        m_returnName = returnName;
+        emit returnNameChanged(m_returnName);
+    }
+
 signals:
     void parameterObjectChanged(BP_Parameter* parameterObject);
 
@@ -46,6 +57,8 @@ signals:
 
     void showNameChanged(bool showName);
 
+    void returnNameChanged(QString returnName);
+
 public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -53,7 +66,11 @@ public:
     virtual QPointF getAnchorPoint() override;
     virtual bool acceptConnection(BP_Slot *secondSlot) override;
     virtual void showNextNodeOptions() override;
-    bool showName() const;
+bool showName() const;
+QString returnName() const
+{
+    return m_returnName;
+}
 };
 
 Q_DECLARE_METATYPE(BP_DataSlot*)

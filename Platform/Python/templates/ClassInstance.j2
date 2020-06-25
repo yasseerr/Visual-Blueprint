@@ -1,0 +1,8 @@
+
+#class input declarations{%for inputDeclaration in instanceInputsDeclaration%}
+{{inputDeclaration}}{%endfor%}
+#class call
+#TODO check why the class name doesnt show up first click
+#source class {{instance.sourceClass.name}}
+#return Name {{returnName}}
+{{returnName}} = {{instance.sourceClass.name}}({%for param in parameterRefrences%}{{param}} {%if not forloop.last%},{%endif%}{% endfor %} )

@@ -54,7 +54,7 @@ file(GLOB pythonTemplates
      ${CMAKE_SOURCE_DIR}/Platform/Python/templates/*.j2
 )
 file(COPY ${pythonTemplates}
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Platform/templates)
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Platform/Python/templates/)
 
 
 file(GLOB core_sources

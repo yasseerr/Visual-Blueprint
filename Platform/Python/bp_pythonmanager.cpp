@@ -22,6 +22,7 @@
 #include <Graph/bp_graphview.h>
 #include <Graph/bp_node.h>
 
+#include <Graph/Nodes/bp_classinstancenode.h>
 #include <Graph/Nodes/bp_eventnode.h>
 #include <Graph/Nodes/bp_floatnode.h>
 #include <Graph/Nodes/bp_functionnode.h>
@@ -257,7 +258,36 @@ QString BP_PythonManager::renderStringNode(BP_StringNode *node)
 
 QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
 {
-    return "";
+    //return "this is a function placeholder";
+    //rendering the variables nodes
+    QStringList instanceInputsDeclaration;
+    foreach (auto inputSlot, node->inputParameters()) {
+        if(inputSlot->connectedLinks().size()>0){
+            instanceInputsDeclaration << inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+        }
+    }
+
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/ClassInstance.j2");
+    QVariantHash mapping ;
+    mapping.insert("instance",QVariant::fromValue(node));
+    mapping.insert("instanceInputsDeclaration",instanceInputsDeclaration);
+    mapping.insert("returnName",node->outputSlot()->reference());
+
+    //temporary solution for parameter refrences
+    QStringList parameterRefrences;
+    foreach (auto paramSlot, node->inputParameters()) {
+        //TODO support multipe links
+        //TODO handle the different type of links
+        if(paramSlot->connectedLinks().size()>0){
+            parameterRefrences << paramSlot->connectedLinks().first()->inSlot()->reference();
+        }
+    }
+
+    mapping.insert("parameterRefrences",parameterRefrences);
+
+    Grantlee::Context c(mapping);
+    return projectTemplate->render(&c);
+    //return "";
 }
 
 void BP_PythonManager::standardOutputReady()

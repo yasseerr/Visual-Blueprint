@@ -48,8 +48,10 @@ void BP_ClassInstanceNode::calculateBounds()
     int maxHeight = 30;
 
     //output bound
-    outputSlot()->setReference("Instance");
+    //outputSlot()->setReference("Instance");
     outputSlot()->setShowName(true);
+    outputSlot()->setTextColor(Qt::white);
+    outputSlot()->setReturnName("Instance");
     int outputWidth = 30 + QFontMetrics(QFont()).boundingRect("Instance").width();
     maxWidth = maxWidth>outputWidth? maxWidth:outputWidth;
     maxHeight += 30;
@@ -123,6 +125,9 @@ void BP_ClassInstanceNode::setSourceClass(BP_Class *sourceClass)
 
     setCoreObject(variable);
     setVariableObject(variable);
+
+    outputSlot()->setReference(variable->name());
+
     emit sourceClassChanged(m_sourceClass);
 }
 

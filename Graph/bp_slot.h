@@ -31,6 +31,7 @@ class BP_Slot : public QObject , public QGraphicsItem
     Q_PROPERTY(BP_Node* parentNode READ parentNode WRITE setParentNode NOTIFY parentNodeChanged)
     Q_PROPERTY(QList<BP_Link*> connectedLinks READ connectedLinks WRITE setConnectedLinks NOTIFY connectedLinksChanged)
     Q_PROPERTY(QString reference READ reference WRITE setReference NOTIFY referenceChanged)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
     BP_Node* m_parentNode;
 
     QList<BP_Link*> m_connectedLinks;
@@ -39,6 +40,8 @@ class BP_Slot : public QObject , public QGraphicsItem
     BP_Link *temporaryLink;
 
     QString m_reference;
+
+    QColor m_textColor;
 
 public:
     explicit BP_Slot(BP_Node *parent = nullptr);
@@ -53,6 +56,8 @@ signals:
 
     void referenceChanged(QString reference);
 
+    void textColorChanged(QColor textColor);
+
 public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -60,6 +65,8 @@ public:
     QList<BP_Link*> connectedLinks() const;
 
     QString reference() const;
+
+    QColor textColor() const;
 
 public slots:
     void setParentNode(BP_Node* parentNode);
@@ -69,6 +76,8 @@ public slots:
     void setReference(QString reference);
 
     virtual void showNextNodeOptions();
+
+    void setTextColor(QColor textColor);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

@@ -15,8 +15,9 @@
 #include <Core/bp_parameter.h>
 
 BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_isOutput(false),m_parameterWidth(50),
-    m_showName(true)
+    m_showName(true),m_returnName("return")
 {
+    setTextColor(Qt::yellow);
     setParentNode(parent);
 
 }
@@ -61,11 +62,11 @@ QRectF BP_DataSlot::boundingRect() const
 
 void BP_DataSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setPen(Qt::yellow);
+    painter->setPen(textColor());
     painter->setBrush(Qt::white);
     if(isOutput()){
         if(m_showName){
-            painter->drawText(0,15,"return");
+            painter->drawText(0,15,returnName());
             painter->drawEllipse(QRectF(m_parameterWidth,3,16,16));
         }else {
             painter->drawEllipse(QRectF(0,3,16,16));

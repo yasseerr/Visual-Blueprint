@@ -19,7 +19,7 @@
 
 #include <Core/bp_coreobject.h>
 
-BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown")
+BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown"),m_textColor(Qt::white)
 {
     setParentItem(parent);
 }
@@ -64,6 +64,11 @@ QString BP_Slot::reference() const
     return m_reference;
 }
 
+QColor BP_Slot::textColor() const
+{
+    return m_textColor;
+}
+
 void BP_Slot::setParentNode(BP_Node *parentNode)
 {
     if (m_parentNode == parentNode)
@@ -94,6 +99,15 @@ void BP_Slot::setReference(QString reference)
 void BP_Slot::showNextNodeOptions()
 {
 
+}
+
+void BP_Slot::setTextColor(QColor textColor)
+{
+    if (m_textColor == textColor)
+        return;
+
+    m_textColor = textColor;
+    emit textColorChanged(m_textColor);
 }
 
 void BP_Slot::mousePressEvent(QGraphicsSceneMouseEvent *event)
