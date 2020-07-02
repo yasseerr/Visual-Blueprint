@@ -20,7 +20,7 @@ class BP_Parameter;
 class BP_IFNode : public BP_LogicalNode
 {
     Q_OBJECT
-    Q_CLASSINFO("name","If")
+    Q_CLASSINFO("name","if statment")
     Q_PROPERTY(BP_FlowSlot* trueFlowSlot READ trueFlowSlot WRITE setTrueFlowSlot NOTIFY trueFlowSlotChanged)
     Q_PROPERTY(BP_FlowSlot* falseFlowSlot READ falseFlowSlot WRITE setFalseFlowSlot NOTIFY falseFlowSlotChanged)
     Q_PROPERTY(BP_FlowSlot* flowInSlot READ flowInSlot WRITE setFlowInSlot NOTIFY flowInSlotChanged)
@@ -39,7 +39,7 @@ class BP_IFNode : public BP_LogicalNode
     BP_Parameter* m_booleanParameter;
 
 public:
-    BP_IFNode();
+    Q_INVOKABLE BP_IFNode();
     BP_FlowSlot* trueFlowSlot() const;
     BP_FlowSlot* falseFlowSlot() const;
     BP_FlowSlot* flowInSlot() const;
@@ -74,6 +74,17 @@ signals:
     void flowInSlotChanged(BP_FlowSlot* flowInSlot);
     void booleanSlotChanged(BP_DataSlot* booleanSlot);
     void booleanParameterChanged(BP_Parameter* booleanParameter);
+
+    // QGraphicsItem interface
+public:
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    // BP_Node interface
+public:
+    virtual void calculateBounds() override;
+    virtual QString renderNode(BP_PlatformManager *platform) override;
+    virtual BP_Node *nextNode() override;
+    virtual QString getNodeTypeString() override;
 };
 
 #endif // BP_IFNODE_H

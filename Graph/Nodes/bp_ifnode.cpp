@@ -16,6 +16,8 @@
 
 #include <Core/bp_parameter.h>
 
+#include <QPainter>
+
 
 RegisterToolNodeType(BP_IFNode,"Logic")
 
@@ -27,21 +29,26 @@ BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_booleanParameter(new BP_Parameter())
 {
     m_trueFlowSlot->setIsOutput(true);
-    m_trueFlowSlot->setFlowName("false");
+    m_trueFlowSlot->setFlowName("true");
     m_trueFlowSlot->setShowFlowName(true);
+    m_trueFlowSlot->setParentItem(this);
 
     m_falseFlowSlot->setIsOutput(true);
     m_falseFlowSlot->setFlowName("false");
     m_falseFlowSlot->setShowFlowName(true);
+    m_falseFlowSlot->setParentItem(this);
 
     m_flowInSlot->setIsOutput(false);
     m_flowInSlot->setShowFlowName(false);
+    m_flowInSlot->setParentItem(this);
 
     m_booleanParameter->setParameterName("condition");
 
     m_booleanSlot->setShowName(true);
     m_booleanSlot->setParameterObject(m_booleanParameter);
     m_booleanSlot->setIsOutput(false);
+    m_booleanSlot->setParentItem(this);
+    this->calculateBounds();
 
 }
 
@@ -99,4 +106,44 @@ void BP_IFNode::setBooleanSlot(BP_DataSlot *booleanSlot)
 
     m_booleanSlot = booleanSlot;
     emit booleanSlotChanged(m_booleanSlot);
+}
+
+void BP_IFNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setBrush(QColor(Qt::GlobalColor::gray));
+    painter->drawRect(boundingRect());
+
+    painter->setPen(Qt::white);
+    painter->setOpacity(0.8);
+    painter->drawText(boundingRect().center(),"IF");
+}
+
+void BP_IFNode::calculateBounds()
+{
+    //initial flow + name
+    BP_Node::calculateBounds();
+
+    m_bounds.setHeight(70);
+    m_bounds.setWidth(10+qMax(m_flowInSlot->boundingRect().width()+m_trueFlowSlot->boundingRect().width(),
+                           m_booleanSlot->boundingRect().width()+ m_falseFlowSlot->boundingRect().width()));
+
+    m_flowInSlot->setPos(5,10);
+    m_booleanSlot->setPos(5,40);
+    m_trueFlowSlot->setPos(m_booleanSlot->boundingRect().width()+10,10);
+    m_falseFlowSlot->setPos(m_booleanSlot->boundingRect().width()+10,45);
+}
+
+QString BP_IFNode::renderNode(BP_PlatformManager *platform)
+{
+    return "";
+}
+
+BP_Node *BP_IFNode::nextNode()
+{
+    return this;
+}
+
+QString BP_IFNode::getNodeTypeString()
+{
+    return "If statemenet";
 }
