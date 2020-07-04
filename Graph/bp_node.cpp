@@ -123,3 +123,8 @@ QString BP_Node::getNodeTypeString()
     return "Node";
 }
 
+void BP_Node::mapInputFlowToOutput()
+{
+    //calculate and apply the flow from the input slot to the output one
+}
+

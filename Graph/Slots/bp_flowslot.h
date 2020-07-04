@@ -20,6 +20,7 @@ class BP_FlowSlot : public BP_Slot
     Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
     Q_PROPERTY(QString flowName READ flowName WRITE setFlowName NOTIFY flowNameChanged)
     Q_PROPERTY(bool showFlowName READ showFlowName WRITE setShowFlowName NOTIFY showFlowNameChanged)
+    Q_PROPERTY(QList<int> branches READ branches WRITE setBranches NOTIFY branchesChanged)
 
     QPolygon trianglePolygone;
     bool m_isOutput;
@@ -29,6 +30,9 @@ class BP_FlowSlot : public BP_Slot
     bool m_showFlowName;
 
     int flowNameWidth = 0;
+
+    //the branches going into the slot
+    QList<int> m_branches;
 
 public:
     BP_FlowSlot(BP_Node *parent = nullptr);
@@ -44,10 +48,14 @@ public:
     QString flowName() const;
     bool showFlowName() const;
 
+    QList<int> branches() const;
+
 public slots:
     void setIsOutput(bool isOutput);
     void setFlowName(QString flowName);
     void setShowFlowName(bool showFlowName);
+
+    void setBranches(QList<int> branches);
 
 signals:
     void isOutputChanged(bool isOutput);
@@ -55,6 +63,7 @@ signals:
     void showFlowNameChanged(bool showFlowName);
 
 
+    void branchesChanged(QList<int> branches);
 };
 
 #endif // BP_FLOWSLOT_H

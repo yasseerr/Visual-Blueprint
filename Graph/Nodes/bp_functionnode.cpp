@@ -21,6 +21,9 @@
 
 #include <Graph/Links/bp_link.h>
 
+#include <Graph/bp_graphutils.h>
+#include <Graph/bp_graphutils.h>
+
 BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent),m_selfSlot(nullptr)
 {
     //adding the execution flow
@@ -222,4 +225,10 @@ BP_DataSlot *BP_FunctionNode::selfSlot() const
 QString BP_FunctionNode::getNodeTypeString()
 {
     return "Function";
+}
+
+void BP_FunctionNode::mapInputFlowToOutput()
+{
+    m_executionflowOutSlot->setBranches(BP_GraphUtils::getInstance()->
+                                        getReplacedSubBranchesWithParents(m_executionflowInSlot->branches()));
 }

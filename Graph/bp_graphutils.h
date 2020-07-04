@@ -13,9 +13,11 @@
 #define RegisterNodeType(X) int X::nodeTypeID= BP_GraphUtils::getInstance()->addNodeType(X::staticMetaObject);
 #define RegisterToolNodeType(X,Category) int X::nodeTypeID = BP_GraphUtils::getInstance()->addNodeType(X::staticMetaObject,true,Category);
 
+#include <QColor>
 #include <QMap>
 #include <QObject>
 
+class BP_FlowSlot;
 
 class BP_GraphUtils : public QObject
 {
@@ -30,6 +32,7 @@ class BP_GraphUtils : public QObject
     QMap<int,int> branchSubBranchesCountMap;
     QMap<int,int> branchParentMap;
     QMap<int,QList<int>> subBranchesMap;
+    QMap<int,QColor> branchesColors;
 
 public:
     explicit BP_GraphUtils(QObject *parent = nullptr);
@@ -45,6 +48,8 @@ public:
     //branches functions
     int getNewBranchID();
     void setBranchSubBranches(int b,QList<int> subBranches);
+    QList<int> getJoinedBranchesInSlot(BP_FlowSlot *flowSlot);
+    QList<int> getSubBranches(int b);
 
 
 signals:

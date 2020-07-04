@@ -10,6 +10,9 @@
 #include "bp_graphutils.h"
 
 #include <QMetaClassInfo>
+#include <QSet>
+
+#include <Graph/Slots/bp_flowslot.h>
 
 BP_GraphUtils* BP_GraphUtils::instance = nullptr;
 int BP_GraphUtils::branchSequence = -1;
@@ -45,6 +48,54 @@ void BP_GraphUtils::setBranchSubBranches(int b, QList<int> subBranches)
     //branchSubBranchesCountMap.insert(b,subBranches.count());
     subBranchesMap.insert(b,QList<int>(subBranches));
 
+}
+
+QList<int> BP_GraphUtils::getJoinedBranchesInList(QList<int> branches)
+{
+    QList<int> retList;
+    QSet<int> branchesParentsSet;
+    //get the parent of the connected flows
+    foreach (int branchID, branches) {
+        branchesParentsSet.insert(branchParentMap.value(branchID));
+    }
+    //check for each parent if all the children are present
+    foreach (int branchesParent, branchesParentsSet) {
+        auto subBranchesList = subBranchesMap.value(branchesParent);
+        bool joinNode = true;
+        foreach (int branch, subBranchesList) {
+            if(!branches.contains(branch)){
+                joinNode = false;
+                break;
+            }
+        }
+        if(joinNode) retList << branchesParent;
+    }
+    //append the parent
+    return QList<int>(retList);
+}
+
+QList<int> BP_GraphUtils::getJoinedBranchesInSlot(BP_FlowSlot *flowSlot)
+{
+    return getJoinedBranchesInList(flowSlot->branches());
+}
+
+QList<int> BP_GraphUtils::getSubBranches(int b)
+{
+    return subBranchesMap.value(b);
+}
+
+QList<int> BP_GraphUtils::getReplacedSubBranchesWithParents(QList<int> branches)
+{
+    auto parentsBranches = getJoinedBranchesInList(branches);
+    QList<int> retList(branches);
+    foreach (int parentBranch, parentsBranches) {
+        //replacing the childs with the parent
+        foreach (int subBranch, getSubBranches(parentBranch)) {
+            retList.removeOne(subBranch);
+        }
+        retList.append(parentBranch);
+    }
+    return  retList;
 }
 
 BP_GraphUtils::BP_GraphUtils(QObject *parent) : QObject(parent)

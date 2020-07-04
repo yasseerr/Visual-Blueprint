@@ -9,7 +9,10 @@
  ***************************************************************************/
 #include "bp_flowslot.h"
 
+#include <QDebug>
 #include <qpainter.h>
+
+#include <Graph/bp_node.h>
 
 BP_FlowSlot::BP_FlowSlot(BP_Node *parent):BP_Slot(parent),m_showFlowName(false)
 {
@@ -22,6 +25,22 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
     auto flowSlot = dynamic_cast<BP_FlowSlot*>(secondSlot);
     if(!flowSlot) return false;
     if(isOutput() == flowSlot->isOutput())return false;
+
+    //import the branches/threads and other info from the source
+    //TODO test if it is the input or the output
+    if(this->isOutput()){
+        flowSlot->m_branches.append(this->branches());
+        flowSlot->parentNode()->mapInputFlowToOutput();
+        qDebug() << "new branches list for " << flowSlot->flowName() << " " << flowSlot->branches();
+    }else{
+        m_branches.append(flowSlot->branches());
+        this->parentNode()->mapInputFlowToOutput();
+        qDebug() << "new branches list for " << this->flowName() << " " << this->branches();
+    }
+
+    //propagate the info to the output slot of the parent
+
+
     return true;
 }
 
@@ -58,6 +77,11 @@ bool BP_FlowSlot::showFlowName() const
     return m_showFlowName;
 }
 
+QList<int> BP_FlowSlot::branches() const
+{
+    return m_branches;
+}
+
 void BP_FlowSlot::setIsOutput(bool isOutput)
 {
     if (m_isOutput == isOutput)
@@ -87,4 +111,13 @@ void BP_FlowSlot::setShowFlowName(bool showFlowName)
 
     m_showFlowName = showFlowName;
     emit showFlowNameChanged(m_showFlowName);
+}
+
+void BP_FlowSlot::setBranches(QList<int> branches)
+{
+    if (m_branches == branches)
+        return;
+
+    m_branches = branches;
+    emit branchesChanged(m_branches);
 }

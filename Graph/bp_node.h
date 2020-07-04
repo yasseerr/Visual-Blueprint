@@ -73,6 +73,7 @@ public:
     virtual QString renderNode(BP_PlatformManager *platform);
     virtual BP_Node* nextNode();
     virtual QString getNodeTypeString();
+    virtual void mapInputFlowToOutput();
 
 };
 
