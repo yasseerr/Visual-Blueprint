@@ -12,6 +12,7 @@
 #include <QMetaClassInfo>
 
 BP_GraphUtils* BP_GraphUtils::instance = nullptr;
+int BP_GraphUtils::branchSequence = -1;
 
 QMap<QString, QMetaObject> BP_GraphUtils::getNodeTypesMap() const
 {
@@ -31,6 +32,19 @@ QMap<QString, QList<QMetaObject> *> BP_GraphUtils::getToolNodesByCategory() cons
 void BP_GraphUtils::setToolNodesByCategory(const QMap<QString, QList<QMetaObject> *> &toolNodesByCategory)
 {
     m_toolNodesByCategory = toolNodesByCategory;
+}
+
+int BP_GraphUtils::getNewBranchID()
+{
+    branchSequence++;
+    return branchSequence;
+}
+
+void BP_GraphUtils::setBranchSubBranches(int b, QList<int> subBranches)
+{
+    //branchSubBranchesCountMap.insert(b,subBranches.count());
+    subBranchesMap.insert(b,QList<int>(subBranches));
+
 }
 
 BP_GraphUtils::BP_GraphUtils(QObject *parent) : QObject(parent)

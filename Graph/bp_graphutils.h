@@ -16,6 +16,7 @@
 #include <QMap>
 #include <QObject>
 
+
 class BP_GraphUtils : public QObject
 {
     Q_OBJECT
@@ -23,6 +24,12 @@ class BP_GraphUtils : public QObject
     static BP_GraphUtils* instance ;
     QMap<QString,QMetaObject> m_nodeTypesMap;
     QMap<QString,QList<QMetaObject>*> m_toolNodesByCategory;
+
+    //branches variables
+    static int branchSequence;
+    QMap<int,int> branchSubBranchesCountMap;
+    QMap<int,int> branchParentMap;
+    QMap<int,QList<int>> subBranchesMap;
 
 public:
     explicit BP_GraphUtils(QObject *parent = nullptr);
@@ -34,6 +41,11 @@ public:
 
     QMap<QString, QList<QMetaObject> *> getToolNodesByCategory() const;
     void setToolNodesByCategory(const QMap<QString, QList<QMetaObject> *> &toolNodesByCategory);
+
+    //branches functions
+    int getNewBranchID();
+    void setBranchSubBranches(int b,QList<int> subBranches);
+
 
 signals:
 

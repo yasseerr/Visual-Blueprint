@@ -133,7 +133,7 @@ void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     qDebug() << "mouse released " << event->pos();
     BP_Slot *selectedItem =  dynamic_cast<BP_Slot*>(scene()->itemAt(event->scenePos(),QTransform()));
     if(selectedItem != nullptr){
-        qDebug() << " selected item " << selectedItem->parentNode()->coreObject()->name();
+        //qDebug() << " selected item " << selectedItem->parentNode()->coreObject()->name();
         //TODO filter the allowed connection
         if(acceptConnection(selectedItem)){
             temporaryLink->setOutSlot(selectedItem);

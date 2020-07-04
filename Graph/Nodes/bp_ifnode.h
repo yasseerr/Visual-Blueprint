@@ -23,6 +23,7 @@ class BP_IFNode : public BP_LogicalNode
     Q_CLASSINFO("name","if statment")
     Q_PROPERTY(BP_FlowSlot* trueFlowSlot READ trueFlowSlot WRITE setTrueFlowSlot NOTIFY trueFlowSlotChanged)
     Q_PROPERTY(BP_FlowSlot* falseFlowSlot READ falseFlowSlot WRITE setFalseFlowSlot NOTIFY falseFlowSlotChanged)
+    Q_PROPERTY(BP_FlowSlot* nextFlowSlot READ nextFlowSlot WRITE setNextFlowSlot NOTIFY nextFlowSlotChanged)
     Q_PROPERTY(BP_FlowSlot* flowInSlot READ flowInSlot WRITE setFlowInSlot NOTIFY flowInSlotChanged)
     Q_PROPERTY(BP_DataSlot* booleanSlot READ booleanSlot WRITE setBooleanSlot NOTIFY booleanSlotChanged)
     Q_PROPERTY(BP_Parameter* booleanParameter READ booleanParameter WRITE setBooleanParameter NOTIFY booleanParameterChanged)
@@ -38,6 +39,8 @@ class BP_IFNode : public BP_LogicalNode
 
     BP_Parameter* m_booleanParameter;
 
+    BP_FlowSlot* m_nextFlowSlot;
+
 public:
     Q_INVOKABLE BP_IFNode();
     BP_FlowSlot* trueFlowSlot() const;
@@ -46,10 +49,7 @@ public:
 
     BP_DataSlot* booleanSlot() const;
 
-    BP_Parameter* booleanParameter() const
-    {
-        return m_booleanParameter;
-    }
+    BP_Parameter* booleanParameter() const;
 
 public slots:
     void setTrueFlowSlot(BP_FlowSlot* trueFlowSlot);
@@ -59,14 +59,9 @@ public slots:
 
     void setBooleanSlot(BP_DataSlot* booleanSlot);
 
-    void setBooleanParameter(BP_Parameter* booleanParameter)
-    {
-        if (m_booleanParameter == booleanParameter)
-            return;
+    void setBooleanParameter(BP_Parameter* booleanParameter);
 
-        m_booleanParameter = booleanParameter;
-        emit booleanParameterChanged(m_booleanParameter);
-    }
+    void setNextFlowSlot(BP_FlowSlot* nextFlowSlot);
 
 signals:
     void trueFlowSlotChanged(BP_FlowSlot* trueFlowSlot);
@@ -76,6 +71,8 @@ signals:
     void booleanParameterChanged(BP_Parameter* booleanParameter);
 
     // QGraphicsItem interface
+    void nextFlowSlotChanged(BP_FlowSlot* nextFlowSlot);
+
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
@@ -84,7 +81,8 @@ public:
     virtual void calculateBounds() override;
     virtual QString renderNode(BP_PlatformManager *platform) override;
     virtual BP_Node *nextNode() override;
-    virtual QString getNodeTypeString() override;
+virtual QString getNodeTypeString() override;
+BP_FlowSlot* nextFlowSlot() const;
 };
 
 #endif // BP_IFNODE_H

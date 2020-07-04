@@ -24,6 +24,7 @@ RegisterToolNodeType(BP_IFNode,"Logic")
 BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_falseFlowSlot(new BP_FlowSlot()),
     m_trueFlowSlot(new BP_FlowSlot()),
+    m_nextFlowSlot(new BP_FlowSlot()),
     m_flowInSlot(new BP_FlowSlot()),
     m_booleanSlot(new BP_DataSlot()),
     m_booleanParameter(new BP_Parameter())
@@ -37,6 +38,12 @@ BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_falseFlowSlot->setFlowName("false");
     m_falseFlowSlot->setShowFlowName(true);
     m_falseFlowSlot->setParentItem(this);
+
+    //the next node will be used later
+    m_nextFlowSlot->setIsOutput(true);
+    m_nextFlowSlot->setFlowName("next");
+    m_nextFlowSlot->setShowFlowName(true);
+    m_nextFlowSlot->setParentItem(this);
 
     m_flowInSlot->setIsOutput(false);
     m_flowInSlot->setShowFlowName(false);
@@ -70,6 +77,11 @@ BP_FlowSlot *BP_IFNode::flowInSlot() const
 BP_DataSlot *BP_IFNode::booleanSlot() const
 {
     return m_booleanSlot;
+}
+
+BP_Parameter *BP_IFNode::booleanParameter() const
+{
+    return m_booleanParameter;
 }
 
 void BP_IFNode::setTrueFlowSlot(BP_FlowSlot *trueFlowSlot)
@@ -108,6 +120,24 @@ void BP_IFNode::setBooleanSlot(BP_DataSlot *booleanSlot)
     emit booleanSlotChanged(m_booleanSlot);
 }
 
+void BP_IFNode::setBooleanParameter(BP_Parameter *booleanParameter)
+{
+    if (m_booleanParameter == booleanParameter)
+        return;
+
+    m_booleanParameter = booleanParameter;
+    emit booleanParameterChanged(m_booleanParameter);
+}
+
+void BP_IFNode::setNextFlowSlot(BP_FlowSlot *nextFlowSlot)
+{
+    if (m_nextFlowSlot == nextFlowSlot)
+        return;
+
+    m_nextFlowSlot = nextFlowSlot;
+    emit nextFlowSlotChanged(m_nextFlowSlot);
+}
+
 void BP_IFNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QColor(Qt::GlobalColor::gray));
@@ -115,7 +145,7 @@ void BP_IFNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->setPen(Qt::white);
     painter->setOpacity(0.8);
-    painter->drawText(boundingRect().center(),"IF");
+    painter->drawText(5,boundingRect().center().y(),"IF");
 }
 
 void BP_IFNode::calculateBounds()
@@ -123,14 +153,14 @@ void BP_IFNode::calculateBounds()
     //initial flow + name
     BP_Node::calculateBounds();
 
-    m_bounds.setHeight(70);
+    m_bounds.setHeight(100);
     m_bounds.setWidth(10+qMax(m_flowInSlot->boundingRect().width()+m_trueFlowSlot->boundingRect().width(),
                            m_booleanSlot->boundingRect().width()+ m_falseFlowSlot->boundingRect().width()));
-
     m_flowInSlot->setPos(5,10);
     m_booleanSlot->setPos(5,40);
     m_trueFlowSlot->setPos(m_booleanSlot->boundingRect().width()+10,10);
     m_falseFlowSlot->setPos(m_booleanSlot->boundingRect().width()+10,45);
+    m_nextFlowSlot->setPos(m_booleanSlot->boundingRect().width()+10,80);
 }
 
 QString BP_IFNode::renderNode(BP_PlatformManager *platform)
@@ -146,4 +176,9 @@ BP_Node *BP_IFNode::nextNode()
 QString BP_IFNode::getNodeTypeString()
 {
     return "If statemenet";
+}
+
+BP_FlowSlot *BP_IFNode::nextFlowSlot() const
+{
+    return m_nextFlowSlot;
 }
