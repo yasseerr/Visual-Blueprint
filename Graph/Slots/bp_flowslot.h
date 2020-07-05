@@ -38,6 +38,7 @@ public:
     BP_FlowSlot(BP_Node *parent = nullptr);
 
     virtual bool acceptConnection(BP_Slot *secondSlot) override;
+    void addBranch(int branch);
 
     // QGraphicsItem interface
 public:

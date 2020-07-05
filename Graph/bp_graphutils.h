@@ -18,6 +18,7 @@
 #include <QObject>
 
 class BP_FlowSlot;
+class BP_Node;
 
 class BP_GraphUtils : public QObject
 {
@@ -29,10 +30,13 @@ class BP_GraphUtils : public QObject
 
     //branches variables
     static int branchSequence;
-    QMap<int,int> branchSubBranchesCountMap;
-    QMap<int,int> branchParentMap;
+    //QMap<int,int> branchSubBranchesCountMap;
+    QMap<int,QList<int>> branchParentMap;
     QMap<int,QList<int>> subBranchesMap;
     QMap<int,QColor> branchesColors;
+    QMap<int,BP_Node*> parentNodeMap;
+    QMap<BP_Node*,QList<int>> nodeSubBranches;
+    QMap<BP_Node*,QList<int>> nodeParentBranches;
 
 public:
     explicit BP_GraphUtils(QObject *parent = nullptr);
@@ -46,10 +50,12 @@ public:
     void setToolNodesByCategory(const QMap<QString, QList<QMetaObject> *> &toolNodesByCategory);
 
     //branches functions
-    int getNewBranchID();
+    int getNewBranchID(BP_Node *parentNode,QList<int> parentsBranchs);
     void setBranchSubBranches(int b,QList<int> subBranches);
+    QList<int> getJoinedBranchesInList(QList<int> branches);
     QList<int> getJoinedBranchesInSlot(BP_FlowSlot *flowSlot);
     QList<int> getSubBranches(int b);
+    QList<int> getReplacedSubBranchesWithParents(QList<int> branches);
 
 
 signals:

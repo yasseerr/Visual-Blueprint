@@ -92,6 +92,7 @@ public:
     BP_DataSlot* selfSlot() const;
 
     QString getNodeTypeString() override;
+    void mapInputFlowToOutput() override;
 };
 
 #endif // BP_FUNCTIONNODE_H

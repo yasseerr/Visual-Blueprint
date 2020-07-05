@@ -31,10 +31,13 @@ BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent),m_selfSlot(nul
     m_executionflowInSlot->setParentItem(this);
     m_executionflowInSlot->setPos(2,7);
     m_executionflowInSlot->setIsOutput(false);
+    m_executionflowInSlot->setShowFlowName(false);
+
     m_executionflowOutSlot = new BP_FlowSlot(this);
     m_executionflowOutSlot->setParentItem(this);
     m_executionflowOutSlot->setPos(2,7);
     m_executionflowOutSlot->setIsOutput(true);
+    m_executionflowOutSlot->setShowFlowName(false);
 }
 
 void BP_FunctionNode::loadCurrentFunction()
@@ -131,6 +134,8 @@ void BP_FunctionNode::setFunctionObject(BP_Function *functionObject)
         return;
     m_functionObject = functionObject;
     loadCurrentFunction();
+    m_executionflowInSlot->setFlowName("in_"+m_functionObject->name());
+    m_executionflowOutSlot->setFlowName("out_"+m_functionObject->name());
     emit functionObjectChanged(m_functionObject);
 }
 

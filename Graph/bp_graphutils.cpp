@@ -9,6 +9,7 @@
  ***************************************************************************/
 #include "bp_graphutils.h"
 
+#include <QDebug>
 #include <QMetaClassInfo>
 #include <QSet>
 
@@ -37,9 +38,15 @@ void BP_GraphUtils::setToolNodesByCategory(const QMap<QString, QList<QMetaObject
     m_toolNodesByCategory = toolNodesByCategory;
 }
 
-int BP_GraphUtils::getNewBranchID()
+int BP_GraphUtils::getNewBranchID(QList<int> parents)
 {
     branchSequence++;
+    branchParentMap.insert(branchSequence,parents);
+    foreach (int oneParent, parents) {
+        QList<int> parentBranches(subBranchesMap.value(oneParent));
+        parentBranches << branchSequence;
+        subBranchesMap.insert(oneParent,parentBranches);
+    }
     return branchSequence;
 }
 
@@ -54,7 +61,7 @@ QList<int> BP_GraphUtils::getJoinedBranchesInList(QList<int> branches)
 {
     QList<int> retList;
     QSet<int> branchesParentsSet;
-    //get the parent of the connected flows
+    //get the parent of the connected branches
     foreach (int branchID, branches) {
         branchesParentsSet.insert(branchParentMap.value(branchID));
     }
@@ -62,6 +69,7 @@ QList<int> BP_GraphUtils::getJoinedBranchesInList(QList<int> branches)
     foreach (int branchesParent, branchesParentsSet) {
         auto subBranchesList = subBranchesMap.value(branchesParent);
         bool joinNode = true;
+        if(subBranchesList.count() == 0) joinNode = false;
         foreach (int branch, subBranchesList) {
             if(!branches.contains(branch)){
                 joinNode = false;
@@ -87,6 +95,8 @@ QList<int> BP_GraphUtils::getSubBranches(int b)
 QList<int> BP_GraphUtils::getReplacedSubBranchesWithParents(QList<int> branches)
 {
     auto parentsBranches = getJoinedBranchesInList(branches);
+    qDebug() << "branches to be mapped " << branches;
+    qDebug() << "parent to be joined to : " << parentsBranches;
     QList<int> retList(branches);
     foreach (int parentBranch, parentsBranches) {
         //replacing the childs with the parent

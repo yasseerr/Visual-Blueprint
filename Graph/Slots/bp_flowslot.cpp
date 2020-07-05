@@ -44,22 +44,27 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
     return true;
 }
 
+void BP_FlowSlot::addBranch(int branch)
+{
+    m_branches.append(branch);
+}
+
 void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(Qt::white);
-    painter->drawText(0,9,flowName());
+    if(m_showFlowName)painter->drawText(0,9,flowName());
     painter->setBrush(Qt::white);
     painter->drawPolygon(trianglePolygone);
 }
 
 QRectF BP_FlowSlot::boundingRect() const
 {
-    return QRectF(0,0,20+flowNameWidth,15);
+    return QRectF(0,0,20+(m_showFlowName?flowNameWidth:0),15);
 }
 
 QPointF BP_FlowSlot::getAnchorPoint()
 {
-    return scenePos() + QPointF(7+flowNameWidth,7);
+    return scenePos() + QPointF(7+(m_showFlowName?flowNameWidth:0),7);
 }
 
 bool BP_FlowSlot::isOutput() const
@@ -99,7 +104,7 @@ void BP_FlowSlot::setFlowName(QString flowName)
     m_flowName = flowName;
 
     flowNameWidth = QFontMetrics(QFont()).boundingRect(this->flowName()).width();
-    trianglePolygone.translate(flowNameWidth+5,0);
+    if(m_showFlowName)trianglePolygone.translate(flowNameWidth+5,0);
 
     emit flowNameChanged(m_flowName);
 }

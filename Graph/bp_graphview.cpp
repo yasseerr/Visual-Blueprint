@@ -7,10 +7,13 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_graphutils.h"
 #include "bp_graphview.h"
 #include "bp_node.h"
 
 #include <Graph/Nodes/bp_eventnode.h>
+
+#include <Graph/Slots/bp_flowslot.h>
 
 BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(new QGraphicsScene()),m_entryNode(new BP_EventNode())
 {
@@ -23,9 +26,12 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
 
     //configuring the events
     m_entryNode->setEventName("Entry");
-    m_entryNode->createFlow("entered");
+    auto enteredEvent = m_entryNode->createFlow("entered");
+
+    enteredEvent->addBranch(BP_GraphUtils::getInstance()->getNewBranchID(-1));
+
     m_entryNode->createFlow("exited");
-    m_entryNode->createFlow("what flow");
+    m_entryNode->createFlow("flow");
     scene()->addItem(m_entryNode);
     m_entryNode->setPos(0,0);
 }

@@ -33,7 +33,7 @@ BP_FlowSlot *BP_EventNode::getEventFlow(QString flowName)
     return eventFlows.value(flowName);
 }
 
-void BP_EventNode::createFlow(QString flowName)
+BP_FlowSlot* BP_EventNode::createFlow(QString flowName)
 {
     BP_FlowSlot *flowSlot = new BP_FlowSlot(this);
     flowSlot->setIsOutput(true);
@@ -42,6 +42,7 @@ void BP_EventNode::createFlow(QString flowName)
     flowSlot->setParentNode(this);
     eventFlows.insert(flowName,flowSlot);
     calculateBounds();
+    return flowSlot;
 }
 
 void BP_EventNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -18,6 +18,8 @@
 
 #include <QPainter>
 
+#include <Graph/Links/bp_link.h>
+
 
 RegisterToolNodeType(BP_IFNode,"Logic")
 
@@ -145,7 +147,7 @@ void BP_IFNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->setPen(Qt::white);
     painter->setOpacity(0.8);
-    painter->drawText(5,boundingRect().center().y(),"IF");
+    painter->drawText(boundingRect().center().x(),5,"IF");
 }
 
 void BP_IFNode::calculateBounds()
@@ -165,12 +167,13 @@ void BP_IFNode::calculateBounds()
 
 QString BP_IFNode::renderNode(BP_PlatformManager *platform)
 {
-    return "";
+    return "" ;
 }
 
 BP_Node *BP_IFNode::nextNode()
 {
-    return this;
+    if(m_nextFlowSlot->connectedLinks().size()==0) return nullptr;
+    return m_nextFlowSlot->connectedLinks().first()->outSlot()->parentNode();
 }
 
 QString BP_IFNode::getNodeTypeString()
@@ -181,4 +184,9 @@ QString BP_IFNode::getNodeTypeString()
 BP_FlowSlot *BP_IFNode::nextFlowSlot() const
 {
     return m_nextFlowSlot;
+}
+
+void BP_IFNode::mapInputFlowToOutput()
+{
+    BP_GraphUtils::getNewBranchID()
 }
