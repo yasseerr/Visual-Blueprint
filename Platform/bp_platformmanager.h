@@ -25,6 +25,8 @@ class BP_IntNode;
 class BP_StringNode;
 class BP_FloatNode;
 class BP_ClassInstanceNode;
+class BP_Node;
+class BP_IFNode;
 
 class BP_PlatformManager : public QObject
 {
@@ -42,6 +44,7 @@ public:
     virtual QVariantMap importClass(QStringList moduleHiearchy) = 0;
 
     virtual void compileProject(BP_Project *project) = 0;
+    virtual QStringList compileBlock(BP_Node *startNode,BP_Node *endNode) = 0;
     virtual void runProject(BP_Project *project) = 0;
 
     virtual QString renderEventNode(BP_EventNode *node) = 0;
@@ -50,6 +53,7 @@ public:
     virtual QString renderFloatNode(BP_FloatNode *node) = 0;
     virtual QString renderStringNode(BP_StringNode *node) = 0;
     virtual QString renderClassInstanceNode(BP_ClassInstanceNode *node) = 0;
+    virtual QString renderIFStatement(BP_IFNode *node) = 0;
 
 
 public slots:

@@ -8,6 +8,7 @@
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
 #include "bp_graphutils.h"
+#include "bp_node.h"
 
 #include <QDebug>
 #include <QMetaClassInfo>
@@ -97,7 +98,14 @@ QList<BP_Node*> BP_GraphUtils::getJoinedBranchesInList(QList<int> branches)
 
 QList<BP_Node*> BP_GraphUtils::getJoinedBranchesInSlot(BP_FlowSlot *flowSlot)
 {
-    return getJoinedBranchesInList(flowSlot->branches());
+    //nodes that there subbranches are united
+    auto parentNodes = getJoinedBranchesInList(flowSlot->branches());
+    //register the link between this two nodes for compilation
+    foreach (auto node, parentNodes) {
+        endOfBlockRegister.insert(node,flowSlot->parentNode());
+        qDebug() << "cloture of node : " << node->nodeId << " found in node " << flowSlot->parentNode()->nodeId;
+    }
+    return parentNodes ;
 }
 
 QList<int> BP_GraphUtils::getSubBranches(int b)
@@ -105,16 +113,16 @@ QList<int> BP_GraphUtils::getSubBranches(int b)
     return subBranchesMap.value(b);
 }
 
-QList<int> BP_GraphUtils::getReplacedSubBranchesWithParents(QList<int> branches)
+QList<int> BP_GraphUtils::getReplacedSubBranchesWithParents(BP_FlowSlot *flowSlot)
 {
-    auto parentsNode = getJoinedBranchesInList(branches);
-    qDebug() << "branches to be mapped " << branches;
+    auto parentsNode = getJoinedBranchesInSlot(flowSlot);
+    qDebug() << "branches to be mapped " << flowSlot->branches();
     qDebug() << "parent to be joined to : ";
     foreach (auto parentNode , parentsNode) {
            qDebug() << nodeSubBranches.value(parentNode);
     }
 
-    QList<int> retList(branches);
+    QList<int> retList(flowSlot->branches());
     foreach (auto parentNode, parentsNode) {
         //replacing the childs with the parent
         foreach (int subBranch, nodeSubBranches.value(parentNode)) {
@@ -128,6 +136,13 @@ QList<int> BP_GraphUtils::getReplacedSubBranchesWithParents(QList<int> branches)
 void BP_GraphUtils::setNodeParentBranches(BP_Node *node, QList<int> branches)
 {
     nodeParentBranches.insert(node,branches);
+}
+
+BP_Node *BP_GraphUtils::getEndOfBranchForNode(BP_Node *node)
+{
+    auto endNode = endOfBlockRegister.value(node,nullptr);
+    return endNode;
+
 }
 
 BP_GraphUtils::BP_GraphUtils(QObject *parent) : QObject(parent)

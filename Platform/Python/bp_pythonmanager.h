@@ -31,6 +31,7 @@ public:
     virtual QVariantMap importVariable(QStringList moduleHiearchy) override;
     virtual QVariantMap importClass(QStringList moduleHiearchy) override;
     virtual void compileProject(BP_Project *project) override;
+    QStringList compileBlock(BP_Node *startNode, BP_Node *endNode) override;
     virtual void runProject(BP_Project *project) override;
 
     QString renderEventNode(BP_EventNode *node) override;
@@ -39,6 +40,7 @@ public:
     QString renderFloatNode(BP_FloatNode *node) override;
     QString renderStringNode(BP_StringNode *node) override;
     QString renderClassInstanceNode(BP_ClassInstanceNode *node) override;
+    QString renderIFStatement(BP_IFNode *node) override;
 
 public slots:
     virtual void standardOutputReady() override;

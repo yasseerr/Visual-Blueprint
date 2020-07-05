@@ -26,10 +26,13 @@
 #include <Graph/Nodes/bp_eventnode.h>
 #include <Graph/Nodes/bp_floatnode.h>
 #include <Graph/Nodes/bp_functionnode.h>
+#include <Graph/Nodes/bp_ifnode.h>
 #include <Graph/Nodes/bp_intnode.h>
 #include <Graph/Nodes/bp_stringnode.h>
 
 #include <Graph/Links/bp_link.h>
+
+#include <Graph/Slots/bp_flowslot.h>
 
 BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
@@ -191,6 +194,20 @@ void BP_PythonManager::compileProject(BP_Project *project)
     outputFile.close();
 }
 
+QStringList BP_PythonManager::compileBlock(BP_Node *startNode, BP_Node *endNode)
+{
+    QStringList blockCodeList;
+    BP_Node *currentCompilationNode = startNode;
+    while (currentCompilationNode != endNode && currentCompilationNode != nullptr) {
+        //TODO check that the loop is not infinite
+        QString nodeRenderedCode = currentCompilationNode->renderNode(this);
+        blockCodeList << nodeRenderedCode;
+        currentCompilationNode = currentCompilationNode->nextNode();
+        //if(currentCompilationNode==endNode)currentCompilationNode=nullptr;
+    }
+    return blockCodeList;
+}
+
 void BP_PythonManager::runProject(BP_Project *project)
 {
     compileProject(project);
@@ -288,6 +305,42 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);
     //return "";
+}
+
+QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
+{
+    //render the condition
+    QString conditionRendered = node->booleanSlot()->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+    QString conditionReference = node->booleanSlot()->connectedLinks().first()->inSlot()->reference();
+
+    qDebug() << "compiling an if statement" ;
+    //qDebug() <<  "condition : " << conditionRendered;
+    //qDebug() << "reference :" << conditionReference;
+
+    //TODO add a condition when the else is not present
+    auto nextNode = node->nextNode();
+
+    //render the true branch
+    auto startNode = node->trueFlowSlot()->connectedLinks().first()->outSlot()->parentNode();
+    auto trueBlock = compileBlock(startNode,nextNode);
+
+    //qDebug() << "true block " << trueBlock;
+    // render the false branch
+    auto startNodeF = node->falseFlowSlot()->connectedLinks().first()->outSlot()->parentNode();
+    auto falseBlock = compileBlock(startNodeF,nextNode);
+    //qDebug() << "false block " << falseBlock;
+
+    // insert the result to the template
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/IFStatement.j2");
+    QVariantHash mapping ;
+    mapping.insert("condition_declaration",conditionRendered);
+    mapping.insert("condition_reference",conditionReference);
+    mapping.insert("true_block",trueBlock);
+    mapping.insert("false_block",falseBlock);
+
+    // polish the results
+    Grantlee::Context c(mapping);
+    return projectTemplate->render(&c);
 }
 
 void BP_PythonManager::standardOutputReady()

@@ -235,6 +235,6 @@ QString BP_FunctionNode::getNodeTypeString()
 void BP_FunctionNode::mapInputFlowToOutput()
 {
     m_executionflowOutSlot->setBranches(BP_GraphUtils::getInstance()->
-                                        getReplacedSubBranchesWithParents(m_executionflowInSlot->branches()));
+                                        getReplacedSubBranchesWithParents(m_executionflowInSlot));
     BP_GraphUtils::getInstance()->setNodeParentBranches(this,m_executionflowOutSlot->branches());
 }

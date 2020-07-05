@@ -39,6 +39,7 @@ class BP_GraphUtils : public QObject
     QMap<BP_Node*,QList<int>> nodeSubBranches;
     QMap<BP_Node*,QList<int>> nodeParentBranches;
     QMap<int,BP_Node *> branchNodeMap;
+    QMap<BP_Node*,BP_Node*> endOfBlockRegister;
 
 public:
     explicit BP_GraphUtils(QObject *parent = nullptr);
@@ -57,8 +58,9 @@ public:
     QList<BP_Node*> getJoinedBranchesInList(QList<int> branches);
     QList<BP_Node*> getJoinedBranchesInSlot(BP_FlowSlot *flowSlot);
     QList<int> getSubBranches(int b);
-    QList<int> getReplacedSubBranchesWithParents(QList<int> branches);
+    QList<int> getReplacedSubBranchesWithParents(BP_FlowSlot *flowSlot);
     void setNodeParentBranches(BP_Node* node,QList<int> branches);
+    BP_Node* getEndOfBranchForNode(BP_Node* node);
 
 
 signals:

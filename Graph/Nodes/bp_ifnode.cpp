@@ -20,6 +20,8 @@
 
 #include <Graph/Links/bp_link.h>
 
+#include <Platform/bp_platformmanager.h>
+
 
 RegisterToolNodeType(BP_IFNode,"Logic")
 
@@ -171,13 +173,14 @@ void BP_IFNode::calculateBounds()
 
 QString BP_IFNode::renderNode(BP_PlatformManager *platform)
 {
-    return "" ;
+    return platform->renderIFStatement(this);
 }
 
 BP_Node *BP_IFNode::nextNode()
 {
-    if(m_nextFlowSlot->connectedLinks().size()==0) return nullptr;
-    return m_nextFlowSlot->connectedLinks().first()->outSlot()->parentNode();
+//    if(m_nextFlowSlot->connectedLinks().size()==0) return nullptr;
+//    return m_nextFlowSlot->connectedLinks().first()->outSlot()->parentNode();
+    return BP_GraphUtils::getInstance()->getEndOfBranchForNode(this);
 }
 
 QString BP_IFNode::getNodeTypeString()
@@ -192,7 +195,7 @@ BP_FlowSlot *BP_IFNode::nextFlowSlot() const
 
 void BP_IFNode::mapInputFlowToOutput()
 {
-    auto theNodeBranches = BP_GraphUtils::getInstance()->getReplacedSubBranchesWithParents(m_flowInSlot->branches());
+    auto theNodeBranches = BP_GraphUtils::getInstance()->getReplacedSubBranchesWithParents(m_flowInSlot);
     BP_GraphUtils::getInstance()->setNodeParentBranches(this,theNodeBranches);
     //create node sube branches and save them
     int trueBranch = BP_GraphUtils::getInstance()->getNewBranchID(this);

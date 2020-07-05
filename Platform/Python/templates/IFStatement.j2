@@ -1,0 +1,7 @@
+
+#starting the if statement
+{{condition_declaration}}
+if({{condition_reference}}):
+    {%for line in true_block %}{{line|indentString:"1"}}{%endfor%}
+else:
+    {%for line in false_block %}{{line|indentString:"1"}}{%endfor%}
