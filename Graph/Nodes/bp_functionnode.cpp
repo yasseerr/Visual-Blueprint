@@ -236,4 +236,5 @@ void BP_FunctionNode::mapInputFlowToOutput()
 {
     m_executionflowOutSlot->setBranches(BP_GraphUtils::getInstance()->
                                         getReplacedSubBranchesWithParents(m_executionflowInSlot->branches()));
+    BP_GraphUtils::getInstance()->setNodeParentBranches(this,m_executionflowOutSlot->branches());
 }

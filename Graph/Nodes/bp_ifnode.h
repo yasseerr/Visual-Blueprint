@@ -81,8 +81,10 @@ public:
     virtual void calculateBounds() override;
     virtual QString renderNode(BP_PlatformManager *platform) override;
     virtual BP_Node *nextNode() override;
-virtual QString getNodeTypeString() override;
-BP_FlowSlot* nextFlowSlot() const;
+
+    virtual QString getNodeTypeString() override;
+    BP_FlowSlot* nextFlowSlot() const;
+    virtual void mapInputFlowToOutput() override;
 };
 
 #endif // BP_IFNODE_H

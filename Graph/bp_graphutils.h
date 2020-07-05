@@ -35,8 +35,10 @@ class BP_GraphUtils : public QObject
     QMap<int,QList<int>> subBranchesMap;
     QMap<int,QColor> branchesColors;
     QMap<int,BP_Node*> parentNodeMap;
+
     QMap<BP_Node*,QList<int>> nodeSubBranches;
     QMap<BP_Node*,QList<int>> nodeParentBranches;
+    QMap<int,BP_Node *> branchNodeMap;
 
 public:
     explicit BP_GraphUtils(QObject *parent = nullptr);
@@ -50,12 +52,13 @@ public:
     void setToolNodesByCategory(const QMap<QString, QList<QMetaObject> *> &toolNodesByCategory);
 
     //branches functions
-    int getNewBranchID(BP_Node *parentNode,QList<int> parentsBranchs);
+    int getNewBranchID(BP_Node *parentNode);
     void setBranchSubBranches(int b,QList<int> subBranches);
-    QList<int> getJoinedBranchesInList(QList<int> branches);
-    QList<int> getJoinedBranchesInSlot(BP_FlowSlot *flowSlot);
+    QList<BP_Node*> getJoinedBranchesInList(QList<int> branches);
+    QList<BP_Node*> getJoinedBranchesInSlot(BP_FlowSlot *flowSlot);
     QList<int> getSubBranches(int b);
     QList<int> getReplacedSubBranchesWithParents(QList<int> branches);
+    void setNodeParentBranches(BP_Node* node,QList<int> branches);
 
 
 signals:

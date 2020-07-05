@@ -28,7 +28,9 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
     m_entryNode->setEventName("Entry");
     auto enteredEvent = m_entryNode->createFlow("entered");
 
-    enteredEvent->addBranch(BP_GraphUtils::getInstance()->getNewBranchID(-1));
+    BP_GraphUtils::getInstance()->setNodeParentBranches(m_entryNode,QList<int>() << -1);
+    //branch 0 the start
+    enteredEvent->addBranch(BP_GraphUtils::getInstance()->getNewBranchID(m_entryNode));
 
     m_entryNode->createFlow("exited");
     m_entryNode->createFlow("flow");

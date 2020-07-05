@@ -188,5 +188,5 @@ BP_FlowSlot *BP_IFNode::nextFlowSlot() const
 
 void BP_IFNode::mapInputFlowToOutput()
 {
-    BP_GraphUtils::getNewBranchID()
+    //BP_GraphUtils::getNewBranchID(this);
 }
