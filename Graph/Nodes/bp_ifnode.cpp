@@ -35,21 +35,25 @@ BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_trueFlowSlot->setFlowName("true");
     m_trueFlowSlot->setShowFlowName(true);
     m_trueFlowSlot->setParentItem(this);
+    m_trueFlowSlot->setParentNode(this);
 
     m_falseFlowSlot->setIsOutput(true);
     m_falseFlowSlot->setFlowName("false");
     m_falseFlowSlot->setShowFlowName(true);
     m_falseFlowSlot->setParentItem(this);
+    m_falseFlowSlot->setParentNode(this);
 
     //the next node will be used later
     m_nextFlowSlot->setIsOutput(true);
     m_nextFlowSlot->setFlowName("next");
     m_nextFlowSlot->setShowFlowName(true);
     m_nextFlowSlot->setParentItem(this);
+    m_nextFlowSlot->setParentNode(this);
 
     m_flowInSlot->setIsOutput(false);
     m_flowInSlot->setShowFlowName(false);
     m_flowInSlot->setParentItem(this);
+    m_flowInSlot->setParentNode(this);
 
     m_booleanParameter->setParameterName("condition");
 
@@ -147,7 +151,7 @@ void BP_IFNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->setPen(Qt::white);
     painter->setOpacity(0.8);
-    painter->drawText(boundingRect().center().x(),5,"IF");
+    painter->drawText(boundingRect().center().x(),15,"IF");
 }
 
 void BP_IFNode::calculateBounds()
@@ -188,5 +192,14 @@ BP_FlowSlot *BP_IFNode::nextFlowSlot() const
 
 void BP_IFNode::mapInputFlowToOutput()
 {
+    auto theNodeBranches = BP_GraphUtils::getInstance()->getReplacedSubBranchesWithParents(m_flowInSlot->branches());
+    BP_GraphUtils::getInstance()->setNodeParentBranches(this,theNodeBranches);
+    //create node sube branches and save them
+    int trueBranch = BP_GraphUtils::getInstance()->getNewBranchID(this);
+    int falseBranch = BP_GraphUtils::getInstance()->getNewBranchID(this);
+    //add the branches to the trueSlot
+    m_trueFlowSlot->addBranch(trueBranch);
+    //add the branches to the falseSlot
+    m_falseFlowSlot->addBranch(falseBranch);
     //BP_GraphUtils::getNewBranchID(this);
 }

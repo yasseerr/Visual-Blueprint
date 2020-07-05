@@ -71,7 +71,7 @@ QList<BP_Node*> BP_GraphUtils::getJoinedBranchesInList(QList<int> branches)
     //get the parent of the connected branches
     foreach (int branchID, branches) {
         auto node = branchNodeMap.value(branchID);
-        //cancel the root nodes with a parent branch of -1;
+        //cancel the root nodes with a parent branch of -1 most notibly the Events;
         if(nodeParentBranches.value(node).count()==1 && nodeParentBranches.value(node).at(0)==-1)
             continue;
         branchesParentsNode.insert(node);

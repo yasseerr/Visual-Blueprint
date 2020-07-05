@@ -54,6 +54,7 @@ void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setPen(Qt::white);
     if(m_showFlowName)painter->drawText(0,9,flowName());
     painter->setBrush(Qt::white);
+    if(m_isOutput && m_showFlowName) painter->translate(flowNameWidth+5,0);
     painter->drawPolygon(trianglePolygone);
 }
 
@@ -104,7 +105,7 @@ void BP_FlowSlot::setFlowName(QString flowName)
     m_flowName = flowName;
 
     flowNameWidth = QFontMetrics(QFont()).boundingRect(this->flowName()).width();
-    if(m_showFlowName)trianglePolygone.translate(flowNameWidth+5,0);
+    //if(m_showFlowName)trianglePolygone.translate(flowNameWidth+5,0);
 
     emit flowNameChanged(m_flowName);
 }
