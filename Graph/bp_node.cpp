@@ -74,6 +74,15 @@ void BP_Node::setConnectedGraph(BP_GraphView *connectedGraph)
     emit connectedGraphChanged(m_connectedGraph);
 }
 
+void BP_Node::setNumberOfReferenceCalls(int numberOfReferenceCalls)
+{
+    if (m_numberOfReferenceCalls == numberOfReferenceCalls)
+        return;
+
+    m_numberOfReferenceCalls = numberOfReferenceCalls;
+    emit numberOfReferenceCallsChanged(m_numberOfReferenceCalls);
+}
+
 QRectF BP_Node::boundingRect() const
 {
     return  m_bounds;
@@ -110,6 +119,10 @@ void BP_Node::calculateBounds()
 
 QString BP_Node::renderNode(BP_PlatformManager *platform)
 {
+    if(m_numberOfReferenceCalls == 0){
+        m_numberOfReferenceCalls++;
+        return FIRST_REFERENCE;
+    }
     return "";
 }
 
@@ -126,5 +139,10 @@ QString BP_Node::getNodeTypeString()
 void BP_Node::mapInputFlowToOutput()
 {
     //calculate and apply the flow from the input slot to the output one
+}
+
+int BP_Node::numberOfReferenceCalls() const
+{
+    return m_numberOfReferenceCalls;
 }
 

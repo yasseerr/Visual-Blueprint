@@ -73,6 +73,7 @@ void BP_IntNode::calculateBounds()
 
 QString BP_IntNode::renderNode(BP_PlatformManager *platform)
 {
+    CHECK_FIRST_REFERENCE
     return platform->renderIntegerNode(this);
 }
 

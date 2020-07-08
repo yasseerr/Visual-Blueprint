@@ -13,6 +13,10 @@
 #include <QGraphicsItem>
 #include <QObject>
 
+#define FIRST_REFERENCE "BPNodeFirstReference"
+#define CHECK_FIRST_REFERENCE QString nodeRender = BP_Node::renderNode(platform); \
+    if(nodeRender != FIRST_REFERENCE) return "";
+
 class BP_GraphView;
 class BP_CoreObject;
 class BP_PlatformManager;
@@ -23,12 +27,15 @@ class BP_Node :public QObject, public QGraphicsItem
     Q_CLASSINFO("name","Node")
     Q_PROPERTY(BP_CoreObject* coreObject READ coreObject WRITE setCoreObject NOTIFY coreObjectChanged)
     Q_PROPERTY(BP_GraphView* connectedGraph READ connectedGraph WRITE setConnectedGraph NOTIFY connectedGraphChanged)
+    Q_PROPERTY(int numberOfReferenceCalls READ numberOfReferenceCalls WRITE setNumberOfReferenceCalls NOTIFY numberOfReferenceCallsChanged)
 
     BP_CoreObject* m_coreObject;
     BP_GraphView* m_connectedGraph;
 
 
     //TODO create node fonts
+    //to not render the reference multiple times
+    int m_numberOfReferenceCalls = 0;
 
 public :
     //painter members
@@ -58,11 +65,15 @@ public slots:
     void setCoreObject(BP_CoreObject* coreObject);
     void setConnectedGraph(BP_GraphView* connectedGraph);
 
+    void setNumberOfReferenceCalls(int numberOfReferenceCalls);
+
 signals:
     void coreObjectChanged(BP_CoreObject* coreObject);
     void connectedGraphChanged(BP_GraphView* connectedGraph);
 
     // QGraphicsItem interface
+    void numberOfReferenceCallsChanged(int numberOfReferenceCalls);
+
 public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -75,6 +86,7 @@ public:
     virtual QString getNodeTypeString();
     virtual void mapInputFlowToOutput();
 
+    int numberOfReferenceCalls() const;
 };
 
 #endif // BP_NODE_H

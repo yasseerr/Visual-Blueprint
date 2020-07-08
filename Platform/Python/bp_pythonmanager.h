@@ -33,6 +33,7 @@ public:
     virtual void compileProject(BP_Project *project) override;
     QStringList compileBlock(BP_Node *startNode, BP_Node *endNode) override;
     virtual void runProject(BP_Project *project) override;
+    void clearCompilationVariables(BP_Project *project) override;
 
     QString renderEventNode(BP_EventNode *node) override;
     QString renderFunctionNode(BP_FunctionNode *node) override;

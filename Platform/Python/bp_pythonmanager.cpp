@@ -192,6 +192,8 @@ void BP_PythonManager::compileProject(BP_Project *project)
     QTextStream ts(&outputFile);
     ts << generatedCode;
     outputFile.close();
+
+    clearCompilationVariables(project);
 }
 
 QStringList BP_PythonManager::compileBlock(BP_Node *startNode, BP_Node *endNode)
@@ -219,6 +221,14 @@ void BP_PythonManager::runProject(BP_Project *project)
     if(executionOutput.size()>0)BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
     QByteArray errorData  = m_managerProcess.readAllStandardError();
     if(errorData.size()>0)BP_Utils::log(errorData,"PythonManager",BP_Utils::Error);
+}
+
+void BP_PythonManager::clearCompilationVariables(BP_Project *project)
+{
+    //TODO clear the data in the other graphes
+    foreach (auto node, project->entryGraph()->nodes()) {
+        node->setNumberOfReferenceCalls(0);
+    }
 }
 
 QString BP_PythonManager::renderEventNode(BP_EventNode *node)

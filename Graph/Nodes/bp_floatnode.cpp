@@ -71,6 +71,7 @@ void BP_FloatNode::calculateBounds()
 
 QString BP_FloatNode::renderNode(BP_PlatformManager *platform)
 {
+    CHECK_FIRST_REFERENCE
     return platform->renderFloatNode(this);
 }
 

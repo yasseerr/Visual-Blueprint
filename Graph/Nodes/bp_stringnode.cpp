@@ -75,6 +75,7 @@ void BP_StringNode::calculateBounds()
 
 QString BP_StringNode::renderNode(BP_PlatformManager *platform)
 {
+    CHECK_FIRST_REFERENCE
     return  platform->renderStringNode(this);
 }
 
