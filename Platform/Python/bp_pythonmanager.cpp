@@ -243,7 +243,8 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
     QStringList functionInputsDeclaration;
     foreach (auto inputSlot, node->inputParameters()) {
         if(inputSlot->connectedLinks().size()>0){
-            functionInputsDeclaration << inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            QString renderedParameter = inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            if(renderedParameter!="")functionInputsDeclaration << renderedParameter;
         }
     }
 
@@ -290,7 +291,8 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
     QStringList instanceInputsDeclaration;
     foreach (auto inputSlot, node->inputParameters()) {
         if(inputSlot->connectedLinks().size()>0){
-            instanceInputsDeclaration << inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            QString renderedParameter = inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            if(renderedParameter!="")instanceInputsDeclaration << renderedParameter;
         }
     }
 

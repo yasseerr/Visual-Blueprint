@@ -47,6 +47,7 @@ void BP_FunctionNode::loadCurrentFunction()
     m_returnSlot = new BP_DataSlot(this);
     m_returnSlot->setParameterObject(m_functionObject->returnArg());
     m_returnSlot->setIsOutput(true);
+    m_returnSlot->setReference(m_functionObject->name()+"Ret");
 
     //member slot
     if(m_functionObject->isMember()){
@@ -212,6 +213,7 @@ void BP_FunctionNode::calculateBounds()
 
 QString BP_FunctionNode::renderNode(BP_PlatformManager *platform)
 {
+    CHECK_FIRST_REFERENCE
     return platform->renderFunctionNode(this);
 
 }

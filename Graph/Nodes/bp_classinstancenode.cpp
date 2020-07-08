@@ -88,6 +88,7 @@ void BP_ClassInstanceNode::calculateBounds()
 
 QString BP_ClassInstanceNode::renderNode(BP_PlatformManager *platform)
 {
+    CHECK_FIRST_REFERENCE
     return platform->renderClassInstanceNode(this);
 }
 
