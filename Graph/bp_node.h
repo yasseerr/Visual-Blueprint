@@ -14,6 +14,7 @@
 #include <QObject>
 
 #define FIRST_REFERENCE "BPNodeFirstReference"
+//TODO use a list of scope nodes that connect to the subbranches of this node and will be rendered before it
 #define CHECK_FIRST_REFERENCE QString nodeRender = BP_Node::renderNode(platform); \
     if(nodeRender != FIRST_REFERENCE) return "";
 

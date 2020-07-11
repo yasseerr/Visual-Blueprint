@@ -27,6 +27,7 @@ class BP_FloatNode;
 class BP_ClassInstanceNode;
 class BP_Node;
 class BP_IFNode;
+class BP_BoolNode;
 
 class BP_PlatformManager : public QObject
 {
@@ -54,6 +55,7 @@ public:
     virtual QString renderIntegerNode(BP_IntNode *node) = 0;
     virtual QString renderFloatNode(BP_FloatNode *node) = 0;
     virtual QString renderStringNode(BP_StringNode *node) = 0;
+    virtual QString renderBoolNode(BP_BoolNode *node) = 0;
     virtual QString renderClassInstanceNode(BP_ClassInstanceNode *node) = 0;
     virtual QString renderIFStatement(BP_IFNode *node) = 0;
 

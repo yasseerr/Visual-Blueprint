@@ -22,6 +22,7 @@
 #include <Graph/bp_graphview.h>
 #include <Graph/bp_node.h>
 
+#include <Graph/Nodes/bp_boolnode.h>
 #include <Graph/Nodes/bp_classinstancenode.h>
 #include <Graph/Nodes/bp_eventnode.h>
 #include <Graph/Nodes/bp_floatnode.h>
@@ -282,6 +283,12 @@ QString BP_PythonManager::renderFloatNode(BP_FloatNode *node)
 QString BP_PythonManager::renderStringNode(BP_StringNode *node)
 {
     return node->variableObject()->name()  + " = \"" + node->variableObject()->value().toString()+"\"";
+}
+
+QString BP_PythonManager::renderBoolNode(BP_BoolNode *node)
+{
+    //making the first value uppercase
+    return node->variableObject()->name() + " = " + (node->variableObject()->value().toBool()?"True":"False");
 }
 
 QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
