@@ -28,6 +28,7 @@ m_boolItem(new QGraphicsProxyWidget())
 {
     connect(m_boolCheckBox,&QCheckBox::stateChanged,this,&BP_BoolNode::onCheckedChange);
     //connect(m_boolCheckBox,SIGNAL(stateChanged(int)),this,SLOT(onCheckedChange(int)));
+    m_boolCheckBox->setMouseTracking(false);
     qDebug("BoolNode created");
     m_boolItem->setParentItem(this);
     m_boolItem->setWidget(m_boolCheckBox);
