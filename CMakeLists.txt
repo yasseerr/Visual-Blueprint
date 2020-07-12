@@ -65,10 +65,12 @@ file(GLOB graph_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Links/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Nodes/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Nodes/Operations/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Slots/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/*h
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Links/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Nodes/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Nodes/Operations/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Graph/Slots/*.h
     )
 file(GLOB modeling_sources
