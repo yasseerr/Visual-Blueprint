@@ -13,6 +13,8 @@
 
 #include <Core/bp_parameter.h>
 
+#include <QPainter>
+
 BP_OperationToolNode::BP_OperationToolNode():BP_Node(),
     m_outputSlot(new BP_DataSlot(this)),
     m_maxNumberOfInputs(9999)
@@ -31,7 +33,12 @@ void BP_OperationToolNode::addNewInput()
     newSlot->setIsOutput(false);
     newSlot->setShowName(true);
     newSlot->setParentNode(this);
-    newSlot->setReturnName(QString::number(m_inputSlots.size()));
+    //newSlot->setReturnName();
+
+    BP_Parameter *parameter = new  BP_Parameter(newSlot);
+    parameter->setParameterName("_"+QString::number(m_inputSlots.size()));
+    newSlot->setParameterObject(parameter);
+
 
     m_inputSlots << newSlot;
     calculateBounds();
@@ -82,17 +89,42 @@ void BP_OperationToolNode::setDisplayText(QString displayText)
 
 void BP_OperationToolNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    this->
+    painter->setBrush(QColor(Qt::GlobalColor::gray));
+    painter->drawRect(boundingRect());
+
+    painter->setOpacity(0.4);
+    painter->setBrush(Qt::blue);
+    painter->drawEllipse((boundingRect().center()+QPointF(5,-3)),10,10);
+    painter->setPen(Qt::white);
+    painter->setOpacity(1);
+    painter->drawText(boundingRect().center()+QPointF(0,0),displayText());
+
+
 }
 
 void BP_OperationToolNode::calculateBounds()
 {
+    int minimumHeight = 30;
+    int currentHeight = ((m_inputSlots.size()*30)>minimumHeight)?m_inputSlots.size()*30:minimumHeight;
+    int currentWidth = 90;
+
+    m_bounds  = QRectF(0,0,currentWidth,currentHeight);
+
+    //setting the positions
+    auto outputPosition = QPointF(70,(m_inputSlots.size()>0?-15:0)+
+                                  currentHeight/(m_inputSlots.size()>0?m_inputSlots.size():0));
+    m_outputSlot->setPos(outputPosition);
+
+    for (int i = 0; i < m_inputSlots.size(); ++i) {
+        auto inputSlot =  m_inputSlots.at(i);
+        inputSlot->setPos(5,5+i*30);
+    }
 
 }
 
 BP_Node *BP_OperationToolNode::nextNode()
 {
-    return  this;
+    return  nullptr;
 }
 
 int BP_OperationToolNode::maxNumberOfInputs() const

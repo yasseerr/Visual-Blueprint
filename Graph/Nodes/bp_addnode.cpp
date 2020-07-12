@@ -9,7 +9,27 @@
  ***************************************************************************/
 #include "bp_addnode.h"
 
-BP_AddNode::BP_AddNode()
-{
+#include <Graph/Slots/bp_dataslot.h>
 
+#include <Platform/bp_platformmanager.h>
+
+#include "Graph/bp_graphutils.h"
+
+RegisterToolNodeType(BP_AddNode,"Add Operation")
+
+BP_AddNode::BP_AddNode():BP_OperationToolNode()
+{
+    setDisplayText("+");
+    addNewInput();
+    addNewInput();
+}
+
+QString BP_AddNode::renderNode(BP_PlatformManager *platform)
+{
+    return "";
+}
+
+QString BP_AddNode::getNodeTypeString()
+{
+    return "Addition";
 }

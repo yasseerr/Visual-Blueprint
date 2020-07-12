@@ -7,6 +7,10 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+
+//NOTE: the operaitons node inheriting this class has no inside variable and render the
+// output from the connected slots
+
 #ifndef BP_OPERATIONTOOLNODE_H
 #define BP_OPERATIONTOOLNODE_H
 
@@ -23,6 +27,7 @@ class BP_OperationToolNode : public BP_Node
     Q_PROPERTY(QList<BP_DataSlot*> inputSlots READ inputSlots WRITE setInputSlots)
     Q_PROPERTY(BP_DataSlot* outputSlot READ outputSlot WRITE setOutputSlot NOTIFY outputSlotChanged)
     Q_PROPERTY(int maxNumberOfInputs READ maxNumberOfInputs WRITE setMaxNumberOfInputs NOTIFY maxNumberOfInputsChanged)
+    Q_PROPERTY(QString displayText READ displayText WRITE setDisplayText NOTIFY displayTextChanged)
     //TODO add a parameter to a uniqe class that will be accepted
     //TODO give the option to  change the current Class supported in the operation
 
@@ -30,6 +35,8 @@ class BP_OperationToolNode : public BP_Node
     BP_DataSlot* m_outputSlot;
 
     int m_maxNumberOfInputs;
+
+    QString m_displayText;
 
 public:
     BP_OperationToolNode();
@@ -42,29 +49,24 @@ public:
 public slots:
     void setInputSlots(QList<BP_DataSlot*> inputSlots);
     void setOutputSlot(BP_DataSlot* outputSlot);
-    void setMaxNumberOfInputs(int maxNumberOfInputs)
-    {
-        if (m_maxNumberOfInputs == maxNumberOfInputs)
-            return;
+    void setMaxNumberOfInputs(int maxNumberOfInputs);
 
-        m_maxNumberOfInputs = maxNumberOfInputs;
-        emit maxNumberOfInputsChanged(m_maxNumberOfInputs);
-    }
+    void setDisplayText(QString displayText);
 
 signals:
     void outputSlotChanged(BP_DataSlot* outputSlot);
 
     void maxNumberOfInputsChanged(int maxNumberOfInputs);
 
+    void displayTextChanged(QString displayText);
+
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     virtual void calculateBounds() override;
-virtual BP_Node *nextNode() override;
-int maxNumberOfInputs() const
-{
-    return m_maxNumberOfInputs;
-}
+    virtual BP_Node *nextNode() override;
+    int maxNumberOfInputs() const;
+    QString displayText() const;
 };
 
 #endif // BP_OPERATIONTOOLNODE_H
