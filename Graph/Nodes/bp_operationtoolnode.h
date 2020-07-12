@@ -46,6 +46,8 @@ public:
     QList<BP_DataSlot*> inputSlots() const;
     BP_DataSlot* outputSlot() const;
 
+    static QPen *displayTextPen;
+
 public slots:
     void setInputSlots(QList<BP_DataSlot*> inputSlots);
     void setOutputSlot(BP_DataSlot* outputSlot);

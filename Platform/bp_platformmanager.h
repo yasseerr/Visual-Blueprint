@@ -29,6 +29,9 @@ class BP_Node;
 class BP_IFNode;
 class BP_BoolNode;
 
+class BP_AddNode;
+class BP_OperationToolNode;
+
 class BP_PlatformManager : public QObject
 {
     Q_OBJECT
@@ -58,6 +61,11 @@ public:
     virtual QString renderBoolNode(BP_BoolNode *node) = 0;
     virtual QString renderClassInstanceNode(BP_ClassInstanceNode *node) = 0;
     virtual QString renderIFStatement(BP_IFNode *node) = 0;
+
+    //OperationTools Nodes
+    //Note the implemetation of this funciton should be accompagnied with a map for operations
+    virtual QString renderDefaultOperationTool(BP_OperationToolNode *node,QString operationName) = 0;
+    //virtual QString renderAdditionNode(BP_AddNode *node) = 0;
 
 
 public slots:

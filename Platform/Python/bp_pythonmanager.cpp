@@ -22,6 +22,7 @@
 #include <Graph/bp_graphview.h>
 #include <Graph/bp_node.h>
 
+#include <Graph/Nodes/bp_addnode.h>
 #include <Graph/Nodes/bp_boolnode.h>
 #include <Graph/Nodes/bp_classinstancenode.h>
 #include <Graph/Nodes/bp_eventnode.h>
@@ -44,6 +45,16 @@ BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
     m_managerProcess.setProgram(m_compilerPath);
 //    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardOutput,this,&BP_PythonManager::standardOutputReady);
 //    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardError,this,&BP_PythonManager::errorOutputReady);
+
+    //setting the symbols
+    defaultOperationSymbols["addition"]="+";
+    defaultOperationSymbols["substraction"]="-";
+    defaultOperationSymbols["multiplication"]="*";
+    defaultOperationSymbols["division"]="/";
+    defaultOperationSymbols["and"]="and";
+    defaultOperationSymbols["or"]="or";
+    defaultOperationSymbols["not"]="!";
+    defaultOperationSymbols["xor"]="^";
 }
 
 QStringList BP_PythonManager::listGlobalModules()
@@ -361,6 +372,47 @@ QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);
 }
+
+QString BP_PythonManager::renderDefaultOperationTool(BP_OperationToolNode *node, QString operationName)
+{
+    QString symbol = defaultOperationSymbols[operationName];
+    //render the inputs
+    //rendering the variables nodes
+    QStringList inputs;
+    foreach (auto inputSlot, node->inputSlots()) {
+        if(inputSlot->connectedLinks().size()>0){
+            QString renderedParameter = inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            if(renderedParameter!="")inputs << renderedParameter;
+        }
+    }
+
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/Operation.j2");
+    QVariantHash mapping ;
+    mapping.insert("inputs",inputs);
+    mapping.insert("reference",node->outputSlot()->reference());
+
+    //generating senetense
+    // getting the references
+    QStringList parameterRefrences;
+    foreach (auto paramSlot, node->inputSlots()) {
+        //TODO support multipe links
+        //TODO handle the different type of links
+        if(paramSlot->connectedLinks().size()>0){
+            parameterRefrences << paramSlot->connectedLinks().first()->inSlot()->reference();
+        }
+    }
+    QString sentence = "None";
+    if(parameterRefrences.size()>1){
+        sentence = parameterRefrences.join(" "+symbol+"");
+    }
+    else if(parameterRefrences.size()==1){
+        sentence = symbol+parameterRefrences.first();
+    }
+    mapping.insert("sentence",sentence);
+    Grantlee::Context c(mapping);
+    return projectTemplate->render(&c);
+}
+
 
 void BP_PythonManager::standardOutputReady()
 {

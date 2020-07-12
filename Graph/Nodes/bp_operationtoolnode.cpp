@@ -15,6 +15,8 @@
 
 #include <QPainter>
 
+QPen* BP_OperationToolNode::displayTextPen = new QPen(Qt::white,20);
+
 BP_OperationToolNode::BP_OperationToolNode():BP_Node(),
     m_outputSlot(new BP_DataSlot(this)),
     m_maxNumberOfInputs(9999)
@@ -92,10 +94,10 @@ void BP_OperationToolNode::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setBrush(QColor(Qt::GlobalColor::gray));
     painter->drawRect(boundingRect());
 
-    painter->setOpacity(0.4);
-    painter->setBrush(Qt::blue);
-    painter->drawEllipse((boundingRect().center()+QPointF(5,-3)),10,10);
-    painter->setPen(Qt::white);
+//    painter->setOpacity(0.4);
+//    painter->setBrush(Qt::blue);
+//    painter->drawEllipse((boundingRect().center()+QPointF(5,-3)),10,10);
+    painter->setPen(*displayTextPen);
     painter->setOpacity(1);
     painter->drawText(boundingRect().center()+QPointF(0,0),displayText());
 
@@ -117,7 +119,7 @@ void BP_OperationToolNode::calculateBounds()
 
     for (int i = 0; i < m_inputSlots.size(); ++i) {
         auto inputSlot =  m_inputSlots.at(i);
-        inputSlot->setPos(5,5+i*30);
+        inputSlot->setPos(5,2+i*30);
     }
 
 }

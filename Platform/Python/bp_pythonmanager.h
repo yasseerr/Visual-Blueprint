@@ -20,6 +20,8 @@ class BP_PythonManager : public BP_PlatformManager
 public:
     BP_PythonManager(QObject *parent =  nullptr);
 
+    QMap<QString,QString> defaultOperationSymbols;
+
 
     // BP_PlatformManager interface
 public:
@@ -43,6 +45,12 @@ public:
     QString renderBoolNode(BP_BoolNode *node) override;
     QString renderClassInstanceNode(BP_ClassInstanceNode *node) override;
     QString renderIFStatement(BP_IFNode *node) override;
+
+
+    //Operaions Tools
+    //helper function
+    QString renderDefaultOperationTool(BP_OperationToolNode *node, QString operationName) override;
+    //QString renderAdditionNode(BP_AddNode *node) override;
 
 public slots:
     virtual void standardOutputReady() override;

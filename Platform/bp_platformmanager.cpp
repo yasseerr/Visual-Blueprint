@@ -32,3 +32,5 @@ BP_PlatformManager::BP_PlatformManager(QObject *parent) : QObject(parent)
 }
 
 
+
+

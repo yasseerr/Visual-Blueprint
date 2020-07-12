@@ -26,7 +26,7 @@ BP_AddNode::BP_AddNode():BP_OperationToolNode()
 
 QString BP_AddNode::renderNode(BP_PlatformManager *platform)
 {
-    return "";
+    return platform->renderDefaultOperationTool(this,"addition");
 }
 
 QString BP_AddNode::getNodeTypeString()
