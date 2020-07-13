@@ -42,6 +42,16 @@ bool BP_Slot::acceptConnection(BP_Slot *secondSlot)
     return true;
 }
 
+void BP_Slot::removeLink(BP_Link *link)
+{
+    m_connectedLinks.removeOne(link);
+}
+
+void BP_Slot::addLink(BP_Link *link)
+{
+    m_connectedLinks << link;
+}
+
 void BP_Slot::mouseClicked()
 {
     qDebug() << "pressed at position" << poseBackup;

@@ -36,6 +36,7 @@ public:
     // QGraphicsScene interface
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 signals:
     void beginRemovingLink();

@@ -30,6 +30,28 @@ void BP_Link::disconnectSlot(BP_Slot *slot)
 
 }
 
+void BP_Link::disconnectAllSlots()
+{
+    if(m_inSlot){
+        m_inSlot->removeLink(this);
+    }
+    if(m_outSlot){
+        m_outSlot->removeLink(this);
+    }
+
+}
+
+BP_Slot *BP_Link::getTheOneConnectedSlot()
+{
+    if(m_inSlot && m_outSlot)
+        return nullptr;
+    else if(m_inSlot && !m_outSlot)
+        return m_inSlot;
+    else if (!m_inSlot && m_outSlot)
+        return m_outSlot;
+
+}
+
 QRectF BP_Link::boundingRect() const
 {
     if(m_outSlot == nullptr && m_inSlot != nullptr)

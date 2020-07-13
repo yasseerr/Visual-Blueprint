@@ -46,9 +46,38 @@ void BP_GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mouseMoveEvent(event);
     //qDebug() << "the scene is accepting mouse events";
     if(removingLinkState->active() && m_removedLink){
-        qDebug() << "updating the output point" << (event->scenePos());
+        //qDebug() << "updating the output point" << (event->scenePos());
         m_removedLink->setTempOutputPoint(m_removedLink->mapFromScene(event->scenePos()));
         update();
     }
 
+}
+
+void BP_GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+
+    //TODO disable the removing link state
+    if(removingLinkState->active()){
+        BP_Slot *selectedItem =  dynamic_cast<BP_Slot*>(itemAt(event->scenePos(),QTransform()));
+        if(!selectedItem){
+            m_removedLink->setVisible(false);
+            removeItem(m_removedLink);
+            m_removedLink->disconnectAllSlots();
+            m_removedLink->deleteLater();
+            linkRemoved(m_removedLink);
+        }
+        else{
+            //rearranging the link
+            auto theOneSlotInTheLink = m_removedLink->getTheOneConnectedSlot();
+            if(theOneSlotInTheLink->acceptConnection(selectedItem)){
+                m_removedLink->setOutSlot(selectedItem);
+                theOneSlotInTheLink->addLink(m_removedLink);
+                selectedItem->addLink(m_removedLink);
+                linkRemoved(m_removedLink);
+            }
+        }
+
+    }else{
+        QGraphicsScene::mousePressEvent(event);
+    }
 }

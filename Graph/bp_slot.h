@@ -55,6 +55,8 @@ public:
 
     virtual QPointF getAnchorPoint();
     virtual bool acceptConnection(BP_Slot *secondSlot);
+    void removeLink(BP_Link *link);
+    void addLink(BP_Link *link);
 
     virtual void mouseClicked();
 
