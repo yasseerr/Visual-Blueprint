@@ -17,13 +17,11 @@
 class BP_FlowSlot : public BP_Slot
 {
     Q_OBJECT
-    Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
     Q_PROPERTY(QString flowName READ flowName WRITE setFlowName NOTIFY flowNameChanged)
     Q_PROPERTY(bool showFlowName READ showFlowName WRITE setShowFlowName NOTIFY showFlowNameChanged)
     Q_PROPERTY(QList<int> branches READ branches WRITE setBranches NOTIFY branchesChanged)
 
     QPolygon trianglePolygone;
-    bool m_isOutput;
 
     QString m_flowName;
 
@@ -45,21 +43,18 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     virtual QRectF boundingRect() const override;
     virtual QPointF getAnchorPoint() override;
-    bool isOutput() const;
     QString flowName() const;
     bool showFlowName() const;
 
     QList<int> branches() const;
 
 public slots:
-    void setIsOutput(bool isOutput);
     void setFlowName(QString flowName);
     void setShowFlowName(bool showFlowName);
 
     void setBranches(QList<int> branches);
 
 signals:
-    void isOutputChanged(bool isOutput);
     void flowNameChanged(QString flowName);
     void showFlowNameChanged(bool showFlowName);
 

@@ -54,7 +54,7 @@ void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setPen(Qt::white);
     if(m_showFlowName)painter->drawText(0,9,flowName());
     painter->setBrush(Qt::white);
-    if(m_isOutput && m_showFlowName) painter->translate(flowNameWidth+5,0);
+    if(isOutput() && m_showFlowName) painter->translate(flowNameWidth+5,0);
     painter->drawPolygon(trianglePolygone);
 }
 
@@ -68,10 +68,6 @@ QPointF BP_FlowSlot::getAnchorPoint()
     return scenePos() + QPointF(7+(m_showFlowName?flowNameWidth:0),7);
 }
 
-bool BP_FlowSlot::isOutput() const
-{
-    return m_isOutput;
-}
 
 QString BP_FlowSlot::flowName() const
 {
@@ -88,14 +84,6 @@ QList<int> BP_FlowSlot::branches() const
     return m_branches;
 }
 
-void BP_FlowSlot::setIsOutput(bool isOutput)
-{
-    if (m_isOutput == isOutput)
-        return;
-
-    m_isOutput = isOutput;
-    emit isOutputChanged(m_isOutput);
-}
 
 void BP_FlowSlot::setFlowName(QString flowName)
 {

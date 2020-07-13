@@ -14,9 +14,10 @@
 
 #include <Core/bp_parameter.h>
 
-BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_isOutput(false),m_parameterWidth(50),
+BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_parameterWidth(50),
     m_showName(true),m_returnName("return")
 {
+    setIsOutput(false);
     setTextColor(Qt::yellow);
     setParentNode(parent);
 
@@ -37,14 +38,6 @@ void BP_DataSlot::setParameterObject(BP_Parameter *parameterObject)
     emit parameterObjectChanged(m_parameterObject);
 }
 
-void BP_DataSlot::setIsOutput(bool isOutput)
-{
-    if (m_isOutput == isOutput)
-        return;
-
-    m_isOutput = isOutput;
-    emit isOutputChanged(m_isOutput);
-}
 
 void BP_DataSlot::setShowName(bool showName)
 {
@@ -119,8 +112,3 @@ bool BP_DataSlot::showName() const
     return m_showName;
 }
 
-bool BP_DataSlot::isOutput() const
-{
-
-    return m_isOutput;
-}

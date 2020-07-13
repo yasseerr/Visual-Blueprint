@@ -70,7 +70,11 @@ void BP_GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             //rearranging the link
             auto theOneSlotInTheLink = m_removedLink->getTheOneConnectedSlot();
             if(theOneSlotInTheLink->acceptConnection(selectedItem)){
-                m_removedLink->setOutSlot(selectedItem);
+                if(selectedItem->isOutput())
+                    m_removedLink->setInSlot(selectedItem);
+                else
+                    m_removedLink->setOutSlot(selectedItem);
+                //m_removedLink->setOutSlot(selectedItem);
                 theOneSlotInTheLink->addLink(m_removedLink);
                 selectedItem->addLink(m_removedLink);
                 linkRemoved(m_removedLink);

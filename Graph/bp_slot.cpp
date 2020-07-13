@@ -56,7 +56,10 @@ void BP_Slot::mouseClicked()
 {
     qDebug() << "pressed at position" << poseBackup;
     temporaryLink = new BP_Link();
-    temporaryLink->setInSlot(this);
+    if(this->isOutput())
+        temporaryLink->setInSlot(this);
+    else
+        temporaryLink->setOutSlot(this);
     this->scene()->addItem(temporaryLink);
     temporaryLink->setTempOutputPoint(scenePoseBackup);
 }
@@ -92,6 +95,11 @@ QString BP_Slot::reference() const
 QColor BP_Slot::textColor() const
 {
     return m_textColor;
+}
+
+bool BP_Slot::isOutput() const
+{
+    return m_isOutput;
 }
 
 void BP_Slot::setParentNode(BP_Node *parentNode)
@@ -136,6 +144,15 @@ void BP_Slot::setTextColor(QColor textColor)
     emit textColorChanged(m_textColor);
 }
 
+void BP_Slot::setIsOutput(bool isOutput)
+{
+    if (m_isOutput == isOutput)
+        return;
+
+    m_isOutput = isOutput;
+    emit isOutputChanged(m_isOutput);
+}
+
 void BP_Slot::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     //QGraphicsItem::mousePressEvent(event);
@@ -172,9 +189,12 @@ void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         //qDebug() << " selected item " << selectedItem->parentNode()->coreObject()->name();
         //TODO filter the allowed connection
         if(acceptConnection(selectedItem)){
-            temporaryLink->setOutSlot(selectedItem);
+            if(selectedItem->isOutput())
+                temporaryLink->setInSlot(selectedItem);
+            else
+                temporaryLink->setOutSlot(selectedItem);
             m_connectedLinks << temporaryLink;
-            selectedItem->m_connectedLinks << temporaryLink;
+            selectedItem->addLink(temporaryLink);
         }
         else{
             temporaryLink->setVisible(false);

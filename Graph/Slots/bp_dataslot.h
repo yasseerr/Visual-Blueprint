@@ -20,11 +20,9 @@ class BP_DataSlot : public BP_Slot
 {
     Q_OBJECT
     Q_PROPERTY(BP_Parameter* parameterObject READ parameterObject WRITE setParameterObject NOTIFY parameterObjectChanged)
-    Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
     Q_PROPERTY(bool showName READ showName WRITE setShowName NOTIFY showNameChanged)
     Q_PROPERTY(QString returnName READ returnName WRITE setReturnName NOTIFY returnNameChanged)
     BP_Parameter* m_parameterObject;
-    bool m_isOutput;
     int m_parameterWidth = 0;
     bool m_showName;
 
@@ -33,10 +31,8 @@ class BP_DataSlot : public BP_Slot
 public:
     BP_DataSlot(BP_Node *parent = nullptr);
     BP_Parameter* parameterObject() const;
-    bool isOutput() const;
 public slots:
     void setParameterObject(BP_Parameter* parameterObject);
-    void setIsOutput(bool isOutput);
 
     void setShowName(bool showName);
 
@@ -53,7 +49,6 @@ signals:
     void parameterObjectChanged(BP_Parameter* parameterObject);
 
     // QGraphicsItem interface
-    void isOutputChanged(bool isOutput);
 
     void showNameChanged(bool showName);
 

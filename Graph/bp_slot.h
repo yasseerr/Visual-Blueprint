@@ -33,6 +33,7 @@ class BP_Slot : public QObject , public QGraphicsItem
     Q_PROPERTY(QList<BP_Link*> connectedLinks READ connectedLinks WRITE setConnectedLinks NOTIFY connectedLinksChanged)
     Q_PROPERTY(QString reference READ reference WRITE setReference NOTIFY referenceChanged)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
+    Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
     BP_Node* m_parentNode;
 
     QList<BP_Link*> m_connectedLinks;
@@ -49,6 +50,8 @@ class BP_Slot : public QObject , public QGraphicsItem
     QPointF scenePoseBackup;
     QPointF poseBackup;
     //QGraphicsSceneMouseEvent *mousePresedEventBackup = nullptr;
+
+    bool m_isOutput;
 
 public:
     explicit BP_Slot(BP_Node *parent = nullptr);
@@ -69,6 +72,8 @@ signals:
 
     void textColorChanged(QColor textColor);
 
+    void isOutputChanged(bool isOutput);
+
 public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -78,6 +83,8 @@ public:
     QString reference() const;
 
     QColor textColor() const;
+
+    bool isOutput() const;
 
 public slots:
     void setParentNode(BP_Node* parentNode);
@@ -89,6 +96,8 @@ public slots:
     virtual void showNextNodeOptions();
 
     void setTextColor(QColor textColor);
+
+    void setIsOutput(bool isOutput);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
