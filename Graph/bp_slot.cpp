@@ -7,6 +7,7 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_graphview.h"
 #include "bp_node.h"
 #include "bp_slot.h"
 
@@ -19,9 +20,14 @@
 
 #include <Core/bp_coreobject.h>
 
+#define DOUBLE_CLICK_INTERVAL 300
+
 BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown"),m_textColor(Qt::white)
 {
     setParentItem(parent);
+    doubleClickTimer.setInterval(DOUBLE_CLICK_INTERVAL);
+    doubleClickTimer.setSingleShot(true);
+    connect(&doubleClickTimer,&QTimer::timeout,this,&BP_Slot::mouseClicked);
 }
 
 QPointF BP_Slot::getAnchorPoint()
@@ -34,6 +40,15 @@ bool BP_Slot::acceptConnection(BP_Slot *secondSlot)
     if(secondSlot->parentNode() == this->parentNode())
         return false;
     return true;
+}
+
+void BP_Slot::mouseClicked()
+{
+    qDebug() << "pressed at position" << poseBackup;
+    temporaryLink = new BP_Link();
+    temporaryLink->setInSlot(this);
+    this->scene()->addItem(temporaryLink);
+    temporaryLink->setTempOutputPoint(scenePoseBackup);
 }
 
 
@@ -99,6 +114,7 @@ void BP_Slot::setReference(QString reference)
 void BP_Slot::showNextNodeOptions()
 {
 
+
 }
 
 void BP_Slot::setTextColor(QColor textColor)
@@ -112,15 +128,20 @@ void BP_Slot::setTextColor(QColor textColor)
 
 void BP_Slot::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "pressed at position" << event->pos();
-    temporaryLink = new BP_Link();
-    temporaryLink->setInSlot(this);
-    this->scene()->addItem(temporaryLink);
-    temporaryLink->setTempOutputPoint(event->scenePos());
+    //QGraphicsItem::mousePressEvent(event);
+    scenePoseBackup = event->scenePos();
+    poseBackup = event->pos();
+    doubleClickTimer.start(DOUBLE_CLICK_INTERVAL);
 }
 
 void BP_Slot::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    //stop the event when the signal is not defined yet
+    if(doubleClickTimer.isActive()) return;
+    //analysing the state of the scene
+    auto graphScene = qobject_cast<BP_GraphScene*>(scene());
+    if(graphScene->removingLinkState->active()) return;
+
     //qDebug() << "mouse moved " << event->pos();
     temporaryLink->setTempOutputPoint(temporaryLink->mapFromScene(mapToScene(event->pos())));
     //TODO update only the rect arround the link
@@ -130,6 +151,11 @@ void BP_Slot::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    //analysing the state of the scene
+    auto graphScene = qobject_cast<BP_GraphScene*>(scene());
+    if(graphScene->removingLinkState->active()) return;
+    if(doubleClickTimer.isActive()) return;
+
     qDebug() << "mouse released " << event->pos();
     BP_Slot *selectedItem =  dynamic_cast<BP_Slot*>(scene()->itemAt(event->scenePos(),QTransform()));
     if(selectedItem != nullptr){
@@ -158,5 +184,21 @@ void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void BP_Slot::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    //see if there is
+    qDebug() << "entering the double click function";
+    doubleClickTimer.stop();
+    //QGraphicsItem::mouseDoubleClickEvent(event);
+    qDebug() << "the slout is double clicked";
+    if(connectedLinks().size()==0) return;
+    //disconnect the link
+    auto link = connectedLinks().last();
+    link->disconnectSlot(this);
+    m_connectedLinks.removeOne(link);
+
+    //notify the scene
+    auto graph_scene = qobject_cast<BP_GraphScene*>(scene());
+    if(!graph_scene) return;
+    //rename to unplug instead
+    graph_scene->removeLink(link);
+
+    //cancel or validate when clicked
 }

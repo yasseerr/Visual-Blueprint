@@ -12,6 +12,7 @@
 
 #include <QtWidgets/QGraphicsItem>
 #include <QObject>
+#include <QTimer>
 
 //#include "graph_interface.h"
 
@@ -43,11 +44,19 @@ class BP_Slot : public QObject , public QGraphicsItem
 
     QColor m_textColor;
 
+    //Timer to ignore the press event when the double click is present
+    QTimer doubleClickTimer;
+    QPointF scenePoseBackup;
+    QPointF poseBackup;
+    //QGraphicsSceneMouseEvent *mousePresedEventBackup = nullptr;
+
 public:
     explicit BP_Slot(BP_Node *parent = nullptr);
 
     virtual QPointF getAnchorPoint();
     virtual bool acceptConnection(BP_Slot *secondSlot);
+
+    virtual void mouseClicked();
 
 signals:
     void parentNodeChanged(BP_Node* parentNode);
