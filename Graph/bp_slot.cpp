@@ -155,3 +155,8 @@ void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
     scene()->update();
 }
+
+void BP_Slot::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    //see if there is
+}

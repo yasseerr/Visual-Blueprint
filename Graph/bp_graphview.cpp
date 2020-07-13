@@ -15,7 +15,7 @@
 
 #include <Graph/Slots/bp_flowslot.h>
 
-BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(new QGraphicsScene()),m_entryNode(new BP_EventNode())
+BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(new BP_GraphScene()),m_entryNode(new BP_EventNode())
 {
     //configure the view
     this->setMouseTracking(true);

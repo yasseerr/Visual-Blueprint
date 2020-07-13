@@ -10,6 +10,8 @@
 #ifndef BP_GRAPHVIEW_H
 #define BP_GRAPHVIEW_H
 
+#include "bp_graphscene.h"
+
 #include <QGraphicsView>
 #include <QObject>
 
@@ -49,7 +51,7 @@ signals:
     void entryNodeChanged(BP_EventNode* entryNode);
 
 private:
-    QGraphicsScene *m_scene;
+    BP_GraphScene *m_scene;
     QString m_graphName;
     QList<BP_Node*> m_nodes;
     BP_EventNode* m_entryNode;
