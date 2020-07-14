@@ -24,7 +24,8 @@ void BP_Link::disconnectSlot(BP_Slot *slot)
 {
     if(slot == m_inSlot){
         setInSlot(nullptr);
-    }else if(slot ==  m_outSlot){
+    }
+    else if(slot ==  m_outSlot){
         setOutSlot(nullptr);
     }
 
@@ -34,9 +35,11 @@ void BP_Link::disconnectAllSlots()
 {
     if(m_inSlot){
         m_inSlot->removeLink(this);
+        setInSlot(nullptr);
     }
     if(m_outSlot){
         m_outSlot->removeLink(this);
+        setOutSlot(nullptr);
     }
 
 }
@@ -68,7 +71,7 @@ void BP_Link::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     if(m_outSlot == nullptr && m_inSlot != nullptr)
         painter->drawLine(m_inSlot->getAnchorPoint(),m_tempOutputPoint);
     else if(m_inSlot == nullptr && m_outSlot != nullptr)
-        painter->drawLine(m_tempOutputPoint,m_outSlot->getAnchorPoint());
+        painter->drawLine(m_outSlot->getAnchorPoint(),m_tempOutputPoint);
     else if(m_outSlot != nullptr && m_inSlot != nullptr)
         painter->drawLine(m_inSlot->getAnchorPoint(),m_outSlot->getAnchorPoint());
 }

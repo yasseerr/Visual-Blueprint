@@ -1,5 +1,6 @@
 #include "bp_utils.h"
 #include "mainwindow.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <Modeling/Imports/bp_importsmoduleitem.h>
@@ -153,4 +154,13 @@ void MainWindow::on_action_Run_triggered()
 {
     statusBar()->showMessage("runing project ...",3000);
     m_currentProject->platformManager()->runProject(m_currentProject);
+}
+
+void MainWindow::on_actionSave_As_triggered()
+{
+    if(!m_currentProject){
+        BP_Utils::log("No Current Project is present to be saved");
+        return;
+    }
+    m_currentProject->saveProject();
 }

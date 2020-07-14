@@ -69,6 +69,8 @@ public:
     void addMemberVariable(BP_Variable *newVariable);
     void addBuiltin(BP_CoreObject *builtInObj);
 
+    void saveProject();
+
     QString projectName() const;
 
     BP_PlatformManager* platformManager() const;

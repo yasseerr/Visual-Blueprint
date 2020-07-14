@@ -16,7 +16,10 @@
 #include <Platform/Python/bp_pythonmanager.h>
 
 #include <QDebug>
+#include <QFileDialog>
+#include <QJsonDocument>
 #include <QVariantMap>
+#include <bp_utils.h>
 
 #include <Graph/bp_graphview.h>
 
@@ -91,6 +94,22 @@ void BP_Project::addMemberVariable(BP_Variable *newVariable)
 void BP_Project::addBuiltin(BP_CoreObject *builtInObj)
 {
     m_builtins << builtInObj;
+}
+
+void BP_Project::saveProject()
+{
+    QString fileName = QFileDialog::getSaveFileName(nullptr,"saving the project",QString(),"*.vbl");
+    if(fileName == ""){
+        BP_Utils::log("no valid file was selected");
+        return;
+    }
+    qDebug() << "saving project in file : " << fileName;
+    QJsonDocument doc = QJsonDocument::fromVariant(QVariantList()<<"Hello" << "there ");
+    QFile destinationFile(fileName);
+    destinationFile.open(QIODevice::WriteOnly|QIODevice::Text);
+    QTextStream ds(&destinationFile);
+    ds << doc.toJson();
+    destinationFile.close();
 }
 
 QString BP_Project::projectName() const

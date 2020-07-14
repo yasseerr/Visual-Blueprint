@@ -20,7 +20,7 @@
 
 #include <Core/bp_coreobject.h>
 
-#define DOUBLE_CLICK_INTERVAL 300
+#define DOUBLE_CLICK_INTERVAL 200
 
 BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown"),m_textColor(Qt::white)
 {

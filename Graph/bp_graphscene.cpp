@@ -32,6 +32,7 @@ void BP_GraphScene::removeLink(BP_Link *link)
     m_removedLink = link;
     emit beginRemovingLink();
     qDebug() << "cheking the state of the scene > " << removingLinkState->active();
+    update();
 }
 
 
@@ -39,6 +40,7 @@ void BP_GraphScene::linkRemoved(BP_Link *removedLink)
 {
     emit finishRemovingLink();
     m_removedLink  = nullptr;
+    update();
 }
 
 void BP_GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -63,8 +65,9 @@ void BP_GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             m_removedLink->setVisible(false);
             removeItem(m_removedLink);
             m_removedLink->disconnectAllSlots();
-            m_removedLink->deleteLater();
+            auto tmp  = m_removedLink;
             linkRemoved(m_removedLink);
+            tmp->deleteLater();
         }
         else{
             //rearranging the link
