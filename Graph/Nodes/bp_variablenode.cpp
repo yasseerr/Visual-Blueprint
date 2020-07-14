@@ -34,6 +34,7 @@ QVariant BP_VariableNode::toVariantBP()
     QVariantMap retMap = BP_Node::toVariantBP().toMap();
     retMap["type"] = getNodeTypeString();
     retMap["variableObject"] =m_variableObject?variableObject()->toVariantBP():false;
+    retMap["variableValue"] = variableObject()->value();
     retMap["outputSlot"] = m_outputSlot->toVariantBP();
     return retMap;
 }

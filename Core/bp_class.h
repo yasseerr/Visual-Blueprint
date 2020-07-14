@@ -43,6 +43,7 @@ class BP_Class : public BP_CoreObject
 public:
     explicit BP_Class(QVariantMap *variableMap = nullptr,QObject *parent = nullptr);
 
+    //QVariant toVariantBP() override;
 
     QList<BP_Variable*> memberVariables() const;
 

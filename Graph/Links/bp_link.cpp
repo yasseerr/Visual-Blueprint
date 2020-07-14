@@ -22,7 +22,11 @@ BP_Link::BP_Link(QObject *parent):QObject(parent),QGraphicsItem(),m_inSlot(nullp
 
 QVariant BP_Link::toVariantBP()
 {
-    return "connected link";
+    QVariantMap retMap ;
+    retMap["inSlot"] = m_inSlot->slotID;
+    retMap["outSlot"] = m_outSlot->slotID ;
+
+    return retMap;
 
 }
 

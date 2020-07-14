@@ -22,6 +22,8 @@
 #include <bp_utils.h>
 
 #include <Graph/bp_graphview.h>
+#include <Graph/bp_node.h>
+#include <Graph/bp_slot.h>
 
 
 BP_Project::BP_Project(QString projectName,QObject *parent) : QObject(parent),
@@ -107,6 +109,8 @@ QVariant BP_Project::toVariantBP()
 
     //save the entry graph
     retMap["entryGraph"] = m_entryGraph->toVariantBP();
+    retMap["nodesCount"] = BP_Node::nodeCount;
+    retMap["slotsCount"] = BP_Slot::slotCount;
 
     //TODO save the other graphs
 

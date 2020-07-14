@@ -55,6 +55,11 @@ BP_Class::BP_Class(QVariantMap *classMap,QObject *parent) : BP_CoreObject(parent
     //support for subclasses
 }
 
+//QVariant BP_Class::toVariantBP()
+//{
+    //TODO use this in case of creating a new class on the fly
+//}
+
 
 QList<BP_Variable *> BP_Class::memberVariables() const
 {

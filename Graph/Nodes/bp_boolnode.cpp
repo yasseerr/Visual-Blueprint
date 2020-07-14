@@ -52,6 +52,15 @@ BP_BoolNode::~BP_BoolNode()
 
 }
 
+//QVariant BP_BoolNode::toVariantBP()
+//{
+//    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+//    retMap["type"] = getNodeTypeString();
+//    retMap["variableValue"] = variableObject()->value();
+//    retMap["outputSlot"] = m_outputSlot->toVariantBP();
+//    return retMap;
+//}
+
 
 
 void BP_BoolNode::onCheckedChange(int value)

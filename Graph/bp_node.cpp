@@ -43,6 +43,7 @@ QVariant BP_Node::toVariantBP()
 {
     //? the static values will be created automaticaly
     QVariantMap retMap;
+    retMap["nodeId"] = nodeId;
     retMap["coreObject"] = m_coreObject?coreObject()->toVariantBP():false;
     retMap["numberOfReferenceCalls"] = m_numberOfReferenceCalls;
 

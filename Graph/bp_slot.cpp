@@ -22,8 +22,12 @@
 
 #define DOUBLE_CLICK_INTERVAL 200
 
+int BP_Slot::slotCount = 0;
+
 BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown"),m_textColor(Qt::white)
 {
+    slotID = slotCount;
+    slotCount++;
     setParentItem(parent);
     doubleClickTimer.setInterval(DOUBLE_CLICK_INTERVAL);
     doubleClickTimer.setSingleShot(true);
@@ -56,6 +60,7 @@ QVariant BP_Slot::toVariantBP()
 {
     //TODO when loading links verify if the connection already exist in the other direction
     QVariantMap retMap ;
+    retMap["slotID"] = slotID;
     retMap["type"] = "default" ;
     retMap["reference"] = m_reference;
     retMap["isOutput"] = m_isOutput;

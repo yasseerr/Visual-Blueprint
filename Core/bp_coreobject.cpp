@@ -19,7 +19,19 @@ BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent)
 
 QVariant BP_CoreObject::toVariantBP()
 {
-    return "a core object";
+    /* the nodes will be saved as follow
+     * Variables : member variables -> store the value directly from the 'variableValue' without using the hierarchy
+     *             imported variables-> create an instance after searching for the variable using the name and hierarchy
+     *              primitive variables -> store the value only
+     * Classes : only referencing using name and hierarchy
+     * functions: members -> store value only
+     *            imported -> serch using the reference or module
+    */
+    QVariantMap retMap;
+    retMap["name"] = m_name;
+    retMap["importHierarcht"] = QVariant::fromValue(m_importHiearchy);
+    return retMap;
+    //return "a core object";
 
 }
 

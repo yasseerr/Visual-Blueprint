@@ -56,6 +56,9 @@ class BP_Slot : public QObject , public QGraphicsItem
 public:
     explicit BP_Slot(BP_Node *parent = nullptr);
 
+    static int slotCount;
+    int slotID;
+
     virtual QPointF getAnchorPoint();
     virtual bool acceptConnection(BP_Slot *secondSlot);
     void removeLink(BP_Link *link);
