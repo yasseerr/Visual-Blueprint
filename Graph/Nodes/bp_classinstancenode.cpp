@@ -28,6 +28,28 @@ BP_ClassInstanceNode::BP_ClassInstanceNode():BP_VariableNode(),m_sourceClass(nul
 
 }
 
+QVariant BP_ClassInstanceNode::toVariantBP()
+{
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+    retMap["sourceClass"] = m_sourceClass->toVariantBP();
+
+    retMap["constructorId"] = m_constructorId;
+
+    QVariantList inputParametersVariant;
+    foreach (auto inputVariant, m_inputParameters) {
+        inputParametersVariant << inputVariant->toVariantBP();
+    }
+    retMap["inputtParameters"] = inputParametersVariant;
+    return retMap;
+
+}
+
+QString BP_ClassInstanceNode::getNodeTypeString()
+{
+    return "Instance";
+}
+
 void BP_ClassInstanceNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     //Drawing the header

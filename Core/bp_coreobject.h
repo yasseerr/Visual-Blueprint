@@ -27,6 +27,8 @@ public:
 
     explicit BP_CoreObject(QObject *parent = nullptr);
 
+    virtual QVariant toVariantBP();
+
     //TODO get the importstring and type functions for the imported model
     QString getImportSourceString();
     virtual BP_Node* createNodeForObject(QObject *parent = nullptr);

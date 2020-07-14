@@ -40,6 +40,24 @@ BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent),m_selfSlot(nul
     m_executionflowOutSlot->setShowFlowName(false);
 }
 
+QVariant BP_FunctionNode::toVariantBP()
+{
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+    retMap["functionObject"] = m_functionObject?m_functionObject->toVariantBP():false;
+    retMap["flowIn"] = m_executionflowInSlot->toVariantBP();
+    retMap["flowOut"] = m_executionflowOutSlot->toVariantBP();
+    retMap["returnSlot"] = m_returnSlot->toVariantBP();
+    retMap["selfSlot"] = m_selfSlot?m_selfSlot->toVariantBP():false;
+
+    QVariantList inputParametersVariant;
+    foreach (auto inputVariant, m_inputParameters) {
+        inputParametersVariant << inputVariant->toVariantBP();
+    }
+    retMap["inputtParameters"] = inputParametersVariant;
+    return retMap;
+}
+
 void BP_FunctionNode::loadCurrentFunction()
 {
     //loading outputs

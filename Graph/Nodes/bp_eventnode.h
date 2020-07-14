@@ -35,6 +35,8 @@ public:
     BP_FlowSlot* getEventFlow(QString flowName);
     BP_FlowSlot* createFlow(QString flowName);
 
+    QVariant toVariantBP() override;
+
     // QGraphicsItem interface
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

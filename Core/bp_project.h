@@ -69,7 +69,11 @@ public:
     void addMemberVariable(BP_Variable *newVariable);
     void addBuiltin(BP_CoreObject *builtInObj);
 
+    QVariant toVariantBP();
     void saveProject();
+
+    //void fromVariant();
+    void loadProject();
 
     QString projectName() const;
 

@@ -27,6 +27,8 @@ public:
     Q_INVOKABLE BP_BoolNode();
     ~ BP_BoolNode();
 
+    //QVariant toVariantBP() override;
+
     static int nodeTypeID ;
 
 public slots:

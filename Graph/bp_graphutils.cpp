@@ -158,7 +158,7 @@ BP_GraphUtils *BP_GraphUtils::getInstance()
 
 int BP_GraphUtils::addNodeType(QMetaObject metaObj, bool isTool, QString category)
 {
-    m_nodeTypesMap.insert(metaObj.classInfo(metaObj.indexOfClassInfo("NodeName")).value(),metaObj);
+    m_nodeTypesMap.insert(metaObj.classInfo(metaObj.indexOfClassInfo("name")).value(),metaObj);
     if(isTool){
         QList<QMetaObject>* toolsList = nullptr;
         if(m_toolNodesByCategory.contains(category)) toolsList = m_toolNodesByCategory.value(category);

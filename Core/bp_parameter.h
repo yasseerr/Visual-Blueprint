@@ -10,12 +10,14 @@
 #ifndef BP_PARAMETER_H
 #define BP_PARAMETER_H
 
+#include "bp_coreobject.h"
+
 #include <QObject>
 
 class BP_Variable;
 class BP_Class;
 
-class BP_Parameter : public QObject
+class BP_Parameter : public BP_CoreObject
 {
     Q_OBJECT
     Q_PROPERTY(QString parameterName READ parameterName WRITE setParameterName NOTIFY parameterNameChanged)

@@ -41,6 +41,8 @@ class BP_OperationToolNode : public BP_Node
 public:
     BP_OperationToolNode();
 
+    QVariant toVariantBP() override;
+
     void addNewInput();
 
     QList<BP_DataSlot*> inputSlots() const;
@@ -69,6 +71,7 @@ public:
     virtual BP_Node *nextNode() override;
     int maxNumberOfInputs() const;
     QString displayText() const;
+    QString getNodeTypeString() override;
 };
 
 #endif // BP_OPERATIONTOOLNODE_H

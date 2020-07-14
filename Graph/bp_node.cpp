@@ -39,6 +39,16 @@ BP_Node::BP_Node(BP_GraphView *graphView):m_connectedGraph(graphView)
     nodeCount++;
 }
 
+QVariant BP_Node::toVariantBP()
+{
+    //? the static values will be created automaticaly
+    QVariantMap retMap;
+    retMap["coreObject"] = m_coreObject?coreObject()->toVariantBP():false;
+    retMap["numberOfReferenceCalls"] = m_numberOfReferenceCalls;
+
+    return retMap ;
+}
+
 
 BP_Node *BP_Node::Create()
 {

@@ -17,6 +17,12 @@ BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent)
 
 }
 
+QVariant BP_CoreObject::toVariantBP()
+{
+    return "a core object";
+
+}
+
 QString BP_CoreObject::getImportSourceString()
 {
     QString retString="";

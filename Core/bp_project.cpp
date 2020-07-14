@@ -32,6 +32,7 @@ BP_Project::BP_Project(QString projectName,QObject *parent) : QObject(parent),
 
 void BP_Project::setupPlatform()
 {
+    //TODO specify the platform in the parameters
     m_platformManager = new BP_PythonManager(this);
     m_platformManager->loadBuiltins(this);
 }
@@ -96,20 +97,50 @@ void BP_Project::addBuiltin(BP_CoreObject *builtInObj)
     m_builtins << builtInObj;
 }
 
+QVariant BP_Project::toVariantBP()
+{
+    QVariantMap retMap;
+    retMap["name"] = m_projectName;
+
+    //TODO save the used platform
+    //retMap["platform"] = "python";
+
+    //save the entry graph
+    retMap["entryGraph"] = m_entryGraph->toVariantBP();
+
+    //TODO save the other graphs
+
+    //save the imports
+    //save the members
+
+    return retMap;
+}
+
 void BP_Project::saveProject()
 {
-    QString fileName = QFileDialog::getSaveFileName(nullptr,"saving the project",QString(),"*.vbl");
-    if(fileName == ""){
-        BP_Utils::log("no valid file was selected");
-        return;
-    }
-    qDebug() << "saving project in file : " << fileName;
-    QJsonDocument doc = QJsonDocument::fromVariant(QVariantList()<<"Hello" << "there ");
-    QFile destinationFile(fileName);
+//    QString fileName = QFileDialog::getSaveFileName(nullptr,"saving the project",QString(),"*.vbl");
+//    if(fileName == ""){
+//        BP_Utils::log("no valid file was selected");
+//        return;
+//    }
+    //qDebug() << "saving project in file : " << fileName;
+    QJsonDocument doc = QJsonDocument::fromVariant(this->toVariantBP());
+    QFile destinationFile("C:/Users/HP/Desktop/newFile.vbl");
     destinationFile.open(QIODevice::WriteOnly|QIODevice::Text);
     QTextStream ds(&destinationFile);
     ds << doc.toJson();
     destinationFile.close();
+}
+
+void BP_Project::loadProject()
+{
+    //select the file
+    //setup the platform
+    //TODO load the imports depending on the platform
+    //load the entry graph
+    //TODO load all the graphs
+    //load imported functions/modules/...
+    //load members
 }
 
 QString BP_Project::projectName() const

@@ -35,6 +35,9 @@ public:
     Q_INVOKABLE BP_ClassInstanceNode();
     static int nodeTypeID ;
 
+    QVariant toVariantBP() override;
+    QString getNodeTypeString() override;
+
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     virtual void calculateBounds() override;

@@ -54,6 +54,8 @@ public:
     Q_INVOKABLE BP_Node(QObject *parent = nullptr);
     BP_Node(BP_GraphView *graphView);
 
+    virtual QVariant toVariantBP();
+
     static QList<QMetaObject>* initializeNodesTypes();
     //static int setupNodeType(QString name,BP_Node* (*func)());
     static int setupNodeType(QMetaObject metaObj);

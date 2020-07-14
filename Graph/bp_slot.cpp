@@ -52,6 +52,11 @@ void BP_Slot::addLink(BP_Link *link)
     m_connectedLinks << link;
 }
 
+QVariant BP_Slot::toVariantBP()
+{
+    return "a slot";
+}
+
 void BP_Slot::mouseClicked()
 {
     qDebug() << "pressed at position" << poseBackup;

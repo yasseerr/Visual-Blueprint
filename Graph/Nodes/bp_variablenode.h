@@ -30,7 +30,13 @@ class BP_VariableNode : public BP_Node
 
 public:
     Q_INVOKABLE BP_VariableNode();
+
+    //used to be able to call the macros in bp_graph_utils
     static int nodeTypeID ;
+
+    QVariant toVariantBP() override;
+
+
     // QGraphicsItem interface
 public:
     void calculateBounds() override;

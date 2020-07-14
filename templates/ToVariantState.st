@@ -1,0 +1,1 @@
+{"name": "unknown", "template": "\tQVariantMap retMap = BP_Node::toVariantBP().toMap();\n    \tretMap[\"type\"] = getNodeTypeString();\n\t{%for property in properties%}\n\tretMap[\"{{property.name}}\"] = {{property.object}}->toVariantBP();\n\t{%endfor%}\n\treturn retMap;", "values": "properties:\n - name : prop1\n   object : m_prop1"}

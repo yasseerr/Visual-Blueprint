@@ -28,6 +28,24 @@ BP_OperationToolNode::BP_OperationToolNode():BP_Node(),
 
 }
 
+QVariant BP_OperationToolNode::toVariantBP()
+{
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+
+    retMap["maxNumberOfInputs"] = m_maxNumberOfInputs;
+    retMap["outputSlot"] = m_outputSlot->toVariantBP();
+    retMap["displayText"] = m_displayText;
+
+    QVariantList inputVariantList;
+    foreach (auto input, m_inputSlots ) {
+        inputVariantList << input->toVariantBP();
+    }
+    retMap["inputSlots"] = inputVariantList;
+    return  retMap;
+
+}
+
 void BP_OperationToolNode::addNewInput()
 {
     if(m_inputSlots.size() >= m_maxNumberOfInputs) return;
@@ -137,4 +155,9 @@ int BP_OperationToolNode::maxNumberOfInputs() const
 QString BP_OperationToolNode::displayText() const
 {
     return m_displayText;
+}
+
+QString BP_OperationToolNode::getNodeTypeString()
+{
+    return "Operation Tool";
 }

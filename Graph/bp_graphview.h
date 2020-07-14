@@ -29,12 +29,15 @@ class BP_GraphView : public QGraphicsView
 public:
     BP_GraphView();
 
+    QVariant toVariantBP();
+
     void addNode(BP_Node *newNode,QPoint globalPosition);
 
     QString graphName() const;
     QList<BP_Node*> nodes() const;
 
     BP_EventNode* entryNode() const;
+
 
 public slots:
     void setGraphName(QString graphName);

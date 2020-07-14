@@ -38,6 +38,20 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
     m_entryNode->setPos(0,0);
 }
 
+QVariant BP_GraphView::toVariantBP()
+{
+    QVariantMap retMap;
+    retMap["entryNode"] = m_entryNode->toVariantBP();
+    //save the Nodes
+    QVariantList nodesVariantList;
+    foreach (auto node, m_nodes) {
+        if(node==m_entryNode) continue;
+        nodesVariantList << node->toVariantBP();
+    }
+    retMap["nodes"] = nodesVariantList;
+    return retMap;
+}
+
 void BP_GraphView::addNode(BP_Node *newNode,QPoint globalPosition)
 {
     auto newNodePos = mapFromGlobal(globalPosition);

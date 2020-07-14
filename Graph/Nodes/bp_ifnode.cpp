@@ -67,6 +67,19 @@ BP_IFNode::BP_IFNode():BP_LogicalNode(),
 
 }
 
+QVariant BP_IFNode::toVariantBP()
+{
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+
+    retMap["trueFlowSlot"] = m_trueFlowSlot->toVariantBP();
+    retMap["falseFlowSlot"] = m_falseFlowSlot->toVariantBP();
+    retMap["flowInSlot"] = m_flowInSlot->toVariantBP();
+    retMap["booleanSlot"] = m_booleanSlot->toVariantBP();
+    retMap["booleanParameter"] = m_booleanParameter->toVariantBP();
+    return  retMap;
+}
+
 BP_FlowSlot *BP_IFNode::trueFlowSlot() const
 {
     return m_trueFlowSlot;

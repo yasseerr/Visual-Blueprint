@@ -11,7 +11,7 @@
 
 #include <QVariantMap>
 
-BP_Parameter::BP_Parameter(QObject *parent,QVariantMap *variableMap) : QObject(parent),
+BP_Parameter::BP_Parameter(QObject *parent,QVariantMap *variableMap) :BP_CoreObject(),
   m_parameterName(""),
   m_kind(Kind::KEYWORD_ONLY),
   m_parameterClass(nullptr),

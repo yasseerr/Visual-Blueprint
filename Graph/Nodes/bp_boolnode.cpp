@@ -52,6 +52,8 @@ BP_BoolNode::~BP_BoolNode()
 
 }
 
+
+
 void BP_BoolNode::onCheckedChange(int value)
 {
     variableObject()->setValue(value);
@@ -79,6 +81,6 @@ QString BP_BoolNode::renderNode(BP_PlatformManager *platform)
 
 QString BP_BoolNode::getNodeTypeString()
 {
-    return "bool";
+    return "Bool";
 }
 

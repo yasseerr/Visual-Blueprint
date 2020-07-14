@@ -45,6 +45,20 @@ BP_FlowSlot* BP_EventNode::createFlow(QString flowName)
     return flowSlot;
 }
 
+QVariant BP_EventNode::toVariantBP()
+{
+    QVariantMap parentVariantMap(BP_Node::toVariantBP().toMap());
+    parentVariantMap["eventName"] = eventName();
+    parentVariantMap["type"] = getNodeTypeString();
+    QVariantMap eventFlowsVariantMap;
+    foreach (auto flowKey, eventFlows.keys()) {
+        eventFlowsVariantMap.insert(flowKey,eventFlows.value(flowKey)->toVariantBP());
+    }
+    parentVariantMap["eventFlows"] = eventFlowsVariantMap;
+    return parentVariantMap;
+
+}
+
 void BP_EventNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(Qt::white);

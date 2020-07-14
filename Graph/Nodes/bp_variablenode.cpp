@@ -29,6 +29,15 @@ BP_VariableNode::BP_VariableNode():BP_Node(),m_variableObject(nullptr),m_outputS
     m_outputSlot->setShowName(false);
 }
 
+QVariant BP_VariableNode::toVariantBP()
+{
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+    retMap["variableObject"] =m_variableObject?variableObject()->toVariantBP():false;
+    retMap["outputSlot"] = m_outputSlot->toVariantBP();
+    return retMap;
+}
+
 void BP_VariableNode::calculateBounds()
 {
     BP_Node::calculateBounds();

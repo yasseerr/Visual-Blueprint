@@ -43,6 +43,9 @@ class BP_IFNode : public BP_LogicalNode
 
 public:
     Q_INVOKABLE BP_IFNode();
+
+    virtual QVariant toVariantBP();
+
     BP_FlowSlot* trueFlowSlot() const;
     BP_FlowSlot* falseFlowSlot() const;
     BP_FlowSlot* flowInSlot() const;
