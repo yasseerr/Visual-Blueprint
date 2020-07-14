@@ -54,7 +54,19 @@ void BP_Slot::addLink(BP_Link *link)
 
 QVariant BP_Slot::toVariantBP()
 {
-    return "a slot";
+    //TODO when loading links verify if the connection already exist in the other direction
+    QVariantMap retMap ;
+    retMap["type"] = "default" ;
+    retMap["reference"] = m_reference;
+    retMap["isOutput"] = m_isOutput;
+
+    QVariantList linksVariant;
+    foreach (auto linkVariant, m_connectedLinks) {
+        linksVariant << linkVariant->toVariantBP();
+    }
+    retMap["connectedLinks"] = linksVariant;
+    return retMap;
+
 }
 
 void BP_Slot::mouseClicked()

@@ -23,6 +23,17 @@ BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(null
 
 }
 
+QVariant BP_DataSlot::toVariantBP()
+{
+    QVariantMap retMap = BP_Slot::toVariantBP().toMap() ;
+    retMap["type"] = "data" ;
+    retMap["parameterObject"] = m_parameterObject?m_parameterObject->toVariantBP():false;
+    retMap["showName"] = m_showName;
+    retMap["returnName"] = m_returnName;
+
+    return retMap;
+}
+
 BP_Parameter *BP_DataSlot::parameterObject() const
 {
     return m_parameterObject;

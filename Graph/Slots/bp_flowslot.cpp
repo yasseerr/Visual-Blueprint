@@ -10,6 +10,8 @@
 #include "bp_flowslot.h"
 
 #include <QDebug>
+#include <QVariantList>
+#include <QVariantMap>
 #include <qpainter.h>
 
 #include <Graph/bp_node.h>
@@ -17,6 +19,21 @@
 BP_FlowSlot::BP_FlowSlot(BP_Node *parent):BP_Slot(parent),m_showFlowName(false)
 {
     trianglePolygone << QPoint(0,0) << QPoint(0,14) << QPoint(12,7);
+}
+
+QVariant BP_FlowSlot::toVariantBP()
+{
+    QVariantMap retMap = BP_Slot::toVariantBP().toMap() ;
+    retMap["type"] = "flow" ;
+    retMap["flowName"] = m_flowName;
+    retMap["showFlowName"] = m_showFlowName;
+    QVariantList vl;
+    foreach (auto brnch, m_branches) {
+        vl << brnch;
+    }
+    retMap["branches"] = vl;
+
+    return retMap;
 }
 
 bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)

@@ -35,6 +35,9 @@ class BP_Link :public QObject, public QGraphicsItem
 
 public:
     BP_Link(QObject *parent = nullptr);
+
+    virtual QVariant toVariantBP();
+
     void disconnectSlot(BP_Slot *slot);
     void disconnectAllSlots();
     BP_Slot* getTheOneConnectedSlot();

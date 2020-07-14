@@ -20,6 +20,12 @@ BP_Link::BP_Link(QObject *parent):QObject(parent),QGraphicsItem(),m_inSlot(nullp
 
 }
 
+QVariant BP_Link::toVariantBP()
+{
+    return "connected link";
+
+}
+
 void BP_Link::disconnectSlot(BP_Slot *slot)
 {
     if(slot == m_inSlot){
