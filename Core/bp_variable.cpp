@@ -63,6 +63,16 @@ void BP_Variable::getAsParameter(BP_Parameter *param)
 
 }
 
+QVariantMap BP_Variable::getVariableAsVariant()
+{
+    QVariantMap retMap;
+    retMap.insert("name",name());
+    retMap.insert("isPrimitive",m_isPrimitive);
+    retMap.insert("value",value());
+    retMap.insert("sourceClass",m_sourceClass?sourceClass()->toVariantBP():false);
+    return retMap;
+}
+
 
 bool BP_Variable::isPrimitive() const
 {

@@ -57,7 +57,7 @@ public:
     static QVariantMap getDefaultVariantMap();
 
     virtual void getAsParameter(BP_Parameter* param);
-
+    QVariantMap getVariableAsVariant();
 
     bool isPrimitive() const;
 

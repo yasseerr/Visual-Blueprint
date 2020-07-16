@@ -115,7 +115,38 @@ QVariant BP_Project::toVariantBP()
     //TODO save the other graphs
 
     //save the imports
+    //models
+    QVariantList importedModulesVariantList;
+    foreach (auto module, m_importedModules) {
+        importedModulesVariantList << module->toVariantBP();
+    }
+    QVariantList importedFunctionsVariantList;
+    foreach (auto f, m_importedFunctions) {
+        importedFunctionsVariantList << f->toVariantBP();
+    }
+    QVariantList importedClassesVariantList;
+    foreach (auto c, m_importedClasses) {
+        importedClassesVariantList << c->toVariantBP();
+    }
+    QVariantList importedVariablesVariantList;
+    foreach (auto v, m_importedVariables) {
+        importedVariablesVariantList << v->toVariantBP();
+    }
+
+    retMap["importedModules"] = importedModulesVariantList;
+    retMap["importedFunctions"] = importedFunctionsVariantList;
+    retMap["importedClasses"] = importedClassesVariantList;
+    retMap["importedVariables"] = importedVariablesVariantList;
+
     //save the members
+    //member variable
+    QVariantList memberVariablesVariantList;
+    foreach (auto v, m_memberVariables) {
+        importedVariablesVariantList << v->getVariableAsVariant();
+    }
+
+    retMap["memberVariables"] = memberVariablesVariantList;
+
 
     return retMap;
 }
