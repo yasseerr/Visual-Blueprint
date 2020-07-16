@@ -8,6 +8,9 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QPushButton>
 
 #include <Modeling/Members/bp_memberdelegate.h>
@@ -163,4 +166,20 @@ void MainWindow::on_actionSave_As_triggered()
         return;
     }
     m_currentProject->saveProject();
+}
+
+void MainWindow::on_action_Open_File_triggered()
+{
+    //QString fileName = QFileDialog::getOpenFileName(this,"Open Existing Project","","*.vbl");
+//    if(fileName==""){
+//        BP_Utils::log("no valid file for VisualBlueprint project");
+//    }
+    QFile destinationFile("C:/Users/HP/Desktop/newFile.vbl");
+    //QFile destinationFile(fileName);
+    destinationFile.open(QIODevice::ReadOnly|QIODevice::Text);
+    //QTextStream ts(&destinationFile);
+    QJsonParseError err;;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(destinationFile.readAll(),&err);
+    qDebug() <<"loaded project name :" << jsonDoc.object().value("name").toString() ;
+    m_currentProject->loadProject(jsonDoc.toVariant());
 }

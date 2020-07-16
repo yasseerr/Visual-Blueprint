@@ -167,12 +167,25 @@ void BP_Project::saveProject()
     destinationFile.close();
 }
 
-void BP_Project::loadProject()
+void BP_Project::loadProject(QVariant projectVariant)
 {
-    //select the file
-    //setup the platform
+    //TODO use a new project instead
+    //BP_Project *loadedProject = new BP_Project("")
+    QVariantMap projectMap = projectVariant.toMap();
+    BP_Project *loadedProject = this;
+    loadedProject->setProjectName(projectMap["name"].toString());
+    qDebug() << projectVariant.toString();
+
+    //TODO setup the platform for the type of project
     //TODO load the imports depending on the platform
+
     //load the entry graph
+    loadedProject->entryGraph()->fromVariantBP(projectMap["entryGraph"]);
+    //TODO check if it is the greater value
+    BP_Node::nodeCount = projectMap["nodesCount"].toInt();
+    BP_Slot::slotCount = projectMap["slotsCount"].toInt();
+    qDebug() << "the loading says that the number of nodes is " << BP_Node::nodeCount << BP_Slot::slotCount;
+
     //TODO load all the graphs
     //load imported functions/modules/...
     //load members

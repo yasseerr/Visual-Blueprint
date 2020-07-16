@@ -531,7 +531,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/Data/Images/DefaultIcon/file-download-alt.png</normaloff>:/Data/Images/DefaultIcon/file-download-alt.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Open File ...</string>
+    <string>&amp;Open Project ...</string>
    </property>
   </action>
   <action name="action_Recent_Project">

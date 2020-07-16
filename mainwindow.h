@@ -53,6 +53,8 @@ private slots:
 
     void on_actionSave_As_triggered();
 
+    void on_action_Open_File_triggered();
+
 private:
     Ui::MainWindow *ui;
     ImportsModel *m_importsModel;

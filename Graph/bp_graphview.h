@@ -30,6 +30,7 @@ public:
     BP_GraphView();
 
     QVariant toVariantBP();
+    void fromVariantBP(QVariant var);
 
     void addNode(BP_Node *newNode,QPoint globalPosition);
 

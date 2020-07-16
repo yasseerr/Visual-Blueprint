@@ -52,6 +52,12 @@ QVariant BP_GraphView::toVariantBP()
     return retMap;
 }
 
+void BP_GraphView::fromVariantBP(QVariant var)
+{
+    QVariantMap graphMap = var.toMap();
+
+}
+
 void BP_GraphView::addNode(BP_Node *newNode,QPoint globalPosition)
 {
     auto newNodePos = mapFromGlobal(globalPosition);

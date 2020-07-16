@@ -70,10 +70,12 @@ public:
     void addBuiltin(BP_CoreObject *builtInObj);
 
     QVariant toVariantBP();
+    void fromVariantBP();
     void saveProject();
 
     //void fromVariant();
-    void loadProject();
+    //TODO make it a static function that return a new Project
+    void loadProject(QVariant projectVariant);
 
     QString projectName() const;
 
