@@ -38,7 +38,6 @@ public slots:
     void onInspectClicked();
     void onExpandedChanged();
 
-private slots:
     void on_importToolButton_clicked();
 
 private:

@@ -11,11 +11,20 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QTextEdit>
+#include <bp_utils.h>
 
 #include <Widgets/importsitemwidget.h>
 
 ImportsModel::ImportsModel()
 {
+    BP_Utils::instance()->importsModel = this;
+
+}
+
+void ImportsModel::importFromHieararchy(QStringList hierarchy)
+{
+    //
+    m_rootItem->importFromHierarchy(hierarchy);
 
 }
 
@@ -56,6 +65,12 @@ void ImportsModel::setupItemWidget(BP_ImportsItem *item, BP_PlatformManager *pla
     qDebug() << "item index " << itemIndex.row();
     connectedView->setIndexWidget(createIndex(itemIndex.row(),1,item),
                                   new ImportsItemWidget(item,platformManager,createIndex(itemIndex.row(),1,item)));
+}
+
+ImportsItemWidget *ImportsModel::getWidgetForItem(BP_ImportsItem *item)
+{
+    QModelIndex itemIndex = indexForItem(item);
+    return qobject_cast<ImportsItemWidget*>(connectedView->indexWidget(createIndex(itemIndex.row(),1,item)));
 }
 
 

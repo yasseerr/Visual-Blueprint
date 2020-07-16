@@ -28,6 +28,7 @@ class BP_ImportsItem : public QObject
 
 public:
     explicit BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent = nullptr);
+    void importFromHierarchy(QStringList hierarchy);
     virtual QStringList getImportHierarchy();
     virtual QVariant getIconVariant();
     virtual void importItem();

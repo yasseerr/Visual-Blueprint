@@ -10,6 +10,7 @@
 #include "bp_utils.h"
 
 QTextEdit* BP_Utils::textEdit  = nullptr;
+BP_Utils* BP_Utils::_instatce = new BP_Utils();
 
 BP_Utils::BP_Utils(QObject *parent) : QObject(parent)
 {
@@ -26,4 +27,12 @@ void BP_Utils::log(QString text,QString reference,MessageType messageType)
     QString displayText = "<div><span style='color:" + messageColors.value(messageType,"#000000") +"'>#" +
             QVariant::fromValue(messageType).toString() +"::"+reference+"</span> "+  text + "</div>";
     textEdit->append(displayText);
+}
+
+BP_Utils *BP_Utils::instance()
+{
+    if(!_instatce) _instatce = new BP_Utils();
+
+    return _instatce;
+
 }

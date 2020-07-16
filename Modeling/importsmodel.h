@@ -17,6 +17,7 @@
 #include <Platform/bp_platformmanager.h>
 
 #include <Core/bp_project.h>
+class ImportsItemWidget;
 
 class ImportsModel : public QAbstractItemModel
 {
@@ -25,12 +26,15 @@ class ImportsModel : public QAbstractItemModel
 public:
     ImportsModel();
 
+    void importFromHieararchy(QStringList hierarchy);
+
     //Helper Functions
     QModelIndex indexForItem(BP_ImportsItem *importItem);
     BP_ImportsItem* itemForIndex(const QModelIndex &index) const;
     int rowForItem(BP_ImportsItem *item) const;
     void setupIndexesWidgets(BP_PlatformManager *platformManager);
     void setupItemWidget(BP_ImportsItem *item,BP_PlatformManager *platformManager);
+    ImportsItemWidget* getWidgetForItem(BP_ImportsItem *item);
 
     // QAbstractItemModel interface
 public:

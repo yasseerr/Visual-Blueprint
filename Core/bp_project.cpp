@@ -179,6 +179,14 @@ void BP_Project::loadProject(QVariant projectVariant)
     //TODO setup the platform for the type of project
     //TODO load the imports depending on the platform
 
+    //load imported functions/modules/...
+    foreach (auto m, projectMap.value("importedModules").toList()) {
+        auto moduleHierarchy = m.toMap()["importHierarcht"].toStringList();
+        qDebug()<< "loading module "<< moduleHierarchy;
+        //platformManager()->importModule(moduleHierarchy);
+        BP_Utils::instance()->importsModel->importFromHieararchy(moduleHierarchy);
+    }
+
     //load the entry graph
     loadedProject->entryGraph()->fromVariantBP(projectMap["entryGraph"]);
     //TODO check if it is the greater value
@@ -187,7 +195,7 @@ void BP_Project::loadProject(QVariant projectVariant)
     qDebug() << "the loading says that the number of nodes is " << BP_Node::nodeCount << BP_Slot::slotCount;
 
     //TODO load all the graphs
-    //load imported functions/modules/...
+
     //load members
 }
 

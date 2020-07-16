@@ -13,6 +13,8 @@
 
 #include <QDebug>
 
+#include <Widgets/importsitemwidget.h>
+
 BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QObject(parent),
   m_parentItem(parentItem),m_importable(true),m_isExpanded(false),m_isInspectable(true),m_isImported(false)
 {
@@ -22,6 +24,26 @@ BP_ImportsItem::BP_ImportsItem(BP_ImportsItem *parentItem,QObject *parent) : QOb
             m_model = m_parentItem->m_model;
     }
 
+}
+
+void BP_ImportsItem::importFromHierarchy(QStringList hierarchy)
+{
+    foreach (auto child, childItems) {
+        if(child->m_name == hierarchy.last()){
+            //remove the last item and check if its empty
+            hierarchy.removeLast();
+            auto itemWidget = m_model->getWidgetForItem(child);
+            if(hierarchy.size()>0){
+                //inspect
+                itemWidget->onInspectClicked();
+                child->importFromHierarchy(hierarchy);
+                break;
+            }
+            //import
+            itemWidget->on_importToolButton_clicked();
+            break;
+        }
+    }
 }
 
 QStringList BP_ImportsItem::getImportHierarchy()

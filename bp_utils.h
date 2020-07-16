@@ -13,6 +13,8 @@
 #include <QObject>
 #include <QTextEdit>
 
+#include <Modeling/importsmodel.h>
+
 class BP_Utils : public QObject
 {
     Q_OBJECT
@@ -23,8 +25,15 @@ public:
     Q_ENUM(MessageType)
     explicit BP_Utils(QObject *parent = nullptr);
 
+    static BP_Utils* _instatce;
+
     static QTextEdit *textEdit;
     static void log(QString text,QString reference="",MessageType messageType=Info);
+    static BP_Utils* instance();
+
+public:
+    ImportsModel *importsModel = nullptr;
+
 
 signals:
 
