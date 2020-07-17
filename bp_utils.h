@@ -15,6 +15,8 @@
 
 #include <Modeling/importsmodel.h>
 
+class BP_CoreObject;
+
 class BP_Utils : public QObject
 {
     Q_OBJECT
@@ -33,6 +35,7 @@ public:
 
 public:
     ImportsModel *importsModel = nullptr;
+    QMultiMap<QString,BP_CoreObject*> coreObjectsMap;
 
 
 signals:

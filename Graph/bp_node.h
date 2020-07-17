@@ -37,6 +37,7 @@ class BP_Node :public QObject, public QGraphicsItem
     //TODO create node fonts
     //to not render the reference multiple times
     int m_numberOfReferenceCalls = 0;
+    
 
 public :
     //painter members
@@ -55,6 +56,7 @@ public:
     BP_Node(BP_GraphView *graphView);
 
     virtual QVariant toVariantBP();
+    virtual void fromVariant(QVariant var);
 
     static QList<QMetaObject>* initializeNodesTypes();
     //static int setupNodeType(QString name,BP_Node* (*func)());

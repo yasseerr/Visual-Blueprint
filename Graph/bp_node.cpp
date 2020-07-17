@@ -13,6 +13,8 @@
 #include <QDebug>
 #include <QMetaClassInfo>
 #include <QPainter>
+#include <QVariantMap>
+#include <bp_utils.h>
 
 #include <Core/bp_coreobject.h>
 
@@ -48,6 +50,26 @@ QVariant BP_Node::toVariantBP()
     retMap["numberOfReferenceCalls"] = m_numberOfReferenceCalls;
 
     return retMap ;
+}
+
+void BP_Node::fromVariant(QVariant var)
+{
+    QVariantMap varMap =var.toMap();
+    
+    nodeId = varMap["nodeId"].toInt();
+    if(varMap["coreObject"].type() == QVariant::Bool){
+        if(!varMap["coreObject"].toBool()) setCoreObject(nullptr);
+    }
+    else{
+        auto coreObjects = BP_Utils::instance()->coreObjectsMap.values(varMap["coreObject"].toMap()["name"].toString());
+        //TODO compare the objects hierarchy when multiple objects are found
+        foreach (auto coreObject, coreObjects) {
+            if(coreObject == this->coreObject()) continue;
+            qDebug()<<"core Object found " << coreObject->name() ;
+            setCoreObject(coreObject);
+        }
+    }
+    //TODO investigate the nessecity to load numverOfReferenceCalls
 }
 
 

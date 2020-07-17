@@ -39,6 +39,12 @@ void BP_GraphUtils::setToolNodesByCategory(const QMap<QString, QList<QMetaObject
     m_toolNodesByCategory = toolNodesByCategory;
 }
 
+BP_Node *BP_GraphUtils::createNode(QString type)
+{
+    auto nodeType = m_nodeTypesMap.value(type);
+    return qobject_cast<BP_Node*>(nodeType.newInstance());
+}
+
 int BP_GraphUtils::getNewBranchID(BP_Node *parentNode)
 {
     branchSequence++;

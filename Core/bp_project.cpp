@@ -180,12 +180,21 @@ void BP_Project::loadProject(QVariant projectVariant)
     //TODO load the imports depending on the platform
 
     //load imported functions/modules/...
-    foreach (auto m, projectMap.value("importedModules").toList()) {
+    QVariantList toImport;
+    toImport << projectMap.value("importedModules").toList()
+             << projectMap.value("importedFunctions").toList()
+             << projectMap.value("importedClasses").toList()
+             << projectMap.value("importedVariables").toList();
+    foreach (auto m, toImport) {
         auto moduleHierarchy = m.toMap()["importHierarcht"].toStringList();
         qDebug()<< "loading module "<< moduleHierarchy;
+        //TODO add the variables to the variablesMap
+
         //platformManager()->importModule(moduleHierarchy);
         BP_Utils::instance()->importsModel->importFromHieararchy(moduleHierarchy);
     }
+    
+    //TODO load members
 
     //load the entry graph
     loadedProject->entryGraph()->fromVariantBP(projectMap["entryGraph"]);
@@ -196,7 +205,6 @@ void BP_Project::loadProject(QVariant projectVariant)
 
     //TODO load all the graphs
 
-    //load members
 }
 
 QString BP_Project::projectName() const

@@ -52,6 +52,8 @@ public:
     QMap<QString, QList<QMetaObject> *> getToolNodesByCategory() const;
     void setToolNodesByCategory(const QMap<QString, QList<QMetaObject> *> &toolNodesByCategory);
 
+    BP_Node *createNode(QString type);
+
     //branches functions
     int getNewBranchID(BP_Node *parentNode);
     void setBranchSubBranches(int b,QList<int> subBranches);

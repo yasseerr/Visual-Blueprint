@@ -24,6 +24,7 @@
 #include <Graph/bp_graphutils.h>
 #include <Graph/bp_graphutils.h>
 
+RegisterNodeType(BP_FunctionNode)
 BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent),m_selfSlot(nullptr)
 {
     //adding the execution flow

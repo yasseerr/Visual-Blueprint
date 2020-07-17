@@ -12,6 +12,8 @@
 
 #include <Graph/bp_node.h>
 
+#include <bp_utils.h>
+
 BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent)
 {
 
@@ -72,6 +74,8 @@ void BP_CoreObject::setName(QString name)
 {
     if (m_name == name)
         return;
+    //save the name in the names map
+    BP_Utils::instance()->coreObjectsMap.insert(name,this);
 
     m_name = name;
     emit nameChanged(m_name);
