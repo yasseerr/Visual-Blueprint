@@ -37,6 +37,7 @@ public:
     BP_Link(QObject *parent = nullptr);
 
     virtual QVariant toVariantBP();
+    virtual void fromVariant(QVariant var);
 
     void disconnectSlot(BP_Slot *slot);
     void disconnectAllSlots();

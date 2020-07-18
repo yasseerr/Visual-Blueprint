@@ -9,6 +9,7 @@
  ***************************************************************************/
 #include "bp_dataslot.h"
 
+#include <QDebug>
 #include <QFontMetrics>
 #include <QPainter>
 
@@ -32,6 +33,19 @@ QVariant BP_DataSlot::toVariantBP()
     retMap["returnName"] = m_returnName;
 
     return retMap;
+}
+
+void BP_DataSlot::fromVariant(QVariant var)
+{
+    BP_Slot::fromVariant(var);
+    auto varMap = var.toMap();
+    setShowName(varMap["showName"].toBool());
+    setReturnName(varMap["returnName"].toString());
+    if(m_parameterObject && m_parameterObject->isImported()){
+        //TODO handle the parameter objects
+        qDebug() << "parameter object existe and it is imported";
+    }
+
 }
 
 BP_Parameter *BP_DataSlot::parameterObject() const

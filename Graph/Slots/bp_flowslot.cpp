@@ -36,6 +36,15 @@ QVariant BP_FlowSlot::toVariantBP()
     return retMap;
 }
 
+void BP_FlowSlot::fromVariant(QVariant var)
+{
+    BP_Slot::fromVariant(var);
+    auto varMap = var.toMap();
+    setFlowName(varMap["flowName"].toString());
+    setShowFlowName(varMap["showFlowName"].toBool());
+    //TODO study the nessecity of saving the branches
+}
+
 bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
 {
     if(!BP_Slot::acceptConnection(secondSlot)) return false;

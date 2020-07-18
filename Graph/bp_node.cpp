@@ -30,6 +30,7 @@ int BP_Node::nodeTypesCount = 0;
 BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50)
 {
     nodeId = nodeCount;
+    BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);
     nodeCount++;
     //Graphic item configurations
     this->setFlags(ItemIsMovable|ItemIsSelectable);
@@ -57,6 +58,8 @@ void BP_Node::fromVariant(QVariant var)
     QVariantMap varMap =var.toMap();
     
     nodeId = varMap["nodeId"].toInt();
+    //TODO clear the previous node id
+    BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);
 //    if(varMap["coreObject"].type() == QVariant::Bool){
 //        if(!varMap["coreObject"].toBool()) setCoreObject(nullptr);
 //    }

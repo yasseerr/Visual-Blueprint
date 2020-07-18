@@ -58,15 +58,15 @@ void BP_GraphView::fromVariantBP(QVariant var)
     foreach (auto var, graphMap["nodes"].toList()) {
         auto nodeMap =var.toMap();
         BP_Node *node = BP_GraphUtils::getInstance()->createNode(nodeMap["type"].toString());
-        node->fromVariant(nodeMap);
-        node->setParent(this);
         this->addNode(node,QPoint(10,10));
+        node->fromVariant(nodeMap);
     }
 
 }
 
 void BP_GraphView::addNode(BP_Node *newNode,QPoint globalPosition)
 {
+    newNode->setConnectedGraph(this);
     auto newNodePos = mapFromGlobal(globalPosition);
     newNode->setPos( mapToScene(newNodePos));
     m_nodes.append(newNode);

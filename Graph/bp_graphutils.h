@@ -19,6 +19,7 @@
 
 class BP_FlowSlot;
 class BP_Node;
+class BP_Slot;
 
 class BP_GraphUtils : public QObject
 {
@@ -41,6 +42,10 @@ class BP_GraphUtils : public QObject
     QMap<int,BP_Node *> branchNodeMap;
     QMap<BP_Node*,BP_Node*> endOfBlockRegister;
 
+    //indecies
+    QMap<int,BP_Node*> nodesIndex;
+    QMap<int,BP_Slot*> slotsIndex;
+
 public:
     explicit BP_GraphUtils(QObject *parent = nullptr);
     static BP_GraphUtils* getInstance();
@@ -53,6 +58,12 @@ public:
     void setToolNodesByCategory(const QMap<QString, QList<QMetaObject> *> &toolNodesByCategory);
 
     BP_Node *createNode(QString type);
+
+    void registerNodeID(int id,BP_Node*  node);
+    void registerSlotID(int id,BP_Slot* slot);
+
+    BP_Node* getNodeByID(int id);
+    BP_Slot* getSlotByID(int id);
 
     //branches functions
     int getNewBranchID(BP_Node *parentNode);

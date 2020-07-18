@@ -32,6 +32,7 @@ public:
     BP_DataSlot(BP_Node *parent = nullptr);
 
     QVariant toVariantBP() override;
+    void fromVariant(QVariant var) override;
 
     BP_Parameter* parameterObject() const;
 public slots:

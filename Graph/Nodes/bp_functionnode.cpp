@@ -66,6 +66,7 @@ void BP_FunctionNode::fromVariant(QVariant var)
     auto varMap =var.toMap();
     //TODO use the setCoreObjectFunction instead of setFunction to be able to use the parent map
     nodeId = varMap["nodeId"].toInt();
+    BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);
     //get the function object
     auto funcitonObjects = BP_Utils::instance()->coreObjectsMap.values(varMap["functionObject"].toMap()["name"].toString());
     //TODO compare the objects hierarchy when multiple objects are found

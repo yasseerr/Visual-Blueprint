@@ -7,6 +7,7 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_graphutils.h"
 #include "bp_graphview.h"
 #include "bp_node.h"
 #include "bp_slot.h"
@@ -27,6 +28,7 @@ int BP_Slot::slotCount = 0;
 BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown"),m_textColor(Qt::white)
 {
     slotID = slotCount;
+    BP_GraphUtils::getInstance()->registerSlotID(slotID,this);
     slotCount++;
     setParentItem(parent);
     doubleClickTimer.setInterval(DOUBLE_CLICK_INTERVAL);
@@ -76,6 +78,27 @@ QVariant BP_Slot::toVariantBP()
 
 void BP_Slot::fromVariant(QVariant var)
 {
+    auto varMap = var.toMap();
+    slotID = varMap["slotID"].toInt();
+    BP_GraphUtils::getInstance()->registerSlotID(slotID,this);
+    setReference(varMap["reference"].toString());
+    setIsOutput(varMap["isOutput"].toBool());
+    auto connectedLinksVariant = varMap["connectedLinks"].toList();
+    foreach (auto linkVar, connectedLinksVariant) {
+        //creating the link
+        auto linkVarMap = linkVar.toMap();
+        auto inSlot = BP_GraphUtils::getInstance()->getSlotByID(linkVarMap["inSlot"].toInt());
+        auto outSlot = BP_GraphUtils::getInstance()->getSlotByID(linkVarMap["outSlot"].toInt());
+        if(!inSlot || !outSlot) continue;
+        BP_Link *newLink = new BP_Link(this);
+        //this->scene()->addItem(newLink);
+        inSlot->addLink(newLink);
+        outSlot->addLink(newLink);
+        newLink->setInSlot(inSlot);
+        newLink->setOutSlot(outSlot);
+        auto graphScene = qobject_cast<BP_GraphScene*>(scene());
+        parentNode()->connectedGraph()->scene()->addItem(newLink);
+    }
 
 }
 

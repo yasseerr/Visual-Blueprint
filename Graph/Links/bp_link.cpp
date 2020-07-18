@@ -17,7 +17,8 @@
 
 BP_Link::BP_Link(QObject *parent):QObject(parent),QGraphicsItem(),m_inSlot(nullptr),m_outSlot(nullptr)
 {
-
+//    m_tempOutputPoint.setX(100);
+//    m_tempOutputPoint.setY(-100);
 }
 
 QVariant BP_Link::toVariantBP()
@@ -27,6 +28,11 @@ QVariant BP_Link::toVariantBP()
     retMap["outSlot"] = m_outSlot->slotID ;
 
     return retMap;
+
+}
+
+void BP_Link::fromVariant(QVariant var)
+{
 
 }
 

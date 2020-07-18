@@ -45,6 +45,28 @@ BP_Node *BP_GraphUtils::createNode(QString type)
     return qobject_cast<BP_Node*>(nodeType.newInstance());
 }
 
+void BP_GraphUtils::registerNodeID(int id, BP_Node *node)
+{
+    if(BP_Node::nodeCount<id)BP_Node::nodeCount = id;
+    nodesIndex.insert(id,node);
+}
+
+void BP_GraphUtils::registerSlotID(int id, BP_Slot *slot)
+{
+    if(BP_Node::nodeCount<id)BP_Node::nodeCount = id;
+    slotsIndex.insert(id,slot);
+}
+
+BP_Node *BP_GraphUtils::getNodeByID(int id)
+{
+    return nodesIndex.value(id,nullptr);
+}
+
+BP_Slot *BP_GraphUtils::getSlotByID(int id)
+{
+    return slotsIndex.value(id,nullptr);
+}
+
 int BP_GraphUtils::getNewBranchID(BP_Node *parentNode)
 {
     branchSequence++;
