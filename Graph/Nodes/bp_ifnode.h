@@ -45,6 +45,7 @@ public:
     Q_INVOKABLE BP_IFNode();
 
     virtual QVariant toVariantBP();
+    virtual void fromVariant(QVariant var);
 
     BP_FlowSlot* trueFlowSlot() const;
     BP_FlowSlot* falseFlowSlot() const;

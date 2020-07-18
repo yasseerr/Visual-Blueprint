@@ -12,7 +12,9 @@
 #include <Graph/Slots/bp_dataslot.h>
 #include <Graph/Slots/bp_flowslot.h>
 
+#include <QDebug>
 #include <QPainter>
+#include <bp_utils.h>
 
 #include <Core/bp_function.h>
 #include <Core/bp_parameter.h>
@@ -57,6 +59,30 @@ QVariant BP_FunctionNode::toVariantBP()
     }
     retMap["inputtParameters"] = inputParametersVariant;
     return retMap;
+}
+
+void BP_FunctionNode::fromVariant(QVariant var)
+{
+    auto varMap =var.toMap();
+    //TODO use the setCoreObjectFunction instead of setFunction to be able to use the parent map
+    nodeId = varMap["nodeId"].toInt();
+    //get the function object
+    auto funcitonObjects = BP_Utils::instance()->coreObjectsMap.values(varMap["functionObject"].toMap()["name"].toString());
+    //TODO compare the objects hierarchy when multiple objects are found
+    foreach (auto functionObject, funcitonObjects) {
+        //ignore if this
+        if(functionObject == this->functionObject()) continue;
+        qDebug()<<"funciton Object found " << functionObject->name() ;
+        setFunctionObject(qobject_cast<BP_Function*>(functionObject));
+        setCoreObject(functionObject);
+    }
+    m_executionflowInSlot->fromVariant(varMap["flowIn"]);
+    m_executionflowOutSlot->fromVariant(varMap["flowOut"]);
+    m_returnSlot->fromVariant(varMap["returnSlot"]);
+    if(m_selfSlot) m_selfSlot->fromVariant(varMap["selfSlot"]);
+    for (int i = 0; i < m_inputParameters.size(); ++i) {
+        m_inputParameters.at(i)->fromVariant(varMap["inputtParameters"].toList().at(i));
+    }
 }
 
 void BP_FunctionNode::loadCurrentFunction()

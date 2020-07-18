@@ -42,9 +42,12 @@ m_boolItem(new QGraphicsProxyWidget())
     variable->setIsPrimitive(true);
     variable->setName("var_bool"+QString::number(nodeId));
     variable->setIsArray(false);
+    variable->setIsImported(false);
 
     setCoreObject(variable);
     setVariableObject(variable);
+    connect(this,&BP_VariableNode::updateDisplay,
+            [this](){this->m_boolCheckBox->setChecked(variableObject()->value().toBool());});
 }
 
 BP_BoolNode::~BP_BoolNode()

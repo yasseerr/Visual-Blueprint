@@ -59,6 +59,16 @@ QVariant BP_EventNode::toVariantBP()
 
 }
 
+void BP_EventNode::fromVariant(QVariant var)
+{
+    BP_Node::fromVariant(var);
+    auto varMap = var.toMap();
+    setEventName(varMap["eventName"].toString());
+    foreach (auto eventFlowKey, eventFlows.keys()) {
+        eventFlows[eventFlowKey]->fromVariant(varMap["eventsFlows"].toMap()[eventFlowKey]);
+    }
+}
+
 void BP_EventNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(Qt::white);

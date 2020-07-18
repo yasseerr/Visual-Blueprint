@@ -36,6 +36,7 @@ public:
     BP_FlowSlot* createFlow(QString flowName);
 
     QVariant toVariantBP() override;
+    void fromVariant(QVariant var) override;
 
     // QGraphicsItem interface
 public:

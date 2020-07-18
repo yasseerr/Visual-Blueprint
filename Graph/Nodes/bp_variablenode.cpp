@@ -11,6 +11,7 @@
 
 #include <Graph/Slots/bp_dataslot.h>
 
+#include <QDebug>
 #include <qpainter.h>
 
 #include <Core/bp_parameter.h>
@@ -37,6 +38,23 @@ QVariant BP_VariableNode::toVariantBP()
     retMap["variableValue"] = variableObject()->value();
     retMap["outputSlot"] = m_outputSlot->toVariantBP();
     return retMap;
+}
+
+void BP_VariableNode::fromVariant(QVariant var)
+{
+    BP_Node::fromVariant(var);
+    auto varMap = var.toMap();
+    if(coreObject() && coreObject()->isImported()){
+        setVariableObject(qobject_cast<BP_Variable*>(coreObject()));
+    }
+    if(!variableObject()->isImported()){
+        m_variableObject->setValue(varMap["variableValue"]);
+        qDebug() << "about to include the new value of "<< m_variableObject->value();
+        emit updateDisplay();
+    }
+    m_outputSlot->fromVariant(varMap["outputSlot"]);
+
+
 }
 
 void BP_VariableNode::calculateBounds()

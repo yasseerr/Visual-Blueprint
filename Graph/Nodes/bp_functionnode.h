@@ -52,6 +52,7 @@ public:
     Q_INVOKABLE BP_FunctionNode(QObject *parent = nullptr);
 
     QVariant toVariantBP() override;
+    void fromVariant(QVariant var) override;
     static int nodeTypeID ;
 
 public:

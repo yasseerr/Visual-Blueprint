@@ -42,6 +42,7 @@ public:
     BP_OperationToolNode();
 
     QVariant toVariantBP() override;
+    void fromVariant(QVariant var) override;
 
     void addNewInput();
 

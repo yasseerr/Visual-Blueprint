@@ -59,6 +59,8 @@ void BP_GraphView::fromVariantBP(QVariant var)
         auto nodeMap =var.toMap();
         BP_Node *node = BP_GraphUtils::getInstance()->createNode(nodeMap["type"].toString());
         node->fromVariant(nodeMap);
+        node->setParent(this);
+        this->addNode(node,QPoint(10,10));
     }
 
 }

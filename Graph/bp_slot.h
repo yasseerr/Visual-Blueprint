@@ -65,6 +65,7 @@ public:
     void addLink(BP_Link *link);
 
     virtual QVariant toVariantBP();
+    virtual void fromVariant(QVariant var);
 
     virtual void mouseClicked();
 

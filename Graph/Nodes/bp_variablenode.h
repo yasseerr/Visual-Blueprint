@@ -35,6 +35,7 @@ public:
     static int nodeTypeID ;
 
     QVariant toVariantBP() override;
+    void fromVariant(QVariant var) override;
 
 
     // QGraphicsItem interface
@@ -53,6 +54,8 @@ public slots:
 signals:
     void variableObjectChanged(BP_Variable* variableObject);
     void outputSlotChanged(BP_DataSlot* outputSlot);
+
+    void updateDisplay();
 };
 
 #endif // BP_VARIABLENODE_H

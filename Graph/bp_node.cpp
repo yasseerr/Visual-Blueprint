@@ -57,10 +57,10 @@ void BP_Node::fromVariant(QVariant var)
     QVariantMap varMap =var.toMap();
     
     nodeId = varMap["nodeId"].toInt();
-    if(varMap["coreObject"].type() == QVariant::Bool){
-        if(!varMap["coreObject"].toBool()) setCoreObject(nullptr);
-    }
-    else{
+//    if(varMap["coreObject"].type() == QVariant::Bool){
+//        if(!varMap["coreObject"].toBool()) setCoreObject(nullptr);
+//    }
+    if(varMap["coreObject"].toMap()["isImported"].toBool()){
         auto coreObjects = BP_Utils::instance()->coreObjectsMap.values(varMap["coreObject"].toMap()["name"].toString());
         //TODO compare the objects hierarchy when multiple objects are found
         foreach (auto coreObject, coreObjects) {

@@ -42,11 +42,15 @@ BP_IntNode::BP_IntNode():BP_VariableNode(),m_spinbox(new QSpinBox()),m_spinItem(
     intVariable->setIsPrimitive(true);
     intVariable->setName("varint");
     intVariable->setIsArray("false");
+    intVariable->setIsImported(false);
 
     setCoreObject(intVariable);
     setVariableObject(intVariable);
 
     outputSlot()->setReference("integer_"+QString::number(nodeId));
+
+    connect(this,&BP_VariableNode::updateDisplay,
+            [this](){this->m_spinbox->setValue(variableObject()->value().toInt());});
 
 }
 

@@ -14,7 +14,7 @@
 
 #include <bp_utils.h>
 
-BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent)
+BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent),m_isImported(true)
 {
 
 }
@@ -32,6 +32,7 @@ QVariant BP_CoreObject::toVariantBP()
     QVariantMap retMap;
     retMap["name"] = m_name;
     retMap["importHierarcht"] = QVariant::fromValue(m_importHiearchy);
+    retMap["isImported"] = m_isImported;
     return retMap;
     //return "a core object";
 
@@ -70,6 +71,11 @@ QStringList BP_CoreObject::importHiearchy() const
     return m_importHiearchy;
 }
 
+bool BP_CoreObject::isImported() const
+{
+    return m_isImported;
+}
+
 void BP_CoreObject::setName(QString name)
 {
     if (m_name == name)
@@ -88,4 +94,13 @@ void BP_CoreObject::setImportHiearchy(QStringList importHiearchy)
 
     m_importHiearchy = importHiearchy;
     emit importHiearchyChanged(m_importHiearchy);
+}
+
+void BP_CoreObject::setIsImported(bool isImported)
+{
+    if (m_isImported == isImported)
+        return;
+
+    m_isImported = isImported;
+    emit isImportedChanged(m_isImported);
 }

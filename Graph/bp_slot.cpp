@@ -74,6 +74,11 @@ QVariant BP_Slot::toVariantBP()
 
 }
 
+void BP_Slot::fromVariant(QVariant var)
+{
+
+}
+
 void BP_Slot::mouseClicked()
 {
     qDebug() << "pressed at position" << poseBackup;

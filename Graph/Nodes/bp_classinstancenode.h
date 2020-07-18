@@ -36,6 +36,7 @@ public:
     static int nodeTypeID ;
 
     QVariant toVariantBP() override;
+    void fromVariant(QVariant var) override;
     QString getNodeTypeString() override;
 
 public:

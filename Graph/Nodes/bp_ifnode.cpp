@@ -58,6 +58,7 @@ BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_flowInSlot->setParentNode(this);
 
     m_booleanParameter->setParameterName("condition");
+    m_booleanParameter->setIsImported(false);
 
     m_booleanSlot->setShowName(true);
     m_booleanSlot->setParameterObject(m_booleanParameter);
@@ -78,6 +79,18 @@ QVariant BP_IFNode::toVariantBP()
     retMap["booleanSlot"] = m_booleanSlot->toVariantBP();
     retMap["booleanParameter"] = m_booleanParameter->toVariantBP();
     return  retMap;
+}
+
+void BP_IFNode::fromVariant(QVariant var)
+{
+    BP_Node::fromVariant(var);
+    auto varMap = var.toMap();
+    m_trueFlowSlot->fromVariant(varMap["trueFlowSlot"]);
+    m_falseFlowSlot->fromVariant(varMap["falseFlowSlot"]);
+    m_flowInSlot->fromVariant(varMap["flowInSlot"]);
+    m_booleanSlot->fromVariant(varMap["booleanSlot"]);
+    //m_booleanParameter->fromVariant(varMap["flowInSlot"]);
+    //TODO study the need of saving the boolean parameter
 }
 
 BP_FlowSlot *BP_IFNode::trueFlowSlot() const

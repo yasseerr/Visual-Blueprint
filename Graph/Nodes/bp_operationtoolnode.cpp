@@ -46,6 +46,20 @@ QVariant BP_OperationToolNode::toVariantBP()
 
 }
 
+void BP_OperationToolNode::fromVariant(QVariant var)
+{
+    BP_Node::fromVariant(var);
+    auto varMap = var.toMap();
+    //TODO check the need for loading the maximum number of output
+    m_outputSlot->fromVariant(varMap["outputSlot"]);
+    //check the need for saving the display text
+    //loading input slots
+    auto slotsVarList = varMap["inputSlots"].toList();
+    for (int i = 0; i < m_inputSlots.size(); ++i) {
+        m_inputSlots.at(i)->fromVariant(slotsVarList.at(i));
+    }
+}
+
 void BP_OperationToolNode::addNewInput()
 {
     if(m_inputSlots.size() >= m_maxNumberOfInputs) return;

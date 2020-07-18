@@ -40,9 +40,13 @@ BP_FloatNode::BP_FloatNode():BP_VariableNode(),m_floatSpinBox(new QDoubleSpinBox
     variable->setIsPrimitive(true);
     variable->setName("var_float"+QString::number(nodeId));
     variable->setIsArray("false");
+    variable->setIsImported(false);
 
     setCoreObject(variable);
     setVariableObject(variable);
+
+    connect(this,&BP_VariableNode::updateDisplay,
+            [this](){this->m_floatSpinBox->setValue(variableObject()->value().toFloat());});
 }
 
 BP_FloatNode::~BP_FloatNode()

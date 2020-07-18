@@ -16,6 +16,7 @@
 #include "Core/bp_class.h"
 #include <QDebug>
 #include <QPainter>
+#include <bp_utils.h>
 #include <Graph/Slots/bp_dataslot.h>
 #include <Platform/bp_platformmanager.h>
 
@@ -42,6 +43,22 @@ QVariant BP_ClassInstanceNode::toVariantBP()
     }
     retMap["inputtParameters"] = inputParametersVariant;
     return retMap;
+
+}
+
+void BP_ClassInstanceNode::fromVariant(QVariant var)
+{
+    BP_VariableNode::fromVariant(var);
+    auto varMap = var.toMap();
+    //get the source class
+    auto sourceClassVar = varMap["sourceClass"].toMap();
+    auto coreObjects = BP_Utils::instance()->coreObjectsMap.values(sourceClassVar["coreObject"].toMap()["name"].toString());
+    //TODO compare the objects hierarchy when multiple objects are found
+    foreach (auto coreObject, coreObjects) {
+        qDebug()<<"class Object found " << coreObject->name() ;
+        setSourceClass(qobject_cast<BP_Class*>(coreObject));
+    }
+    //TODO test the laoding of  a class instance
 
 }
 

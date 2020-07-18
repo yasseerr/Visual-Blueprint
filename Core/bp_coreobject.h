@@ -19,9 +19,12 @@ class BP_CoreObject : public QObject
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QStringList importHiearchy READ importHiearchy WRITE setImportHiearchy NOTIFY importHiearchyChanged)
+    Q_PROPERTY(bool isImported READ isImported WRITE setIsImported NOTIFY isImportedChanged)
 
     QString m_name;
     QStringList m_importHiearchy;
+
+    bool m_isImported;
 
 public:
 
@@ -36,14 +39,19 @@ public:
     QString name() const;
     QStringList importHiearchy() const;
 
+    bool isImported() const;
+
 public slots:
     void setName(QString name);
     void setImportHiearchy(QStringList importHiearchy);
+
+    void setIsImported(bool isImported);
 
 signals:
 
 void nameChanged(QString name);
 void importHiearchyChanged(QStringList importHiearchy);
+void isImportedChanged(bool isImported);
 };
 
 #endif // BP_COREOBJECT_H

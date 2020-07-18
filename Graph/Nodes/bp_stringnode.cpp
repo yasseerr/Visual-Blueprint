@@ -41,9 +41,12 @@ BP_StringNode::BP_StringNode(QObject *parent):BP_VariableNode(),m_textEdit(new Q
     variable->setIsPrimitive(true);
     variable->setName("varstring_"+QString::number(nodeId));
     variable->setIsArray("false");
+    variable->setIsImported(false);
 
     setCoreObject(variable);
     setVariableObject(variable);
+    connect(this,&BP_VariableNode::updateDisplay,
+            [this](){this->m_textEdit->setText(variableObject()->value().toString());});
 }
 
 
