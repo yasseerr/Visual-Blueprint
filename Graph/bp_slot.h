@@ -57,6 +57,7 @@ public:
     explicit BP_Slot(BP_Node *parent = nullptr);
 
     static int slotCount;
+    static int numberOfLinksCreated;
     int slotID;
 
     virtual QPointF getAnchorPoint();

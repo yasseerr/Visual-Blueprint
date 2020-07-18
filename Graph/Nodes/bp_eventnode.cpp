@@ -63,7 +63,8 @@ void BP_EventNode::fromVariant(QVariant var)
 {
     BP_Node::fromVariant(var);
     auto varMap = var.toMap();
-    setEventName(varMap["eventName"].toString());
+    //only update the slots and the position
+    //setEventName(varMap["eventName"].toString());
     foreach (auto eventFlowKey, eventFlows.keys()) {
         eventFlows[eventFlowKey]->fromVariant(varMap["eventsFlows"].toMap()[eventFlowKey]);
     }

@@ -40,8 +40,8 @@ void BP_FlowSlot::fromVariant(QVariant var)
 {
     BP_Slot::fromVariant(var);
     auto varMap = var.toMap();
-    setFlowName(varMap["flowName"].toString());
-    setShowFlowName(varMap["showFlowName"].toBool());
+    //setFlowName(varMap["flowName"].toString());
+    //setShowFlowName(varMap["showFlowName"].toBool());
     //TODO study the nessecity of saving the branches
 }
 

@@ -49,6 +49,8 @@ QVariant BP_Node::toVariantBP()
     retMap["nodeId"] = nodeId;
     retMap["coreObject"] = m_coreObject?coreObject()->toVariantBP():false;
     retMap["numberOfReferenceCalls"] = m_numberOfReferenceCalls;
+    retMap["scenePosX"] = pos().x();
+    retMap["scenePosY"] = pos().y();
 
     return retMap ;
 }
@@ -73,6 +75,7 @@ void BP_Node::fromVariant(QVariant var)
         }
     }
     //TODO investigate the nessecity to load numverOfReferenceCalls
+    setPos(varMap["scenePosX"].toFloat(),varMap["scenePosY"].toFloat());
 }
 
 

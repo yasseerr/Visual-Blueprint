@@ -68,14 +68,17 @@ void BP_FunctionNode::fromVariant(QVariant var)
     nodeId = varMap["nodeId"].toInt();
     BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);
     //get the function object
+    //auto _instatance = BP_Utils::instance();
     auto funcitonObjects = BP_Utils::instance()->coreObjectsMap.values(varMap["functionObject"].toMap()["name"].toString());
     //TODO compare the objects hierarchy when multiple objects are found
     foreach (auto functionObject, funcitonObjects) {
         //ignore if this
         if(functionObject == this->functionObject()) continue;
         qDebug()<<"funciton Object found " << functionObject->name() ;
-        setFunctionObject(qobject_cast<BP_Function*>(functionObject));
-        setCoreObject(functionObject);
+        BP_Function* f =  qobject_cast<BP_Function*>(functionObject);
+        if(!f)continue;
+        setFunctionObject(f);
+        setCoreObject(f);
     }
     m_executionflowInSlot->fromVariant(varMap["flowIn"]);
     m_executionflowOutSlot->fromVariant(varMap["flowOut"]);
@@ -84,6 +87,7 @@ void BP_FunctionNode::fromVariant(QVariant var)
     for (int i = 0; i < m_inputParameters.size(); ++i) {
         m_inputParameters.at(i)->fromVariant(varMap["inputtParameters"].toList().at(i));
     }
+    setPos(varMap["scenePosX"].toFloat(),varMap["scenePosY"].toFloat());
 }
 
 void BP_FunctionNode::loadCurrentFunction()

@@ -58,9 +58,10 @@ void BP_GraphView::fromVariantBP(QVariant var)
     foreach (auto var, graphMap["nodes"].toList()) {
         auto nodeMap =var.toMap();
         BP_Node *node = BP_GraphUtils::getInstance()->createNode(nodeMap["type"].toString());
-        this->addNode(node,QPoint(10,10));
+        this->addNode(node,QPoint(0,0));
         node->fromVariant(nodeMap);
     }
+    entryNode()->fromVariant(graphMap["entryNode"]);
 
 }
 

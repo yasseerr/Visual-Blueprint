@@ -21,7 +21,7 @@
 #include <Platform/bp_platformmanager.h>
 
 //RegisterToolNodeType(BP_ClassInstanceNode,"Add Variable")
-
+RegisterNodeType(BP_ClassInstanceNode)
 BP_ClassInstanceNode::BP_ClassInstanceNode():BP_VariableNode(),m_sourceClass(nullptr),m_constructorId(0)
 {
     //the variable is created when the class is set
@@ -48,16 +48,17 @@ QVariant BP_ClassInstanceNode::toVariantBP()
 
 void BP_ClassInstanceNode::fromVariant(QVariant var)
 {
-    BP_VariableNode::fromVariant(var);
+    BP_Node::fromVariant(var);
     auto varMap = var.toMap();
     //get the source class
     auto sourceClassVar = varMap["sourceClass"].toMap();
-    auto coreObjects = BP_Utils::instance()->coreObjectsMap.values(sourceClassVar["coreObject"].toMap()["name"].toString());
+    auto coreObjects = BP_Utils::instance()->coreObjectsMap.values(sourceClassVar["name"].toString());
     //TODO compare the objects hierarchy when multiple objects are found
     foreach (auto coreObject, coreObjects) {
-        qDebug()<<"class Object found " << coreObject->name() ;
+        qDebug()<<"class Object found " << coreObject->name();
         setSourceClass(qobject_cast<BP_Class*>(coreObject));
     }
+    calculateBounds();
     //TODO test the laoding of  a class instance
 
 }
@@ -91,7 +92,8 @@ void BP_ClassInstanceNode::calculateBounds()
     outputSlot()->setShowName(true);
     outputSlot()->setTextColor(Qt::white);
     outputSlot()->setReturnName("Instance");
-    int outputWidth = 30 + QFontMetrics(QFont()).boundingRect("Instance").width();
+    //int outputWidth = 30 + QFontMetrics(QFont()).boundingRect("Instance").width();
+    int outputWidth = 30 + outputSlot()->boundingRect().width();
     maxWidth = maxWidth>outputWidth? maxWidth:outputWidth;
     maxHeight += 30;
 
@@ -162,6 +164,7 @@ void BP_ClassInstanceNode::setSourceClass(BP_Class *sourceClass)
     variable->setIsPrimitive(false);
     variable->setName("var_"+sourceClass->name()+"_"+QString::number(nodeId));
     variable->setIsArray("false");
+    variable->setIsImported(false);
 
     setCoreObject(variable);
     setVariableObject(variable);

@@ -35,7 +35,7 @@ QVariant BP_VariableNode::toVariantBP()
     QVariantMap retMap = BP_Node::toVariantBP().toMap();
     retMap["type"] = getNodeTypeString();
     retMap["variableObject"] =m_variableObject?variableObject()->toVariantBP():false;
-    retMap["variableValue"] = variableObject()->value();
+    retMap["variableValue"] = m_variableObject?variableObject()->value():false;
     retMap["outputSlot"] = m_outputSlot->toVariantBP();
     return retMap;
 }
@@ -47,7 +47,8 @@ void BP_VariableNode::fromVariant(QVariant var)
     if(coreObject() && coreObject()->isImported()){
         setVariableObject(qobject_cast<BP_Variable*>(coreObject()));
     }
-    if(!variableObject()->isImported()){
+    //Text that the variable exist for nodes like ClassInstance where it is nullptr
+    if(variableObject() && !variableObject()->isImported()){
         m_variableObject->setValue(varMap["variableValue"]);
         qDebug() << "about to include the new value of "<< m_variableObject->value();
         emit updateDisplay();

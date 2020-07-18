@@ -24,6 +24,7 @@
 #define DOUBLE_CLICK_INTERVAL 200
 
 int BP_Slot::slotCount = 0;
+int BP_Slot::numberOfLinksCreated = 0;
 
 BP_Slot::BP_Slot(BP_Node *parent) : QObject(parent),m_parentNode(parent),m_reference("unknown"),m_textColor(Qt::white)
 {
@@ -81,17 +82,22 @@ void BP_Slot::fromVariant(QVariant var)
     auto varMap = var.toMap();
     slotID = varMap["slotID"].toInt();
     BP_GraphUtils::getInstance()->registerSlotID(slotID,this);
-    setReference(varMap["reference"].toString());
-    setIsOutput(varMap["isOutput"].toBool());
+    //setReference(varMap["reference"].toString());
+    //setIsOutput(varMap["isOutput"].toBool());
     auto connectedLinksVariant = varMap["connectedLinks"].toList();
     foreach (auto linkVar, connectedLinksVariant) {
         //creating the link
         auto linkVarMap = linkVar.toMap();
         auto inSlot = BP_GraphUtils::getInstance()->getSlotByID(linkVarMap["inSlot"].toInt());
         auto outSlot = BP_GraphUtils::getInstance()->getSlotByID(linkVarMap["outSlot"].toInt());
-        if(!inSlot || !outSlot) continue;
+        if(!inSlot || !outSlot){
+            qDebug() << "one skipped connection";
+            continue;
+        }
         BP_Link *newLink = new BP_Link(this);
         //this->scene()->addItem(newLink);
+        BP_Slot::numberOfLinksCreated ++;
+        qDebug() << "number of links created" << BP_Slot::numberOfLinksCreated;
         inSlot->addLink(newLink);
         outSlot->addLink(newLink);
         newLink->setInSlot(inSlot);
