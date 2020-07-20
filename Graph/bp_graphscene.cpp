@@ -67,7 +67,9 @@ void BP_GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             m_removedLink->disconnectAllSlots();
             auto tmp  = m_removedLink;
             linkRemoved(m_removedLink);
-            tmp->deleteLater();
+            tmp->setVisible(false);
+            //this->removeItem(tmp);
+            //tmp->deleteLater();
         }
         else{
             //rearranging the link

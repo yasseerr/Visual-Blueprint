@@ -34,6 +34,7 @@ QVariant BP_ClassInstanceNode::toVariantBP()
     QVariantMap retMap = BP_Node::toVariantBP().toMap();
     retMap["type"] = getNodeTypeString();
     retMap["sourceClass"] = m_sourceClass->toVariantBP();
+    retMap["outputSlot"] = outputSlot()->toVariantBP();
 
     retMap["constructorId"] = m_constructorId;
 
@@ -58,6 +59,7 @@ void BP_ClassInstanceNode::fromVariant(QVariant var)
         qDebug()<<"class Object found " << coreObject->name();
         setSourceClass(qobject_cast<BP_Class*>(coreObject));
     }
+    outputSlot()->fromVariant(varMap["outputSlot"]);
     calculateBounds();
     //TODO test the laoding of  a class instance
 

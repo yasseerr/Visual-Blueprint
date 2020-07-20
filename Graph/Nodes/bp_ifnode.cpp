@@ -23,7 +23,7 @@
 #include <Platform/bp_platformmanager.h>
 
 
-RegisterToolNodeType(BP_IFNode,"Logic")
+RegisterToolNodeType(BP_IFNode,"Programing")
 
 BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_falseFlowSlot(new BP_FlowSlot()),
