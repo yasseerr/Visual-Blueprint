@@ -13,6 +13,8 @@
 #include <Graph/Slots/bp_flowslot.h>
 #include <Core/bp_parameter.h>
 #include <QPainter>
+#include <Graph/Links/bp_link.h>
+#include <Platform/bp_platformmanager.h>
 
 
 RegisterToolNodeType(BP_LoopNode,"Programing")
@@ -129,17 +131,18 @@ void BP_LoopNode::calculateBounds()
 
 QString BP_LoopNode::renderNode(BP_PlatformManager *platform)
 {
-    return "";
+    return platform->renderLoopStatement(this);
 }
 
 BP_Node *BP_LoopNode::nextNode()
 {
-    return nullptr;
+    if(m_flowOutSlot->connectedLinks().size()==0) return nullptr;
+    return m_flowOutSlot->connectedLinks().first()->outSlot()->parentNode();
 }
 
 QString BP_LoopNode::getNodeTypeString()
 {
-    return "";
+    return "loop";
 }
 
 BP_FlowSlot *BP_LoopNode::nextFlowSlot() const

@@ -45,6 +45,7 @@ public:
     QString renderBoolNode(BP_BoolNode *node) override;
     QString renderClassInstanceNode(BP_ClassInstanceNode *node) override;
     QString renderIFStatement(BP_IFNode *node) override;
+    QString renderLoopStatement(BP_LoopNode *node) override;
 
 
     //Operaions Tools

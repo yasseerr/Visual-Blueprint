@@ -27,6 +27,7 @@ class BP_FloatNode;
 class BP_ClassInstanceNode;
 class BP_Node;
 class BP_IFNode;
+class BP_LoopNode;
 class BP_BoolNode;
 
 class BP_AddNode;
@@ -61,6 +62,8 @@ public:
     virtual QString renderBoolNode(BP_BoolNode *node) = 0;
     virtual QString renderClassInstanceNode(BP_ClassInstanceNode *node) = 0;
     virtual QString renderIFStatement(BP_IFNode *node) = 0;
+    virtual QString renderLoopStatement(BP_LoopNode *node) = 0;
+
 
     //OperationTools Nodes
     //Note the implemetation of this funciton should be accompagnied with a map for operations

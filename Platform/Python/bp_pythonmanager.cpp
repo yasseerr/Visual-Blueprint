@@ -30,6 +30,7 @@
 #include <Graph/Nodes/bp_functionnode.h>
 #include <Graph/Nodes/bp_ifnode.h>
 #include <Graph/Nodes/bp_intnode.h>
+#include <Graph/Nodes/bp_loopnode.h>
 #include <Graph/Nodes/bp_stringnode.h>
 
 #include <Graph/Links/bp_link.h>
@@ -369,6 +370,36 @@ QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
     mapping.insert("false_block",falseBlock);
 
     // polish the results
+    Grantlee::Context c(mapping);
+    return projectTemplate->render(&c);
+}
+
+QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
+{
+    QList<BP_Slot*> loopInputList;
+    loopInputList << node->startValueSlot() << node->endValueSlot() << node->stepSlot();
+    QStringList loopInputsDeclaration;
+    QStringList loopInputReferences;
+
+    //rendering inputs
+    //TODO render the references
+    foreach (auto inputSlot, loopInputList) {
+        loopInputsDeclaration << inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+        loopInputReferences << inputSlot->connectedLinks().first()->inSlot()->reference();
+    }
+
+    auto loopBlockEntryNode = node->loopFlowSlot()->connectedLinks().first()->outSlot()->parentNode();
+    auto loopBlockCompilation = compileBlock(loopBlockEntryNode,nullptr);
+
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/LoopStatement.j2");
+    QVariantHash mapping ;
+    mapping.insert("loopInputsDeclaration",loopInputsDeclaration);
+    mapping.insert("counter_name","i_"+QString::number(node->nodeId));
+    mapping.insert("start",loopInputReferences[0]);
+    mapping.insert("end",loopInputReferences[1]);
+    mapping.insert("step",loopInputReferences[2]);
+    mapping.insert("loop_block",loopBlockCompilation);
+
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);
 }
