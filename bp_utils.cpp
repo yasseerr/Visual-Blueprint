@@ -29,6 +29,11 @@ void BP_Utils::log(QString text,QString reference,MessageType messageType)
     textEdit->append(displayText);
 }
 
+void BP_Utils::logPlainText(QString text)
+{
+    textEdit->insertPlainText(text);
+}
+
 BP_Utils *BP_Utils::instance()
 {
     if(!_instatce) _instatce = new BP_Utils();

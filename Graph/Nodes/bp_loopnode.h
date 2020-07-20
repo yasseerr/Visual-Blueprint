@@ -29,6 +29,7 @@ class BP_LoopNode : public BP_Node
     Q_PROPERTY(BP_DataSlot* startValueSlot READ startValueSlot WRITE setStartValueSlot NOTIFY startValueSlotChanged)
     Q_PROPERTY(BP_DataSlot* endValueSlot READ endValueSlot WRITE setEndValueSlot NOTIFY endValueSlotChanged)
     Q_PROPERTY(BP_DataSlot* stepSlot READ stepSlot WRITE setStepSlot NOTIFY stepSlotChanged)
+    Q_PROPERTY(BP_DataSlot* counterSlot READ counterSlot WRITE setCounterSlot NOTIFY counterSlotChanged)
 
     static int nodeTypeID;
     BP_FlowSlot* m_flowInSlot;
@@ -46,6 +47,9 @@ class BP_LoopNode : public BP_Node
     BP_Parameter *m_startParameter;
     BP_Parameter *m_endParameter;
     BP_Parameter *m_stepParameter;
+    BP_Parameter *m_counterParameter;
+
+    BP_DataSlot* m_counterSlot;
 
 public:
     Q_INVOKABLE BP_LoopNode();
@@ -77,6 +81,8 @@ public:
 
     BP_FlowSlot* loopFlowSlot() const;
 
+    BP_DataSlot* counterSlot() const;
+
 public slots:
     void setFlowInSlot(BP_FlowSlot* flowInSlot);
     void setFlowOutSlot(BP_FlowSlot* flowOutSlot);
@@ -89,6 +95,8 @@ public slots:
 
     void setLoopFlowSlot(BP_FlowSlot* loopFlowSlot);
 
+    void setCounterSlot(BP_DataSlot* counterSlot);
+
 signals:
     void flowInSlotChanged(BP_FlowSlot* flowInSlot);
     void flowOutSlotChanged(BP_FlowSlot* flowOutSlot);
@@ -96,6 +104,7 @@ signals:
     void endValueSlotChanged(BP_DataSlot* endValueSlot);
     void stepSlotChanged(BP_DataSlot* stepSlot);
     void loopFlowSlotChanged(BP_FlowSlot* loopFlowSlot);
+    void counterSlotChanged(BP_DataSlot* counterSlot);
 };
 
 #endif // BP_LOOPNODE_H

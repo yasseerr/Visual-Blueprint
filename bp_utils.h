@@ -31,6 +31,7 @@ public:
 
     static QTextEdit *textEdit;
     static void log(QString text,QString reference="",MessageType messageType=Info);
+    static void logPlainText(QString text);
     static BP_Utils* instance();
 
 public:

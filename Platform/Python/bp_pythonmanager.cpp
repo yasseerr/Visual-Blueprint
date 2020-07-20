@@ -231,7 +231,7 @@ void BP_PythonManager::runProject(BP_Project *project)
     m_managerProcess.start();
     m_managerProcess.waitForFinished();
     QByteArray executionOutput =  m_managerProcess.readAllStandardOutput();
-    if(executionOutput.size()>0)BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
+    if(executionOutput.size()>0)BP_Utils::logPlainText(executionOutput);//BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
     QByteArray errorData  = m_managerProcess.readAllStandardError();
     if(errorData.size()>0)BP_Utils::log(errorData,"PythonManager",BP_Utils::Error);
 }
@@ -394,7 +394,7 @@ QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/LoopStatement.j2");
     QVariantHash mapping ;
     mapping.insert("loopInputsDeclaration",loopInputsDeclaration);
-    mapping.insert("counter_name","i_"+QString::number(node->nodeId));
+    mapping.insert("counter_name",node->counterSlot()->reference());
     mapping.insert("start",loopInputReferences[0]);
     mapping.insert("end",loopInputReferences[1]);
     mapping.insert("step",loopInputReferences[2]);
