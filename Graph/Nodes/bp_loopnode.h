@@ -43,6 +43,10 @@ class BP_LoopNode : public BP_Node
 
     BP_FlowSlot* m_loopFlowSlot;
 
+    BP_Parameter *m_startParameter;
+    BP_Parameter *m_endParameter;
+    BP_Parameter *m_stepParameter;
+
 public:
     Q_INVOKABLE BP_LoopNode();
 
