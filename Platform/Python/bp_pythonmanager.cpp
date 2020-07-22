@@ -46,6 +46,7 @@ BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
     m_compilerPath = "F:/Program Files/WPy64-3720/python-3.7.2.amd64/python.exe";
     m_managerFile = "./Platform/Python/python_manager.py";
     m_managerProcess.setProgram(m_compilerPath);
+    m_runningProcess.setProgram(m_compilerPath);
 //    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardOutput,this,&BP_PythonManager::standardOutputReady);
 //    QObject::connect(&m_managerProcess,&QProcess::readyReadStandardError,this,&BP_PythonManager::errorOutputReady);
 
@@ -249,13 +250,33 @@ void BP_PythonManager::runProject(BP_Project *project)
 {
     compileProject(project);
     QString projectFilePath = "./Compilation/"+project->projectName()+".py";
-    m_managerProcess.setArguments(QStringList() << projectFilePath);
-    m_managerProcess.start();
-    m_managerProcess.waitForFinished();
-    QByteArray executionOutput =  m_managerProcess.readAllStandardOutput();
-    if(executionOutput.size()>0)BP_Utils::logPlainText(executionOutput);//BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
-    QByteArray errorData  = m_managerProcess.readAllStandardError();
-    if(errorData.size()>0)BP_Utils::log(errorData,"PythonManager",BP_Utils::Error);
+    m_runningProcess.setArguments(QStringList() << projectFilePath);
+    m_runningProcess.setProcessChannelMode(QProcess::MergedChannels);
+    //m_runningProcess.setReadChannelMode(QProcess::ProcessChannelMode::SeparateChannels);
+    connect(&m_runningProcess,&QProcess::readyReadStandardOutput,[this](){
+        //BP_Utils::logPlainText("recerinving signal");
+        QByteArray executionOutput =  m_runningProcess.readAllStandardOutput();
+        //TODO receive commands
+        if(executionOutput.size()>0)BP_Utils::logPlainText(executionOutput);
+    });
+    connect(&m_runningProcess,&QProcess::readyReadStandardError,[this](){
+        QByteArray errorData  = m_runningProcess.readAllStandardError();
+        if(errorData.size()>0)BP_Utils::log(errorData,"PythonManager",BP_Utils::Error);
+    });
+
+//    connect(&m_runningProcess,&QProcess::bytesWritten,[this](){
+//        BP_Utils::logPlainText("recerinving signal");
+//        QByteArray executionOutput =  m_runningProcess.r;
+//        //TODO receive commands
+//        if(executionOutput.size()>0)BP_Utils::logPlainText(executionOutput);
+//    });
+    m_runningProcess.start();
+    //m_runningProcess.waitForReadyRead();
+    //m_runningProcess.waitForFinished();
+    //QByteArray executionOutput =  m_runningProcess.readAllStandardOutput();
+    //if(executionOutput.size()>0)BP_Utils::logPlainText(executionOutput);//BP_Utils::log(executionOutput,"PythonManager",BP_Utils::Info);
+//    QByteArray errorData  = m_managerProcess.readAllStandardError();
+//    if(errorData.size()>0)BP_Utils::log(errorData,"PythonManager",BP_Utils::Error);
 }
 
 void BP_PythonManager::clearCompilationVariables(BP_Project *project)

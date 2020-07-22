@@ -9,7 +9,10 @@ import re
 
 PRIMITIVE_TYPES = [int, float ,bool ,str]
 LIST_TYPES = [list,tuple,set]
-
+DEFAULT_TYPE_MAP ={
+    "function":"function",
+    "builtin_function_or_method":"function"
+}
 
 NONE_CLASS_TYPES = PRIMITIVE_TYPES + LIST_TYPES
 
@@ -41,9 +44,11 @@ def inspect_entered_module():
     for m_member in module_members:
         #TODO preprocess Type to be Compatible with Cross Language Graph
         #TODO use isFunction is isClass instead of type(in addition to type)
+        member_concrete_type = type(m_member[1]).__name__;
+        published_member_type = DEFAULT_TYPE_MAP[member_concrete_type] if DEFAULT_TYPE_MAP.__contains__(member_concrete_type) else member_concrete_type
         m_memberItem = {
             "name": m_member[0],
-            "type": type(m_member[1]).__name__
+            "type": published_member_type
         }
         returnList.append(m_memberItem)
     inspectJson = json.dumps(returnList)

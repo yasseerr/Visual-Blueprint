@@ -31,6 +31,7 @@ void BP_Utils::log(QString text,QString reference,MessageType messageType)
 
 void BP_Utils::logPlainText(QString text)
 {
+    textEdit->moveCursor(QTextCursor::End);
     textEdit->insertPlainText(text);
 }
 

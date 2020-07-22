@@ -89,6 +89,7 @@ public:
     QString m_managerFile = "";
 
     QProcess m_managerProcess;
+    QProcess m_runningProcess;
     Grantlee::Engine *grantleeEngine;
 
 
