@@ -11,11 +11,25 @@
 
 #include <Graph/Slots/bp_flowslot.h>
 
+#include <Graph/Links/bp_link.h>
 
 
-BP_ThreadingTool::BP_ThreadingTool()
+
+BP_ThreadingTool::BP_ThreadingTool():BP_Node(),
+m_flowInSlot(new BP_FlowSlot(this)),
+m_flowOutSlot(new BP_FlowSlot(this))
 {
+    //the next node will be used later
+    m_flowOutSlot->setIsOutput(true);
+    m_flowOutSlot->setFlowName("out");
+    m_flowOutSlot->setShowFlowName(false);
+    m_flowOutSlot->setParentItem(this);
+    m_flowOutSlot->setParentNode(this);
 
+    m_flowInSlot->setIsOutput(false);
+    m_flowInSlot->setShowFlowName(false);
+    m_flowInSlot->setParentItem(this);
+    m_flowInSlot->setParentNode(this);
 }
 
 BP_FlowSlot *BP_ThreadingTool::flowInSlot() const
@@ -58,4 +72,10 @@ void BP_ThreadingTool::setSubThreadsSlots(QList<BP_FlowSlot *> subThreadsSlots)
 
     m_subThreadsSlots = subThreadsSlots;
     emit subThreadsSlotsChanged(m_subThreadsSlots);
+}
+
+BP_Node *BP_ThreadingTool::nextNode()
+{
+    if(m_flowOutSlot->connectedLinks().size()==0) return nullptr;
+    return m_flowOutSlot->connectedLinks().first()->outSlot()->parentNode();
 }

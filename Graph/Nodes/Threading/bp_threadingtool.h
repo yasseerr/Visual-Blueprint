@@ -25,6 +25,7 @@ class BP_ThreadingTool : public BP_Node
     Q_PROPERTY(BP_FlowSlot* flowOutSlot READ flowOutSlot WRITE setFlowOutSlot NOTIFY flowOutSlotChanged)
     Q_PROPERTY(QList<BP_FlowSlot*> subThreadsSlots READ subThreadsSlots WRITE setSubThreadsSlots NOTIFY subThreadsSlotsChanged)
 
+protected:
     BP_FlowSlot* m_flowInSlot;
 
     BP_FlowSlot* m_flowOutSlot;
@@ -48,6 +49,10 @@ signals:
     void flowInSlotChanged(BP_FlowSlot* flowInSlot);
     void flowOutSlotChanged(BP_FlowSlot* flowOutSlot);
     void subThreadsSlotsChanged(QList<BP_FlowSlot*> subThreadsSlots);
+
+    // BP_Node interface
+public:
+    virtual BP_Node *nextNode() override;
 };
 
 #endif // BP_THREADINGTOOL_H

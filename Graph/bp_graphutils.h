@@ -13,6 +13,8 @@
 #define RegisterNodeType(X) int X::nodeTypeID= BP_GraphUtils::getInstance()->addNodeType(X::staticMetaObject);
 #define RegisterToolNodeType(X,Category) int X::nodeTypeID = BP_GraphUtils::getInstance()->addNodeType(X::staticMetaObject,true,Category);
 
+#define TextHalfWidth(T) QFontMetrics(QFont()).boundingRect(T).width()/2
+
 #include <QColor>
 #include <QMap>
 #include <QObject>
