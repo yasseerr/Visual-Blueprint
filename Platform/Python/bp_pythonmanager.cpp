@@ -37,6 +37,8 @@
 
 #include <Graph/Slots/bp_flowslot.h>
 
+#include <Graph/Nodes/Threading/bp_createthreadsnode.h>
+
 BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
     m_language = "python";
@@ -190,6 +192,10 @@ void BP_PythonManager::compileProject(BP_Project *project)
         currentCompilationNode = currentCompilationNode->nextNode();
     }
     mapping.insert("mainCodeList",mainCodeList);
+
+    //adding the member functions
+    mapping.insert("member_functions",QStringList(memberFunctionsMap.values()));
+
     Grantlee::Context c(mapping);
 
     QString generatedCode = projectTemplate->render(&c);
@@ -221,6 +227,22 @@ QStringList BP_PythonManager::compileBlock(BP_Node *startNode, BP_Node *endNode)
         //if(currentCompilationNode==endNode)currentCompilationNode=nullptr;
     }
     return blockCodeList;
+}
+
+QString BP_PythonManager::appendMemberFunction(BP_Node *startNode, QString functionName)
+{
+    auto functionBlockRendered = compileBlock(startNode,nullptr);
+
+
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/MemberFunction.j2");
+    QVariantHash mapping ;
+    mapping.insert("function_name",functionName);
+    mapping.insert("function_block",functionBlockRendered);
+
+    Grantlee::Context c(mapping);
+    QString functionRendered =  projectTemplate->render(&c);
+    memberFunctionsMap.insert(functionName,functionRendered);
+    return functionRendered;
 }
 
 void BP_PythonManager::runProject(BP_Project *project)
@@ -402,6 +424,17 @@ QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
 
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);
+}
+
+QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
+{
+    QString threadFunctionName = "function_thread_slot_"+QString::number(node->subThreadsSlots().first()->slotID);
+    //TODO foreach slot run the thread and create the thread function
+    appendMemberFunction(node->subThreadsSlots().first()->connectedLinks().first()->outSlot()->parentNode(),
+                                          threadFunctionName);
+
+
+    return "thread";
 }
 
 QString BP_PythonManager::renderDefaultOperationTool(BP_OperationToolNode *node, QString operationName)

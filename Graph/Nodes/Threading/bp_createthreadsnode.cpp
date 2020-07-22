@@ -73,7 +73,7 @@ void BP_CreateThreadsNode::calculateBounds()
 QString BP_CreateThreadsNode::renderNode(BP_PlatformManager *platform)
 {
     CHECK_FIRST_REFERENCE
-    return "";
+    return platform->renderCreateThreadsNode(this);
 }
 
 QString BP_CreateThreadsNode::getNodeTypeString()

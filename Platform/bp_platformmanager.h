@@ -33,6 +33,8 @@ class BP_BoolNode;
 class BP_AddNode;
 class BP_OperationToolNode;
 
+class BP_CreateThreadsNode;
+
 class BP_PlatformManager : public QObject
 {
     Q_OBJECT
@@ -50,6 +52,7 @@ public:
 
     virtual void compileProject(BP_Project *project) = 0;
     virtual QStringList compileBlock(BP_Node *startNode,BP_Node *endNode) = 0;
+    virtual QString appendMemberFunction(BP_Node* startNode,QString functionName) = 0;
     virtual void runProject(BP_Project *project) = 0;
     virtual void clearCompilationVariables(BP_Project *project) = 0;
 
@@ -63,6 +66,9 @@ public:
     virtual QString renderClassInstanceNode(BP_ClassInstanceNode *node) = 0;
     virtual QString renderIFStatement(BP_IFNode *node) = 0;
     virtual QString renderLoopStatement(BP_LoopNode *node) = 0;
+
+    //threads
+    virtual QString renderCreateThreadsNode(BP_CreateThreadsNode *node) = 0;
 
 
     //OperationTools Nodes

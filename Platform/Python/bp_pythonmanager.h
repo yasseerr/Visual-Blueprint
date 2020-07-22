@@ -21,6 +21,7 @@ public:
     BP_PythonManager(QObject *parent =  nullptr);
 
     QMap<QString,QString> defaultOperationSymbols;
+    QMap<QString,QString> memberFunctionsMap;
 
 
     // BP_PlatformManager interface
@@ -34,6 +35,7 @@ public:
     virtual QVariantMap importClass(QStringList moduleHiearchy) override;
     virtual void compileProject(BP_Project *project) override;
     QStringList compileBlock(BP_Node *startNode, BP_Node *endNode) override;
+    QString appendMemberFunction(BP_Node *startNode, QString functionName) override;
     virtual void runProject(BP_Project *project) override;
     void clearCompilationVariables(BP_Project *project) override;
 
@@ -47,11 +49,14 @@ public:
     QString renderIFStatement(BP_IFNode *node) override;
     QString renderLoopStatement(BP_LoopNode *node) override;
 
+    //threads
+    QString renderCreateThreadsNode(BP_CreateThreadsNode *node) override;
 
     //Operaions Tools
     //helper function
     QString renderDefaultOperationTool(BP_OperationToolNode *node, QString operationName) override;
     //QString renderAdditionNode(BP_AddNode *node) override;
+
 
 public slots:
     virtual void standardOutputReady() override;

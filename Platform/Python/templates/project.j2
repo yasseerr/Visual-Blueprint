@@ -18,5 +18,6 @@ class {{project.projectName}}(object):
 		#loading the entrygraph code
 {%for code_ in mainCodeList %}{{ code_|indentString:"2" }}
 {%endfor%}
+{%for member_function in member_functions%}{{member_function|indentString:"1"}}{%endfor%}
 
 test = {{project.projectName}}()
