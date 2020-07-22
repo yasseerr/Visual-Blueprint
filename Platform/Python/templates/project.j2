@@ -1,3 +1,5 @@
+#importing default modules TODO test if the project need them first
+import threading
 #importing modules
 {%for module in project.importedModules %}{{ module.importHiearchy|renderImport:"module" }}
 {%endfor%}

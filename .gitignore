@@ -72,3 +72,4 @@ Thumbs.db
 *.exe
 
 .vscode/*
+Platform/Python/test.py

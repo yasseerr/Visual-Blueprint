@@ -434,7 +434,13 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
                                           threadFunctionName);
 
 
-    return "thread";
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/CreateThreads.j2");
+    QVariantHash mapping ;
+    mapping.insert("function_name",threadFunctionName);
+
+    Grantlee::Context c(mapping);
+    return  projectTemplate->render(&c);
+
 }
 
 QString BP_PythonManager::renderDefaultOperationTool(BP_OperationToolNode *node, QString operationName)
