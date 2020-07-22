@@ -1,5 +1,5 @@
 #starting the Loop statement
-#Loop input declarations{%for inputDeclaration in loopInputsDeclaration%}
+#Loop input declarations{%for inputDeclaration in  loopInputsDeclaration%}
 {{inputDeclaration}}{%endfor%}
 for {{counter_name}} in range({{start}},{{end}},{{step}}):
     {%for line in loop_block %}{{line|indentString:"1"}}{%endfor%}

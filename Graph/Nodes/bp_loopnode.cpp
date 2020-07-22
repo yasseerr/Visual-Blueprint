@@ -89,12 +89,33 @@ BP_LoopNode::BP_LoopNode():BP_Node(),
 
 QVariant BP_LoopNode::toVariantBP()
 {
-    return 1;
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+
+    retMap["flowInSlot"] = m_flowInSlot->toVariantBP();
+    retMap["flowOutSlot"] = m_flowOutSlot->toVariantBP();
+    retMap["loopFlowSlot"] = m_loopFlowSlot->toVariantBP();
+    retMap["counterSlot"] = m_counterSlot->toVariantBP();
+    retMap["startSlot"] = m_startValueSlot->toVariantBP();
+    retMap["endSlot"] = m_endValueSlot->toVariantBP();
+    retMap["stepSlot"] = m_stepSlot->toVariantBP();
+
+
+    return retMap;
 }
 
 void BP_LoopNode::fromVariant(QVariant var)
 {
+    BP_Node::fromVariant(var);
+    auto varMap  = var.toMap();
 
+    m_flowInSlot->fromVariant(varMap["flowInSlot"]);
+    m_flowOutSlot->fromVariant(varMap["flowOutSlot"]);
+    m_loopFlowSlot->fromVariant(varMap["loopFlowSlot"]);
+    m_counterSlot->fromVariant(varMap["counterSlot"]);
+    m_startValueSlot->fromVariant(varMap["startSlot"]);
+    m_endValueSlot->fromVariant(varMap["endSlot"]);
+    m_stepSlot->fromVariant(varMap["stepSlot"]);
 }
 
 void BP_LoopNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
