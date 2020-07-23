@@ -34,8 +34,8 @@ public:
     virtual QString renderNode(BP_PlatformManager *platform) override;
     virtual QString getNodeTypeString() override;
 
-    virtual QVariant toVariantBP() override;
-    virtual void fromVariant(QVariant var) override;
+//    virtual QVariant toVariantBP() override;
+//    virtual void fromVariant(QVariant var) override;
 };
 
 #endif // BP_CREATETHREADSNODE_H

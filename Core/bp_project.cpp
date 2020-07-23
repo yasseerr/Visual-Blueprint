@@ -153,14 +153,14 @@ QVariant BP_Project::toVariantBP()
 
 void BP_Project::saveProject()
 {
-//    QString fileName = QFileDialog::getSaveFileName(nullptr,"saving the project",QString(),"*.vbl");
-//    if(fileName == ""){
-//        BP_Utils::log("no valid file was selected");
-//        return;
-//    }
+    QString fileName = QFileDialog::getSaveFileName(nullptr,"saving the project",QString(),"*.vbl");
+    if(fileName == ""){
+        BP_Utils::log("no valid file was selected");
+        return;
+    }
     //qDebug() << "saving project in file : " << fileName;
     QJsonDocument doc = QJsonDocument::fromVariant(this->toVariantBP());
-    QFile destinationFile("C:/Users/HP/Desktop/newFile.vbl");
+    QFile destinationFile(fileName);//"C:/Users/HP/Desktop/newFile.vbl");
     destinationFile.open(QIODevice::WriteOnly|QIODevice::Text);
     QTextStream ds(&destinationFile);
     ds << doc.toJson();

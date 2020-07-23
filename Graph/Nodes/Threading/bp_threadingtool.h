@@ -53,6 +53,8 @@ signals:
     // BP_Node interface
 public:
     virtual BP_Node *nextNode() override;
+    void fromVariant(QVariant var) override;
+    QVariant toVariantBP() override;
 };
 
 #endif // BP_THREADINGTOOL_H

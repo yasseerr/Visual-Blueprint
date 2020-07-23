@@ -81,12 +81,3 @@ QString BP_CreateThreadsNode::getNodeTypeString()
     return "Create Thread";
 }
 
-QVariant BP_CreateThreadsNode::toVariantBP()
-{
-    return 1;
-}
-
-void BP_CreateThreadsNode::fromVariant(QVariant var)
-{
-
-}

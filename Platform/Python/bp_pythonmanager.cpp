@@ -250,7 +250,7 @@ void BP_PythonManager::runProject(BP_Project *project)
 {
     compileProject(project);
     QString projectFilePath = "./Compilation/"+project->projectName()+".py";
-    m_runningProcess.setArguments(QStringList() << projectFilePath);
+    m_runningProcess.setArguments(QStringList() << "-u" << projectFilePath);
     m_runningProcess.setProcessChannelMode(QProcess::MergedChannels);
     //m_runningProcess.setReadChannelMode(QProcess::ProcessChannelMode::SeparateChannels);
     connect(&m_runningProcess,&QProcess::readyReadStandardOutput,[this](){

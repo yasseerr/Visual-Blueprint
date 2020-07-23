@@ -170,11 +170,11 @@ void MainWindow::on_actionSave_As_triggered()
 
 void MainWindow::on_action_Open_File_triggered()
 {
-    //QString fileName = QFileDialog::getOpenFileName(this,"Open Existing Project","","*.vbl");
-//    if(fileName==""){
-//        BP_Utils::log("no valid file for VisualBlueprint project");
-//    }
-    QFile destinationFile("C:/Users/HP/Desktop/newFile.vbl");
+    QString fileName = QFileDialog::getOpenFileName(this,"Open Existing Project","","*.vbl");
+    if(fileName==""){
+        BP_Utils::log("no valid file for VisualBlueprint project");
+    }
+    QFile destinationFile(fileName);//"C:/Users/HP/Desktop/newFile.vbl");
     //QFile destinationFile(fileName);
     destinationFile.open(QIODevice::ReadOnly|QIODevice::Text);
     //QTextStream ts(&destinationFile);

@@ -79,3 +79,34 @@ BP_Node *BP_ThreadingTool::nextNode()
     if(m_flowOutSlot->connectedLinks().size()==0) return nullptr;
     return m_flowOutSlot->connectedLinks().first()->outSlot()->parentNode();
 }
+
+
+void BP_ThreadingTool::fromVariant(QVariant var)
+{
+    BP_Node::fromVariant(var);
+    auto varMap = var.toMap();
+    
+    m_flowInSlot->fromVariant(varMap["flowInSlot"]);
+    m_flowOutSlot->fromVariant(varMap["flowOutSlot"]);
+    auto subThreadsVariantList = varMap["subThreadsSlots"].toList();
+    for (int i = 0; i < m_subThreadsSlots.size(); ++i) {
+        m_subThreadsSlots[i]->fromVariant(subThreadsVariantList[i]);
+    }
+
+}
+
+QVariant BP_ThreadingTool::toVariantBP()
+{
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+
+    retMap["flowInSlot"] = m_flowInSlot->toVariantBP();
+    retMap["flowOutSlot"] = m_flowOutSlot->toVariantBP();
+    QVariantList subThreadsVar;
+    foreach (auto threadSlot, m_subThreadsSlots) {
+        subThreadsVar << threadSlot->toVariantBP();
+    }
+    retMap["subThreadsSlots"] = subThreadsVar;
+
+    return retMap;
+}
