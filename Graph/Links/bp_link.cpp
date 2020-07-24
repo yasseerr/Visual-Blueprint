@@ -71,6 +71,17 @@ BP_Slot *BP_Link::getTheOneConnectedSlot()
 
 }
 
+void BP_Link::drawCubicCurve(QPainter *painter, QPointF c1, QPointF c2,QPointF startPoint, QPointF endPoint)
+{
+    painter->save();
+    painter->translate(startPoint);
+    QPainterPath curvePath;
+    curvePath.cubicTo(QPointF(50,0),endPoint-startPoint+QPointF(-50,0),endPoint-startPoint);
+    painter->drawPath(curvePath);
+
+    painter->restore();
+}
+
 QRectF BP_Link::boundingRect() const
 {
     if(m_outSlot == nullptr && m_inSlot != nullptr)
@@ -85,11 +96,14 @@ void BP_Link::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 {
     painter->setPen(Qt::black);
     if(m_outSlot == nullptr && m_inSlot != nullptr)
-        painter->drawLine(m_inSlot->getAnchorPoint(),m_tempOutputPoint);
+        drawCubicCurve(painter,QPointF(),QPointF(),m_inSlot->getAnchorPoint(),m_tempOutputPoint);
+        //painter->drawLine(m_inSlot->getAnchorPoint(),m_tempOutputPoint);
     else if(m_inSlot == nullptr && m_outSlot != nullptr)
-        painter->drawLine(m_outSlot->getAnchorPoint(),m_tempOutputPoint);
+        drawCubicCurve(painter,QPointF(),QPointF(),m_tempOutputPoint,m_outSlot->getAnchorPoint());
+        //painter->drawLine(m_outSlot->getAnchorPoint(),m_tempOutputPoint);
     else if(m_outSlot != nullptr && m_inSlot != nullptr)
-        painter->drawLine(m_inSlot->getAnchorPoint(),m_outSlot->getAnchorPoint());
+        drawCubicCurve(painter,QPointF(),QPointF(),m_inSlot->getAnchorPoint(),m_outSlot->getAnchorPoint());
+        //painter->drawLine(m_inSlot->getAnchorPoint(),m_outSlot->getAnchorPoint());
 }
 
 BP_Slot *BP_Link::inSlot() const

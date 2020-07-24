@@ -43,6 +43,8 @@ public:
     void disconnectAllSlots();
     BP_Slot* getTheOneConnectedSlot();
 
+    void drawCubicCurve(QPainter *painter,QPointF c1,QPointF c2,QPointF startPoint ,QPointF endPoint);
+
     // QGraphicsItem interface
 public:
     virtual QRectF boundingRect() const override;
