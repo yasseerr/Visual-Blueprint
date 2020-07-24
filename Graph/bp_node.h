@@ -29,6 +29,7 @@ class BP_Node :public QObject, public QGraphicsItem
     Q_PROPERTY(BP_CoreObject* coreObject READ coreObject WRITE setCoreObject NOTIFY coreObjectChanged)
     Q_PROPERTY(BP_GraphView* connectedGraph READ connectedGraph WRITE setConnectedGraph NOTIFY connectedGraphChanged)
     Q_PROPERTY(int numberOfReferenceCalls READ numberOfReferenceCalls WRITE setNumberOfReferenceCalls NOTIFY numberOfReferenceCallsChanged)
+    Q_PROPERTY(bool noFlowNode READ noFlowNode WRITE setNoFlowNode NOTIFY noFlowNodeChanged)
 
     BP_CoreObject* m_coreObject;
     BP_GraphView* m_connectedGraph;
@@ -38,6 +39,8 @@ class BP_Node :public QObject, public QGraphicsItem
     //to not render the reference multiple times
     int m_numberOfReferenceCalls = 0;
     
+
+    bool m_noFlowNode;
 
 public :
     //painter members
@@ -72,12 +75,23 @@ public slots:
 
     void setNumberOfReferenceCalls(int numberOfReferenceCalls);
 
+    void setNoFlowNode(bool noFlowNode)
+    {
+        if (m_noFlowNode == noFlowNode)
+            return;
+
+        m_noFlowNode = noFlowNode;
+        emit noFlowNodeChanged(m_noFlowNode);
+    }
+
 signals:
     void coreObjectChanged(BP_CoreObject* coreObject);
     void connectedGraphChanged(BP_GraphView* connectedGraph);
 
     // QGraphicsItem interface
     void numberOfReferenceCallsChanged(int numberOfReferenceCalls);
+
+    void noFlowNodeChanged(bool noFlowNode);
 
 public:
     virtual QRectF boundingRect() const override;
@@ -92,6 +106,10 @@ public:
     virtual void mapInputFlowToOutput();
 
     int numberOfReferenceCalls() const;
+    bool noFlowNode() const
+    {
+        return m_noFlowNode;
+    }
 };
 
 #endif // BP_NODE_H
