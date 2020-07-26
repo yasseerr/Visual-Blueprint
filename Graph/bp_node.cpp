@@ -27,7 +27,12 @@ RegisterNodeType(BP_Node)
 int BP_Node::nodeCount = 0;
 int BP_Node::nodeTypesCount = 0;
 
-BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50),m_noFlowNode(true)
+BP_Node::BP_Node(QObject *parent):QObject(parent)
+  ,QGraphicsItem()
+  ,m_coreObject(nullptr)
+  ,m_bounds(0,0,100,50)
+  ,m_noFlowNode(true)
+  ,m_clotureNode(nullptr)
 {
     nodeId = nodeCount;
     BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);

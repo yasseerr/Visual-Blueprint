@@ -128,6 +128,7 @@ QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
     //get the parents
     QSet<BP_Node*> splitNodes;
     foreach (auto frameBranch, m_frameBranches) {
+        if(frameBranch->splitNode()->subBranches().size()<2)continue;
         splitNodes << frameBranch->splitNode();
     }
     //see if all the parents subbranches are present
@@ -147,6 +148,7 @@ QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
                 branchesToBeFiltered.removeOne(branch);
             }
             branchesToBeFiltered << splitNode->originalBranches();
+            splitNode->setClotureNode(this->parentNode());
         }
     }
 

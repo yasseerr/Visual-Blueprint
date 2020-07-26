@@ -8,6 +8,7 @@
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
 #include "bp_createthreadsnode.h"
+#include <Graph/bp_framebranch.h>
 #include <Graph/bp_graphutils.h>
 #include <Graph/Slots/bp_dataslot.h>
 #include <Graph/Slots/bp_flowslot.h>
@@ -29,6 +30,12 @@ BP_CreateThreadsNode::BP_CreateThreadsNode()
     newThread1Slot->setParentNode(this);
 
     m_subThreadsSlots << newThread1Slot;
+
+    BP_FrameBranch *newThreadBranch = new BP_FrameBranch(newThread1Slot);
+    newThreadBranch->setSplitNode(this);
+    m_subBranches << newThreadBranch;
+    newThread1Slot->m_frameBranches << newThreadBranch;
+
 
     calculateBounds();
 }

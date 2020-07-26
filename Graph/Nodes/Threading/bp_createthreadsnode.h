@@ -32,7 +32,7 @@ public:
 public:
     virtual void calculateBounds() override;
     virtual QString renderNode(BP_PlatformManager *platform) override;
-    virtual QString getNodeTypeString() override;
+    virtual QString getNodeTypeString() override;    
 
 //    virtual QVariant toVariantBP() override;
 //    virtual void fromVariant(QVariant var) override;

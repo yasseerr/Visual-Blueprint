@@ -81,6 +81,18 @@ BP_Node *BP_ThreadingTool::nextNode()
     return m_flowOutSlot->connectedLinks().first()->outSlot()->parentNode();
 }
 
+void BP_ThreadingTool::updateSlotsBranches(BP_Slot *slot){
+
+    if(!slot || slot == m_flowInSlot){
+        auto joinedList = m_flowInSlot->getJoinedBranches();
+        m_flowOutSlot->setFrameBranches(joinedList);
+        setOriginalBranches(joinedList);
+        m_flowOutSlot->notifyConnectedNodes();
+        if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
+    }
+
+}
+
 
 void BP_ThreadingTool::fromVariant(QVariant var)
 {

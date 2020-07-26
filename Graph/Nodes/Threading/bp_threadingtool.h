@@ -52,6 +52,7 @@ signals:
 
     // BP_Node interface
 public:
+    void updateSlotsBranches(BP_Slot *slot) override;
     virtual BP_Node *nextNode() override;
     void fromVariant(QVariant var) override;
     QVariant toVariantBP() override;

@@ -16,6 +16,7 @@
 class BP_FlowSlot;
 class BP_DataSlot;
 class BP_Parameter;
+class BP_FrameBranch;
 
 class BP_IFNode : public BP_LogicalNode
 {
@@ -85,6 +86,7 @@ public:
     virtual void calculateBounds() override;
     virtual QString renderNode(BP_PlatformManager *platform) override;
     virtual BP_Node *nextNode() override;
+    virtual void updateSlotsBranches(BP_Slot *slot) override;
 
     virtual QString getNodeTypeString() override;
     BP_FlowSlot* nextFlowSlot() const;

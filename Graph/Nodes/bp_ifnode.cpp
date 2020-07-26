@@ -9,6 +9,7 @@
  ***************************************************************************/
 #include "bp_ifnode.h"
 
+#include <Graph/bp_framebranch.h>
 #include <Graph/bp_graphutils.h>
 
 #include <Graph/Slots/bp_dataslot.h>
@@ -33,17 +34,26 @@ BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_booleanSlot(new BP_DataSlot()),
     m_booleanParameter(new BP_Parameter())
 {
+    setNoFlowNode(false);
     m_trueFlowSlot->setIsOutput(true);
     m_trueFlowSlot->setFlowName("true");
     m_trueFlowSlot->setShowFlowName(true);
     m_trueFlowSlot->setParentItem(this);
     m_trueFlowSlot->setParentNode(this);
+    BP_FrameBranch *trueFrameBranch = new BP_FrameBranch(m_trueFlowSlot);
+    m_subBranches << trueFrameBranch;
+    trueFrameBranch->setSplitNode(this);
+    m_trueFlowSlot->m_frameBranches << trueFrameBranch;
 
     m_falseFlowSlot->setIsOutput(true);
     m_falseFlowSlot->setFlowName("false");
     m_falseFlowSlot->setShowFlowName(true);
     m_falseFlowSlot->setParentItem(this);
     m_falseFlowSlot->setParentNode(this);
+    BP_FrameBranch *falseFrameBranch = new BP_FrameBranch(m_falseFlowSlot);
+    m_subBranches << falseFrameBranch;
+    falseFrameBranch->setSplitNode(this);
+    m_falseFlowSlot->m_frameBranches << falseFrameBranch;
 
     //the next node will be used later
     m_nextFlowSlot->setIsOutput(true);
@@ -65,6 +75,7 @@ BP_IFNode::BP_IFNode():BP_LogicalNode(),
     m_booleanSlot->setIsOutput(false);
     m_booleanSlot->setParentItem(this);
     this->calculateBounds();
+
 
 }
 
@@ -207,6 +218,16 @@ BP_Node *BP_IFNode::nextNode()
 //    if(m_nextFlowSlot->connectedLinks().size()==0) return nullptr;
 //    return m_nextFlowSlot->connectedLinks().first()->outSlot()->parentNode();
     return BP_GraphUtils::getInstance()->getEndOfBranchForNode(this);
+}
+
+void BP_IFNode::updateSlotsBranches(BP_Slot *slot)
+{
+    if(slot == m_flowInSlot){
+        m_originalBranches.clear();
+        m_originalBranches << m_flowInSlot->getJoinedBranches();
+        //TODO update the cloture node
+        if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
+    }
 }
 
 QString BP_IFNode::getNodeTypeString()
