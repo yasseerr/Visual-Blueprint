@@ -21,6 +21,7 @@
 class BP_GraphView;
 class BP_CoreObject;
 class BP_PlatformManager;
+class BP_FrameBranch;
 
 class BP_Node :public QObject, public QGraphicsItem
 {
@@ -30,7 +31,10 @@ class BP_Node :public QObject, public QGraphicsItem
     Q_PROPERTY(BP_GraphView* connectedGraph READ connectedGraph WRITE setConnectedGraph NOTIFY connectedGraphChanged)
     Q_PROPERTY(int numberOfReferenceCalls READ numberOfReferenceCalls WRITE setNumberOfReferenceCalls NOTIFY numberOfReferenceCallsChanged)
     Q_PROPERTY(bool noFlowNode READ noFlowNode WRITE setNoFlowNode NOTIFY noFlowNodeChanged)
+    Q_PROPERTY(QList<BP_FrameBranch*> originalBranches READ originalBranches WRITE setOriginalBranches NOTIFY originalBranchesChanged)
+    Q_PROPERTY(QList<BP_FrameBranch*> subBranches READ subBranches WRITE setSubBranches NOTIFY subBranchesChanged)
 
+protected:
     BP_CoreObject* m_coreObject;
     BP_GraphView* m_connectedGraph;
 
@@ -41,6 +45,10 @@ class BP_Node :public QObject, public QGraphicsItem
     
 
     bool m_noFlowNode;
+
+    QList<BP_FrameBranch*> m_originalBranches;
+
+    QList<BP_FrameBranch*> m_subBranches;
 
 public :
     //painter members
@@ -61,10 +69,13 @@ public:
     virtual QVariant toVariantBP();
     virtual void fromVariant(QVariant var);
 
+    virtual void updateSlotsBranches(BP_Slot* slot);
+
     static QList<QMetaObject>* initializeNodesTypes();
     //static int setupNodeType(QString name,BP_Node* (*func)());
     static int setupNodeType(QMetaObject metaObj);
     static BP_Node* Create();
+
 
     BP_CoreObject* coreObject() const;
     BP_GraphView* connectedGraph() const;
@@ -75,14 +86,11 @@ public slots:
 
     void setNumberOfReferenceCalls(int numberOfReferenceCalls);
 
-    void setNoFlowNode(bool noFlowNode)
-    {
-        if (m_noFlowNode == noFlowNode)
-            return;
+    void setNoFlowNode(bool noFlowNode);
 
-        m_noFlowNode = noFlowNode;
-        emit noFlowNodeChanged(m_noFlowNode);
-    }
+    void setOriginalBranches(QList<BP_FrameBranch*> originalBranches);
+
+    void setSubBranches(QList<BP_FrameBranch*> subBranches);
 
 signals:
     void coreObjectChanged(BP_CoreObject* coreObject);
@@ -92,6 +100,10 @@ signals:
     void numberOfReferenceCallsChanged(int numberOfReferenceCalls);
 
     void noFlowNodeChanged(bool noFlowNode);
+
+    void originalBranchesChanged(QList<BP_FrameBranch*> originalBranches);
+
+    void subBranchesChanged(QList<BP_FrameBranch*> subBranches);
 
 public:
     virtual QRectF boundingRect() const override;
@@ -106,10 +118,9 @@ public:
     virtual void mapInputFlowToOutput();
 
     int numberOfReferenceCalls() const;
-    bool noFlowNode() const
-    {
-        return m_noFlowNode;
-    }
+    bool noFlowNode() const;
+    QList<BP_FrameBranch*> originalBranches() const;
+    QList<BP_FrameBranch*> subBranches() const;
 };
 
 #endif // BP_NODE_H

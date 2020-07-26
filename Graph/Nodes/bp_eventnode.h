@@ -26,6 +26,7 @@ class BP_EventNode : public BP_Node
 
 
     QMap<QString, BP_FlowSlot *> eventFlows;
+    QMap<BP_FlowSlot*,BP_FrameBranch*> slotsBranches;
 
 public:
     Q_INVOKABLE BP_EventNode();

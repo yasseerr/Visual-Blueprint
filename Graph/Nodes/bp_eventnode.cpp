@@ -17,9 +17,11 @@
 
 #include <Platform/bp_platformmanager.h>
 
+#include <Graph/bp_framebranch.h>
+
 BP_EventNode::BP_EventNode():BP_Node()
 {
-
+    setNoFlowNode(false);
 }
 
 void BP_EventNode::addEventFlow(BP_FlowSlot *flow)
@@ -36,12 +38,19 @@ BP_FlowSlot *BP_EventNode::getEventFlow(QString flowName)
 BP_FlowSlot* BP_EventNode::createFlow(QString flowName)
 {
     BP_FlowSlot *flowSlot = new BP_FlowSlot(this);
+    BP_FrameBranch *newFlowBranch = new BP_FrameBranch(flowSlot) ;
+    m_subBranches << newFlowBranch;
+    flowSlot->setFrameBranches(QList<BP_FrameBranch*>() << newFlowBranch);
+
+    slotsBranches.insert(flowSlot,newFlowBranch);
+
     flowSlot->setIsOutput(true);
     flowSlot->setShowFlowName(true);
     flowSlot->setFlowName(flowName);
     flowSlot->setParentNode(this);
     eventFlows.insert(flowName,flowSlot);
     calculateBounds();
+
     return flowSlot;
 }
 

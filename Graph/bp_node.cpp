@@ -27,7 +27,7 @@ RegisterNodeType(BP_Node)
 int BP_Node::nodeCount = 0;
 int BP_Node::nodeTypesCount = 0;
 
-BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50)
+BP_Node::BP_Node(QObject *parent):QObject(parent),QGraphicsItem(),m_coreObject(nullptr),m_bounds(0,0,100,50),m_noFlowNode(true)
 {
     nodeId = nodeCount;
     BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);
@@ -78,6 +78,11 @@ void BP_Node::fromVariant(QVariant var)
     setPos(varMap["scenePosX"].toFloat(),varMap["scenePosY"].toFloat());
 }
 
+void BP_Node::updateSlotsBranches(BP_Node *node)
+{
+    //to be reimplemented
+}
+
 
 BP_Node *BP_Node::Create()
 {
@@ -120,6 +125,33 @@ void BP_Node::setNumberOfReferenceCalls(int numberOfReferenceCalls)
 
     m_numberOfReferenceCalls = numberOfReferenceCalls;
     emit numberOfReferenceCallsChanged(m_numberOfReferenceCalls);
+}
+
+void BP_Node::setNoFlowNode(bool noFlowNode)
+{
+    if (m_noFlowNode == noFlowNode)
+        return;
+
+    m_noFlowNode = noFlowNode;
+    emit noFlowNodeChanged(m_noFlowNode);
+}
+
+void BP_Node::setOriginalBranches(QList<BP_FrameBranch *> originalBranches)
+{
+    if (m_originalBranches == originalBranches)
+        return;
+
+    m_originalBranches = originalBranches;
+    emit originalBranchesChanged(m_originalBranches);
+}
+
+void BP_Node::setSubBranches(QList<BP_FrameBranch *> subBranches)
+{
+    if (m_subBranches == subBranches)
+        return;
+
+    m_subBranches = subBranches;
+    emit subBranchesChanged(m_subBranches);
 }
 
 QRectF BP_Node::boundingRect() const
@@ -183,5 +215,20 @@ void BP_Node::mapInputFlowToOutput()
 int BP_Node::numberOfReferenceCalls() const
 {
     return m_numberOfReferenceCalls;
+}
+
+bool BP_Node::noFlowNode() const
+{
+    return m_noFlowNode;
+}
+
+QList<BP_FrameBranch *> BP_Node::originalBranches() const
+{
+    return m_originalBranches;
+}
+
+QList<BP_FrameBranch *> BP_Node::subBranches() const
+{
+    return m_subBranches;
 }
 

@@ -7,6 +7,7 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_framebranch.h"
 #include "bp_graphutils.h"
 #include "bp_graphview.h"
 #include "bp_node.h"
@@ -120,6 +121,53 @@ void BP_Slot::mouseClicked()
     temporaryLink->setTempOutputPoint(scenePoseBackup);
 }
 
+QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
+{
+    QList<BP_FrameBranch*> branchesToBeFiltered(m_frameBranches);
+
+    //get the parents
+    QSet<BP_Node*> splitNodes;
+    foreach (auto frameBranch, m_frameBranches) {
+        splitNodes << frameBranch->splitNode();
+    }
+    //see if all the parents subbranches are present
+    QList<BP_FrameBranch*> newBranchesList;
+    foreach (auto splitNode, splitNodes) {
+        bool splitNodeJoined = true;
+        foreach (auto splitNodeSubBranch, splitNode->subBranches()) {
+            if(!frameBranches().contains(splitNodeSubBranch)){
+                splitNodeJoined = false;
+                break;
+            }
+        }
+        //test if the split node was joined
+        if(splitNodeJoined){
+            qDebug() << "branch was joined from node " << splitNode->nodeId;
+            foreach (auto branch, splitNode->subBranches()) {
+                branchesToBeFiltered.removeOne(branch);
+            }
+            branchesToBeFiltered << splitNode->originalBranches();
+        }
+    }
+
+    //replace the subBranches by the original branch
+    // create the subBranchesList for node
+    // create the originalBranches for node
+    return QList<BP_FrameBranch*>(branchesToBeFiltered);
+}
+
+void BP_Slot::notifyConnectedNodes()
+{
+    foreach (auto link, m_connectedLinks) {
+        if(this->isOutput()){
+            link->outSlot()->parentNode()->updateSlotsBranches(link->outSlot());
+        }
+        else{
+            link->inSlot()->parentNode()->updateSlotsBranches(link->inSlot());
+        }
+    }
+}
+
 
 QRectF BP_Slot::boundingRect() const
 {
@@ -156,6 +204,11 @@ QColor BP_Slot::textColor() const
 bool BP_Slot::isOutput() const
 {
     return m_isOutput;
+}
+
+QList<BP_FrameBranch *> BP_Slot::frameBranches() const
+{
+    return m_frameBranches;
 }
 
 void BP_Slot::setParentNode(BP_Node *parentNode)
@@ -207,6 +260,15 @@ void BP_Slot::setIsOutput(bool isOutput)
 
     m_isOutput = isOutput;
     emit isOutputChanged(m_isOutput);
+}
+
+void BP_Slot::setFrameBranches(QList<BP_FrameBranch *> frameBranches)
+{
+    if (m_frameBranches == frameBranches)
+        return;
+
+    m_frameBranches = frameBranches;
+    emit frameBranchesChanged(m_frameBranches);
 }
 
 void BP_Slot::mousePressEvent(QGraphicsSceneMouseEvent *event)

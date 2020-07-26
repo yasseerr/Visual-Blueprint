@@ -14,6 +14,7 @@
 #include <QVariantMap>
 #include <qpainter.h>
 
+#include <Graph/bp_framebranch.h>
 #include <Graph/bp_node.h>
 
 BP_FlowSlot::BP_FlowSlot(BP_Node *parent):BP_Slot(parent),m_showFlowName(false)
@@ -55,11 +56,13 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
     //import the branches/threads and other info from the source
     //TODO test if it is the input or the output
     if(this->isOutput()){
-        flowSlot->m_branches.append(this->branches());
+        //flowSlot->m_branches.append(this->branches());
+        flowSlot->m_frameBranches.append(this->m_frameBranches);
         flowSlot->parentNode()->mapInputFlowToOutput();
         qDebug() << "new branches list for " << flowSlot->flowName() << " " << flowSlot->branches();
     }else{
         m_branches.append(flowSlot->branches());
+        m_frameBranches.append(flowSlot->m_frameBranches);
         this->parentNode()->mapInputFlowToOutput();
         qDebug() << "new branches list for " << this->flowName() << " " << this->branches();
     }
@@ -74,6 +77,7 @@ void BP_FlowSlot::addBranch(int branch)
 {
     m_branches.append(branch);
 }
+
 
 void BP_FlowSlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

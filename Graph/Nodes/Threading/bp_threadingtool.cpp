@@ -19,6 +19,7 @@ BP_ThreadingTool::BP_ThreadingTool():BP_Node(),
 m_flowInSlot(new BP_FlowSlot(this)),
 m_flowOutSlot(new BP_FlowSlot(this))
 {
+    setNoFlowNode(false);
     //the next node will be used later
     m_flowOutSlot->setIsOutput(true);
     m_flowOutSlot->setFlowName("out");

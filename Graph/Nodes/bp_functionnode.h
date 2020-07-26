@@ -55,7 +55,7 @@ public:
     void fromVariant(QVariant var) override;
     static int nodeTypeID ;
 
-public:
+    void updateSlotsBranches(BP_Slot *slot) override;
 
     void loadCurrentFunction();
 

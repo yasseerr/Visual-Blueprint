@@ -31,6 +31,7 @@ BP_LoopNode::BP_LoopNode():BP_Node(),
     m_stepParameter(new BP_Parameter(this)),
     m_counterParameter(new BP_Parameter(this))
 {
+    setNoFlowNode(false);
 
     //the next node will be used later
     m_flowOutSlot->setIsOutput(true);

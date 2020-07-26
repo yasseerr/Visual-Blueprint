@@ -29,6 +29,7 @@
 RegisterNodeType(BP_FunctionNode)
 BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent),m_selfSlot(nullptr)
 {
+    setNoFlowNode(false);
     //adding the execution flow
     m_executionflowInSlot = new BP_FlowSlot(this);
     m_executionflowInSlot->setParentItem(this);
@@ -88,6 +89,19 @@ void BP_FunctionNode::fromVariant(QVariant var)
         m_inputParameters.at(i)->fromVariant(varMap["inputtParameters"].toList().at(i));
     }
     setPos(varMap["scenePosX"].toFloat(),varMap["scenePosY"].toFloat());
+}
+
+void BP_FunctionNode::updateSlotsBranches(BP_Slot *slot)
+{
+    //for the inSlot
+    if(slot== m_executionflowInSlot){
+        auto joinedBranches = m_executionflowInSlot->getJoinedBranches();
+        m_executionflowOutSlot->setFrameBranches(QList<BP_FrameBranch*>(joinedBranches));
+    }
+
+    //for the inputs
+
+    //for the output
 }
 
 void BP_FunctionNode::loadCurrentFunction()
