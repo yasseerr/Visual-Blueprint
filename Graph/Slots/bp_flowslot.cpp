@@ -58,13 +58,21 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
     if(this->isOutput()){
         //flowSlot->m_branches.append(this->branches());
         flowSlot->m_frameBranches.append(this->m_frameBranches);
-        flowSlot->parentNode()->mapInputFlowToOutput();
-        qDebug() << "new branches list for " << flowSlot->flowName() << " " << flowSlot->branches();
+        //flowSlot->parentNode()->mapInputFlowToOutput();
+        flowSlot->parentNode()->updateSlotsBranches(flowSlot);
+        foreach (auto branch, flowSlot->frameBranches()) {
+            qDebug() << "branches list entry " << branch->branchID();
+        }
+        //qDebug() << "new branches list for " << flowSlot->flowName() << " " << flowSlot->branches();
     }else{
-        m_branches.append(flowSlot->branches());
+        //m_branches.append(flowSlot->branches());
         m_frameBranches.append(flowSlot->m_frameBranches);
-        this->parentNode()->mapInputFlowToOutput();
-        qDebug() << "new branches list for " << this->flowName() << " " << this->branches();
+        //this->parentNode()->mapInputFlowToOutput();
+        this->parentNode()->updateSlotsBranches(this);
+        foreach (auto branch, this->frameBranches()) {
+            qDebug() << "branches list entry " << branch->branchID();
+        }
+        //qDebug() << "new branches list for " << this->flowName() << " " << this->branches();
     }
 
     //propagate the info to the output slot of the parent

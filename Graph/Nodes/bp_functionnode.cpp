@@ -97,6 +97,7 @@ void BP_FunctionNode::updateSlotsBranches(BP_Slot *slot)
     if(slot== m_executionflowInSlot){
         auto joinedBranches = m_executionflowInSlot->getJoinedBranches();
         m_executionflowOutSlot->setFrameBranches(QList<BP_FrameBranch*>(joinedBranches));
+        m_executionflowOutSlot->notifyConnectedNodes();
     }
 
     //for the inputs

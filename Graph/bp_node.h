@@ -22,6 +22,7 @@ class BP_GraphView;
 class BP_CoreObject;
 class BP_PlatformManager;
 class BP_FrameBranch;
+class BP_Slot;
 
 class BP_Node :public QObject, public QGraphicsItem
 {

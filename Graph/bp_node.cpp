@@ -78,7 +78,7 @@ void BP_Node::fromVariant(QVariant var)
     setPos(varMap["scenePosX"].toFloat(),varMap["scenePosY"].toFloat());
 }
 
-void BP_Node::updateSlotsBranches(BP_Node *node)
+void BP_Node::updateSlotsBranches(BP_Slot *slot)
 {
     //to be reimplemented
 }

@@ -26,7 +26,7 @@ int BP_FrameBranch::branchID() const
     return m_branchID;
 }
 
-QList<BP_Branch *> BP_FrameBranch::previousBranches() const
+QList<BP_FrameBranch *> BP_FrameBranch::previousBranches() const
 {
     return m_previousBranches;
 }
@@ -34,6 +34,16 @@ QList<BP_Branch *> BP_FrameBranch::previousBranches() const
 BP_Node *BP_FrameBranch::splitNode() const
 {
     return m_splitNode;
+}
+
+QColor BP_FrameBranch::branchColor() const
+{
+    return m_branchColor;
+}
+
+int BP_FrameBranch::branchLevel() const
+{
+    return m_branchLevel;
 }
 
 void BP_FrameBranch::setBranchID(int branchID)
@@ -45,7 +55,7 @@ void BP_FrameBranch::setBranchID(int branchID)
     emit branchIDChanged(m_branchID);
 }
 
-void BP_FrameBranch::setPreviousBranches(QList<BP_Branch *> previousBranches)
+void BP_FrameBranch::setPreviousBranches(QList<BP_FrameBranch *> previousBranches)
 {
     if (m_previousBranches == previousBranches)
         return;
@@ -61,4 +71,22 @@ void BP_FrameBranch::setSplitNode(BP_Node *splitNode)
 
     m_splitNode = splitNode;
     emit splitNodeChanged(m_splitNode);
+}
+
+void BP_FrameBranch::setBranchColor(QColor branchColor)
+{
+    if (m_branchColor == branchColor)
+        return;
+
+    m_branchColor = branchColor;
+    emit branchColorChanged(m_branchColor);
+}
+
+void BP_FrameBranch::setBranchLevel(int branchLevel)
+{
+    if (m_branchLevel == branchLevel)
+        return;
+
+    m_branchLevel = branchLevel;
+    emit branchLevelChanged(m_branchLevel);
 }

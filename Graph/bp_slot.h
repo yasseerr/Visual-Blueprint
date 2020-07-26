@@ -56,7 +56,7 @@ class BP_Slot : public QObject , public QGraphicsItem
 
     bool m_isOutput;
 
-    QList<BP_FrameBranch*> m_frameBranches;
+
 
 public:
     explicit BP_Slot(BP_Node *parent = nullptr);
@@ -64,6 +64,8 @@ public:
     static int slotCount;
     static int numberOfLinksCreated;
     int slotID;
+
+    QList<BP_FrameBranch*> m_frameBranches;
 
     virtual QPointF getAnchorPoint();
     virtual bool acceptConnection(BP_Slot *secondSlot);
@@ -74,6 +76,9 @@ public:
     virtual void fromVariant(QVariant var);
 
     virtual void mouseClicked();
+
+    QList<BP_FrameBranch*> getJoinedBranches();
+    void notifyConnectedNodes(); ///< update the connected nodes branches
 
 signals:
     void parentNodeChanged(BP_Node* parentNode);

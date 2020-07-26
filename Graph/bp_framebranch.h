@@ -20,7 +20,7 @@ class BP_FrameBranch : public QObject
     Q_OBJECT
 
     Q_PROPERTY(int branchID READ branchID WRITE setBranchID NOTIFY branchIDChanged)
-    Q_PROPERTY(QList<BP_Branch*> previousBranches READ previousBranches WRITE setPreviousBranches NOTIFY previousBranchesChanged)
+    Q_PROPERTY(QList<BP_FrameBranch*> previousBranches READ previousBranches WRITE setPreviousBranches NOTIFY previousBranchesChanged)
     Q_PROPERTY(BP_Node* splitNode READ splitNode WRITE setSplitNode NOTIFY splitNodeChanged)
     Q_PROPERTY(QColor branchColor READ branchColor WRITE setBranchColor NOTIFY branchColorChanged)
     Q_PROPERTY(int branchLevel READ branchLevel WRITE setBranchLevel NOTIFY branchLevelChanged)
@@ -28,7 +28,7 @@ class BP_FrameBranch : public QObject
 
     static int branchesCount;
 
-    QList<BP_Branch*> m_previousBranches;
+    QList<BP_FrameBranch*> m_previousBranches;
 
     BP_Node* m_splitNode;
 
@@ -39,51 +39,32 @@ class BP_FrameBranch : public QObject
 public:
     explicit BP_FrameBranch(QObject *parent = nullptr);
 
+
     int branchID() const;
 
-    QList<BP_Branch*> previousBranches() const;
+    QList<BP_FrameBranch*> previousBranches() const;
 
     BP_Node* splitNode() const;
 
-    QColor branchColor() const
-    {
-        return m_branchColor;
-    }
+    QColor branchColor() const;
 
-    int branchLevel() const
-    {
-        return m_branchLevel;
-    }
+    int branchLevel() const;
 
 public slots:
     void setBranchID(int branchID);
 
-    void setPreviousBranches(QList<BP_Branch*> previousBranches);
+    void setPreviousBranches(QList<BP_FrameBranch*> previousBranches);
 
     void setSplitNode(BP_Node* splitNode);
 
-    void setBranchColor(QColor branchColor)
-    {
-        if (m_branchColor == branchColor)
-            return;
+    void setBranchColor(QColor branchColor);
 
-        m_branchColor = branchColor;
-        emit branchColorChanged(m_branchColor);
-    }
-
-    void setBranchLevel(int branchLevel)
-    {
-        if (m_branchLevel == branchLevel)
-            return;
-
-        m_branchLevel = branchLevel;
-        emit branchLevelChanged(m_branchLevel);
-    }
+    void setBranchLevel(int branchLevel);
 
 signals:
 
     void branchIDChanged(int branchID);
-    void previousBranchesChanged(QList<BP_Branch*> previousBranches);
+    void previousBranchesChanged(QList<BP_FrameBranch*> previousBranches);
     void splitNodeChanged(BP_Node* splitNode);
     void branchColorChanged(QColor branchColor);
     void branchLevelChanged(int branchLevel);
