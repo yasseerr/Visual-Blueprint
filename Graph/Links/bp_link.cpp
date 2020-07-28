@@ -10,6 +10,7 @@
 #include "bp_link.h"
 
 #pragma once
+#include <Graph/bp_framebranch.h>
 #include <Graph/bp_slot.h>
 
 #include <QPainter>
@@ -73,13 +74,39 @@ BP_Slot *BP_Link::getTheOneConnectedSlot()
 
 void BP_Link::drawCubicCurve(QPainter *painter, QPointF c1, QPointF c2,QPointF startPoint, QPointF endPoint)
 {
-    painter->save();
-    painter->translate(startPoint);
-    QPainterPath curvePath;
-    curvePath.cubicTo(QPointF(50,0),endPoint-startPoint+QPointF(-50,0),endPoint-startPoint);
-    painter->drawPath(curvePath);
 
-    painter->restore();
+
+    //seting up the linePen
+    if(m_inSlot && m_inSlot->frameBranches().size()>0){
+        int i =  0;
+        foreach (auto branch, m_inSlot->frameBranches()) {
+            painter->save();
+            linePen.setWidth(2);
+            //TODO use the colors from all the branches
+            linePen.setColor(branch->branchColor());
+            painter->setPen(linePen);
+            auto deltaStart = startPoint+QPoint(0,2*i);
+            auto deltaEnd = endPoint+QPoint(0,2*i);
+            painter->translate(deltaStart);
+            QPainterPath curvePath;
+            curvePath.cubicTo(QPointF(50,2*i),deltaEnd-deltaStart+QPointF(-50,2*i),deltaEnd-deltaStart);
+            painter->drawPath(curvePath);
+
+            painter->restore();
+
+            i++;
+        }
+
+    }else{
+        painter->save();
+        painter->translate(startPoint);
+        QPainterPath curvePath;
+        curvePath.cubicTo(QPointF(50,0),endPoint-startPoint+QPointF(-50,0),endPoint-startPoint);
+        painter->drawPath(curvePath);
+
+        painter->restore();
+    }
+
 }
 
 QRectF BP_Link::boundingRect() const

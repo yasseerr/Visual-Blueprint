@@ -12,6 +12,7 @@
 
 #include <QGraphicsItem>
 #include <QObject>
+#include <QPen>
 
 #include <Graph/bp_slot.h>
 
@@ -32,6 +33,8 @@ class BP_Link :public QObject, public QGraphicsItem
     QPointF m_tempOutputPoint;
     QPointF m_inSlotPoint;
     QPointF m_outSlotPoint;
+
+    QPen linePen;
 
 public:
     BP_Link(QObject *parent = nullptr);
