@@ -79,9 +79,12 @@ void BP_Link::drawCubicCurve(QPainter *painter, QPointF c1, QPointF c2,QPointF s
     //seting up the linePen
     if(m_inSlot && m_inSlot->frameBranches().size()>0){
         int i =  0;
+        //drawing the threads
+
+        //drawing the branches
         foreach (auto branch, m_inSlot->frameBranches()) {
             painter->save();
-            linePen.setWidth(2);
+            linePen.setWidth(1);
             //TODO use the colors from all the branches
             linePen.setColor(branch->branchColor());
             painter->setPen(linePen);

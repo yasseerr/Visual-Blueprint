@@ -56,6 +56,11 @@ int BP_FrameBranch::branchLevel() const
     return m_branchLevel;
 }
 
+QList<BP_Thread *> BP_FrameBranch::threads() const
+{
+    return m_threads;
+}
+
 void BP_FrameBranch::setBranchID(int branchID)
 {
     if (m_branchID == branchID)
@@ -99,4 +104,13 @@ void BP_FrameBranch::setBranchLevel(int branchLevel)
 
     m_branchLevel = branchLevel;
     emit branchLevelChanged(m_branchLevel);
+}
+
+void BP_FrameBranch::setThreads(QList<BP_Thread *> threads)
+{
+    if (m_threads == threads)
+        return;
+
+    m_threads = threads;
+    emit threadsChanged(m_threads);
 }
