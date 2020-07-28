@@ -21,7 +21,7 @@ class BP_FrameBranch;
 class BP_IFNode : public BP_LogicalNode
 {
     Q_OBJECT
-    Q_CLASSINFO("name","if statment")
+    Q_CLASSINFO("name","If statemenet")
     Q_PROPERTY(BP_FlowSlot* trueFlowSlot READ trueFlowSlot WRITE setTrueFlowSlot NOTIFY trueFlowSlotChanged)
     Q_PROPERTY(BP_FlowSlot* falseFlowSlot READ falseFlowSlot WRITE setFalseFlowSlot NOTIFY falseFlowSlotChanged)
     Q_PROPERTY(BP_FlowSlot* nextFlowSlot READ nextFlowSlot WRITE setNextFlowSlot NOTIFY nextFlowSlotChanged)

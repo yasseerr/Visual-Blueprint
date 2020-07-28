@@ -15,6 +15,8 @@
 
 #include <QPainter>
 
+#include <Graph/Links/bp_link.h>
+
 QPen* BP_OperationToolNode::displayTextPen = new QPen(Qt::white,20);
 
 BP_OperationToolNode::BP_OperationToolNode():BP_Node(),
@@ -87,6 +89,23 @@ QList<BP_DataSlot *> BP_OperationToolNode::inputSlots() const
 BP_DataSlot *BP_OperationToolNode::outputSlot() const
 {
     return m_outputSlot;
+}
+
+void BP_OperationToolNode::updateSlotsBranches(BP_Slot *slot)
+{
+    if(slot == m_outputSlot){
+//        QList<BP_FrameBranch*> outputFramesBranches;
+//        foreach (auto link, m_outputSlot->connectedLinks()) {
+//            outputFramesBranches << link->outSlot()->frameBranches();
+//        }
+//        m_outputSlot->m_frameBranches.clear();
+//        m_outputSlot->m_frameBranches << outputFramesBranches;
+        foreach (auto inputSlot, m_inputSlots) {
+            inputSlot->m_frameBranches.clear();
+            inputSlot->m_frameBranches << m_outputSlot->frameBranches();
+            inputSlot->notifyConnectedNodes();
+        }
+    }
 }
 
 void BP_OperationToolNode::setInputSlots(QList<BP_DataSlot *> inputSlots)

@@ -55,6 +55,7 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
 
     //import the branches/threads and other info from the source
     //TODO test if it is the input or the output
+    //NOTE the isFlow flag does not apply for the flowSlots
     if(this->isOutput()){
         //flowSlot->m_branches.append(this->branches());
         flowSlot->m_frameBranches.append(this->m_frameBranches);

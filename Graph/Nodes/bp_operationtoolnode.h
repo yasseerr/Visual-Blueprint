@@ -49,7 +49,10 @@ public:
     QList<BP_DataSlot*> inputSlots() const;
     BP_DataSlot* outputSlot() const;
 
+
     static QPen *displayTextPen;
+
+    void updateSlotsBranches(BP_Slot *slot) override;
 
 public slots:
     void setInputSlots(QList<BP_DataSlot*> inputSlots);

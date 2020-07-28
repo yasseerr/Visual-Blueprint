@@ -103,8 +103,10 @@ void BP_Slot::fromVariant(QVariant var)
         outSlot->addLink(newLink);
         newLink->setInSlot(inSlot);
         newLink->setOutSlot(outSlot);
+        inSlot->acceptConnection(outSlot);
         auto graphScene = qobject_cast<BP_GraphScene*>(scene());
         parentNode()->connectedGraph()->scene()->addItem(newLink);
+
     }
 
 }

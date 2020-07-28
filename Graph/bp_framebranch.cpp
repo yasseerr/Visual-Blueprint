@@ -21,6 +21,16 @@ BP_FrameBranch::BP_FrameBranch(QObject *parent) : QObject(parent),
 
 }
 
+QVariant BP_FrameBranch::toVariantBP()
+{
+    return 0;
+}
+
+void BP_FrameBranch::fromVariant(QVariant var)
+{
+
+}
+
 int BP_FrameBranch::branchID() const
 {
     return m_branchID;

@@ -217,7 +217,8 @@ BP_Node *BP_IFNode::nextNode()
 {
 //    if(m_nextFlowSlot->connectedLinks().size()==0) return nullptr;
 //    return m_nextFlowSlot->connectedLinks().first()->outSlot()->parentNode();
-    return BP_GraphUtils::getInstance()->getEndOfBranchForNode(this);
+    return clotureNode();
+    //return BP_GraphUtils::getInstance()->getEndOfBranchForNode(this);
 }
 
 void BP_IFNode::updateSlotsBranches(BP_Slot *slot)
@@ -227,6 +228,9 @@ void BP_IFNode::updateSlotsBranches(BP_Slot *slot)
         m_originalBranches << m_flowInSlot->getJoinedBranches();
         //TODO update the cloture node
         if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
+
+        m_booleanSlot->setFrameBranches(m_originalBranches);
+        m_booleanSlot->notifyConnectedNodes();
     }
 }
 

@@ -12,6 +12,7 @@
 
 #include <QColor>
 #include <QObject>
+#include <QVariant>
 
 class BP_Node;
 
@@ -39,6 +40,8 @@ class BP_FrameBranch : public QObject
 public:
     explicit BP_FrameBranch(QObject *parent = nullptr);
 
+    virtual QVariant toVariantBP();
+    virtual void fromVariant(QVariant var);
 
     int branchID() const;
 

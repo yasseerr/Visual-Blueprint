@@ -15,6 +15,9 @@
 
 #include <Core/bp_parameter.h>
 
+#include <Graph/bp_framebranch.h>
+#include <Graph/bp_node.h>
+
 BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_parameterWidth(50),
     m_showName(true),m_returnName("return")
 {
@@ -124,6 +127,32 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
     if(!dataSlot) return false;
     else if(dataSlot->isOutput() == this->isOutput()) return false;
     //TODO check the type
+    if(this->isOutput()){
+        if(parentNode()->noFlowNode()){
+            qDebug() << "loading the branches from the connected output slot";
+            m_frameBranches << dataSlot->frameBranches();
+            this->parentNode()->updateSlotsBranches(this);
+            foreach (auto branch, this->frameBranches()) {
+                qDebug() << "branches list entry (data slot) " << branch->branchID();
+            }
+        }else{
+            //TODO handle outgoing dataslots flows like the output of a function
+        }
+    }else{
+        //TODO handle the inverse process
+        if(dataSlot->parentNode()->noFlowNode()){
+            qDebug() << "loading the branches from the connected output slot";
+            dataSlot->m_frameBranches << this->frameBranches();
+            dataSlot->parentNode()->updateSlotsBranches(this);
+            foreach (auto branch, dataSlot->frameBranches()) {
+                qDebug() << "branches list entry (data slot B) " << branch->branchID();
+            }
+        }
+        else{
+            //TODO handle the outgoinig dataslots like the output of a function
+        }
+    }
+
     return true;
 }
 

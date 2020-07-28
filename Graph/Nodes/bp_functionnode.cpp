@@ -98,6 +98,12 @@ void BP_FunctionNode::updateSlotsBranches(BP_Slot *slot)
         auto joinedBranches = m_executionflowInSlot->getJoinedBranches();
         m_executionflowOutSlot->setFrameBranches(QList<BP_FrameBranch*>(joinedBranches));
         m_executionflowOutSlot->notifyConnectedNodes();
+
+        //update the connected input nodes
+        foreach (auto inputSlot, m_inputParameters) {
+            inputSlot->setFrameBranches(joinedBranches);
+            inputSlot->notifyConnectedNodes();
+        }
     }
 
     //for the inputs
