@@ -136,6 +136,11 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             foreach (auto branch, this->frameBranches()) {
                 qDebug() << "branches list entry (data slot) " << branch->branchID();
             }
+            if(parentNode()->noFlowNode()){
+                auto lcaNode = getLCAForBranches();
+                parentNode()->setScope(lcaNode);
+                qDebug() << "getting the LCA " << lcaNode->nodeId ;
+            }
 //        }else{
 //            //TODO handle outgoing dataslots flows like the output of a function
 //        }
@@ -149,13 +154,17 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             foreach (auto branch, dataSlot->frameBranches()) {
                 qDebug() << "branches list entry (data slot B) " << branch->branchID();
             }
+            if(dataSlot->parentNode()->noFlowNode()){
+                auto lcaNode = dataSlot->getLCAForBranches();
+                dataSlot->parentNode()->setScope(lcaNode);
+                qDebug() << "getting the LCA " << lcaNode->nodeId ;
+            }
 //        }
 //        else{
 //            //TODO handle the outgoinig dataslots like the output of a function
 //        }
     }
-    auto lcaNode = getLCAForBranches();
-    qDebug() << "getting the LCA " << lcaNode->nodeId ;
+
     return true;
 }
 

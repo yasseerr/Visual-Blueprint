@@ -51,6 +51,10 @@ BP_LoopNode::BP_LoopNode():BP_Node(),
     m_loopFlowSlot->setParentItem(this);
     m_loopFlowSlot->setParentNode(this);
     m_loopFlowSlot->setFlowName("loop entry");
+    BP_FrameBranch *loopFrameBranch = new BP_FrameBranch(m_loopFlowSlot);
+    m_subBranches << loopFrameBranch;
+    loopFrameBranch->setSplitNode(this);
+    m_loopFlowSlot->m_frameBranches << loopFrameBranch;
 
     m_startParameter->setParameterName("start");
     m_endParameter->setParameterName("end");
@@ -191,7 +195,7 @@ void BP_LoopNode::updateSlotsBranches(BP_Slot *slot)
             slot->notifyConnectedNodes();
         }
 
-        m_flowOutSlot->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        m_flowOutSlot->setFrameBranches(QList<BP_FrameBranch*>(m_originalBranches));
         m_loopFlowSlot->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
 
         m_flowOutSlot->notifyConnectedNodes();

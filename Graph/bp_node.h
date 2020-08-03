@@ -35,10 +35,15 @@ class BP_Node :public QObject, public QGraphicsItem
     Q_PROPERTY(QList<BP_FrameBranch*> originalBranches READ originalBranches WRITE setOriginalBranches NOTIFY originalBranchesChanged)
     Q_PROPERTY(QList<BP_FrameBranch*> subBranches READ subBranches WRITE setSubBranches NOTIFY subBranchesChanged)
     Q_PROPERTY(BP_Node* clotureNode READ clotureNode WRITE setClotureNode NOTIFY clotureNodeChanged)
+    Q_PROPERTY(QList<BP_Node*> scopeNodes READ scopeNodes WRITE setScopeNodes NOTIFY scopeNodesChanged)
+    Q_PROPERTY(BP_Node* scope READ scope WRITE setScope NOTIFY scopeChanged)
+
 
 
 
 protected:
+    BP_Node* m_scope;
+    QList<BP_Node*> m_scopeNodes;
 
     BP_CoreObject* m_coreObject;
     BP_GraphView* m_connectedGraph;
@@ -98,14 +103,11 @@ public slots:
 
     void setSubBranches(QList<BP_FrameBranch*> subBranches);
 
-    void setClotureNode(BP_Node* clotureNode)
-    {
-        if (m_clotureNode == clotureNode)
-            return;
+    void setClotureNode(BP_Node* clotureNode);
 
-        m_clotureNode = clotureNode;
-        emit clotureNodeChanged(m_clotureNode);
-    }
+    void setScopeNodes(QList<BP_Node*> scopeNodes);
+
+    void setScope(BP_Node* scope);
 
 signals:
     void coreObjectChanged(BP_CoreObject* coreObject);
@@ -121,6 +123,10 @@ signals:
     void subBranchesChanged(QList<BP_FrameBranch*> subBranches);
 
     void clotureNodeChanged(BP_Node* clotureNode);
+
+    void scopeNodesChanged(QList<BP_Node*> scopeNodes);
+
+    void scopeChanged(BP_Node* scope);
 
 public:
     virtual QRectF boundingRect() const override;
@@ -138,10 +144,9 @@ public:
     bool noFlowNode() const;
     QList<BP_FrameBranch*> originalBranches() const;
     QList<BP_FrameBranch*> subBranches() const;
-    BP_Node* clotureNode() const
-    {
-        return m_clotureNode;
-    }
+    BP_Node* clotureNode() const;
+    QList<BP_Node*> scopeNodes() const;
+    BP_Node* scope() const;
 };
 
 #endif // BP_NODE_H

@@ -75,6 +75,7 @@ public:
     //Note the implemetation of this funciton should be accompagnied with a map for operations
     virtual QString renderDefaultOperationTool(BP_OperationToolNode *node,QString operationName) = 0;
     //virtual QString renderAdditionNode(BP_AddNode *node) = 0;
+    virtual QString renderScopeNodes(BP_Node *node) = 0;
 
 
 public slots:

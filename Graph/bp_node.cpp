@@ -33,6 +33,7 @@ BP_Node::BP_Node(QObject *parent):QObject(parent)
   ,m_bounds(0,0,100,50)
   ,m_noFlowNode(true)
   ,m_clotureNode(nullptr)
+  ,m_scope(nullptr)
 {
     nodeId = nodeCount;
     BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);
@@ -159,6 +160,34 @@ void BP_Node::setSubBranches(QList<BP_FrameBranch *> subBranches)
     emit subBranchesChanged(m_subBranches);
 }
 
+void BP_Node::setClotureNode(BP_Node *clotureNode)
+{
+    if (m_clotureNode == clotureNode)
+        return;
+
+    m_clotureNode = clotureNode;
+    emit clotureNodeChanged(m_clotureNode);
+}
+
+void BP_Node::setScopeNodes(QList<BP_Node *> scopeNodes)
+{
+    if (m_scopeNodes == scopeNodes)
+        return;
+
+    m_scopeNodes = scopeNodes;
+    emit scopeNodesChanged(m_scopeNodes);
+}
+
+void BP_Node::setScope(BP_Node *scope)
+{
+    if (m_scope == scope)
+        return;
+    if(m_scope) m_scope->m_scopeNodes.removeOne(this);
+    m_scope = scope;
+    if(m_scope) m_scope->m_scopeNodes.append(this);
+    emit scopeChanged(m_scope);
+}
+
 QRectF BP_Node::boundingRect() const
 {
     return  m_bounds;
@@ -235,5 +264,20 @@ QList<BP_FrameBranch *> BP_Node::originalBranches() const
 QList<BP_FrameBranch *> BP_Node::subBranches() const
 {
     return m_subBranches;
+}
+
+BP_Node *BP_Node::clotureNode() const
+{
+    return m_clotureNode;
+}
+
+QList<BP_Node *> BP_Node::scopeNodes() const
+{
+    return m_scopeNodes;
+}
+
+BP_Node *BP_Node::scope() const
+{
+    return m_scope;
 }
 

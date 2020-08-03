@@ -56,6 +56,7 @@ public:
     //helper function
     QString renderDefaultOperationTool(BP_OperationToolNode *node, QString operationName) override;
     //QString renderAdditionNode(BP_AddNode *node) override;
+    QString renderScopeNodes(BP_Node *node) override;
 
 
 public slots:

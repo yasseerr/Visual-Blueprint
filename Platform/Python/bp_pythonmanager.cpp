@@ -289,7 +289,7 @@ void BP_PythonManager::clearCompilationVariables(BP_Project *project)
 
 QString BP_PythonManager::renderEventNode(BP_EventNode *node)
 {
-    return "#this is a event placeholder";
+    return "#this is a event placeholder\n"+renderScopeNodes(node);
 }
 
 QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
@@ -383,6 +383,8 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
 
 QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
 {
+    //render scope nodes
+    auto scopeNodes  = renderScopeNodes(node);
     //render the condition
     QString conditionRendered = node->booleanSlot()->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
     QString conditionReference = node->booleanSlot()->connectedLinks().first()->inSlot()->reference();
@@ -411,6 +413,7 @@ QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
     mapping.insert("condition_reference",conditionReference);
     mapping.insert("true_block",trueBlock);
     mapping.insert("false_block",falseBlock);
+    mapping.insert("scope_nodes",scopeNodes);
 
     // polish the results
     Grantlee::Context c(mapping);
@@ -419,6 +422,8 @@ QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
 
 QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
 {
+    //render scope nodes
+    auto scopeNodes  = renderScopeNodes(node);
     QList<BP_Slot*> loopInputList;
     loopInputList << node->startValueSlot() << node->endValueSlot() << node->stepSlot();
     QStringList loopInputsDeclaration;
@@ -442,6 +447,7 @@ QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
     mapping.insert("end",loopInputReferences[1]);
     mapping.insert("step",loopInputReferences[2]);
     mapping.insert("loop_block",loopBlockCompilation);
+    mapping.insert("scope_nodes",scopeNodes);
 
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);
@@ -502,6 +508,15 @@ QString BP_PythonManager::renderDefaultOperationTool(BP_OperationToolNode *node,
     mapping.insert("sentence",sentence);
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);
+}
+
+QString BP_PythonManager::renderScopeNodes(BP_Node *node)
+{
+    QString returnString;
+    foreach (auto scopeNode, node->scopeNodes()) {
+        returnString += scopeNode->renderNode(this) + "\n";
+    }
+    return returnString;
 }
 
 
