@@ -231,6 +231,13 @@ void BP_IFNode::updateSlotsBranches(BP_Slot *slot)
 
         m_booleanSlot->setFrameBranches(m_originalBranches);
         m_booleanSlot->notifyConnectedNodes();
+
+        trueFlowSlot()->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        falseFlowSlot()->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+
+        m_trueFlowSlot->notifyConnectedNodes();
+        m_falseFlowSlot->notifyConnectedNodes();
+
     }
 }
 

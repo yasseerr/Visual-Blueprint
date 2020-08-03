@@ -8,6 +8,7 @@
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
 #include "bp_loopnode.h"
+#include <Graph/bp_framebranch.h>
 #include <Graph/bp_graphutils.h>
 #include <Graph/Slots/bp_dataslot.h>
 #include <Graph/Slots/bp_flowslot.h>
@@ -175,6 +176,28 @@ BP_Node *BP_LoopNode::nextNode()
 {
     if(m_flowOutSlot->connectedLinks().size()==0) return nullptr;
     return m_flowOutSlot->connectedLinks().first()->outSlot()->parentNode();
+}
+
+void BP_LoopNode::updateSlotsBranches(BP_Slot *slot)
+{
+    if(slot == m_flowInSlot){
+        m_originalBranches.clear();
+        m_originalBranches << m_flowInSlot->getJoinedBranches();
+        //TODO update the cloture node
+        if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
+
+        foreach (auto slot, QList<BP_DataSlot*>()<< m_startValueSlot << m_endValueSlot << m_stepSlot) {
+            slot->setFrameBranches(m_originalBranches);
+            slot->notifyConnectedNodes();
+        }
+
+        m_flowOutSlot->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        m_loopFlowSlot->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+
+        m_flowOutSlot->notifyConnectedNodes();
+        m_loopFlowSlot->notifyConnectedNodes();
+    }
+
 }
 
 QString BP_LoopNode::getNodeTypeString()

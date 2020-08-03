@@ -10,6 +10,7 @@
 #include "bp_createthreadsnode.h"
 #include <Graph/bp_framebranch.h>
 #include <Graph/bp_graphutils.h>
+#include <Graph/bp_thread.h>
 #include <Graph/Slots/bp_dataslot.h>
 #include <Graph/Slots/bp_flowslot.h>
 #include <Core/bp_parameter.h>
@@ -36,6 +37,8 @@ BP_CreateThreadsNode::BP_CreateThreadsNode()
     m_subBranches << newThreadBranch;
     newThread1Slot->m_frameBranches << newThreadBranch;
 
+    BP_Thread *thread1 = new BP_Thread(newThreadBranch);
+    newThreadBranch->m_threads << thread1;
 
     calculateBounds();
 }

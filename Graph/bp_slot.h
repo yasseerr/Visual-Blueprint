@@ -27,6 +27,7 @@ class BP_Link;
 //Q_DECLARE_METATYPE(LinkList)
 
 class BP_FrameBranch;
+class BP_Thread;
 
 class BP_Slot : public QObject , public QGraphicsItem
 {
@@ -78,6 +79,7 @@ public:
     virtual void mouseClicked();
 
     QList<BP_FrameBranch*> getJoinedBranches();
+    QSet<BP_Thread*> getJoinedThreads(); ///< return the set of theads fromt the joined branches
     void notifyConnectedNodes(); ///< update the connected nodes branches
 
 signals:

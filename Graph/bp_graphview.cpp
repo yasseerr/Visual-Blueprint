@@ -7,9 +7,11 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_framebranch.h"
 #include "bp_graphutils.h"
 #include "bp_graphview.h"
 #include "bp_node.h"
+#include "bp_thread.h"
 
 #include <Graph/Nodes/bp_eventnode.h>
 
@@ -24,9 +26,11 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
     setRenderHint(QPainter::Antialiasing);
 
 
-    //configuring the events
+    //configuring the event
     m_entryNode->setEventName("Entry");
     auto enteredEvent = m_entryNode->createFlow("entered");
+    BP_Thread *mainThread  = new BP_Thread(enteredEvent);
+    enteredEvent->m_frameBranches.first()->m_threads << mainThread;
 
     //BP_GraphUtils::getInstance()->setNodeParentBranches(m_entryNode,QList<int>() << -1);
     //branch 0 the start

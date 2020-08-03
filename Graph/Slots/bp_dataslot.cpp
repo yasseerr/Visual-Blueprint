@@ -128,29 +128,31 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
     else if(dataSlot->isOutput() == this->isOutput()) return false;
     //TODO check the type
     if(this->isOutput()){
-        if(parentNode()->noFlowNode()){
+//        if(parentNode()->noFlowNode()){
             qDebug() << "loading the branches from the connected output slot";
             m_frameBranches << dataSlot->frameBranches();
+            //if(parentNode()->noFlowNode())this->parentNode()->updateSlotsBranches(this);
             this->parentNode()->updateSlotsBranches(this);
             foreach (auto branch, this->frameBranches()) {
                 qDebug() << "branches list entry (data slot) " << branch->branchID();
             }
-        }else{
-            //TODO handle outgoing dataslots flows like the output of a function
-        }
+//        }else{
+//            //TODO handle outgoing dataslots flows like the output of a function
+//        }
     }else{
         //TODO handle the inverse process
-        if(dataSlot->parentNode()->noFlowNode()){
+//        if(dataSlot->parentNode()->noFlowNode()){
             qDebug() << "loading the branches from the connected output slot";
             dataSlot->m_frameBranches << this->frameBranches();
-            dataSlot->parentNode()->updateSlotsBranches(this);
+            //if(dataSlot->parentNode()->noFlowNode())
+                dataSlot->parentNode()->updateSlotsBranches(this);
             foreach (auto branch, dataSlot->frameBranches()) {
                 qDebug() << "branches list entry (data slot B) " << branch->branchID();
             }
-        }
-        else{
-            //TODO handle the outgoinig dataslots like the output of a function
-        }
+//        }
+//        else{
+//            //TODO handle the outgoinig dataslots like the output of a function
+//        }
     }
 
     return true;

@@ -160,6 +160,16 @@ QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
     return QList<BP_FrameBranch*>(branchesToBeFiltered);
 }
 
+QSet<BP_Thread *> BP_Slot::getJoinedThreads()
+{
+    QSet<BP_Thread*> retSet;
+    auto branches = getJoinedBranches();
+    foreach (auto branch, branches) {
+        retSet.unite(branch->threads());
+    }
+    return QSet<BP_Thread*>(retSet);
+}
+
 void BP_Slot::notifyConnectedNodes()
 {
     foreach (auto link, m_connectedLinks) {

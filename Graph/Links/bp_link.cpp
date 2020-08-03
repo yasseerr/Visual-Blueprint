@@ -12,6 +12,7 @@
 #pragma once
 #include <Graph/bp_framebranch.h>
 #include <Graph/bp_slot.h>
+#include <Graph/bp_thread.h>
 
 #include <QPainter>
 
@@ -80,7 +81,28 @@ void BP_Link::drawCubicCurve(QPainter *painter, QPointF c1, QPointF c2,QPointF s
     if(m_inSlot && m_inSlot->frameBranches().size()>0){
         int i =  0;
         //drawing the threads
+        QSet<BP_Thread*> branchesThreadsSet;
+        foreach (auto branch, m_inSlot->frameBranches()) {
+            branchesThreadsSet.unite(branch->threads());
+        }
 
+        foreach (auto thread, branchesThreadsSet) {
+            painter->save();
+            linePen.setWidth(2);
+            //TODO use the colors from all the branches
+            linePen.setColor(thread->threadColor());
+            painter->setPen(linePen);
+            auto deltaStart = startPoint+QPoint(0,2*i);
+            auto deltaEnd = endPoint+QPoint(0,2*i);
+            painter->translate(deltaStart);
+            QPainterPath curvePath;
+            curvePath.cubicTo(QPointF(50,2*i),deltaEnd-deltaStart+QPointF(-50,2*i),deltaEnd-deltaStart);
+            painter->drawPath(curvePath);
+
+            painter->restore();
+
+            i++;
+        }
         //drawing the branches
         foreach (auto branch, m_inSlot->frameBranches()) {
             painter->save();
