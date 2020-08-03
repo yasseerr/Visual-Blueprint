@@ -182,6 +182,38 @@ void BP_Slot::notifyConnectedNodes()
     }
 }
 
+BP_Node *BP_Slot::getLCAForBranches()
+{
+    //get the split nodes untill null
+    // - get the branches for the split node
+    // - foreach branch get the parent branches
+    // - it return a list of lists
+    // - combine the lists
+    QList<QList<BP_Node*>*> allHierarchies;
+    foreach (auto branch, frameBranches()) {
+        QList<QList<BP_Node*>*>branchHierarchies;
+        branch->getHierarchies(branchHierarchies);
+        allHierarchies << branchHierarchies;
+    }
+    //get the minimum hierachy size
+    int minimumSize = 9999;
+    foreach (auto hierarchy, allHierarchies) {
+        if(hierarchy->size()<minimumSize) minimumSize = hierarchy->size();
+    }
+    //get the LCA ,break when there is inequality
+    int stpPnt = 0;
+    for (stpPnt = 0; stpPnt < minimumSize; ++stpPnt) {
+        bool allEqual = true;
+        foreach (auto hierchy, allHierarchies) {
+            if(allHierarchies[0]->at(stpPnt) == hierchy->at(stpPnt)) continue;
+            allEqual = false;
+            break;
+        }
+        if(!allEqual) break;
+    }
+    return allHierarchies[0]->at(stpPnt-1);
+}
+
 
 QRectF BP_Slot::boundingRect() const
 {

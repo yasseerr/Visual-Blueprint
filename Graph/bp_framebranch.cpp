@@ -8,6 +8,7 @@
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
 #include "bp_framebranch.h"
+#include "bp_node.h"
 
 #include <QRandomGenerator>
 
@@ -29,6 +30,29 @@ QVariant BP_FrameBranch::toVariantBP()
 void BP_FrameBranch::fromVariant(QVariant var)
 {
 
+}
+
+void BP_FrameBranch::getHierarchies(QList<QList<BP_Node *>*> &out)
+{
+
+    if(m_splitNode == nullptr) return;
+    //get the split node
+    if(m_splitNode->originalBranches().size()){
+        foreach (auto branch, m_splitNode->originalBranches()) {
+            QList<QList<BP_Node*>*> branchHierarchies;
+            branch->getHierarchies(branchHierarchies);
+            foreach (auto branchHierarchy, branchHierarchies) {
+                branchHierarchy->append(m_splitNode);
+                out << branchHierarchy;
+            }
+        }
+    }
+    else {
+        QList<BP_Node*> retList;
+        retList << m_splitNode;
+        out.append(new QList<BP_Node*>(retList));
+    }
+    //get the split node branches and there list
 }
 
 int BP_FrameBranch::branchID() const

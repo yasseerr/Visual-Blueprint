@@ -13,6 +13,7 @@
 #include <Graph/bp_framebranch.h>
 #include <Graph/bp_slot.h>
 #include <Graph/bp_thread.h>
+#include <Graph/Slots/bp_dataslot.h>
 
 #include <QPainter>
 
@@ -82,7 +83,10 @@ void BP_Link::drawCubicCurve(QPainter *painter, QPointF c1, QPointF c2,QPointF s
         int i =  0;
         //drawing the threads
         QSet<BP_Thread*> branchesThreadsSet;
-        foreach (auto branch, m_inSlot->frameBranches()) {
+        //if the input slot is a data slot then draw the branches from the outSlot
+        auto m_inSlotAsDataSlot = qobject_cast<BP_DataSlot*>(m_inSlot);
+        BP_Slot *branchesSlot = m_inSlotAsDataSlot && m_outSlot?m_outSlot:m_inSlot;
+        foreach (auto branch, branchesSlot->frameBranches()) {
             branchesThreadsSet.unite(branch->threads());
         }
 
@@ -104,7 +108,7 @@ void BP_Link::drawCubicCurve(QPainter *painter, QPointF c1, QPointF c2,QPointF s
             i++;
         }
         //drawing the branches
-        foreach (auto branch, m_inSlot->frameBranches()) {
+        foreach (auto branch, branchesSlot->frameBranches()) {
             painter->save();
             linePen.setWidth(1);
             //TODO use the colors from all the branches

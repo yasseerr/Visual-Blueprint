@@ -50,6 +50,8 @@ public:
     virtual QVariant toVariantBP();
     virtual void fromVariant(QVariant var);
 
+    void getHierarchies(QList<QList<BP_Node*>*> &out);
+
     int branchID() const;
 
     QList<BP_FrameBranch*> previousBranches() const;

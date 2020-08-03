@@ -81,6 +81,7 @@ public:
     QList<BP_FrameBranch*> getJoinedBranches();
     QSet<BP_Thread*> getJoinedThreads(); ///< return the set of theads fromt the joined branches
     void notifyConnectedNodes(); ///< update the connected nodes branches
+    BP_Node* getLCAForBranches();///< get the lowest commom incestor
 
 signals:
     void parentNodeChanged(BP_Node* parentNode);

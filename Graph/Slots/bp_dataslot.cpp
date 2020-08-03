@@ -154,7 +154,8 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
 //            //TODO handle the outgoinig dataslots like the output of a function
 //        }
     }
-
+    auto lcaNode = getLCAForBranches();
+    qDebug() << "getting the LCA " << lcaNode->nodeId ;
     return true;
 }
 
