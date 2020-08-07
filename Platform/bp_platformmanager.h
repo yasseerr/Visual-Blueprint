@@ -52,7 +52,7 @@ public:
 
     virtual void compileProject(BP_Project *project) = 0;
     virtual QStringList compileBlock(BP_Node *startNode,BP_Node *endNode) = 0;
-    virtual QString appendMemberFunction(BP_Node* startNode,QString functionName) = 0;
+    virtual QString appendMemberFunction(BP_Node* startNode,QString functionName,QStringList args) = 0;
     virtual void runProject(BP_Project *project) = 0;
     virtual void clearCompilationVariables(BP_Project *project) = 0;
 

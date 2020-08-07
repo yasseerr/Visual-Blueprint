@@ -19,8 +19,10 @@
 
 #include <Core/bp_project.h>
 
+#include <Graph/bp_framebranch.h>
 #include <Graph/bp_graphview.h>
 #include <Graph/bp_node.h>
+#include <Graph/bp_thread.h>
 
 #include <Graph/Nodes/bp_addnode.h>
 #include <Graph/Nodes/bp_boolnode.h>
@@ -230,7 +232,7 @@ QStringList BP_PythonManager::compileBlock(BP_Node *startNode, BP_Node *endNode)
     return blockCodeList;
 }
 
-QString BP_PythonManager::appendMemberFunction(BP_Node *startNode, QString functionName)
+QString BP_PythonManager::appendMemberFunction(BP_Node *startNode, QString functionName,QStringList args)
 {
     auto functionBlockRendered = compileBlock(startNode,nullptr);
 
@@ -239,6 +241,7 @@ QString BP_PythonManager::appendMemberFunction(BP_Node *startNode, QString funct
     QVariantHash mapping ;
     mapping.insert("function_name",functionName);
     mapping.insert("function_block",functionBlockRendered);
+    mapping.insert("args",args);
 
     Grantlee::Context c(mapping);
     QString functionRendered =  projectTemplate->render(&c);
@@ -457,13 +460,21 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
 {
     QString threadFunctionName = "function_thread_slot_"+QString::number(node->subThreadsSlots().first()->slotID);
     //TODO foreach slot run the thread and create the thread function
+
+    //add the shared references
+    QStringList slotsReferences;
+    foreach (auto refSlot, node->subThreadsSlots().first()->frameBranches().first()->threads().toList().first()->sharedRefsSlots()) {
+        slotsReferences << refSlot->reference();
+        //TODO add the semaphore when required
+    }
     appendMemberFunction(node->subThreadsSlots().first()->connectedLinks().first()->outSlot()->parentNode(),
-                                          threadFunctionName);
+                                          threadFunctionName,slotsReferences);
 
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/CreateThreads.j2");
     QVariantHash mapping ;
     mapping.insert("function_name",threadFunctionName);
+    mapping.insert("args",slotsReferences);
 
     Grantlee::Context c(mapping);
     return  projectTemplate->render(&c);

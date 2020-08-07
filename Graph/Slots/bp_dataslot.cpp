@@ -17,6 +17,7 @@
 
 #include <Graph/bp_framebranch.h>
 #include <Graph/bp_node.h>
+#include <Graph/bp_thread.h>
 
 BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_parameterWidth(50),
     m_showName(true),m_returnName("return")
@@ -141,6 +142,15 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
                 parentNode()->setScope(lcaNode);
                 qDebug() << "getting the LCA " << lcaNode->nodeId ;
             }
+            //adding the threads reference********************************************************
+            //get the threads in the branches
+            auto threads = this->getJoinedThreads();
+            //see if there are multiple if so insert  them to the sharedNodes
+            if(threads.size()>0){
+                foreach (auto thread, threads) {
+                    thread->sharedRefsSlots().insert(this);
+                }
+            }
 //        }else{
 //            //TODO handle outgoing dataslots flows like the output of a function
 //        }
@@ -158,6 +168,13 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
                 auto lcaNode = dataSlot->getLCAForBranches();
                 dataSlot->parentNode()->setScope(lcaNode);
                 qDebug() << "getting the LCA " << lcaNode->nodeId ;
+            }
+            auto threads = dataSlot->getJoinedThreads();
+            //see if there are multiple if so insert  them to the sharedNodes
+            if(threads.size()>0){
+                foreach (auto thread, threads) {
+                    thread->sharedRefsSlots().insert(dataSlot);
+                }
             }
 //        }
 //        else{
