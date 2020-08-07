@@ -1,4 +1,4 @@
 
 #TODO add the parameters
-def {{function_name}}(self):
+def {{function_name}}(self,{%for arg in args%}{{arg}}{%if not forloop.last%} ,{%endif%}{% endfor %}):
 {%for line in function_block%}{{line|indentString:"1"}}{%endfor%}

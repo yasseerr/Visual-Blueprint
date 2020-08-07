@@ -33,9 +33,11 @@ class BP_Thread : public QObject
 
     //QList<BP_Node*> m_sharedNodes;
 
-    QSet<BP_Slot*> m_sharedRefsSlots;
+
 
 public:
+    QSet<BP_Slot*> m_sharedRefsSlots;
+
     explicit BP_Thread(QObject *parent = nullptr);
 
     int threadID() const;

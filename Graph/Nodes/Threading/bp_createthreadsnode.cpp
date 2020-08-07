@@ -40,6 +40,8 @@ BP_CreateThreadsNode::BP_CreateThreadsNode()
     BP_Thread *thread1 = new BP_Thread(newThreadBranch);
     newThreadBranch->m_threads << thread1;
 
+    slotsToThreadMap[newThread1Slot] = thread1;
+
     calculateBounds();
 }
 

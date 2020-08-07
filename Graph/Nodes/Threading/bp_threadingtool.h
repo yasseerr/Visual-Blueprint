@@ -15,6 +15,7 @@
 #include <Graph/bp_node.h>
 
 class BP_FlowSlot;
+class BP_Thread;
 
 class BP_ThreadingTool : public BP_Node
 {
@@ -33,6 +34,9 @@ protected:
     QList<BP_FlowSlot*> m_subThreadsSlots;
 
 public:
+
+    QMap<BP_FlowSlot*,BP_Thread*> slotsToThreadMap;
+
     BP_ThreadingTool();
     BP_FlowSlot* flowInSlot() const;
     BP_FlowSlot* flowOutSlot() const;

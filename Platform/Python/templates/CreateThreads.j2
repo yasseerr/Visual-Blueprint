@@ -1,2 +1,2 @@
 
-t = threading.Thread(target=self.{{function_name}}).start()
+t = threading.Thread(target=self.{{function_name}},args=[{%for arg in args%}{{arg}}{%if not forloop.last%} ,{%endif%}{% endfor %}]).start()

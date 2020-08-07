@@ -463,8 +463,10 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
 
     //add the shared references
     QStringList slotsReferences;
-    foreach (auto refSlot, node->subThreadsSlots().first()->frameBranches().first()->threads().toList().first()->sharedRefsSlots()) {
+    //TODO apply it to all the threads in the node, not just the first
+    foreach (auto refSlot, node->slotsToThreadMap.values().first()->sharedRefsSlots()) {
         slotsReferences << refSlot->reference();
+        qDebug() << "adding reference to the thread args " << refSlot->reference();
         //TODO add the semaphore when required
     }
     appendMemberFunction(node->subThreadsSlots().first()->connectedLinks().first()->outSlot()->parentNode(),

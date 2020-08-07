@@ -148,7 +148,7 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             //see if there are multiple if so insert  them to the sharedNodes
             if(threads.size()>0){
                 foreach (auto thread, threads) {
-                    thread->sharedRefsSlots().insert(this);
+                    thread->m_sharedRefsSlots.insert(this);
                 }
             }
 //        }else{
@@ -173,7 +173,7 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             //see if there are multiple if so insert  them to the sharedNodes
             if(threads.size()>0){
                 foreach (auto thread, threads) {
-                    thread->sharedRefsSlots().insert(dataSlot);
+                    thread->m_sharedRefsSlots.insert(dataSlot);
                 }
             }
 //        }
