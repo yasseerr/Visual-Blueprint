@@ -110,6 +110,9 @@ void BP_GraphNodesModel::updateModule()
     emit layoutAboutToBeChanged();
     //TODO add the new imported items instead of refreshing
     m_rootItem->clearChildes();
+
+
+
     //Adding the tools
     foreach (auto categoryName, BP_GraphUtils::getInstance()->getToolNodesByCategory().keys()) {
         BP_GraphNodeItem *categoryNameItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,categoryName);
@@ -122,6 +125,12 @@ void BP_GraphNodesModel::updateModule()
         }
     }
 
+    BP_GraphNodeItem *memberVariablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Member Variables");
+    //Adding the members
+    foreach (auto variable, connectedProject()->memberVariables()){
+        BP_GraphNodeItem *varItem =new BP_GraphNodeItem(memberVariablesItem,memberVariablesItem);
+        varItem->setCoreObject(variable);
+    }
 
     //adding the imported library
     BP_GraphNodeItem *variablesItem = new BP_GraphNodeItem(m_rootItem,m_rootItem,"Imported Variables");

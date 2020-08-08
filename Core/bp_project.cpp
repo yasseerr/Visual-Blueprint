@@ -25,6 +25,8 @@
 #include <Graph/bp_node.h>
 #include <Graph/bp_slot.h>
 
+#include <Modeling/Graph/bp_graphnodesmodel.h>
+
 
 BP_Project::BP_Project(QString projectName,QObject *parent) : QObject(parent),
     m_projectName(projectName)
@@ -92,6 +94,7 @@ void BP_Project::importClass(QStringList moduleHierarchy)
 void BP_Project::addMemberVariable(BP_Variable *newVariable)
 {
     m_memberVariables << newVariable;
+    BP_Utils::instance()->graphNodesModel->updateModule();
 }
 
 void BP_Project::addBuiltin(BP_CoreObject *builtInObj)

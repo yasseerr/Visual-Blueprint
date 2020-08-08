@@ -63,6 +63,7 @@ bool BP_OneVariableMemberItem::setDescriptionData(QVariant data, int role)
 {
     if(role == Qt::EditRole){
         //TODO add the class hierarchy
+        m_containedVariable->setIsProjectMember(true);
         m_containedVariable->setClassName(data.toMap().value("className").toString());
         m_containedVariable->setIsArray((data.toMap().value("multiplicity").toInt()==0?false:true));
         return true;

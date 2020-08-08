@@ -24,7 +24,8 @@ BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *m
    m_owningClass(nullptr),
    m_owningModule(nullptr),
    m_className(""),
-   m_sourceClass(nullptr)
+   m_sourceClass(nullptr),
+   m_isProjectMember(false)
 {
     //TODO add the class name and the class module
     //TODO check if the variable class is already imported
@@ -198,6 +199,15 @@ void BP_Variable::setSourceClass(BP_Class *sourceClass)
     emit sourceClassChanged(m_sourceClass);
 }
 
+void BP_Variable::setIsProjectMember(bool isProjectMember)
+{
+    if (m_isProjectMember == isProjectMember)
+        return;
+
+    m_isProjectMember = isProjectMember;
+    emit isProjectMemberChanged(m_isProjectMember);
+}
+
 BP_Node *BP_Variable::createNodeForObject(QObject *parent)
 {
     //BP_VariableNode *variableNode = new BP_VariableNode();
@@ -211,4 +221,9 @@ BP_Node *BP_Variable::createNodeForObject(QObject *parent)
 BP_Class *BP_Variable::sourceClass() const
 {
     return m_sourceClass;
+}
+
+bool BP_Variable::isProjectMember() const
+{
+    return m_isProjectMember;
 }

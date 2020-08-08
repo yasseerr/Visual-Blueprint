@@ -78,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_graphNodesDialog = new GraphNodesSelectionDialog(m_graphNodeModel,this);
     m_graphNodesDialog->setCurrentProject(m_currentProject);
 
+    BP_Utils::instance()->graphNodesModel = m_graphNodeModel;
+
 
 }
 

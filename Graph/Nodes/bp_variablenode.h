@@ -28,6 +28,7 @@ class BP_VariableNode : public BP_Node
 
     BP_DataSlot* m_outputSlot;
 
+
 public:
     Q_INVOKABLE BP_VariableNode();
 
@@ -46,10 +47,13 @@ public:
     BP_DataSlot* outputSlot() const;
 
     QString getNodeTypeString() override;
+    QString renderNode(BP_PlatformManager *platform) override;
+
 
 public slots:
     void setVariableObject(BP_Variable* variableObject);
     void setOutputSlot(BP_DataSlot* outputSlot);
+
 
 signals:
     void variableObjectChanged(BP_Variable* variableObject);

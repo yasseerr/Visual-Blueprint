@@ -91,6 +91,14 @@ QString BP_VariableNode::getNodeTypeString()
     return "Variable";
 }
 
+QString BP_VariableNode::renderNode(BP_PlatformManager *platform)
+{
+    //TODO change the python comment
+    return "#calling a member variable";
+}
+
+
+
 void BP_VariableNode::setVariableObject(BP_Variable *variableObject)
 {
     if (m_variableObject == variableObject)
@@ -100,7 +108,7 @@ void BP_VariableNode::setVariableObject(BP_Variable *variableObject)
     BP_Parameter *param = new BP_Parameter(m_outputSlot);
     m_variableObject->getAsParameter(param);
     m_outputSlot->setParameterObject(param);
-    m_outputSlot->setReference(variableObject->name());
+    m_outputSlot->setReference((m_variableObject->isProjectMember()?"self.":"")+variableObject->name());
 
     emit variableObjectChanged(m_variableObject);
 }
@@ -113,5 +121,4 @@ void BP_VariableNode::setOutputSlot(BP_DataSlot *outputSlot)
     m_outputSlot = outputSlot;
     emit outputSlotChanged(m_outputSlot);
 }
-
 
