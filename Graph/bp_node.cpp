@@ -7,8 +7,10 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_framebranch.h"
 #include "bp_graphview.h"
 #include "bp_node.h"
+#include "bp_thread.h"
 
 #include <QDebug>
 #include <QMetaClassInfo>
@@ -87,6 +89,15 @@ void BP_Node::fromVariant(QVariant var)
 void BP_Node::updateSlotsBranches(BP_Slot *slot)
 {
     //to be reimplemented
+}
+
+void BP_Node::getOriginalThreads(QSet<BP_Thread*> &threadsOut)
+{
+    foreach (auto branch, m_originalBranches) {
+        foreach (auto thread, branch->threads()) {
+            threadsOut.insert(thread);
+        }
+    }
 }
 
 

@@ -343,18 +343,27 @@ QString BP_PythonManager::renderIntegerNode(BP_IntNode *node)
 
 QString BP_PythonManager::renderFloatNode(BP_FloatNode *node)
 {
-    return node->variableObject()->name()  + " = " + QString::number(node->variableObject()->value().toFloat());
+    QString retString = "";
+    if(node->outputSlot()->requireSemaphore()) retString += node->outputSlot()->reference()+"_lock = threading.Lock()\n";
+    retString += node->variableObject()->name()  + " = " + QString::number(node->variableObject()->value().toFloat());
+    return retString;
 }
 
 QString BP_PythonManager::renderStringNode(BP_StringNode *node)
 {
-    return node->variableObject()->name()  + " = \"" + node->variableObject()->value().toString()+"\"";
+    QString retString = "";
+    if(node->outputSlot()->requireSemaphore()) retString += node->outputSlot()->reference()+"_lock = threading.Lock()\n";
+    retString += node->variableObject()->name()  + " = \"" + node->variableObject()->value().toString()+"\"";
+    return retString;
 }
 
 QString BP_PythonManager::renderBoolNode(BP_BoolNode *node)
 {
+    QString retString = "";
+    if(node->outputSlot()->requireSemaphore()) retString += node->outputSlot()->reference()+"_lock = threading.Lock()\n";
     //making the first value uppercase
-    return node->variableObject()->name() + " = " + (node->variableObject()->value().toBool()?"True":"False");
+    retString += node->variableObject()->name() + " = " + (node->variableObject()->value().toBool()?"True":"False");
+    return retString;
 }
 
 QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
@@ -374,6 +383,7 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
     mapping.insert("instance",QVariant::fromValue(node));
     mapping.insert("instanceInputsDeclaration",instanceInputsDeclaration);
     mapping.insert("returnName",node->outputSlot()->reference());
+    mapping.insert("require_semaphore",node->outputSlot()->requireSemaphore());
 
     //temporary solution for parameter refrences
     QStringList parameterRefrences;
@@ -397,8 +407,9 @@ QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
     //render scope nodes
     auto scopeNodes  = renderScopeNodes(node);
     //render the condition
-    QString conditionRendered = node->booleanSlot()->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
-    QString conditionReference = node->booleanSlot()->connectedLinks().first()->inSlot()->reference();
+    auto booleanSourceSlot = node->booleanSlot()->connectedLinks().first()->inSlot();
+    QString conditionRendered =  booleanSourceSlot->parentNode()->renderNode(this);
+    QString conditionReference = booleanSourceSlot->reference();
 
     qDebug() << "compiling an if statement" ;
     //qDebug() <<  "condition : " << conditionRendered;
@@ -425,6 +436,7 @@ QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
     mapping.insert("true_block",trueBlock);
     mapping.insert("false_block",falseBlock);
     mapping.insert("scope_nodes",scopeNodes);
+    mapping.insert("boolean_require_lock",qobject_cast<BP_DataSlot*>(booleanSourceSlot)->requireSemaphore());
 
     // polish the results
     Grantlee::Context c(mapping);
@@ -439,12 +451,16 @@ QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
     loopInputList << node->startValueSlot() << node->endValueSlot() << node->stepSlot();
     QStringList loopInputsDeclaration;
     QStringList loopInputReferences;
+    QStringList semaphores;
 
     //rendering inputs
     //TODO render the references
     foreach (auto inputSlot, loopInputList) {
-        loopInputsDeclaration << inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
-        loopInputReferences << inputSlot->connectedLinks().first()->inSlot()->reference();
+        auto inputSlotSource = qobject_cast<BP_DataSlot*>(inputSlot->connectedLinks().first()->inSlot());
+        loopInputsDeclaration << inputSlotSource->parentNode()->renderNode(this);
+        loopInputReferences << inputSlotSource->reference();
+        if(inputSlot && inputSlotSource->requireSemaphore() && !semaphores.contains(inputSlotSource->reference()+"_lock"))
+            semaphores << inputSlotSource->reference()+"_lock";
     }
 
     auto loopBlockEntryNode = node->loopFlowSlot()->connectedLinks().first()->outSlot()->parentNode();
@@ -459,6 +475,8 @@ QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
     mapping.insert("step",loopInputReferences[2]);
     mapping.insert("loop_block",loopBlockCompilation);
     mapping.insert("scope_nodes",scopeNodes);
+    mapping.insert("semaphores",semaphores);
+    mapping.insert("counter_require_semaphore",node->counterSlot()->requireSemaphore());
 
     Grantlee::Context c(mapping);
     return projectTemplate->render(&c);

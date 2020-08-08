@@ -2,7 +2,10 @@
 #starting the if statement again
 {{scope_nodes}}
 {{condition_declaration}}
+{%if boolean_require_lock%}{{condition_reference}}_lock.acquire(){%endif%}
 if({{condition_reference}}):
-    {%for line in true_block %}{{line|indentString:"1"}}{%endfor%}
+	{%if boolean_require_lock%}{{condition_reference}}_lock.release(){%endif%}
+	{%for line in true_block %}{{line|indentString:"1"}}{%endfor%}
 else:
-    {%for line in false_block %}{{line|indentString:"1"}}{%endfor%}
+	{%if boolean_require_lock%}{{condition_reference}}_lock.release(){%endif%}
+	{%for line in false_block %}{{line|indentString:"1"}}{%endfor%}

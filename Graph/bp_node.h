@@ -23,6 +23,7 @@ class BP_CoreObject;
 class BP_PlatformManager;
 class BP_FrameBranch;
 class BP_Slot;
+class BP_Thread;
 
 class BP_Node :public QObject, public QGraphicsItem
 {
@@ -81,6 +82,7 @@ public:
     virtual void fromVariant(QVariant var);
 
     virtual void updateSlotsBranches(BP_Slot* slot);
+    virtual void getOriginalThreads(QSet<BP_Thread*> &threadsOut);
 
     static QList<QMetaObject>* initializeNodesTypes();
     //static int setupNodeType(QString name,BP_Node* (*func)());

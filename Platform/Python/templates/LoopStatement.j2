@@ -2,5 +2,10 @@
 {{scope_nodes}}
 #Loop input declarations{%for inputDeclaration in  loopInputsDeclaration%}
 {{inputDeclaration}}{%endfor%}
+{%for semaphore in semaphores%}{{semaphore}}.acquire()
+{%endfor%}
 for {{counter_name}} in range({{start}},{{end}},{{step}}):
-    {%for line in loop_block %}{{line|indentString:"1"}}{%endfor%}
+	{%if counter_require_semaphore%}{{counter_name}}_lock = threading.Lock(){%endif%}
+	{%for line in loop_block %}{{line|indentString:"1"}}{%endfor%}
+{%for semaphore in semaphores%}{{semaphore}}.release()
+{%endfor%}

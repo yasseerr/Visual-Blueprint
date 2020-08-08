@@ -148,7 +148,10 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             //see if there are multiple if so insert  them to the sharedNodes
             if(threads.size()>1){
                 this->setRequireSemaphore(true);
+                QSet<BP_Thread*> originalThreads;
+                parentNode()->getOriginalThreads(originalThreads);
                 foreach (auto thread, threads) {
+                    if(originalThreads.contains(thread)) continue;
                     thread->m_sharedRefsSlots.insert(this);
                 }
             }else{
@@ -176,7 +179,12 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             //see if there are multiple if so insert  them to the sharedNodes
             if(threads.size()>1){
                 dataSlot->setRequireSemaphore(true);
+                QSet<BP_Thread*> originalThreads;
+                dataSlot->parentNode()->getOriginalThreads(originalThreads);
                 foreach (auto thread, threads) {
+                    //skip when the thread is already in the original threads of the parent node
+                    // to avoid circular call for slot reference
+                    if(originalThreads.contains(thread)) continue;
                     thread->m_sharedRefsSlots.insert(dataSlot);
                 }
             }
