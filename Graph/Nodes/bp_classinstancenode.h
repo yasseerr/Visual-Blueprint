@@ -38,6 +38,8 @@ public:
     QVariant toVariantBP() override;
     void fromVariant(QVariant var) override;
     QString getNodeTypeString() override;
+    void updateSlotsBranches(BP_Slot *slot) override;
+
 
 public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

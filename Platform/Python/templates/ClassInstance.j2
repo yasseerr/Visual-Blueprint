@@ -5,4 +5,9 @@
 #TODO check why the class name doesnt show up first click
 #source class {{instance.sourceClass.name}}
 #return Name {{returnName}}
+{%for semaphore in semaphores%}{{semaphore}}.acquire()
+{%endfor%}
+{%if require_semaphore%}{{returnName}}_lock = threading.Lock(){%endif%}
 {{returnName}} = {{instance.sourceClass.name}}({%for param in parameterRefrences%}{{param}} {%if not forloop.last%},{%endif%}{% endfor %} )
+{%for semaphore in semaphores%}{{semaphore}}.release()
+{%endfor%}

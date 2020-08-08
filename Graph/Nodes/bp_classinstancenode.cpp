@@ -70,6 +70,17 @@ QString BP_ClassInstanceNode::getNodeTypeString()
     return "Instance";
 }
 
+void BP_ClassInstanceNode::updateSlotsBranches(BP_Slot *slot)
+{
+    if(slot == outputSlot()){
+        foreach (auto inputSlot, m_inputParameters) {
+            inputSlot->m_frameBranches.clear();
+            inputSlot->m_frameBranches << outputSlot()->frameBranches();
+            inputSlot->notifyConnectedNodes();
+        }
+    }
+}
+
 void BP_ClassInstanceNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     //Drawing the header

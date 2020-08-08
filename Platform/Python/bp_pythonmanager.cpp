@@ -316,6 +316,7 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
     mapping.insert("function",QVariant::fromValue(node));
     mapping.insert("functionInputsDeclaration",functionInputsDeclaration);
     mapping.insert("required_semaphores",requiredSemaphores);
+    mapping.insert("return_require_semaphore",node->returnSlot()->requireSemaphore());
 
     //temporary solution for parameter refrences
     QStringList parameterRefrences;
@@ -371,10 +372,14 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
     //return "this is a function placeholder";
     //rendering the variables nodes
     QStringList instanceInputsDeclaration;
+    QStringList semaphores;
     foreach (auto inputSlot, node->inputParameters()) {
         if(inputSlot->connectedLinks().size()>0){
-            QString renderedParameter = inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            auto sourceSlot = inputSlot->connectedLinks().first()->inSlot();
+            QString renderedParameter = sourceSlot->parentNode()->renderNode(this);
             if(renderedParameter!="")instanceInputsDeclaration << renderedParameter;
+            auto sourceDataSlot = qobject_cast<BP_DataSlot*>(sourceSlot);
+            if(sourceDataSlot && sourceDataSlot->requireSemaphore()) semaphores << sourceDataSlot->reference()+"_lock";
         }
     }
 
@@ -383,6 +388,7 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
     mapping.insert("instance",QVariant::fromValue(node));
     mapping.insert("instanceInputsDeclaration",instanceInputsDeclaration);
     mapping.insert("returnName",node->outputSlot()->reference());
+    mapping.insert("semaphores",semaphores);
     mapping.insert("require_semaphore",node->outputSlot()->requireSemaphore());
 
     //temporary solution for parameter refrences
@@ -518,10 +524,14 @@ QString BP_PythonManager::renderDefaultOperationTool(BP_OperationToolNode *node,
     //render the inputs
     //rendering the variables nodes
     QStringList inputs;
+    QStringList semaphores;
     foreach (auto inputSlot, node->inputSlots()) {
         if(inputSlot->connectedLinks().size()>0){
-            QString renderedParameter = inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            auto sourceSlot = inputSlot->connectedLinks().first()->inSlot();
+            QString renderedParameter = sourceSlot->parentNode()->renderNode(this);
             if(renderedParameter!="")inputs << renderedParameter;
+            auto sourceDataSlot = qobject_cast<BP_DataSlot*>(sourceSlot);
+            if(sourceDataSlot && sourceDataSlot->requireSemaphore()) semaphores << sourceDataSlot->reference()+"_lock";
         }
     }
 
@@ -529,6 +539,8 @@ QString BP_PythonManager::renderDefaultOperationTool(BP_OperationToolNode *node,
     QVariantHash mapping ;
     mapping.insert("inputs",inputs);
     mapping.insert("reference",node->outputSlot()->reference());
+    mapping.insert("semaphores",semaphores);
+    mapping.insert("require_semaphore",node->outputSlot()->requireSemaphore());
 
     //generating senetense
     // getting the references
