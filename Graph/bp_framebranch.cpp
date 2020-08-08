@@ -9,6 +9,7 @@
  ***************************************************************************/
 #include "bp_framebranch.h"
 #include "bp_node.h"
+#include "bp_graphutils.h"
 
 #include <QRandomGenerator>
 
@@ -16,7 +17,7 @@ int BP_FrameBranch::branchesCount = 0;
 
 BP_FrameBranch::BP_FrameBranch(QObject *parent) : QObject(parent),
     m_branchID(branchesCount),
-    m_branchColor(QColor::fromRgb(QRandomGenerator::global()->generate()))
+    m_branchColor(QColor::fromRgb(BP_GraphUtils::colorGenerator->generate()))
 {
     branchesCount++;
 

@@ -16,6 +16,8 @@
 
 #include <Graph/Slots/bp_flowslot.h>
 
+QRandomGenerator* BP_GraphUtils::colorGenerator = new QRandomGenerator(2);
+
 BP_GraphUtils* BP_GraphUtils::instance = nullptr;
 int BP_GraphUtils::branchSequence = -1;
 

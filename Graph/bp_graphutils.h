@@ -18,10 +18,12 @@
 #include <QColor>
 #include <QMap>
 #include <QObject>
+#include <QRandomGenerator>
 
 class BP_FlowSlot;
 class BP_Node;
 class BP_Slot;
+
 
 class BP_GraphUtils : public QObject
 {
@@ -33,6 +35,8 @@ class BP_GraphUtils : public QObject
 
     //branches variables
     static int branchSequence;
+
+
     //QMap<int,int> branchSubBranchesCountMap;
     QMap<int,QList<int>> branchParentMap;
     QMap<int,QList<int>> subBranchesMap;
@@ -49,6 +53,9 @@ class BP_GraphUtils : public QObject
     QMap<int,BP_Slot*> slotsIndex;
 
 public:
+
+    static QRandomGenerator *colorGenerator;
+
     explicit BP_GraphUtils(QObject *parent = nullptr);
     static BP_GraphUtils* getInstance();
     int addNodeType(QMetaObject metaObj,bool isTool = false,QString category= "");

@@ -7,6 +7,7 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_graphutils.h"
 #include "bp_slot.h"
 #include "bp_thread.h"
 
@@ -16,7 +17,7 @@ int BP_Thread::threadsCount = 0;
 
 BP_Thread::BP_Thread(QObject *parent) : QObject(parent),
     m_threadID(threadsCount),
-    m_threadColor(QColor::fromRgb(QRandomGenerator::global()->generate()))
+    m_threadColor(QColor::fromRgb(BP_GraphUtils::colorGenerator->generate()))
 {
     threadsCount++;
 }
