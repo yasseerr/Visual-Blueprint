@@ -22,12 +22,15 @@ class BP_DataSlot : public BP_Slot
     Q_PROPERTY(BP_Parameter* parameterObject READ parameterObject WRITE setParameterObject NOTIFY parameterObjectChanged)
     Q_PROPERTY(bool showName READ showName WRITE setShowName NOTIFY showNameChanged)
     Q_PROPERTY(QString returnName READ returnName WRITE setReturnName NOTIFY returnNameChanged)
+    Q_PROPERTY(bool requireSemaphore READ requireSemaphore WRITE setRequireSemaphore NOTIFY requireSemaphoreChanged)
     BP_Parameter* m_parameterObject;
     int m_parameterWidth = 0;
     bool m_showName;
 
     QString m_returnName;
-
+    
+    bool m_requireSemaphore;
+    
 public:
     BP_DataSlot(BP_Node *parent = nullptr);
 
@@ -48,7 +51,16 @@ public slots:
         m_returnName = returnName;
         emit returnNameChanged(m_returnName);
     }
-
+    
+    void setRequireSemaphore(bool requireSemaphore)
+    {
+        if (m_requireSemaphore == requireSemaphore)
+            return;
+        
+        m_requireSemaphore = requireSemaphore;
+        emit requireSemaphoreChanged(m_requireSemaphore);
+    }
+    
 signals:
     void parameterObjectChanged(BP_Parameter* parameterObject);
 
@@ -57,7 +69,9 @@ signals:
     void showNameChanged(bool showName);
 
     void returnNameChanged(QString returnName);
-
+    
+    void requireSemaphoreChanged(bool requireSemaphore);
+    
 public:
     virtual QRectF boundingRect() const override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -69,6 +83,10 @@ bool showName() const;
 QString returnName() const
 {
     return m_returnName;
+}
+bool requireSemaphore() const
+{
+    return m_requireSemaphore;
 }
 };
 

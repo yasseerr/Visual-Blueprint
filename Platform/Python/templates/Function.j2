@@ -1,6 +1,11 @@
 
 #function input declarations
+
 {%for inputDeclaration in functionInputsDeclaration%}{{inputDeclaration}}
+{%endfor%}
+{%for semaphore in required_semaphores%}{{semaphore}}.acquire()
 {%endfor%}
 #function call
 {{function.functionObject.name}}Ret = {{function.functionObject.name}}({%for param in parameterRefrences%}{{param}} {%if not forloop.last%},{%endif%}{% endfor %} )
+{%for semaphore in required_semaphores%}{{semaphore}}.release()
+{%endfor%}

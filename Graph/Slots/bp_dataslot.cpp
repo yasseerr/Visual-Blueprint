@@ -20,7 +20,7 @@
 #include <Graph/bp_thread.h>
 
 BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_parameterWidth(50),
-    m_showName(true),m_returnName("return")
+    m_showName(true),m_returnName("return"),m_requireSemaphore(false)
 {
     setIsOutput(false);
     setTextColor(Qt::yellow);
@@ -146,10 +146,13 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             //get the threads in the branches
             auto threads = this->getJoinedThreads();
             //see if there are multiple if so insert  them to the sharedNodes
-            if(threads.size()>0){
+            if(threads.size()>1){
+                this->setRequireSemaphore(true);
                 foreach (auto thread, threads) {
                     thread->m_sharedRefsSlots.insert(this);
                 }
+            }else{
+                this->setRequireSemaphore(false);
             }
 //        }else{
 //            //TODO handle outgoing dataslots flows like the output of a function
@@ -171,10 +174,14 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             }
             auto threads = dataSlot->getJoinedThreads();
             //see if there are multiple if so insert  them to the sharedNodes
-            if(threads.size()>0){
+            if(threads.size()>1){
+                dataSlot->setRequireSemaphore(true);
                 foreach (auto thread, threads) {
                     thread->m_sharedRefsSlots.insert(dataSlot);
                 }
+            }
+            else{
+                setRequireSemaphore(false);
             }
 //        }
 //        else{

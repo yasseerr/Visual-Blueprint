@@ -300,10 +300,14 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
     //return "this is a function placeholder";
     //rendering the variables nodes
     QStringList functionInputsDeclaration;
+    QStringList requiredSemaphores;
     foreach (auto inputSlot, node->inputParameters()) {
         if(inputSlot->connectedLinks().size()>0){
-            QString renderedParameter = inputSlot->connectedLinks().first()->inSlot()->parentNode()->renderNode(this);
+            auto sourceSlot = inputSlot->connectedLinks().first()->inSlot();
+            QString renderedParameter = sourceSlot->parentNode()->renderNode(this);
             if(renderedParameter!="")functionInputsDeclaration << renderedParameter;
+            auto sourceDataSlot = qobject_cast<BP_DataSlot*>(sourceSlot);
+            if(sourceDataSlot && sourceDataSlot->requireSemaphore()) requiredSemaphores << sourceDataSlot->reference()+"_lock";
         }
     }
 
@@ -311,6 +315,7 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
     QVariantHash mapping ;
     mapping.insert("function",QVariant::fromValue(node));
     mapping.insert("functionInputsDeclaration",functionInputsDeclaration);
+    mapping.insert("required_semaphores",requiredSemaphores);
 
     //temporary solution for parameter refrences
     QStringList parameterRefrences;
@@ -330,7 +335,10 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
 
 QString BP_PythonManager::renderIntegerNode(BP_IntNode *node)
 {
-    return node->outputSlot()->reference()+" = "+QString::number(node->variableObject()->value().toInt());
+    QString retString = "";
+    if(node->outputSlot()->requireSemaphore()) retString += node->outputSlot()->reference()+"_lock = threading.Lock()\n";
+    retString += node->outputSlot()->reference()+" = "+QString::number(node->variableObject()->value().toInt());
+    return retString;
 }
 
 QString BP_PythonManager::renderFloatNode(BP_FloatNode *node)
@@ -463,20 +471,23 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
 
     //add the shared references
     QStringList slotsReferences;
+    QStringList slotsSemaphores;
     //TODO apply it to all the threads in the node, not just the first
     foreach (auto refSlot, node->slotsToThreadMap.values().first()->sharedRefsSlots()) {
         slotsReferences << refSlot->reference();
+        auto refSlotData = qobject_cast<BP_DataSlot*>(refSlot);
+        if(refSlotData && refSlotData->requireSemaphore()) slotsReferences << refSlotData->reference()+"_lock";
         qDebug() << "adding reference to the thread args " << refSlot->reference();
         //TODO add the semaphore when required
     }
     appendMemberFunction(node->subThreadsSlots().first()->connectedLinks().first()->outSlot()->parentNode(),
-                                          threadFunctionName,slotsReferences);
+                                          threadFunctionName,slotsReferences+slotsSemaphores);
 
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/CreateThreads.j2");
     QVariantHash mapping ;
     mapping.insert("function_name",threadFunctionName);
-    mapping.insert("args",slotsReferences);
+    mapping.insert("args",slotsReferences+slotsSemaphores);
 
     Grantlee::Context c(mapping);
     return  projectTemplate->render(&c);
