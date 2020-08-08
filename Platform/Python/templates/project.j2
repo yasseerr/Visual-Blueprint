@@ -18,6 +18,9 @@ import sys
 class {{project.projectName}}(object):
 
 	def __init__(self):
+		#initiating the member
+		{%for member in members %}{{ member|indentString:"2" }}
+		{%endfor%}			
 		#loading the entrygraph code
 {%for code_ in mainCodeList %}{{ code_|indentString:"2" }}
 {%endfor%}

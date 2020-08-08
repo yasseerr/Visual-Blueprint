@@ -61,6 +61,11 @@ void BP_MemberDelegate::updateEditorGeometry(QWidget *editor, const QStyleOption
 QStringList BP_MemberDelegate::getProjectClasses() const
 {
     QStringList retList;
+    foreach (auto bp_object, m_connectedProject->builtins()) {
+        auto objectClass = qobject_cast<BP_Class*>(bp_object);
+        if(objectClass)
+            retList << objectClass->name();
+    }
     foreach(BP_Class *bp_class, m_connectedProject->importedClasses()) {
         retList << bp_class->name();
     }

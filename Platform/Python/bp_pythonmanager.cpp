@@ -186,6 +186,15 @@ void BP_PythonManager::compileProject(BP_Project *project)
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/project.j2");
     QVariantHash mapping ;
     mapping.insert("project",QVariant::fromValue(project));
+    //initiating the members
+    QStringList members;
+    foreach (auto member, project->memberVariables()) {
+        //TODO support lists
+        //TODO support primitives
+        members << "self."+member->name()+" = "+member->className()+"()";
+    }
+    mapping.insert("members",members);
+
     //filing the init function with entryGraph content
     QStringList mainCodeList;
     BP_Node *currentCompilationNode = project->entryGraph()->entryNode();
