@@ -18,6 +18,9 @@ import sys
 class {{project.projectName}}(object):
 
 	def __init__(self):
+		#initaiting member locks if needed
+		{%for member_lock in members_lock %}{{member_lock|indentString:"2" }}
+		{%endfor%}
 		#initiating the member
 		{%for member in members %}{{ member|indentString:"2" }}
 		{%endfor%}			

@@ -38,7 +38,7 @@ public:
     QVariant toVariantBP() override;
     void fromVariant(QVariant var) override;
 
-
+    void updateSlotsBranches(BP_Slot *slot) override;
     // QGraphicsItem interface
 public:
     void calculateBounds() override;

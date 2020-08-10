@@ -14,7 +14,7 @@
 
 #include <bp_utils.h>
 
-BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent),m_isImported(true)
+BP_CoreObject::BP_CoreObject(QObject *parent) : QObject(parent),m_isImported(true),m_isProjectMember(false)
 {
 
 }
@@ -76,6 +76,16 @@ bool BP_CoreObject::isImported() const
     return m_isImported;
 }
 
+bool BP_CoreObject::isProjectMember() const
+{
+    return m_isProjectMember;
+}
+
+QSet<BP_FrameBranch *> BP_CoreObject::connectedBranches()
+{
+    return m_connectedBranches;
+}
+
 void BP_CoreObject::setName(QString name)
 {
     if (m_name == name)
@@ -103,4 +113,22 @@ void BP_CoreObject::setIsImported(bool isImported)
 
     m_isImported = isImported;
     emit isImportedChanged(m_isImported);
+}
+
+void BP_CoreObject::setIsProjectMember(bool isProjectMember)
+{
+    if (m_isProjectMember == isProjectMember)
+        return;
+
+    m_isProjectMember = isProjectMember;
+    emit isProjectMemberChanged(m_isProjectMember);
+}
+
+void BP_CoreObject::setConnectedBranches(QSet<BP_FrameBranch *> connectedBranches)
+{
+    if (m_connectedBranches == connectedBranches)
+        return;
+
+    m_connectedBranches = connectedBranches;
+    emit connectedBranchesChanged(m_connectedBranches);
 }

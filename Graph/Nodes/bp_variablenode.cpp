@@ -58,6 +58,15 @@ void BP_VariableNode::fromVariant(QVariant var)
 
 }
 
+void BP_VariableNode::updateSlotsBranches(BP_Slot *slot)
+{
+    if(slot == m_outputSlot && m_variableObject && m_variableObject->isProjectMember()){
+        foreach (auto branch, m_outputSlot->frameBranches()) {
+            m_variableObject->m_connectedBranches.insert(branch);
+        }
+    }
+}
+
 void BP_VariableNode::calculateBounds()
 {
     BP_Node::calculateBounds();

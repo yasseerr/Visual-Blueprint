@@ -31,7 +31,6 @@ class BP_Variable : public BP_CoreObject
     Q_PROPERTY(BP_Class* sourceClass READ sourceClass WRITE setSourceClass NOTIFY sourceClassChanged)
     Q_PROPERTY(BP_Class* owningClass READ owningClass WRITE setOwningClass NOTIFY owningClassChanged)
     Q_PROPERTY(BP_Module* owningModule READ owningModule WRITE setOwningModule NOTIFY owningModuleChanged)
-    Q_PROPERTY(bool isProjectMember READ isProjectMember WRITE setIsProjectMember NOTIFY isProjectMemberChanged)
 
 
     bool m_isPrimitive;
@@ -52,7 +51,6 @@ class BP_Variable : public BP_CoreObject
 
     BP_Class* m_sourceClass;
 
-    bool m_isProjectMember;
 
 public:
     explicit BP_Variable(QVariantMap *variableMap = nullptr,QObject *parent = nullptr,QStringList *moduleHiearchy = nullptr);
@@ -98,7 +96,6 @@ public slots:
 
     void setSourceClass(BP_Class* sourceClass);
 
-    void setIsProjectMember(bool isProjectMember);
 
 signals:
     void isPrimitiveChanged(bool isPrimitive);
@@ -113,12 +110,11 @@ signals:
     // BP_CoreObject interface
     void sourceClassChanged(BP_Class* sourceClass);
 
-    void isProjectMemberChanged(bool isProjectMember);
 
 public:
 virtual BP_Node *createNodeForObject(QObject *parent) override;
 BP_Class* sourceClass() const;
-bool isProjectMember() const;
+
 };
 
 #endif // BP_VARIABLE_H

@@ -188,12 +188,21 @@ void BP_PythonManager::compileProject(BP_Project *project)
     mapping.insert("project",QVariant::fromValue(project));
     //initiating the members
     QStringList members;
+    QStringList membersLock;
     foreach (auto member, project->memberVariables()) {
         //TODO support lists
         //TODO support primitives
         members << "self."+member->name()+" = "+member->className()+"()";
+        QSet<BP_Thread*> memberThreads;
+        foreach(auto branch,member->connectedBranches()){
+            memberThreads.unite(branch->threads());
+        }
+        qDebug() << "the size of threads for the member object > " << memberThreads.size();
+        if(memberThreads.size()>0)
+            membersLock << "self."+member->name()+"_lock = threading.Lock()";
     }
     mapping.insert("members",members);
+    mapping.insert("members_lock",membersLock);
 
     //filing the init function with entryGraph content
     QStringList mainCodeList;
