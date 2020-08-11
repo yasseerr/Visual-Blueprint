@@ -375,6 +375,29 @@ def loadBuiltins():
     sys.stdout.write(inspectJson)
     sys.stdout.flush()
 
+###__________________________Documentation SECTION_____________________________________________
+
+
+def getObjectDocumentation():
+    inspectedModule = None
+    moduleHierachy = sys.argv[2:]
+    moduleHierachy.reverse()
+    objectName = moduleHierachy[-1]
+    inspectedModule =  getModuleFromHiearchy(moduleHierachy[:-1])
+
+    module_members = inspect.getmembers(inspectedModule)    
+    importedObjectTuple = findMemberByName(objectName,module_members)
+    objectName = importedObjectTuple[0]
+    objectVar = importedObjectTuple[1]
+
+    #get the documentation
+    objectDoc = pydoc.HTMLDoc().document(objectVar)
+    
+    sys.stdout.write('002')
+    sys.stdout.write(writeIntToStdout(len(objectDoc), 9))
+    sys.stdout.write(objectDoc)
+    sys.stdout.flush()
+
 
 
 ###_____________________________________Helper_Function________________________________________________
@@ -419,7 +442,8 @@ operation_map = {
      "importFunction":importFunction,
      "importVariable":importVariable,
      "importClass":importClass,
-     "loadBuiltins":loadBuiltins
+     "loadBuiltins":loadBuiltins,
+     "getDoc":getObjectDocumentation
 }
 
 ## select the operation

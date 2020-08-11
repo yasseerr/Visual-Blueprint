@@ -68,6 +68,9 @@ public:
     BP_Function* functionObject() const;
 
 public slots:
+
+    QString getNodeDocumentation() override;
+
     void setExecutionflowInSlot(BP_FlowSlot* executionflowInSlot);
     void setExecutionflowOutSlot(BP_FlowSlot* executionflowOutSlot);
     void setInputParameters(QList<BP_DataSlot*> inputParameters);

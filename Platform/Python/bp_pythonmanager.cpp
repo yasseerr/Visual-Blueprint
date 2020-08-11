@@ -94,14 +94,17 @@ void BP_PythonManager::loadBuiltins(BP_Project *project)
         //TODO collapse to getCoreObjectFromVariant
         if(builinMap.value("type").toString() == "func"){
             BP_Function *builtinFunc = new BP_Function(&builinMap,project);
+            builtinFunc->setImportHiearchy(QStringList() << builtinFunc->name() << "builtins");
             project->addBuiltin(builtinFunc);
         }
         else if(builinMap.value("type").toString() == "var"){
             BP_Variable *builtinVar = new BP_Variable(&builinMap,project);
+            builtinVar->setImportHiearchy(QStringList() << builtinVar->name() << "builtins");
             project->addBuiltin(builtinVar);
         }
         else if(builinMap.value("type").toString() == "class"){
             BP_Class *builtinClass = new BP_Class(&builinMap,project);
+            builtinClass->setImportHiearchy(QStringList() << builtinClass->name() << "builtins");
             project->addBuiltin(builtinClass);
         }
 
@@ -589,6 +592,18 @@ QString BP_PythonManager::renderScopeNodes(BP_Node *node)
         returnString += scopeNode->renderNode(this) + "\n";
     }
     return returnString;
+}
+
+QString BP_PythonManager::getDocForCoreObject(BP_CoreObject *obj)
+{
+    if(!obj->isImported()) return "<i> object is not importd, cant load doc</i>";
+    m_managerProcess.setArguments(QStringList() << m_managerFile << "getDoc" << obj->importHiearchy());
+    m_managerProcess.start();
+    m_managerProcess.waitForFinished();
+    QByteArray listRawData =  m_managerProcess.readAllStandardOutput().mid(12);
+    qDebug() << "documentation size" << listRawData.size() << listRawData;
+    qDebug() << m_managerProcess.readAllStandardError();
+    return listRawData;
 }
 
 

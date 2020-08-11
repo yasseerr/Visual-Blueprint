@@ -58,6 +58,8 @@ public:
     //QString renderAdditionNode(BP_AddNode *node) override;
     QString renderScopeNodes(BP_Node *node) override;
 
+    //doc
+    QString getDocForCoreObject(BP_CoreObject *obj) override;
 
 public slots:
     virtual void standardOutputReady() override;

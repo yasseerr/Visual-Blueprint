@@ -139,7 +139,10 @@ BP_GraphView *BP_Node::connectedGraph() const
 
 QString BP_Node::getNodeDocumentation()
 {
-    return "<i>No Documentation available</i>";
+    if(coreObject() && coreObject()->isImported())
+        return BP_Utils::instance()->currentProject->platformManager()->getDocForCoreObject(this->coreObject());
+    else
+        return "<i>No Documentation available</i>";
 }
 
 void BP_Node::setCoreObject(BP_CoreObject *coreObject)

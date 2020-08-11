@@ -35,6 +35,8 @@ class BP_OperationToolNode;
 
 class BP_CreateThreadsNode;
 
+class BP_CoreObject;
+
 class BP_PlatformManager : public QObject
 {
     Q_OBJECT
@@ -77,6 +79,8 @@ public:
     //virtual QString renderAdditionNode(BP_AddNode *node) = 0;
     virtual QString renderScopeNodes(BP_Node *node) = 0;
 
+    //doc & info
+    virtual QString getDocForCoreObject(BP_CoreObject *obj) = 0;
 
 public slots:
     //slots for the manager process

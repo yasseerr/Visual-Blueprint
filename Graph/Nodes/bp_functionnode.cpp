@@ -164,6 +164,11 @@ BP_Function *BP_FunctionNode::functionObject() const
     return m_functionObject;
 }
 
+QString BP_FunctionNode::getNodeDocumentation()
+{
+    return BP_Node::getNodeDocumentation();
+}
+
 void BP_FunctionNode::setExecutionflowInSlot(BP_FlowSlot *executionflowInSlot)
 {
     if (m_executionflowInSlot == executionflowInSlot)
