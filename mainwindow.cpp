@@ -125,6 +125,7 @@ void MainWindow::setCurrentProject(BP_Project *currentProject)
     m_currentProject = currentProject;
 
     m_importsModel->setConnectedProject(m_currentProject);
+    BP_Utils::instance()->currentProject = m_currentProject;
 
     emit currentProjectChanged(m_currentProject);
 }

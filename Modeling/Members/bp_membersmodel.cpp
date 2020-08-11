@@ -101,7 +101,7 @@ QVariant BP_MembersModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags BP_MembersModel::flags(const QModelIndex &index) const
 {
     if(itemForIndex(index)->m_parentItem == m_rootItem ) return QAbstractItemModel::flags(index);
-    return  QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+    return  QAbstractItemModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled ;
 }
 
 bool BP_MembersModel::setData(const QModelIndex &index, const QVariant &value, int role)

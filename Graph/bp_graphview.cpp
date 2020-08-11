@@ -12,15 +12,21 @@
 #include "bp_graphview.h"
 #include "bp_node.h"
 #include "bp_thread.h"
+#include <QDragEnterEvent>
 
 #include <Graph/Nodes/bp_eventnode.h>
 
 #include <Graph/Slots/bp_flowslot.h>
 
+#include <QMimeData>
+#include <bp_utils.h>
+#include <qdebug.h>
+
 BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(new BP_GraphScene()),m_entryNode(new BP_EventNode())
 {
     //configure the view
     this->setMouseTracking(true);
+    this->setAcceptDrops(true);
 
     this->setScene(m_scene);
     setRenderHint(QPainter::Antialiasing);
@@ -119,4 +125,42 @@ void BP_GraphView::setEntryNode(BP_EventNode *entryNode)
 
     m_entryNode = entryNode;
     emit entryNodeChanged(m_entryNode);
+}
+
+void BP_GraphView::dragEnterEvent(QDragEnterEvent *event){
+    QGraphicsView::dragEnterEvent(event);
+    event->acceptProposedAction();
+}
+void BP_GraphView::dropEvent(QDropEvent *event){
+    if(event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")){
+        qDebug() << "the drop event has the model format";
+        QByteArray encoded = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
+        QDataStream stream(&encoded, QIODevice::ReadOnly);
+        //reading the mime data from the membersitem
+        while (!stream.atEnd())
+        {
+            int row, col;
+            QMap<int,  QVariant> roleDataMap;
+            stream >> row >> col >> roleDataMap;
+            if(row == 0 && col == 0){
+                //get the variable with the name in the first role
+                auto memberVariableName  = roleDataMap[0].toString();
+                qDebug() << "membrr variablee detected : " << memberVariableName;
+                auto memberObject = BP_Utils::instance()->coreObjectsMap.value(memberVariableName);
+                //if(!memberObject)return;
+                auto memberNode = memberObject->createNodeForObject(this);
+                this->addNode(memberNode,this->mapToGlobal(event->pos()));
+                //create the node as  is the graph selection dialog
+            }
+
+        }
+    }
+    QGraphicsView::dropEvent(event);
+    event->acceptProposedAction();
+}
+
+void BP_GraphView::dragMoveEvent(QDragMoveEvent *event)
+{
+    QGraphicsView::dragMoveEvent(event);
+    event->acceptProposedAction();
 }

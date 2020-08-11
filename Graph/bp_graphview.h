@@ -14,6 +14,7 @@
 
 #include <QGraphicsView>
 #include <QObject>
+#include <qevent.h>
 
 class BP_Project;
 class BP_Node;
@@ -59,6 +60,12 @@ private:
     QString m_graphName;
     QList<BP_Node*> m_nodes;
     BP_EventNode* m_entryNode;
+
+    // QWidget interface
+protected:
+    virtual void dragEnterEvent(QDragEnterEvent *event) override;
+    virtual void dropEvent(QDropEvent *event) override;
+    virtual void dragMoveEvent(QDragMoveEvent *event) override;
 };
 
 #endif // BP_GRAPHVIEW_H

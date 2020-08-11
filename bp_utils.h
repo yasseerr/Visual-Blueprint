@@ -18,6 +18,7 @@
 class BP_CoreObject;
 class BP_GraphNodesModel;
 class BP_MembersModel;
+class BP_Project;
 
 class BP_Utils : public QObject
 {
@@ -41,7 +42,7 @@ public:
     BP_GraphNodesModel *graphNodesModel = nullptr;
     BP_MembersModel *membersModel = nullptr;
     QMultiMap<QString,BP_CoreObject*> coreObjectsMap;
-
+    BP_Project *currentProject;
 
 signals:
 

@@ -23,6 +23,9 @@
       <property name="focusPolicy">
        <enum>Qt::TabFocus</enum>
       </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -404,6 +407,12 @@ p, li { white-space: pre-wrap; }
        <property name="styleSheet">
         <string notr="true"/>
        </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragOnly</enum>
+       </property>
        <property name="rootIsDecorated">
         <bool>true</bool>
        </property>
@@ -459,6 +468,9 @@ p, li { white-space: pre-wrap; }
    <addaction name="action_Redo"/>
   </widget>
   <widget class="QToolBar" name="buildToolBar">
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
