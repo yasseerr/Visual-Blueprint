@@ -42,3 +42,8 @@ BP_Utils *BP_Utils::instance()
     return _instatce;
 
 }
+
+void BP_Utils::setDocumentationContent(QString doc)
+{
+    docTextEdit->setHtml(doc);
+}

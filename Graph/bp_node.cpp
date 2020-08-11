@@ -13,6 +13,8 @@
 #include "bp_thread.h"
 
 #include <QDebug>
+#include <QGraphicsSceneMouseEvent>
+#include <QMenu>
 #include <QMetaClassInfo>
 #include <QPainter>
 #include <QVariantMap>
@@ -48,6 +50,21 @@ BP_Node::BP_Node(BP_GraphView *graphView):m_connectedGraph(graphView)
 {
     nodeId = nodeCount;
     nodeCount++;
+}
+
+void BP_Node::getActions(QList<QAction*> &actionsList)
+{
+    QAction *docAction = new QAction(this);
+    docAction->setText("Display Doc");
+    //docAction->setIcon(QIcon(":/Data/Images/DefaultIcon/help.png"));
+
+    actionsList << docAction;
+    connect(docAction,&QAction::triggered,[this](){
+       qDebug()<< "documentation clicked";
+       QString doc = this->getNodeDocumentation();
+       BP_Utils::instance()->setDocumentationContent(doc);
+    });
+
 }
 
 QVariant BP_Node::toVariantBP()
@@ -118,6 +135,11 @@ BP_CoreObject *BP_Node::coreObject() const
 BP_GraphView *BP_Node::connectedGraph() const
 {
     return m_connectedGraph;
+}
+
+QString BP_Node::getNodeDocumentation()
+{
+    return "<i>No Documentation available</i>";
 }
 
 void BP_Node::setCoreObject(BP_CoreObject *coreObject)
@@ -228,6 +250,22 @@ void BP_Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseMoveEvent(event);
     scene()->update();
+}
+
+void BP_Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mousePressEvent(event);
+
+    //TODO display the popup menu
+    if(event->button() == Qt::RightButton){
+        QList<QAction*> actionsList;
+        getActions(actionsList);
+        QMenu *popupMenu = new QMenu();
+        popupMenu->addActions(actionsList);
+        popupMenu->move(event->screenPos().x(),event->screenPos().y());
+        popupMenu->show();
+    }
+
 }
 
 void BP_Node::calculateBounds()

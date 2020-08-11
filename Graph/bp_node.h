@@ -10,6 +10,7 @@
 #ifndef BP_NODE_H
 #define BP_NODE_H
 
+#include <QAction>
 #include <QGraphicsItem>
 #include <QObject>
 
@@ -78,6 +79,8 @@ public:
     Q_INVOKABLE BP_Node(QObject *parent = nullptr);
     BP_Node(BP_GraphView *graphView);
 
+    virtual void getActions(QList<QAction*> &actionsList);
+
     virtual QVariant toVariantBP();
     virtual void fromVariant(QVariant var);
 
@@ -94,6 +97,10 @@ public:
     BP_GraphView* connectedGraph() const;
 
 public slots:
+    //actions slots
+    virtual QString getNodeDocumentation();
+
+    //members slots
     void setCoreObject(BP_CoreObject* coreObject);
     void setConnectedGraph(BP_GraphView* connectedGraph);
 
@@ -135,6 +142,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
     virtual void calculateBounds();
     virtual QString renderNode(BP_PlatformManager *platform);
@@ -149,6 +157,7 @@ public:
     BP_Node* clotureNode() const;
     QList<BP_Node*> scopeNodes() const;
     BP_Node* scope() const;
+
 };
 
 #endif // BP_NODE_H

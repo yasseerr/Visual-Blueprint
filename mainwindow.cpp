@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Setting the utils
     BP_Utils::textEdit = ui->messagesTextEdit;
     BP_Utils::log("message display connected");
+    BP_Utils::instance()->docTextEdit = ui->docTextEdit;
 
     //initializing the importedmodel
     m_impotedModel = new BP_ImportedModel();

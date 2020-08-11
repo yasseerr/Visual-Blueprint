@@ -37,12 +37,16 @@ public:
     static void logPlainText(QString text);
     static BP_Utils* instance();
 
+    void setDocumentationContent(QString doc);
+
 public:
     ImportsModel *importsModel = nullptr;
     BP_GraphNodesModel *graphNodesModel = nullptr;
     BP_MembersModel *membersModel = nullptr;
     QMultiMap<QString,BP_CoreObject*> coreObjectsMap;
     BP_Project *currentProject;
+    QTextEdit *docTextEdit;
+
 
 signals:
 
