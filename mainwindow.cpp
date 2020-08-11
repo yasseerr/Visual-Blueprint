@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //initiating members model
     m_membersModel = new BP_MembersModel(m_currentProject,ui->membersTreeView);
+    BP_Utils::instance()->membersModel = m_membersModel;
     ui->membersTreeView->setModel(m_membersModel);
     ui->membersTreeView->expandAll();
     ui->membersTreeView->header()->setStretchLastSection(false);

@@ -12,6 +12,7 @@
 #include <Graph/Slots/bp_dataslot.h>
 
 #include <QDebug>
+#include <bp_utils.h>
 #include <qpainter.h>
 
 #include <Core/bp_parameter.h>
@@ -32,11 +33,14 @@ BP_VariableNode::BP_VariableNode():BP_Node(),m_variableObject(nullptr),m_outputS
 
 QVariant BP_VariableNode::toVariantBP()
 {
+    //TODO do not save the variable object when the variable is a project member
     QVariantMap retMap = BP_Node::toVariantBP().toMap();
     retMap["type"] = getNodeTypeString();
-    retMap["variableObject"] =m_variableObject?variableObject()->toVariantBP():false;
-    retMap["variableValue"] = m_variableObject?variableObject()->value():false;
+    retMap["variableObject"] =m_variableObject&& !m_variableObject->isProjectMember()?variableObject()->toVariantBP():false;
+    retMap["variableValue"] = m_variableObject&& !m_variableObject->isProjectMember()?variableObject()->value():false;
     retMap["outputSlot"] = m_outputSlot->toVariantBP();
+    retMap["isProjectMember"] = m_variableObject->isProjectMember();
+    retMap["projectMemberName"] =  m_variableObject->isProjectMember()?m_variableObject->name():"";
     return retMap;
 }
 
@@ -44,12 +48,13 @@ void BP_VariableNode::fromVariant(QVariant var)
 {
     BP_Node::fromVariant(var);
     auto varMap = var.toMap();
-    if(coreObject() && coreObject()->isImported()){
+    if(coreObject() && (coreObject()->isImported()|| coreObject()->isProjectMember())){
         setVariableObject(qobject_cast<BP_Variable*>(coreObject()));
     }
     //Text that the variable exist for nodes like ClassInstance where it is nullptr
     if(variableObject() && !variableObject()->isImported()){
         m_variableObject->setValue(varMap["variableValue"]);
+
         qDebug() << "about to include the new value of "<< m_variableObject->value();
         emit updateDisplay();
     }

@@ -30,6 +30,9 @@ void BP_OneVariableMemberItem::setContainedVariable(BP_Variable *containedVariab
         return;
 
     m_containedVariable = containedVariable;
+    if(containedVariable){
+        setMemberName(containedVariable->name());
+    }
     emit containedVariableChanged(m_containedVariable);
 }
 

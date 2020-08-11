@@ -73,15 +73,19 @@ void BP_Node::fromVariant(QVariant var)
 //    if(varMap["coreObject"].type() == QVariant::Bool){
 //        if(!varMap["coreObject"].toBool()) setCoreObject(nullptr);
 //    }
-    if(varMap["coreObject"].toMap()["isImported"].toBool()){
+    if(varMap["coreObject"].toMap()["isImported"].toBool() ||
+           varMap["coreObject"].toMap()["isProjectMember"].toBool() ){
         auto coreObjects = BP_Utils::instance()->coreObjectsMap.values(varMap["coreObject"].toMap()["name"].toString());
         //TODO compare the objects hierarchy when multiple objects are found
+        if(varMap["coreObject"].toMap()["isProjectMember"].toBool())
+            qDebug() << "loading core object that is a project member";
         foreach (auto coreObject, coreObjects) {
             if(coreObject == this->coreObject()) continue;
             qDebug()<<"core Object found " << coreObject->name() ;
             setCoreObject(coreObject);
         }
     }
+
     //TODO investigate the nessecity to load numverOfReferenceCalls
     setPos(varMap["scenePosX"].toFloat(),varMap["scenePosY"].toFloat());
 }

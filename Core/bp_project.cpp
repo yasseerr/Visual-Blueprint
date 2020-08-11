@@ -27,6 +27,8 @@
 
 #include <Modeling/Graph/bp_graphnodesmodel.h>
 
+#include <Modeling/Members/bp_membersmodel.h>
+
 
 BP_Project::BP_Project(QString projectName,QObject *parent) : QObject(parent),
     m_projectName(projectName)
@@ -135,6 +137,7 @@ QVariant BP_Project::toVariantBP()
     foreach (auto v, m_importedVariables) {
         importedVariablesVariantList << v->toVariantBP();
     }
+    
 
     retMap["importedModules"] = importedModulesVariantList;
     retMap["importedFunctions"] = importedFunctionsVariantList;
@@ -145,7 +148,7 @@ QVariant BP_Project::toVariantBP()
     //member variable
     QVariantList memberVariablesVariantList;
     foreach (auto v, m_memberVariables) {
-        importedVariablesVariantList << v->getVariableAsVariant();
+        memberVariablesVariantList << v->getVariableAsVariant();
     }
 
     retMap["memberVariables"] = memberVariablesVariantList;
@@ -198,6 +201,10 @@ void BP_Project::loadProject(QVariant projectVariant)
     }
     
     //TODO load members
+
+    foreach (auto memberVariant, projectMap["memberVariables"].toList()) {
+        BP_Utils::instance()->membersModel->addMemberVariableFromVariant(memberVariant.toMap());
+    }
 
     //load the entry graph
     loadedProject->entryGraph()->fromVariantBP(projectMap["entryGraph"]);

@@ -17,6 +17,7 @@
 
 class BP_CoreObject;
 class BP_GraphNodesModel;
+class BP_MembersModel;
 
 class BP_Utils : public QObject
 {
@@ -38,6 +39,7 @@ public:
 public:
     ImportsModel *importsModel = nullptr;
     BP_GraphNodesModel *graphNodesModel = nullptr;
+    BP_MembersModel *membersModel = nullptr;
     QMultiMap<QString,BP_CoreObject*> coreObjectsMap;
 
 

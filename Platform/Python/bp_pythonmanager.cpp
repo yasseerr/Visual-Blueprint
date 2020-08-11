@@ -198,7 +198,7 @@ void BP_PythonManager::compileProject(BP_Project *project)
             memberThreads.unite(branch->threads());
         }
         qDebug() << "the size of threads for the member object > " << memberThreads.size();
-        if(memberThreads.size()>0)
+        if(memberThreads.size()>1)
             membersLock << "self."+member->name()+"_lock = threading.Lock()";
     }
     mapping.insert("members",members);

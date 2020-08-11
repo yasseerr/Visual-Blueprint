@@ -56,6 +56,7 @@ public slots:
 
     void updateModel();
     void addMemberVariable();
+    void addMemberVariableFromVariant(QVariantMap memberVariant);
 
     void setConnectedProject(BP_Project *connectedProject);
 signals:

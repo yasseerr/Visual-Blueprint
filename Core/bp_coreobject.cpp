@@ -33,6 +33,8 @@ QVariant BP_CoreObject::toVariantBP()
     retMap["name"] = m_name;
     retMap["importHierarcht"] = QVariant::fromValue(m_importHiearchy);
     retMap["isImported"] = m_isImported;
+    retMap["isProjectMember"] = m_isProjectMember;
+    //? the threads are automaticly loaded in BP_DataSlot::acceptConnection
     return retMap;
     //return "a core object";
 

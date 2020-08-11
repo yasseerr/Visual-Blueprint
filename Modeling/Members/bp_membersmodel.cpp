@@ -137,11 +137,27 @@ void BP_MembersModel::addMemberVariable()
     BP_OneVariableMemberItem *variableMemberItem = new BP_OneVariableMemberItem(m_variablesItems,m_variablesItems);
     QVariantMap newVariableMap = BP_Variable::getDefaultVariantMap();
     BP_Variable *newVariable = new BP_Variable(&newVariableMap,m_connectedProject);
+    newVariable->setIsImported(false);
+    newVariable->setIsProjectMember(true);
     variableMemberItem->setContainedVariable(newVariable);
     m_connectedProject->addMemberVariable(newVariable);
     emit layoutChanged();
     m_connectedTreeView->edit(indexForItem(variableMemberItem));
 
+}
+
+void BP_MembersModel::addMemberVariableFromVariant(QVariantMap memberVariant)
+{
+    //create the variable
+    //add it to the members treeview
+    BP_OneVariableMemberItem *variableMemberItem = new BP_OneVariableMemberItem(m_variablesItems,m_variablesItems);
+    BP_Variable *newVariable = new BP_Variable(&memberVariant,m_connectedProject);
+    newVariable->setIsImported(false);
+    newVariable->setIsProjectMember(true);
+    variableMemberItem->setContainedVariable(newVariable);
+    m_connectedProject->addMemberVariable(newVariable);
+    emit layoutChanged();
+    //link the nodes to it using getMemberVariableByName
 }
 
 void BP_MembersModel::setConnectedProject(BP_Project *connectedProject)

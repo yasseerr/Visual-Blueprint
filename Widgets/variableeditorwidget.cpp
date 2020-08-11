@@ -45,6 +45,7 @@ void VariableEditorWidget::setEditorData(QString className, int multiplicityInde
 {
     //ui->lineEdit->setText(className);
     ui->comboBox->setCurrentIndex(multiplicityIndex);
+    ui->classComboBox->setCurrentText(className);
 }
 
 void VariableEditorWidget::setComboModel(QStringList classesList)

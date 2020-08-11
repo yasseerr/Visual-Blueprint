@@ -65,11 +65,15 @@ void BP_Variable::getAsParameter(BP_Parameter *param)
 
 QVariantMap BP_Variable::getVariableAsVariant()
 {
+    //TODO study the need to store isProjectMember in a BP_Variable
+    //instead of the current in BP_VariableNode
     QVariantMap retMap;
     retMap.insert("name",name());
     retMap.insert("isPrimitive",m_isPrimitive);
     retMap.insert("value",value());
     retMap.insert("sourceClass",m_sourceClass?sourceClass()->toVariantBP():false);
+    retMap.insert("className",m_className);
+    //TODO add the parameters
     return retMap;
 }
 
