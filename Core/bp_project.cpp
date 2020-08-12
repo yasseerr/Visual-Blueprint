@@ -47,7 +47,7 @@ void BP_Project::importModule(QStringList moduleHierarchy)
 {
     QVariantMap moduleMap = m_platformManager->importModule(moduleHierarchy);
 //    qDebug()<< "module imported :" << endl << moduleMap;
-    BP_Module *importedModule = new BP_Module(&moduleMap,this);
+    BP_Module *importedModule = new BP_Module(&moduleMap,moduleHierarchy,this);
     importedModule->setImportHiearchy(moduleHierarchy);
     qDebug() << "module Name : " << importedModule->name();
     m_importedModules.append(importedModule);

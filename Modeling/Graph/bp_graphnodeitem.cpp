@@ -49,6 +49,16 @@ BP_Node *BP_GraphNodeItem::createToolNode(QObject *parent)
     return  retNode;
 }
 
+BP_GraphNodeItem *BP_GraphNodeItem::getCoreObjectNode(BP_CoreObject *obj)
+{
+    if(this->coreObject() == obj) return this;
+    foreach (auto child, childItems) {
+        auto objNode = child->getCoreObjectNode(obj);
+        if(objNode) return objNode;
+    }
+    return  nullptr;
+}
+
 BP_CoreObject *BP_GraphNodeItem::coreObject() const
 {
     return m_coreObject;

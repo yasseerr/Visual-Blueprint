@@ -117,7 +117,7 @@ public slots:
     // QGraphicsItem interface
     void setReference(QString reference);
 
-    virtual void showNextNodeOptions();
+    virtual void showNextNodeOptions(QPointF dialogPos);
 
     void setTextColor(QColor textColor);
 

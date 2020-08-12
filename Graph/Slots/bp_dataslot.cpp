@@ -12,12 +12,15 @@
 #include <QDebug>
 #include <QFontMetrics>
 #include <QPainter>
+#include <bp_utils.h>
 
 #include <Core/bp_parameter.h>
 
 #include <Graph/bp_framebranch.h>
 #include <Graph/bp_node.h>
 #include <Graph/bp_thread.h>
+
+#include <Widgets/graphnodesselectiondialog.h>
 
 BP_DataSlot::BP_DataSlot(BP_Node *parent):BP_Slot(parent),m_parameterObject(nullptr),m_parameterWidth(50),
     m_showName(true),m_returnName("return"),m_requireSemaphore(false)
@@ -200,8 +203,22 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
     return true;
 }
 
-void BP_DataSlot::showNextNodeOptions()
+void BP_DataSlot::showNextNodeOptions(QPointF dialogPos)
 {
+    //show only the when the slot is an output
+    if(!this->isOutput()) return;
+    qDebug() << "the slot is an output ";
+    auto parameterClass = this->parameterObject()->parameterClass();
+    //TODO fill the parameter class when the variable only have a class name
+    if(!parameterClass) return;
+    qDebug() << "parameter class name for dialog : " << parameterClass->name();
+    //test if the node output class is valid befor showing the dialog
+    BP_Utils::instance()->newNodeDialog->setRootClass(parameterClass);
+    BP_Utils::instance()->newNodeDialog->setSelfSlot(this);
+    BP_Utils::instance()->newNodeDialog->setGeometry(
+                QRect(QCursor::pos(),BP_Utils::instance()->newNodeDialog->geometry().size()));
+    BP_Utils::instance()->newNodeDialog->show();
+    BP_Utils::instance()->newNodeDialog->setFocus();
 
 }
 

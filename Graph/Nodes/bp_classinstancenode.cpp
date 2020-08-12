@@ -89,7 +89,7 @@ void BP_ClassInstanceNode::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->drawRect(0,0,m_bounds.width(),30);
     painter->drawText(30,15,":"+m_sourceClass->name());
 
-    painter->setBrush(Qt::green);
+    painter->setBrush(QColor("#74923A"));
     painter->drawRect(0,30,m_bounds.width(),m_bounds.height()-30);
 }
 

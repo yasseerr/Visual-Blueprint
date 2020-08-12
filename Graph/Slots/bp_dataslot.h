@@ -78,7 +78,7 @@ public:
 
     virtual QPointF getAnchorPoint() override;
     virtual bool acceptConnection(BP_Slot *secondSlot) override;
-    virtual void showNextNodeOptions() override;
+    virtual void showNextNodeOptions(QPointF dialogPos) override;
 bool showName() const;
 QString returnName() const
 {

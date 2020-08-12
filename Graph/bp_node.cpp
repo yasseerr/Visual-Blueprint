@@ -139,6 +139,7 @@ BP_GraphView *BP_Node::connectedGraph() const
 
 QString BP_Node::getNodeDocumentation()
 {
+    //TODO add the documentation for coreObjects that have an owning module
     if(coreObject() && coreObject()->isImported())
         return BP_Utils::instance()->currentProject->platformManager()->getDocForCoreObject(this->coreObject());
     else

@@ -33,6 +33,7 @@ public:
     QModelIndex indexForItem(BP_GraphNodeItem *importItem);
     BP_GraphNodeItem* itemForIndex(const QModelIndex &index) const;
     int rowForItem(BP_GraphNodeItem *item) const;
+    BP_GraphNodeItem* getCoreObjectNode(BP_CoreObject *obj);
 
     // QAbstractItemModel interface
 public:

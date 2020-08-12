@@ -14,7 +14,7 @@
 
 #include <QVariantMap>
 
-BP_Module::BP_Module(QVariantMap *moduleVariant,QObject *parent) : BP_CoreObject(parent),
+BP_Module::BP_Module(QVariantMap *moduleVariant,QStringList importHierarchy,QObject *parent) : BP_CoreObject(parent),
   m_alias("")
 {
     if(moduleVariant != nullptr){
@@ -25,7 +25,7 @@ BP_Module::BP_Module(QVariantMap *moduleVariant,QObject *parent) : BP_CoreObject
             QVariantMap functionMap = functionVariant.toMap();
             BP_Function *moduleFunction = new BP_Function(&functionMap,this);
             moduleFunction->setOwningModule(this);
-
+            moduleFunction->setImportHiearchy(QStringList()<< moduleFunction->name() << importHierarchy);
             m_functions << moduleFunction;
         }
 
@@ -34,7 +34,7 @@ BP_Module::BP_Module(QVariantMap *moduleVariant,QObject *parent) : BP_CoreObject
             QVariantMap classMap = classVariant.toMap();
             BP_Class *moduleClass = new BP_Class(&classMap,this);
             moduleClass->setOwningModule(this);
-
+            moduleClass->setImportHiearchy(QStringList()<< moduleClass->name() << importHierarchy);
             m_classes << moduleClass;
         }
 
@@ -43,6 +43,7 @@ BP_Module::BP_Module(QVariantMap *moduleVariant,QObject *parent) : BP_CoreObject
             QVariantMap varMap = varVariant.toMap();
             BP_Variable *moduleVar = new BP_Variable(&varMap,this);
             moduleVar->setOwningModule(this);
+            moduleVar->setImportHiearchy(QStringList()<< moduleVar->name() << importHierarchy);
             m_moduleValues << moduleVar;
         }
     }

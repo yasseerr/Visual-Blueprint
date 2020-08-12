@@ -46,6 +46,11 @@ int BP_GraphNodesModel::rowForItem(BP_GraphNodeItem *item) const
     return  item->m_parentItem->childItems.indexOf(item);
 }
 
+BP_GraphNodeItem *BP_GraphNodesModel::getCoreObjectNode(BP_CoreObject *obj)
+{
+    return m_rootItem->getCoreObjectNode(obj);
+}
+
 QModelIndex BP_GraphNodesModel::index(int row, int column, const QModelIndex &parent) const
 {
     if(hasIndex(row,column,parent))

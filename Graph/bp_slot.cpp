@@ -284,7 +284,7 @@ void BP_Slot::setReference(QString reference)
     emit referenceChanged(m_reference);
 }
 
-void BP_Slot::showNextNodeOptions()
+void BP_Slot::showNextNodeOptions(QPointF dialogPos)
 {
 
 
@@ -368,7 +368,7 @@ void BP_Slot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
     }
     else{
-        showNextNodeOptions();
+        showNextNodeOptions(event->scenePos());
         temporaryLink->setVisible(false);
         scene()->removeItem(temporaryLink);
         temporaryLink->deleteLater();

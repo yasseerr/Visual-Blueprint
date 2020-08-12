@@ -19,7 +19,8 @@
 GraphNodesSelectionDialog::GraphNodesSelectionDialog(BP_GraphNodesModel *graphNodesModel, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::GraphNodesSelectionDialog),
-    m_graphNodesModel(graphNodesModel)
+    m_graphNodesModel(graphNodesModel),
+    m_rootClass(nullptr)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint|Qt::Popup);
@@ -47,6 +48,11 @@ GraphNodesSelectionDialog::~GraphNodesSelectionDialog()
 BP_Project *GraphNodesSelectionDialog::currentProject() const
 {
     return m_currentProject;
+}
+
+BP_Class *GraphNodesSelectionDialog::rootClass() const
+{
+    return m_rootClass;
 }
 
 void GraphNodesSelectionDialog::selectionTextChanged(QString newText)
@@ -99,6 +105,24 @@ void GraphNodesSelectionDialog::setCurrentProject(BP_Project *currentProject)
 
     m_currentProject = currentProject;
     emit currentProjectChanged(m_currentProject);
+}
+
+void GraphNodesSelectionDialog::setRootClass(BP_Class *rootClass)
+{
+    if (m_rootClass == rootClass)
+        return;
+
+    m_rootClass = rootClass;
+
+    if(m_rootClass){
+        auto classNode = m_graphNodesModel->getCoreObjectNode(m_rootClass);
+        if(!classNode) ui->nodesTreeView->setRootIndex(QModelIndex());
+        auto classIndex = m_graphProxyModel->mapFromSource(m_graphNodesModel->indexForItem(classNode));
+        ui->nodesTreeView->setRootIndex(classIndex);
+        qDebug() << "root index changed";
+    }
+
+    emit rootClassChanged(m_rootClass);
 }
 
 void GraphNodesSelectionDialog::focusOutEvent(QFocusEvent *event)

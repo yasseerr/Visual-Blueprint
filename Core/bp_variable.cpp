@@ -58,6 +58,7 @@ void BP_Variable::getAsParameter(BP_Parameter *param)
     param->setDefualtValue(this);
     param->setParameterName(this->name());
     //TODO create a class map and assign the class to the
+    param->setParameterClass(this->sourceClass());
     //parameter throught the name
     //param->setParameterClass()
 

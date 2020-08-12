@@ -38,7 +38,7 @@ class BP_Module : public BP_CoreObject
 
 public:
 
-    explicit BP_Module(QVariantMap *moduleVariant = nullptr,QObject *parent = nullptr);
+    explicit BP_Module(QVariantMap *moduleVariant = nullptr,QStringList importHierarchy = QStringList(),QObject *parent = nullptr);
 
 
     QList<BP_Function*> functions() const;
