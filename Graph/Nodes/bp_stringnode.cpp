@@ -12,6 +12,7 @@
 #include <Graph/Slots/bp_dataslot.h>
 
 #include <QPainter>
+#include <bp_utils.h>
 
 #include <Core/bp_variable.h>
 
@@ -42,6 +43,7 @@ BP_StringNode::BP_StringNode(QObject *parent):BP_VariableNode(),m_textEdit(new Q
     variable->setName("varstring_"+QString::number(nodeId));
     variable->setIsArray("false");
     variable->setIsImported(false);
+    variable->setSourceClass(BP_Utils::instance()->currentProject->platformManager()->getBasicTypeClass("string"));
 
     setCoreObject(variable);
     setVariableObject(variable);

@@ -36,6 +36,7 @@ class BP_OperationToolNode;
 class BP_CreateThreadsNode;
 
 class BP_CoreObject;
+class BP_Class;
 
 class BP_PlatformManager : public QObject
 {
@@ -81,6 +82,8 @@ public:
 
     //doc & info
     virtual QString getDocForCoreObject(BP_CoreObject *obj) = 0;
+    //TODO replace the type name by an enumeration
+    virtual BP_Class* getBasicTypeClass(QString typeName)= 0;
 
 public slots:
     //slots for the manager process

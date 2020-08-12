@@ -11,6 +11,7 @@
 
 #include <QPainter>
 #include <QSpinBox>
+#include <bp_utils.h>
 
 #include <Core/bp_variable.h>
 
@@ -41,6 +42,7 @@ BP_FloatNode::BP_FloatNode():BP_VariableNode(),m_floatSpinBox(new QDoubleSpinBox
     variable->setName("var_float"+QString::number(nodeId));
     variable->setIsArray("false");
     variable->setIsImported(false);
+    variable->setSourceClass(BP_Utils::instance()->currentProject->platformManager()->getBasicTypeClass("float"));
 
     setCoreObject(variable);
     setVariableObject(variable);

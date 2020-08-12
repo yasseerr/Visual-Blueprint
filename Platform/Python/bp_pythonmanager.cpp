@@ -615,6 +615,27 @@ QString BP_PythonManager::getDocForCoreObject(BP_CoreObject *obj)
     return listRawData;
 }
 
+BP_Class *BP_PythonManager::getBasicTypeClass(QString typeName)
+{
+    QMap<QString,QString> typeMap;
+    typeMap["string"] = "str";
+    typeMap["integer"] = "int";
+    typeMap["float"] = "float";
+    typeMap["boolean"] = "bool";
+
+    auto className = typeMap.value(typeName,"");
+    if(className=="") return nullptr;
+
+    auto classObj = BP_Utils::instance()->coreObjectsMap.value(className);
+    if(classObj && qobject_cast<BP_Class*>(classObj)){
+        auto classObjClass = qobject_cast<BP_Class*>(classObj);
+        qDebug() << "source class was added (platform) " << classObjClass->name();
+        return classObjClass;
+    }
+    return nullptr;
+
+}
+
 
 void BP_PythonManager::standardOutputReady()
 {

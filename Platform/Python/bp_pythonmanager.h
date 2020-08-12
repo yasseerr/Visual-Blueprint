@@ -61,6 +61,8 @@ public:
     //doc
     QString getDocForCoreObject(BP_CoreObject *obj) override;
 
+    BP_Class * getBasicTypeClass(QString typeName) override;
+
 public slots:
     virtual void standardOutputReady() override;
     virtual void errorOutputReady() override;

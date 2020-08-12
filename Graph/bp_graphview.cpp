@@ -142,7 +142,7 @@ void BP_GraphView::dropEvent(QDropEvent *event){
             int row, col;
             QMap<int,  QVariant> roleDataMap;
             stream >> row >> col >> roleDataMap;
-            if(row == 0 && col == 0){
+            if(col == 0){
                 //get the variable with the name in the first role
                 auto memberVariableName  = roleDataMap[0].toString();
                 qDebug() << "membrr variablee detected : " << memberVariableName;

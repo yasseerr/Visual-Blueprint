@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <bp_utils.h>
 
 #include <Graph/Slots/bp_dataslot.h>
 
@@ -43,6 +44,7 @@ BP_IntNode::BP_IntNode():BP_VariableNode(),m_spinbox(new QSpinBox()),m_spinItem(
     intVariable->setName("varint");
     intVariable->setIsArray("false");
     intVariable->setIsImported(false);
+    intVariable->setSourceClass(BP_Utils::instance()->currentProject->platformManager()->getBasicTypeClass("integer"));
 
     setCoreObject(intVariable);
     setVariableObject(intVariable);

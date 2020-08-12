@@ -209,6 +209,7 @@ void BP_DataSlot::showNextNodeOptions(QPointF dialogPos)
     //show only the when the slot is an output
     if(!this->isOutput()) return;
     qDebug() << "the slot is an output ";
+    if(!this->parameterObject()) return;
     auto parameterClass = this->parameterObject()->parameterClass();
     //TODO fill the parameter class when the variable only have a class name ***************
     if(! parameterClass) return;

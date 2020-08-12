@@ -11,6 +11,7 @@
 
 #include <QPainter>
 #include <QSpinBox>
+#include <bp_utils.h>
 
 #include <Core/bp_variable.h>
 
@@ -43,6 +44,7 @@ m_boolItem(new QGraphicsProxyWidget())
     variable->setName("var_bool"+QString::number(nodeId));
     variable->setIsArray(false);
     variable->setIsImported(false);
+    variable->setSourceClass(BP_Utils::instance()->currentProject->platformManager()->getBasicTypeClass("boolean"));
 
     setCoreObject(variable);
     setVariableObject(variable);
