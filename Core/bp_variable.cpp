@@ -204,7 +204,7 @@ void BP_Variable::setSourceClass(BP_Class *sourceClass)
 }
 
 
-BP_Node *BP_Variable::createNodeForObject(QObject *parent)
+BP_Node *BP_Variable::createNodeForObject(BP_Slot *selfSlot,QObject *parent)
 {
     //BP_VariableNode *variableNode = new BP_VariableNode();
     BP_VariableNode *variableNode = new BP_VariableNode();

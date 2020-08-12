@@ -56,6 +56,7 @@ public:
     static int nodeTypeID ;
 
     void updateSlotsBranches(BP_Slot *slot) override;
+    void connectSelfSlot(BP_Slot *selfSlot) override;
 
     void loadCurrentFunction();
 

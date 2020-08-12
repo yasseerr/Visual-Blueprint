@@ -81,7 +81,7 @@ QList<BP_Constructor *> BP_Class::constructors() const
     return m_constructors;
 }
 
-BP_Node *BP_Class::createNodeForObject(QObject *parent)
+BP_Node *BP_Class::createNodeForObject(BP_Slot *selfSlot,QObject *parent)
 {
     BP_ClassInstanceNode *classNode = new BP_ClassInstanceNode();
     classNode->setSourceClass(this);

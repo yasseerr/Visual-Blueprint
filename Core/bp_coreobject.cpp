@@ -56,12 +56,13 @@ QString BP_CoreObject::getImportSourceString()
     return  retString;
 }
 
-BP_Node *BP_CoreObject::createNodeForObject(QObject *parent)
+BP_Node *BP_CoreObject::createNodeForObject(BP_Slot *selfSlot,QObject *parent)
 {
     BP_Node *objectNode = new BP_Node(parent);
     objectNode->setCoreObject(this);
     return  objectNode;
 }
+
 
 QString BP_CoreObject::name() const
 {

@@ -95,7 +95,7 @@ signals:
 
     // BP_CoreObject interface
 public:
-    virtual BP_Node *createNodeForObject(QObject *parent) override;
+    virtual BP_Node *createNodeForObject(BP_Slot *selfSlot,QObject *parent) override;
 };
 
 #endif // BP_FUNCTION_H

@@ -112,7 +112,7 @@ signals:
 
 
 public:
-virtual BP_Node *createNodeForObject(QObject *parent) override;
+virtual BP_Node *createNodeForObject(BP_Slot *selfSlot,QObject *parent) override;
 BP_Class* sourceClass() const;
 
 };

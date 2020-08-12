@@ -211,7 +211,7 @@ BP_Node *BP_Slot::getLCAForBranches()
         }
         if(!allEqual) break;
     }
-    return allHierarchies[0]->at(stpPnt-1);
+    return allHierarchies.size()>0?allHierarchies[0]->at(stpPnt-1):nullptr;
 }
 
 

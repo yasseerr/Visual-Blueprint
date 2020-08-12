@@ -148,7 +148,7 @@ void BP_GraphView::dropEvent(QDropEvent *event){
                 qDebug() << "membrr variablee detected : " << memberVariableName;
                 auto memberObject = BP_Utils::instance()->coreObjectsMap.value(memberVariableName);
                 //if(!memberObject)return;
-                auto memberNode = memberObject->createNodeForObject(this);
+                auto memberNode = memberObject->createNodeForObject(nullptr,this);
                 this->addNode(memberNode,this->mapToGlobal(event->pos()));
                 //create the node as  is the graph selection dialog
             }

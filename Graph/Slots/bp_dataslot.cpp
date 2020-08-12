@@ -142,8 +142,9 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             }
             if(parentNode()->noFlowNode()){
                 auto lcaNode = getLCAForBranches();
-                parentNode()->setScope(lcaNode);
-                qDebug() << "getting the LCA " << lcaNode->nodeId ;
+                //TODO update the scope of not connected nodes
+                parentNode()->setScope(lcaNode?lcaNode:parentNode());
+                qDebug() << "getting the LCA " << parentNode()->scope()->nodeId ;
             }
             //adding the threads reference********************************************************
             //get the threads in the branches

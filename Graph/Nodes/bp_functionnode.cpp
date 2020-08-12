@@ -23,8 +23,10 @@
 
 #include <Graph/Links/bp_link.h>
 
+#include <Graph/bp_graphscene.h>
 #include <Graph/bp_graphutils.h>
 #include <Graph/bp_graphutils.h>
+#include <Graph/bp_graphview.h>
 
 RegisterNodeType(BP_FunctionNode)
 BP_FunctionNode::BP_FunctionNode(QObject *parent):BP_Node(parent),m_selfSlot(nullptr)
@@ -109,6 +111,18 @@ void BP_FunctionNode::updateSlotsBranches(BP_Slot *slot)
     //for the inputs
 
     //for the output
+}
+
+void BP_FunctionNode::connectSelfSlot(BP_Slot *selfSlot)
+{
+   BP_Link *selfLink = new BP_Link(selfSlot);
+   selfSlot->addLink(selfLink);
+   this->m_selfSlot->addLink(selfLink);
+   selfLink->setInSlot(selfSlot);
+   selfLink->setOutSlot(m_selfSlot);
+   selfSlot->acceptConnection(m_selfSlot);
+   auto graphScene = qobject_cast<BP_GraphScene*>(scene());
+   connectedGraph()->scene()->addItem(selfLink);
 }
 
 void BP_FunctionNode::loadCurrentFunction()

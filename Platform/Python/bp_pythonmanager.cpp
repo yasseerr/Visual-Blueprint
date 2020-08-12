@@ -338,6 +338,8 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
     mapping.insert("functionInputsDeclaration",functionInputsDeclaration);
     mapping.insert("required_semaphores",requiredSemaphores);
     mapping.insert("return_require_semaphore",node->returnSlot()->requireSemaphore());
+    mapping.insert("owning_obj_ref",
+                   node->functionObject()->isMember()?node->selfSlot()->connectedLinks().first()->inSlot()->reference():"");
 
     //temporary solution for parameter refrences
     QStringList parameterRefrences;

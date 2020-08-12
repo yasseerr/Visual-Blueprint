@@ -151,7 +151,7 @@ void BP_Function::setIsFullyImported(bool isFullyImported)
     emit isFullyImportedChanged(m_isFullyImported);
 }
 
-BP_Node *BP_Function::createNodeForObject(QObject *parent)
+BP_Node *BP_Function::createNodeForObject(BP_Slot *selfSlot,QObject *parent)
 {
     BP_FunctionNode *functionNode = new BP_FunctionNode();
     functionNode->setParent(parent);

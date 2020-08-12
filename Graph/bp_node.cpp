@@ -121,6 +121,11 @@ void BP_Node::getOriginalThreads(QSet<BP_Thread*> &threadsOut)
     }
 }
 
+void BP_Node::connectSelfSlot(BP_Slot *selfSlot)
+{
+
+}
+
 
 BP_Node *BP_Node::Create()
 {

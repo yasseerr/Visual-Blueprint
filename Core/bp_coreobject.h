@@ -15,6 +15,7 @@
 
 class BP_Node;
 class BP_FrameBranch;
+class BP_Slot;
 
 class BP_CoreObject : public QObject
 {
@@ -46,7 +47,7 @@ public:
 
     //TODO get the importstring and type functions for the imported model
     QString getImportSourceString();
-    virtual BP_Node* createNodeForObject(QObject *parent = nullptr);
+    virtual BP_Node* createNodeForObject(BP_Slot *selfSlot=nullptr,QObject *parent = nullptr);
 
     QString name() const;
     QStringList importHiearchy() const;

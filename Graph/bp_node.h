@@ -86,6 +86,7 @@ public:
 
     virtual void updateSlotsBranches(BP_Slot* slot);
     virtual void getOriginalThreads(QSet<BP_Thread*> &threadsOut);
+    virtual void connectSelfSlot(BP_Slot *selfSlot);
 
     static QList<QMetaObject>* initializeNodesTypes();
     //static int setupNodeType(QString name,BP_Node* (*func)());

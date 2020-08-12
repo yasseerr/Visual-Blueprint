@@ -53,7 +53,7 @@ public:
 
     QList<BP_Constructor*> constructors() const;
 
-    BP_Node * createNodeForObject(QObject *parent = nullptr) override;
+    BP_Node * createNodeForObject(BP_Slot *selfSlot,QObject *parent = nullptr) override;
 
 public slots:
 

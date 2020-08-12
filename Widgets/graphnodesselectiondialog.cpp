@@ -20,7 +20,8 @@ GraphNodesSelectionDialog::GraphNodesSelectionDialog(BP_GraphNodesModel *graphNo
     QDialog(parent),
     ui(new Ui::GraphNodesSelectionDialog),
     m_graphNodesModel(graphNodesModel),
-    m_rootClass(nullptr)
+    m_rootClass(nullptr),
+    m_selfSlot(nullptr)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint|Qt::Popup);
@@ -55,6 +56,11 @@ BP_Class *GraphNodesSelectionDialog::rootClass() const
     return m_rootClass;
 }
 
+BP_Slot *GraphNodesSelectionDialog::selfSlot() const
+{
+    return m_selfSlot;
+}
+
 void GraphNodesSelectionDialog::selectionTextChanged(QString newText)
 {
     m_graphProxyModel->setFilterRegExp(newText);
@@ -67,10 +73,13 @@ void GraphNodesSelectionDialog::graphTreeClickedEvent(QModelIndex index)
     qDebug() << "item clicked : " << index.row();
     BP_GraphNodeItem *item = m_graphNodesModel->itemForIndex(m_graphProxyModel->mapToSource(index));
     if(!item->isTool() && item->coreObject() != nullptr){
-        BP_Node *node = item->coreObject()->createNodeForObject(m_currentProject->entryGraph());
+        BP_Node *node = item->coreObject()->createNodeForObject(nullptr,m_currentProject->entryGraph());
         node->setCoreObject(item->coreObject());
 
         m_currentProject->entryGraph()->addNode(node,this->pos());
+
+        //link the self slot
+        if(m_selfSlot)node->connectSelfSlot(m_selfSlot);
 
     }
     else {
@@ -123,6 +132,15 @@ void GraphNodesSelectionDialog::setRootClass(BP_Class *rootClass)
     }
 
     emit rootClassChanged(m_rootClass);
+}
+
+void GraphNodesSelectionDialog::setSelfSlot(BP_Slot *selfSlot)
+{
+    if (m_selfSlot == selfSlot)
+        return;
+
+    m_selfSlot = selfSlot;
+    emit selfSlotChanged(m_selfSlot);
 }
 
 void GraphNodesSelectionDialog::focusOutEvent(QFocusEvent *event)
