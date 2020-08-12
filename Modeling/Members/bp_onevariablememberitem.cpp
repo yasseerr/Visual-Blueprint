@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QIcon>
 #include <QVariant>
+#include <bp_utils.h>
 
 BP_OneVariableMemberItem::BP_OneVariableMemberItem(BP_MemberItem *parentItem,QObject *parent) : BP_MemberItem(parentItem,parent)
 {
@@ -68,6 +69,16 @@ bool BP_OneVariableMemberItem::setDescriptionData(QVariant data, int role)
         //TODO add the class hierarchy
         m_containedVariable->setIsProjectMember(true);
         m_containedVariable->setClassName(data.toMap().value("className").toString());
+        //trying to link the class to the variable
+
+        auto classObj = BP_Utils::instance()->
+                coreObjectsMap.value(m_containedVariable->className());
+        if(classObj && qobject_cast<BP_Class*>(classObj)){
+            auto classObjClass = qobject_cast<BP_Class*>(classObj);
+            m_containedVariable->setSourceClass(classObjClass);
+            qDebug() << "source class was added (in members) " << classObjClass->name();
+        }
+
         m_containedVariable->setIsArray((data.toMap().value("multiplicity").toInt()==0?false:true));
         return true;
     }

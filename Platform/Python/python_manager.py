@@ -344,8 +344,9 @@ def isArray(obj):
         return False
 
 def getVariableClass(var_obj):
+    #?update the primitive types will be handeled in c++
     if type(var_obj) in NONE_CLASS_TYPES:
-        return False
+        return type(var_obj).__name__
     else:
         return type(var_obj).__name__
 

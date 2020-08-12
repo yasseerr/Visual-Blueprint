@@ -210,8 +210,8 @@ void BP_DataSlot::showNextNodeOptions(QPointF dialogPos)
     if(!this->isOutput()) return;
     qDebug() << "the slot is an output ";
     auto parameterClass = this->parameterObject()->parameterClass();
-    //TODO fill the parameter class when the variable only have a class name
-    if(!parameterClass) return;
+    //TODO fill the parameter class when the variable only have a class name ***************
+    if(! parameterClass) return;
     qDebug() << "parameter class name for dialog : " << parameterClass->name();
     //test if the node output class is valid befor showing the dialog
     BP_Utils::instance()->newNodeDialog->setRootClass(parameterClass);

@@ -118,19 +118,23 @@ void GraphNodesSelectionDialog::setCurrentProject(BP_Project *currentProject)
 
 void GraphNodesSelectionDialog::setRootClass(BP_Class *rootClass)
 {
+    if(rootClass){
+        auto classNode = m_graphNodesModel->getCoreObjectNode(rootClass);
+        if(!classNode) ui->nodesTreeView->setRootIndex(QModelIndex());
+        auto classIndex = m_graphProxyModel->mapFromSource(m_graphNodesModel->indexForItem(classNode));
+        ui->nodesTreeView->setRootIndex(classIndex);
+        qDebug() << "root index changed";
+    }else{
+        ui->nodesTreeView->setRootIndex(QModelIndex());
+    }
     if (m_rootClass == rootClass)
         return;
 
     m_rootClass = rootClass;
 
-    if(m_rootClass){
-        auto classNode = m_graphNodesModel->getCoreObjectNode(m_rootClass);
-        if(!classNode) ui->nodesTreeView->setRootIndex(QModelIndex());
-        auto classIndex = m_graphProxyModel->mapFromSource(m_graphNodesModel->indexForItem(classNode));
-        ui->nodesTreeView->setRootIndex(classIndex);
-        qDebug() << "root index changed";
-    }
-
+    emit m_graphProxyModel->layoutChanged();
+    ui->nodesTreeView->update();
+    ui->nodesTreeView->expandAll();
     emit rootClassChanged(m_rootClass);
 }
 

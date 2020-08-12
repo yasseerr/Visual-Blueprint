@@ -20,6 +20,8 @@
 
 #include <Graph/bp_graphutils.h>
 
+#include <Graph/Links/bp_link.h>
+
 
 RegisterNodeType(BP_VariableNode)
 //int BP_VariableNode::nodeTypeID = BP_VariableNode::setupNodeType(X::staticMetaObject);
@@ -65,9 +67,14 @@ void BP_VariableNode::fromVariant(QVariant var)
 
 void BP_VariableNode::updateSlotsBranches(BP_Slot *slot)
 {
-    if(slot == m_outputSlot && m_variableObject && m_variableObject->isProjectMember()){
-        foreach (auto branch, m_outputSlot->frameBranches()) {
-            m_variableObject->m_connectedBranches.insert(branch);
+    if(slot == m_outputSlot){
+        foreach (auto link, m_outputSlot->connectedLinks()) {
+            m_outputSlot->m_frameBranches << link->outSlot()->m_frameBranches;
+        }
+        if( m_variableObject && m_variableObject->isProjectMember()){
+            foreach (auto branch, m_outputSlot->frameBranches()) {
+                m_variableObject->m_connectedBranches.insert(branch);
+            }
         }
     }
 }

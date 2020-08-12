@@ -17,6 +17,9 @@
 #include <Graph/Nodes/bp_intnode.h>
 #include <Graph/Nodes/bp_variablenode.h>
 
+#include <QDebug>
+#include <bp_utils.h>
+
 BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *moduleHiearchy) : BP_CoreObject(parent),
    m_isPrimitive(false),
    m_isArray(false),
@@ -33,7 +36,15 @@ BP_Variable::BP_Variable(QVariantMap *variableMap,QObject *parent,QStringList *m
         m_isPrimitive  = variableMap->value("isPrimitive").toBool();
         m_value = variableMap->value("value");
         m_className = variableMap->value("className").toString();
-
+        //loading the source class from the class name
+        if(!m_sourceClass &&!(m_className=="unknown")){
+            auto classObj = BP_Utils::instance()->coreObjectsMap.value(m_className);
+            if(classObj && qobject_cast<BP_Class*>(classObj)){
+                auto classObjClass = qobject_cast<BP_Class*>(classObj);
+                setSourceClass(classObjClass);
+                qDebug() << "source class was added " << sourceClass()->name();
+            }
+        }
     }
 
     if(moduleHiearchy != nullptr)
