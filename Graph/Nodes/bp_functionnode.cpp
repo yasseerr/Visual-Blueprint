@@ -106,6 +106,10 @@ void BP_FunctionNode::updateSlotsBranches(BP_Slot *slot)
             inputSlot->setFrameBranches(joinedBranches);
             inputSlot->notifyConnectedNodes();
         }
+        if(m_selfSlot){
+            m_selfSlot->setFrameBranches(joinedBranches);
+            m_selfSlot->notifyConnectedNodes();
+        }
     }
 
     //for the inputs

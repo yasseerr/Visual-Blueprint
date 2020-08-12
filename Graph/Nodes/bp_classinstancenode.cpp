@@ -19,6 +19,7 @@
 #include <bp_utils.h>
 #include <Graph/Slots/bp_dataslot.h>
 #include <Platform/bp_platformmanager.h>
+#include <Graph/Links/bp_link.h>
 
 //RegisterToolNodeType(BP_ClassInstanceNode,"Add Variable")
 RegisterNodeType(BP_ClassInstanceNode)
@@ -73,6 +74,9 @@ QString BP_ClassInstanceNode::getNodeTypeString()
 void BP_ClassInstanceNode::updateSlotsBranches(BP_Slot *slot)
 {
     if(slot == outputSlot()){
+        foreach (auto link, outputSlot()->connectedLinks()) {
+            outputSlot()->m_frameBranches << link->outSlot()->frameBranches();
+        }
         foreach (auto inputSlot, m_inputParameters) {
             inputSlot->m_frameBranches.clear();
             inputSlot->m_frameBranches << outputSlot()->frameBranches();

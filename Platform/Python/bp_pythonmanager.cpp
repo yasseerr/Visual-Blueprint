@@ -331,7 +331,14 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
             if(sourceDataSlot && sourceDataSlot->requireSemaphore()) requiredSemaphores << sourceDataSlot->reference()+"_lock";
         }
     }
-
+    //rendering the owner
+    if(node->functionObject()->isMember()){
+        auto sourceSlot = node->selfSlot()->connectedLinks().first()->inSlot();
+        QString renderedParameter = sourceSlot->parentNode()->renderNode(this);
+        if(renderedParameter!="")functionInputsDeclaration << renderedParameter;
+        auto sourceDataSlot = qobject_cast<BP_DataSlot*>(sourceSlot);
+        if(sourceDataSlot && sourceDataSlot->requireSemaphore()) requiredSemaphores << sourceDataSlot->reference()+"_lock";
+    }
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/Function.j2");
     QVariantHash mapping ;
     mapping.insert("function",QVariant::fromValue(node));

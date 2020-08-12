@@ -140,6 +140,8 @@ void MainWindow::on_actionAdd_Variable_triggered()
 
 void MainWindow::on_actionopen_Node_Selection_triggered()
 {
+    m_graphNodesDialog->setSelfSlot(nullptr);
+    m_graphNodesDialog->setRootClass(nullptr);
     m_graphNodesDialog->show();
     m_graphNodesDialog->setFocus();
     //the position of the generated node is in the dialog geometry
