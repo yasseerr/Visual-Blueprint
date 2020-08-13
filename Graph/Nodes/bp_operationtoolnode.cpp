@@ -102,7 +102,7 @@ void BP_OperationToolNode::updateSlotsBranches(BP_Slot *slot)
 //        m_outputSlot->m_frameBranches << outputFramesBranches;
         foreach (auto inputSlot, m_inputSlots) {
             inputSlot->m_frameBranches.clear();
-            inputSlot->m_frameBranches << m_outputSlot->frameBranches();
+            inputSlot->m_frameBranches.unite(m_outputSlot->frameBranches());
             inputSlot->notifyConnectedNodes();
         }
     }

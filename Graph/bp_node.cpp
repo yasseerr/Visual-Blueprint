@@ -188,7 +188,7 @@ void BP_Node::setNoFlowNode(bool noFlowNode)
     emit noFlowNodeChanged(m_noFlowNode);
 }
 
-void BP_Node::setOriginalBranches(QList<BP_FrameBranch *> originalBranches)
+void BP_Node::setOriginalBranches(QSet<BP_FrameBranch*> originalBranches)
 {
     if (m_originalBranches == originalBranches)
         return;
@@ -197,7 +197,7 @@ void BP_Node::setOriginalBranches(QList<BP_FrameBranch *> originalBranches)
     emit originalBranchesChanged(m_originalBranches);
 }
 
-void BP_Node::setSubBranches(QList<BP_FrameBranch *> subBranches)
+void BP_Node::setSubBranches(QSet<BP_FrameBranch*> subBranches)
 {
     if (m_subBranches == subBranches)
         return;
@@ -318,12 +318,12 @@ bool BP_Node::noFlowNode() const
     return m_noFlowNode;
 }
 
-QList<BP_FrameBranch *> BP_Node::originalBranches() const
+QSet<BP_FrameBranch*> BP_Node::originalBranches() const
 {
     return m_originalBranches;
 }
 
-QList<BP_FrameBranch *> BP_Node::subBranches() const
+QSet<BP_FrameBranch*> BP_Node::subBranches() const
 {
     return m_subBranches;
 }

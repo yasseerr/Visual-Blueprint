@@ -54,13 +54,21 @@ void BP_ClassInstanceNode::fromVariant(QVariant var)
     auto varMap = var.toMap();
     //get the source class
     auto sourceClassVar = varMap["sourceClass"].toMap();
-    auto coreObjects = BP_Utils::instance()->coreObjectsMap.values(sourceClassVar["name"].toString());
+    auto coreObjects = BP_Utils::instance()
+            ->coreObjectsMap.values(sourceClassVar["name"].toString());
     //TODO compare the objects hierarchy when multiple objects are found
     foreach (auto coreObject, coreObjects) {
         qDebug()<<"class Object found " << coreObject->name();
         setSourceClass(qobject_cast<BP_Class*>(coreObject));
     }
     outputSlot()->fromVariant(varMap["outputSlot"]);
+
+    setConstructorId(varMap["constructorId"].toInt());
+
+    for (int i = 0; i < m_inputParameters.size(); ++i) {
+        m_inputParameters.at(i)->fromVariant(varMap["inputtParameters"].toList().at(i));
+    }
+
     calculateBounds();
     //TODO test the laoding of  a class instance
 
@@ -75,11 +83,11 @@ void BP_ClassInstanceNode::updateSlotsBranches(BP_Slot *slot)
 {
     if(slot == outputSlot()){
         foreach (auto link, outputSlot()->connectedLinks()) {
-            outputSlot()->m_frameBranches << link->outSlot()->frameBranches();
+            outputSlot()->m_frameBranches.unite(link->outSlot()->frameBranches());
         }
         foreach (auto inputSlot, m_inputParameters) {
             inputSlot->m_frameBranches.clear();
-            inputSlot->m_frameBranches << outputSlot()->frameBranches();
+            inputSlot->m_frameBranches.unite(outputSlot()->frameBranches());
             inputSlot->notifyConnectedNodes();
         }
     }

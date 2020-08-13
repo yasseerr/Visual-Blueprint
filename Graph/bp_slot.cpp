@@ -123,9 +123,9 @@ void BP_Slot::mouseClicked()
     temporaryLink->setTempOutputPoint(scenePoseBackup);
 }
 
-QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
+QSet<BP_FrameBranch*> BP_Slot::getJoinedBranches()
 {
-    QList<BP_FrameBranch*> branchesToBeFiltered(m_frameBranches);
+    QSet<BP_FrameBranch*> branchesToBeFiltered(m_frameBranches);
 
     //get the parents
     QSet<BP_Node*> splitNodes;
@@ -134,7 +134,7 @@ QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
         splitNodes << frameBranch->splitNode();
     }
     //see if all the parents subbranches are present
-    QList<BP_FrameBranch*> newBranchesList;
+    QSet<BP_FrameBranch*> newBranchesList;
     foreach (auto splitNode, splitNodes) {
         bool splitNodeJoined = true;
         foreach (auto splitNodeSubBranch, splitNode->subBranches()) {
@@ -147,9 +147,9 @@ QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
         if(splitNodeJoined){
             qDebug() << "branch was joined from node " << splitNode->nodeId;
             foreach (auto branch, splitNode->subBranches()) {
-                branchesToBeFiltered.removeOne(branch);
+                branchesToBeFiltered.remove(branch);
             }
-            branchesToBeFiltered << splitNode->originalBranches();
+            branchesToBeFiltered.unite(splitNode->originalBranches());
             splitNode->setClotureNode(this->parentNode());
         }
     }
@@ -157,7 +157,7 @@ QList<BP_FrameBranch *> BP_Slot::getJoinedBranches()
     //replace the subBranches by the original branch
     // create the subBranchesList for node
     // create the originalBranches for node
-    return QList<BP_FrameBranch*>(branchesToBeFiltered);
+    return QSet<BP_FrameBranch*>(branchesToBeFiltered);
 }
 
 QSet<BP_Thread *> BP_Slot::getJoinedThreads()
@@ -252,7 +252,7 @@ bool BP_Slot::isOutput() const
     return m_isOutput;
 }
 
-QList<BP_FrameBranch *> BP_Slot::frameBranches() const
+QSet<BP_FrameBranch*> BP_Slot::frameBranches() const
 {
     return m_frameBranches;
 }
@@ -308,7 +308,7 @@ void BP_Slot::setIsOutput(bool isOutput)
     emit isOutputChanged(m_isOutput);
 }
 
-void BP_Slot::setFrameBranches(QList<BP_FrameBranch *> frameBranches)
+void BP_Slot::setFrameBranches(QSet<BP_FrameBranch*> frameBranches)
 {
     if (m_frameBranches == frameBranches)
         return;

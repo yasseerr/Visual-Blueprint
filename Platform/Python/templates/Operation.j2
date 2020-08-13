@@ -3,7 +3,7 @@
 {%endfor%}
 {%for semaphore in semaphores%}{{semaphore}}.acquire()
 {%endfor%}
-{%if require_semaphore%}{{reference}}_lock = threading.Lock()
+{%if require_semaphore%}{{reference}}_lock = threading.Lock(){%endif%}
 {{reference}} = {{sentence}}
 {%for semaphore in semaphores%}{{semaphore}}.release()
 {%endfor%}

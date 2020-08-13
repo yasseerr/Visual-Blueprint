@@ -58,7 +58,7 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
     //NOTE the isFlow flag does not apply for the flowSlots
     if(this->isOutput()){
         //flowSlot->m_branches.append(this->branches());
-        flowSlot->m_frameBranches.append(this->m_frameBranches);
+        flowSlot->m_frameBranches.unite(this->m_frameBranches);
         //flowSlot->parentNode()->mapInputFlowToOutput();
         flowSlot->parentNode()->updateSlotsBranches(flowSlot);
         foreach (auto branch, flowSlot->frameBranches()) {
@@ -67,7 +67,7 @@ bool BP_FlowSlot::acceptConnection(BP_Slot *secondSlot)
         //qDebug() << "new branches list for " << flowSlot->flowName() << " " << flowSlot->branches();
     }else{
         //m_branches.append(flowSlot->branches());
-        m_frameBranches.append(flowSlot->m_frameBranches);
+        m_frameBranches.unite(flowSlot->m_frameBranches);
         //this->parentNode()->mapInputFlowToOutput();
         this->parentNode()->updateSlotsBranches(this);
         foreach (auto branch, this->frameBranches()) {

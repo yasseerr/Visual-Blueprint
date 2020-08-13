@@ -12,6 +12,7 @@
 
 #include <QtWidgets/QGraphicsItem>
 #include <QObject>
+#include <QSet>
 #include <QTimer>
 
 //#include "graph_interface.h"
@@ -37,7 +38,7 @@ class BP_Slot : public QObject , public QGraphicsItem
     Q_PROPERTY(QString reference READ reference WRITE setReference NOTIFY referenceChanged)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
     Q_PROPERTY(bool isOutput READ isOutput WRITE setIsOutput NOTIFY isOutputChanged)
-    Q_PROPERTY(QList<BP_FrameBranch*> frameBranches READ frameBranches WRITE setFrameBranches NOTIFY frameBranchesChanged)
+    Q_PROPERTY(QSet<BP_FrameBranch*> frameBranches READ frameBranches WRITE setFrameBranches NOTIFY frameBranchesChanged)
     BP_Node* m_parentNode;
 
     QList<BP_Link*> m_connectedLinks;
@@ -66,7 +67,7 @@ public:
     static int numberOfLinksCreated;
     int slotID;
 
-    QList<BP_FrameBranch*> m_frameBranches;
+    QSet<BP_FrameBranch*> m_frameBranches;
 
     virtual QPointF getAnchorPoint();
     virtual bool acceptConnection(BP_Slot *secondSlot);
@@ -78,7 +79,7 @@ public:
 
     virtual void mouseClicked();
 
-    QList<BP_FrameBranch*> getJoinedBranches();
+    QSet<BP_FrameBranch*> getJoinedBranches();
     QSet<BP_Thread*> getJoinedThreads(); ///< return the set of theads fromt the joined branches
     void notifyConnectedNodes(); ///< update the connected nodes branches
     BP_Node* getLCAForBranches();///< get the lowest commom incestor
@@ -94,7 +95,7 @@ signals:
 
     void isOutputChanged(bool isOutput);
 
-    void frameBranchesChanged(QList<BP_FrameBranch*> frameBranches);
+    void frameBranchesChanged(QSet<BP_FrameBranch*> frameBranches);
 
 public:
     virtual QRectF boundingRect() const override;
@@ -108,7 +109,7 @@ public:
 
     bool isOutput() const;
 
-    QList<BP_FrameBranch*> frameBranches() const;
+    QSet<BP_FrameBranch*> frameBranches() const;
 
 public slots:
     void setParentNode(BP_Node* parentNode);
@@ -123,7 +124,7 @@ public slots:
 
     void setIsOutput(bool isOutput);
 
-    void setFrameBranches(QList<BP_FrameBranch*> frameBranches);
+    void setFrameBranches(QSet<BP_FrameBranch*> frameBranches);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

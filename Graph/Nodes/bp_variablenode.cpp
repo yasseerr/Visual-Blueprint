@@ -69,7 +69,7 @@ void BP_VariableNode::updateSlotsBranches(BP_Slot *slot)
 {
     if(slot == m_outputSlot){
         foreach (auto link, m_outputSlot->connectedLinks()) {
-            m_outputSlot->m_frameBranches << link->outSlot()->m_frameBranches;
+            m_outputSlot->m_frameBranches.unite(link->outSlot()->m_frameBranches);
         }
         if( m_variableObject && m_variableObject->isProjectMember()){
             foreach (auto branch, m_outputSlot->frameBranches()) {

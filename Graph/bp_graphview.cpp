@@ -36,7 +36,7 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
     m_entryNode->setEventName("Entry");
     auto enteredEvent = m_entryNode->createFlow("entered");
     BP_Thread *mainThread  = new BP_Thread(enteredEvent);
-    enteredEvent->m_frameBranches.first()->m_threads << mainThread;
+    enteredEvent->m_frameBranches.values().first()->m_threads << mainThread;
 
     //BP_GraphUtils::getInstance()->setNodeParentBranches(m_entryNode,QList<int>() << -1);
     //branch 0 the start

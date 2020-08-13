@@ -8,6 +8,6 @@
 {%for semaphore in semaphores%}{{semaphore}}.acquire()
 {%endfor%}
 {%if require_semaphore%}{{returnName}}_lock = threading.Lock(){%endif%}
-{{returnName}} = {{instance.sourceClass.name}}({%for param in parameterRefrences%}{{param}} {%if not forloop.last%},{%endif%}{% endfor %} )
+{{returnName}} = {{class_name}}({%for param in parameterRefrences%}{{param}} {%if not forloop.last%},{%endif%}{% endfor %} )
 {%for semaphore in semaphores%}{{semaphore}}.release()
 {%endfor%}

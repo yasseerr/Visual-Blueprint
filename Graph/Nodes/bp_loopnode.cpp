@@ -186,7 +186,7 @@ void BP_LoopNode::updateSlotsBranches(BP_Slot *slot)
 {
     if(slot == m_flowInSlot){
         m_originalBranches.clear();
-        m_originalBranches << m_flowInSlot->getJoinedBranches();
+        m_originalBranches.unite(m_flowInSlot->getJoinedBranches());
         //TODO update the cloture node
         if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
 
@@ -195,8 +195,8 @@ void BP_LoopNode::updateSlotsBranches(BP_Slot *slot)
             slot->notifyConnectedNodes();
         }
 
-        m_flowOutSlot->setFrameBranches(QList<BP_FrameBranch*>(m_originalBranches));
-        m_loopFlowSlot->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        m_flowOutSlot->setFrameBranches(QSet<BP_FrameBranch*>(m_originalBranches));
+        m_loopFlowSlot->frameBranches().values().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
 
         m_flowOutSlot->notifyConnectedNodes();
         m_loopFlowSlot->notifyConnectedNodes();

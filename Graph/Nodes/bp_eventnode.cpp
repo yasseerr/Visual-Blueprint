@@ -40,7 +40,7 @@ BP_FlowSlot* BP_EventNode::createFlow(QString flowName)
     BP_FlowSlot *flowSlot = new BP_FlowSlot(this);
     BP_FrameBranch *newFlowBranch = new BP_FrameBranch(flowSlot) ;
     m_subBranches << newFlowBranch;
-    flowSlot->m_frameBranches << m_subBranches;
+    flowSlot->m_frameBranches.unite(m_subBranches);
     newFlowBranch->setSplitNode(this);
     slotsBranches.insert(flowSlot,newFlowBranch);
 

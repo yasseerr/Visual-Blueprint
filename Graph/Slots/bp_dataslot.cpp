@@ -134,7 +134,7 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
     if(this->isOutput()){
 //        if(parentNode()->noFlowNode()){
             qDebug() << "loading the branches from the connected output slot";
-            m_frameBranches << dataSlot->frameBranches();
+            m_frameBranches.unite(dataSlot->frameBranches());
             //if(parentNode()->noFlowNode())this->parentNode()->updateSlotsBranches(this);
             this->parentNode()->updateSlotsBranches(this);
             foreach (auto branch, this->frameBranches()) {
@@ -168,7 +168,7 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
         //TODO handle the inverse process
 //        if(dataSlot->parentNode()->noFlowNode()){
             qDebug() << "loading the branches from the connected output slot";
-            dataSlot->m_frameBranches << this->frameBranches();
+            dataSlot->m_frameBranches.unite(this->frameBranches());
             //if(dataSlot->parentNode()->noFlowNode())
                 dataSlot->parentNode()->updateSlotsBranches(this);
             foreach (auto branch, dataSlot->frameBranches()) {

@@ -420,6 +420,7 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
     mapping.insert("returnName",node->outputSlot()->reference());
     mapping.insert("semaphores",semaphores);
     mapping.insert("require_semaphore",node->outputSlot()->requireSemaphore());
+    mapping.insert("class_name",node->sourceClass()->name());
 
     //temporary solution for parameter refrences
     QStringList parameterRefrences;

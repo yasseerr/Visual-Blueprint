@@ -225,15 +225,15 @@ void BP_IFNode::updateSlotsBranches(BP_Slot *slot)
 {
     if(slot == m_flowInSlot){
         m_originalBranches.clear();
-        m_originalBranches << m_flowInSlot->getJoinedBranches();
+        m_originalBranches.unite(m_flowInSlot->getJoinedBranches());
         //TODO update the cloture node
         if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
 
         m_booleanSlot->setFrameBranches(m_originalBranches);
         m_booleanSlot->notifyConnectedNodes();
 
-        trueFlowSlot()->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
-        falseFlowSlot()->frameBranches().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        trueFlowSlot()->frameBranches().values().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        falseFlowSlot()->frameBranches().values().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
 
         m_trueFlowSlot->notifyConnectedNodes();
         m_falseFlowSlot->notifyConnectedNodes();

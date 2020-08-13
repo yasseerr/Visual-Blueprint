@@ -13,6 +13,7 @@
 #include <QAction>
 #include <QGraphicsItem>
 #include <QObject>
+#include <QSet>
 
 #define FIRST_REFERENCE "BPNodeFirstReference"
 //TODO use a list of scope nodes that connect to the subbranches of this node and will be rendered before it
@@ -34,8 +35,8 @@ class BP_Node :public QObject, public QGraphicsItem
     Q_PROPERTY(BP_GraphView* connectedGraph READ connectedGraph WRITE setConnectedGraph NOTIFY connectedGraphChanged)
     Q_PROPERTY(int numberOfReferenceCalls READ numberOfReferenceCalls WRITE setNumberOfReferenceCalls NOTIFY numberOfReferenceCallsChanged)
     Q_PROPERTY(bool noFlowNode READ noFlowNode WRITE setNoFlowNode NOTIFY noFlowNodeChanged)
-    Q_PROPERTY(QList<BP_FrameBranch*> originalBranches READ originalBranches WRITE setOriginalBranches NOTIFY originalBranchesChanged)
-    Q_PROPERTY(QList<BP_FrameBranch*> subBranches READ subBranches WRITE setSubBranches NOTIFY subBranchesChanged)
+    Q_PROPERTY(QSet<BP_FrameBranch*> originalBranches READ originalBranches WRITE setOriginalBranches NOTIFY originalBranchesChanged)
+    Q_PROPERTY(QSet<BP_FrameBranch*> subBranches READ subBranches WRITE setSubBranches NOTIFY subBranchesChanged)
     Q_PROPERTY(BP_Node* clotureNode READ clotureNode WRITE setClotureNode NOTIFY clotureNodeChanged)
     Q_PROPERTY(QList<BP_Node*> scopeNodes READ scopeNodes WRITE setScopeNodes NOTIFY scopeNodesChanged)
     Q_PROPERTY(BP_Node* scope READ scope WRITE setScope NOTIFY scopeChanged)
@@ -58,9 +59,9 @@ protected:
 
     bool m_noFlowNode;
 
-    QList<BP_FrameBranch*> m_originalBranches;
+    QSet<BP_FrameBranch*> m_originalBranches;
 
-    QList<BP_FrameBranch*> m_subBranches;
+    QSet<BP_FrameBranch*> m_subBranches;
     BP_Node* m_clotureNode;
 
 public :
@@ -109,9 +110,9 @@ public slots:
 
     void setNoFlowNode(bool noFlowNode);
 
-    void setOriginalBranches(QList<BP_FrameBranch*> originalBranches);
+    void setOriginalBranches(QSet<BP_FrameBranch*> originalBranches);
 
-    void setSubBranches(QList<BP_FrameBranch*> subBranches);
+    void setSubBranches(QSet<BP_FrameBranch*> subBranches);
 
     void setClotureNode(BP_Node* clotureNode);
 
@@ -128,9 +129,9 @@ signals:
 
     void noFlowNodeChanged(bool noFlowNode);
 
-    void originalBranchesChanged(QList<BP_FrameBranch*> originalBranches);
+    void originalBranchesChanged(QSet<BP_FrameBranch*> originalBranches);
 
-    void subBranchesChanged(QList<BP_FrameBranch*> subBranches);
+    void subBranchesChanged(QSet<BP_FrameBranch*> subBranches);
 
     void clotureNodeChanged(BP_Node* clotureNode);
 
@@ -153,8 +154,8 @@ public:
 
     int numberOfReferenceCalls() const;
     bool noFlowNode() const;
-    QList<BP_FrameBranch*> originalBranches() const;
-    QList<BP_FrameBranch*> subBranches() const;
+    QSet<BP_FrameBranch*> originalBranches() const;
+    QSet<BP_FrameBranch*> subBranches() const;
     BP_Node* clotureNode() const;
     QList<BP_Node*> scopeNodes() const;
     BP_Node* scope() const;
