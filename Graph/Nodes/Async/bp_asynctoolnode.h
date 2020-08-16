@@ -26,6 +26,7 @@ class BP_AsyncToolNode : public BP_Node
     Q_PROPERTY(BP_FlowSlot* flowOutSlot READ flowOutSlot WRITE setFlowOutSlot NOTIFY flowOutSlotChanged)
     Q_PROPERTY(QList<BP_FlowSlot*> asyncOutSlots READ asyncOutSlot WRITE setAsyncOutSlot NOTIFY asyncOutSlotChanged)
 
+protected:
     BP_FlowSlot* m_flowInSlot;
 
     BP_FlowSlot* m_flowOutSlot;

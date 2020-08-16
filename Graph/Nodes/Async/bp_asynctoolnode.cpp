@@ -7,12 +7,29 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
-#include "asynctoolnode.h"
+#include "bp_asynctoolnode.h"
 
-BP_AsyncToolNode::BP_AsyncToolNode()
+#include <Graph/Slots/bp_flowslot.h>
+
+BP_AsyncToolNode::BP_AsyncToolNode():BP_Node(),
+    m_flowInSlot(new BP_FlowSlot(this)),
+    m_flowOutSlot(new BP_FlowSlot(this))
+
 {
+    setNoFlowNode(false);
+    //the next node will be used later
+    m_flowOutSlot->setIsOutput(true);
+    m_flowOutSlot->setFlowName("out");
+    m_flowOutSlot->setShowFlowName(false);
+    m_flowOutSlot->setParentItem(this);
+    m_flowOutSlot->setParentNode(this);
 
+    m_flowInSlot->setIsOutput(false);
+    m_flowInSlot->setShowFlowName(false);
+    m_flowInSlot->setParentItem(this);
+    m_flowInSlot->setParentNode(this);
 }
+
 
 BP_FlowSlot *BP_AsyncToolNode::flowInSlot() const
 {
@@ -63,7 +80,7 @@ void BP_AsyncToolNode::updateSlotsBranches(BP_Slot *slot)
 
 BP_Node *BP_AsyncToolNode::nextNode()
 {
-
+    return nullptr;
 }
 
 void BP_AsyncToolNode::fromVariant(QVariant var)
@@ -73,5 +90,5 @@ void BP_AsyncToolNode::fromVariant(QVariant var)
 
 QVariant BP_AsyncToolNode::toVariantBP()
 {
-
+    return "salam";
 }

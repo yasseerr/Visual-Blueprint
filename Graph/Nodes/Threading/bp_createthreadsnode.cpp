@@ -55,13 +55,13 @@ void BP_CreateThreadsNode::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setOpacity(0.8);
     painter->drawText(QPoint(boundingRect().center().x()-TextHalfWidth("Create Threads"),15),"Create Threads");
 }
+int maxHeight = 60;
+
 
 void BP_CreateThreadsNode::calculateBounds()
 {
     BP_Node::calculateBounds();
     int maxWidth = 0;
-    int maxHeight = 60;
-
     //output bound
     int outputWidth =30+ m_flowInSlot->boundingRect().width()*2 + QFontMetrics(QFont()).boundingRect("Create Threads").width();
     maxWidth = maxWidth>outputWidth? maxWidth:outputWidth;
