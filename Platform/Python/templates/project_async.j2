@@ -1,0 +1,36 @@
+#importing default modules TODO test if the project need them first
+import threading
+import sys
+import asyncio
+#importing modules
+{%for module in project.importedModules %}{{ module.importHiearchy|renderImport:"module" }}
+{%endfor%}
+#importing classes
+{%for classObj in project.importedClasses %}{{classObj.importHiearchy|renderImport:"class"}}
+{%endfor%}{#the lenght of the import object {{classObj.importHiearchy|length}}#}
+#importing Functions
+{%for functionObj in project.importedFunctions %}{{functionObj.importHiearchy|renderImport:"function"}}
+{%endfor%}
+#importing Variables
+{%for variableObj in project.importedVariables %}{{variableObj.importHiearchy|renderImport:"variable"}}
+{%endfor%}
+
+#Project class
+class {{project.projectName}}(object):
+
+	def __init__(self):
+		asyncio.run(self.runProject())
+
+	async def runProject(self):
+		#initaiting member locks if needed
+		{%for member_lock in members_lock %}{{member_lock|indentString:"2" }}
+		{%endfor%}
+		#initiating the member
+		{%for member in members %}{{ member|indentString:"2" }}
+		{%endfor%}			
+		#loading the entrygraph code
+{%for code_ in mainCodeList %}{{ code_|indentString:"2" }}
+{%endfor%}
+{%for member_function in member_functions%}{{member_function|indentString:"1"}}{%endfor%}
+
+test = {{project.projectName}}()

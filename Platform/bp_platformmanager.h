@@ -34,6 +34,7 @@ class BP_AddNode;
 class BP_OperationToolNode;
 
 class BP_CreateThreadsNode;
+class BP_RunAsyncNode;
 
 class BP_CoreObject;
 class BP_Class;
@@ -72,6 +73,8 @@ public:
 
     //threads
     virtual QString renderCreateThreadsNode(BP_CreateThreadsNode *node) = 0;
+    virtual QString renderRunAsyncNode(BP_RunAsyncNode *node) = 0;
+
 
 
     //OperationTools Nodes

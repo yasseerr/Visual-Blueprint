@@ -77,7 +77,8 @@ void BP_RunAsyncNode::calculateBounds()
 
 QString BP_RunAsyncNode::renderNode(BP_PlatformManager *platform)
 {
-    return "salam";
+    CHECK_FIRST_REFERENCE
+    return platform->renderRunAsyncNode(this);
 }
 
 QString BP_RunAsyncNode::getNodeTypeString()

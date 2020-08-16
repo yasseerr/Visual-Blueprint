@@ -11,6 +11,8 @@
 
 #include <Graph/Slots/bp_flowslot.h>
 
+#include <Graph/Links/bp_link.h>
+
 BP_AsyncToolNode::BP_AsyncToolNode():BP_Node(),
     m_flowInSlot(new BP_FlowSlot(this)),
     m_flowOutSlot(new BP_FlowSlot(this))
@@ -75,12 +77,20 @@ void BP_AsyncToolNode::setAsyncOutSlot(QList<BP_FlowSlot *> asyncOutSlots)
 
 void BP_AsyncToolNode::updateSlotsBranches(BP_Slot *slot)
 {
+    if(!slot || slot == m_flowInSlot){
+        auto joinedList = m_flowInSlot->getJoinedBranches();
+        m_flowOutSlot->setFrameBranches(joinedList);
+        setOriginalBranches(joinedList);
+        m_flowOutSlot->notifyConnectedNodes();
+        if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
+    }
 
 }
 
 BP_Node *BP_AsyncToolNode::nextNode()
 {
-    return nullptr;
+    if(m_flowOutSlot->connectedLinks().size()==0) return nullptr;
+    return m_flowOutSlot->connectedLinks().first()->outSlot()->parentNode();
 }
 
 void BP_AsyncToolNode::fromVariant(QVariant var)
@@ -90,5 +100,5 @@ void BP_AsyncToolNode::fromVariant(QVariant var)
 
 QVariant BP_AsyncToolNode::toVariantBP()
 {
-    return "salam";
+    return "";
 }

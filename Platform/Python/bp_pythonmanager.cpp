@@ -41,6 +41,8 @@
 
 #include <Graph/Nodes/Threading/bp_createthreadsnode.h>
 
+#include <Graph/Nodes/Async/bp_runasyncnode.h>
+
 BP_PythonManager::BP_PythonManager(QObject *parent):BP_PlatformManager(parent)
 {
     m_language = "python";
@@ -186,7 +188,7 @@ QVariantMap BP_PythonManager::importClass(QStringList moduleHiearchy)
 void BP_PythonManager::compileProject(BP_Project *project)
 {
     //rendering the imports
-    auto projectTemplate = grantleeEngine->loadByName("Python/templates/project.j2");
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/project_async.j2");
     QVariantHash mapping ;
     mapping.insert("project",QVariant::fromValue(project));
     //initiating the members
@@ -543,6 +545,29 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
     QVariantHash mapping ;
     mapping.insert("function_name",threadFunctionName);
     mapping.insert("args",slotsReferences+slotsSemaphores);
+
+    Grantlee::Context c(mapping);
+    return  projectTemplate->render(&c);
+
+}
+
+QString BP_PythonManager::renderRunAsyncNode(BP_RunAsyncNode *node)
+{
+    QString functionName = "async_thread_slot_"+QString::number(node->asyncOutSlot().first()->slotID);
+
+    //add the shared references
+    QStringList slotsReferences;
+    QStringList slotsSemaphores;
+
+
+    appendMemberFunction(node->asyncOutSlot().first()->connectedLinks().first()->outSlot()->parentNode(),
+                                          functionName,slotsReferences+slotsSemaphores);
+
+    auto projectTemplate = grantleeEngine->loadByName("Python/templates/RunAsync.j2");
+    QVariantHash mapping ;
+    mapping.insert("function_name",functionName);
+    mapping.insert("args",slotsReferences+slotsSemaphores);
+    mapping.insert("slot_id",node->asyncOutSlot().first()->slotID);
 
     Grantlee::Context c(mapping);
     return  projectTemplate->render(&c);

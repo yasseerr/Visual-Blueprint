@@ -51,6 +51,7 @@ public:
 
     //threads
     QString renderCreateThreadsNode(BP_CreateThreadsNode *node) override;
+    QString renderRunAsyncNode(BP_RunAsyncNode *node) override;
 
     //Operaions Tools
     //helper function
