@@ -1,5 +1,5 @@
 
 #TODO add the parameters
 {#TODO remove the ',' the last rendered arg is not forllop.last#}
-def {{function_name}}(self,{%for arg in args%}{%if arg|slice:"0:5" != "self."%}{{arg}}{%if not forloop.last%} ,{%endif%}{%endif%}{% endfor %}):
+{%if is_async%}async {%endif%}def {{function_name}}(self,{%for arg in args%}{%if arg|slice:"0:5" != "self."%}{{arg}}{%if not forloop.last%} ,{%endif%}{%endif%}{% endfor %}):
 {%for line in function_block%}{{line|indentString:"1"}}{%endfor%}

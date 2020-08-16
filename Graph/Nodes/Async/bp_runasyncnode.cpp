@@ -30,11 +30,16 @@ BP_RunAsyncNode::BP_RunAsyncNode()
 
     m_asyncOutSlots << newAsync1Slot;
 
-    BP_FrameBranch *newThreadBranch = new BP_FrameBranch(newAsync1Slot);
-    newThreadBranch->setSplitNode(this);
-    m_subBranches << newThreadBranch;
-    newAsync1Slot->m_frameBranches << newThreadBranch;
+    BP_FrameBranch *newBranch = new BP_FrameBranch(newAsync1Slot);
+    newBranch->setSplitNode(this);
+    m_subBranches << newBranch;
+    newAsync1Slot->m_frameBranches << newBranch;
 
+    //using the same branches as the original ones
+    QSet<BP_Thread*> originalThreads;
+    getOriginalThreads(originalThreads);
+
+    newBranch->m_threads.unite(originalThreads);
 
     calculateBounds();
 }

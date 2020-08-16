@@ -255,15 +255,17 @@ QStringList BP_PythonManager::compileBlock(BP_Node *startNode, BP_Node *endNode)
     return blockCodeList;
 }
 
-QString BP_PythonManager::appendMemberFunction(BP_Node *startNode, QString functionName,QStringList args)
+QString BP_PythonManager::appendMemberFunction(BP_Node *startNode, QString functionName,QStringList args,
+                                               BP_Node *endNode, bool isAsync)
 {
-    auto functionBlockRendered = compileBlock(startNode,nullptr);
+    auto functionBlockRendered = compileBlock(startNode,endNode);
 
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/MemberFunction.j2");
     QVariantHash mapping ;
     mapping.insert("function_name",functionName);
     mapping.insert("function_block",functionBlockRendered);
+    mapping.insert("is_async",isAsync);
     mapping.insert("args",args);
 
     Grantlee::Context c(mapping);
@@ -553,21 +555,27 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
 
 QString BP_PythonManager::renderRunAsyncNode(BP_RunAsyncNode *node)
 {
-    QString functionName = "async_thread_slot_"+QString::number(node->asyncOutSlot().first()->slotID);
+    QString functionName = "async_slot_"+QString::number(node->asyncOutSlot().first()->slotID);
+
+    auto scopeNodes  = QStringList();//renderScopeNodes(node);
+
+    auto startNode = node->asyncOutSlot().first()->connectedLinks().first()->outSlot()->parentNode();
+
 
     //add the shared references
     QStringList slotsReferences;
     QStringList slotsSemaphores;
 
 
-    appendMemberFunction(node->asyncOutSlot().first()->connectedLinks().first()->outSlot()->parentNode(),
-                                          functionName,slotsReferences+slotsSemaphores);
+    appendMemberFunction(startNode,
+                         functionName,slotsReferences+slotsSemaphores,node->clotureNode(),true);
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/RunAsync.j2");
     QVariantHash mapping ;
     mapping.insert("function_name",functionName);
     mapping.insert("args",slotsReferences+slotsSemaphores);
     mapping.insert("slot_id",node->asyncOutSlot().first()->slotID);
+    mapping.insert("scope_nodes",scopeNodes);
 
     Grantlee::Context c(mapping);
     return  projectTemplate->render(&c);

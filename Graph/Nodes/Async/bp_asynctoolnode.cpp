@@ -13,6 +13,8 @@
 
 #include <Graph/Links/bp_link.h>
 
+#include <Graph/bp_framebranch.h>
+
 BP_AsyncToolNode::BP_AsyncToolNode():BP_Node(),
     m_flowInSlot(new BP_FlowSlot(this)),
     m_flowOutSlot(new BP_FlowSlot(this))
@@ -82,6 +84,14 @@ void BP_AsyncToolNode::updateSlotsBranches(BP_Slot *slot)
         m_flowOutSlot->setFrameBranches(joinedList);
         setOriginalBranches(joinedList);
         m_flowOutSlot->notifyConnectedNodes();
+
+        QSet<BP_Thread*> originalThreads;
+        getOriginalThreads(originalThreads);
+        //TODO add more than one async
+        auto firstAsync = (*(m_asyncOutSlots[0]->m_frameBranches.begin()));
+        firstAsync->m_threads.clear();
+        firstAsync->m_threads.unite(originalThreads);
+        m_asyncOutSlots[0]->notifyConnectedNodes();
         if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
     }
 
