@@ -23,6 +23,7 @@ RegisterToolNodeType(BP_CreateThreadsNode,"Threading")
 
 BP_CreateThreadsNode::BP_CreateThreadsNode()
 {
+    setBJoinWithMasterBranch(true);
     BP_FlowSlot *newThread1Slot  = new BP_FlowSlot(this);
     newThread1Slot->setIsOutput(true);
     newThread1Slot->setFlowName("Thread One");

@@ -92,6 +92,10 @@ void BP_AsyncToolNode::updateSlotsBranches(BP_Slot *slot)
         firstAsync->m_threads.clear();
         firstAsync->m_threads.unite(originalThreads);
         m_asyncOutSlots[0]->notifyConnectedNodes();
+
+        //set the previous_branches for the branch to be joined when both are present
+        firstAsync->m_previousBranches << joinedList.values();
+
         if(m_clotureNode)m_clotureNode->updateSlotsBranches(nullptr);
     }
 

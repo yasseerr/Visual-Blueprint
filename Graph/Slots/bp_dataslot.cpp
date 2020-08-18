@@ -148,7 +148,7 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             }
             //adding the threads reference********************************************************
             //get the threads in the branches
-            auto threads = this->getJoinedThreads();
+            auto threads = this->getAllThreads();
             //see if there are multiple if so insert  them to the sharedNodes
             if(threads.size()>1){
                 this->setRequireSemaphore(true);

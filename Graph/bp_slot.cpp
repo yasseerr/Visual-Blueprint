@@ -123,21 +123,26 @@ void BP_Slot::mouseClicked()
     temporaryLink->setTempOutputPoint(scenePoseBackup);
 }
 
-QSet<BP_FrameBranch*> BP_Slot::getJoinedBranches()
+QSet<BP_FrameBranch*> BP_Slot::getJoinedBranches(bool joinWithMaster)
 {
     QSet<BP_FrameBranch*> branchesToBeFiltered(m_frameBranches);
 
     //get the parents
     QSet<BP_Node*> splitNodes;
     foreach (auto frameBranch, m_frameBranches) {
-        if(frameBranch->splitNode()->subBranches().size()<2)continue;
+        if(frameBranch->splitNode()->subBranches().size()<2 &&
+                (!frameBranch->splitNode()->bJoinWithMasterBranch()))continue;
         splitNodes << frameBranch->splitNode();
     }
     //see if all the parents subbranches are present
     QSet<BP_FrameBranch*> newBranchesList;
     foreach (auto splitNode, splitNodes) {
         bool splitNodeJoined = true;
-        foreach (auto splitNodeSubBranch, splitNode->subBranches()) {
+        QList<BP_FrameBranch*> neededBranchesToJoin;
+        neededBranchesToJoin << splitNode->subBranches().values();
+        if(splitNode->bJoinWithMasterBranch())
+            neededBranchesToJoin << splitNode->originalBranches().values();
+        foreach (auto splitNodeSubBranch, neededBranchesToJoin) {
             if(!frameBranches().contains(splitNodeSubBranch)){
                 splitNodeJoined = false;
                 break;
@@ -165,6 +170,15 @@ QSet<BP_Thread *> BP_Slot::getJoinedThreads()
     QSet<BP_Thread*> retSet;
     auto branches = getJoinedBranches();
     foreach (auto branch, branches) {
+        retSet.unite(branch->threads());
+    }
+    return QSet<BP_Thread*>(retSet);
+}
+
+QSet<BP_Thread *> BP_Slot::getAllThreads()
+{
+    QSet<BP_Thread*> retSet;
+    foreach (auto branch, m_frameBranches) {
         retSet.unite(branch->threads());
     }
     return QSet<BP_Thread*>(retSet);

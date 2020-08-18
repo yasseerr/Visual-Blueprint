@@ -19,8 +19,10 @@
 
 RegisterToolNodeType(BP_RunAsyncNode,"Async")
 
-BP_RunAsyncNode::BP_RunAsyncNode()
+BP_RunAsyncNode::BP_RunAsyncNode():BP_AsyncToolNode()
 {
+    setBJoinWithMasterBranch(true);
+
     BP_FlowSlot *newAsync1Slot  = new BP_FlowSlot(this);
     newAsync1Slot->setIsOutput(true);
     newAsync1Slot->setFlowName("Async One");

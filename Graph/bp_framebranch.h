@@ -33,7 +33,6 @@ class BP_FrameBranch : public QObject
 
     static int branchesCount;
 
-    QList<BP_FrameBranch*> m_previousBranches;
 
     BP_Node* m_splitNode;
 
@@ -43,6 +42,7 @@ class BP_FrameBranch : public QObject
 
 public:
     QSet<BP_Thread*> m_threads;
+    QList<BP_FrameBranch*> m_previousBranches;
 
 public:
     explicit BP_FrameBranch(QObject *parent = nullptr);

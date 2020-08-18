@@ -40,6 +40,9 @@ class BP_Node :public QObject, public QGraphicsItem
     Q_PROPERTY(BP_Node* clotureNode READ clotureNode WRITE setClotureNode NOTIFY clotureNodeChanged)
     Q_PROPERTY(QList<BP_Node*> scopeNodes READ scopeNodes WRITE setScopeNodes NOTIFY scopeNodesChanged)
     Q_PROPERTY(BP_Node* scope READ scope WRITE setScope NOTIFY scopeChanged)
+    Q_PROPERTY(bool bJoinWithMasterBranch READ bJoinWithMasterBranch WRITE setBJoinWithMasterBranch NOTIFY bJoinWithMasterBranchChanged)
+
+
 
 
 
@@ -50,6 +53,7 @@ protected:
 
     BP_CoreObject* m_coreObject;
     BP_GraphView* m_connectedGraph;
+    bool m_bJoinWithMasterBranch;
 
 
     //TODO create node fonts
@@ -120,6 +124,8 @@ public slots:
 
     void setScope(BP_Node* scope);
 
+    void setBJoinWithMasterBranch(bool bJoinWithMasterBranch);
+
 signals:
     void coreObjectChanged(BP_CoreObject* coreObject);
     void connectedGraphChanged(BP_GraphView* connectedGraph);
@@ -138,6 +144,8 @@ signals:
     void scopeNodesChanged(QList<BP_Node*> scopeNodes);
 
     void scopeChanged(BP_Node* scope);
+
+    void bJoinWithMasterBranchChanged(bool bJoinWithMasterBranch);
 
 public:
     virtual QRectF boundingRect() const override;
@@ -160,6 +168,7 @@ public:
     QList<BP_Node*> scopeNodes() const;
     BP_Node* scope() const;
 
+    bool bJoinWithMasterBranch() const;
 };
 
 #endif // BP_NODE_H

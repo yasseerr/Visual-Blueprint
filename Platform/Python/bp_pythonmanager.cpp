@@ -540,7 +540,7 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
         //TODO add the semaphore when required
     }
     appendMemberFunction(node->subThreadsSlots().first()->connectedLinks().first()->outSlot()->parentNode(),
-                                          threadFunctionName,slotsReferences+slotsSemaphores);
+                                          threadFunctionName,slotsReferences+slotsSemaphores,node->clotureNode());
 
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/CreateThreads.j2");

@@ -38,6 +38,7 @@ BP_Node::BP_Node(QObject *parent):QObject(parent)
   ,m_noFlowNode(true)
   ,m_clotureNode(nullptr)
   ,m_scope(nullptr)
+  ,m_bJoinWithMasterBranch(false)
 {
     nodeId = nodeCount;
     BP_GraphUtils::getInstance()->registerNodeID(nodeId,this);
@@ -234,6 +235,15 @@ void BP_Node::setScope(BP_Node *scope)
     emit scopeChanged(m_scope);
 }
 
+void BP_Node::setBJoinWithMasterBranch(bool bJoinWithMasterBranch)
+{
+    if (m_bJoinWithMasterBranch == bJoinWithMasterBranch)
+        return;
+
+    m_bJoinWithMasterBranch = bJoinWithMasterBranch;
+    emit bJoinWithMasterBranchChanged(m_bJoinWithMasterBranch);
+}
+
 QRectF BP_Node::boundingRect() const
 {
     return  m_bounds;
@@ -341,5 +351,10 @@ QList<BP_Node *> BP_Node::scopeNodes() const
 BP_Node *BP_Node::scope() const
 {
     return m_scope;
+}
+
+bool BP_Node::bJoinWithMasterBranch() const
+{
+    return m_bJoinWithMasterBranch;
 }
 
