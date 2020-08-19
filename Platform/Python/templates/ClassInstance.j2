@@ -1,4 +1,4 @@
-
+{%extends "Python/templates/Node.j2"%}{%block content%}
 #class input declarations{%for inputDeclaration in instanceInputsDeclaration%}
 {{inputDeclaration}}{%endfor%}
 #class call
@@ -10,4 +10,4 @@
 {%if require_semaphore%}{{returnName}}_lock = threading.Lock(){%endif%}
 {{returnName}} = {{class_name}}({%for param in parameterRefrences%}{{param}} {%if not forloop.last%},{%endif%}{% endfor %} )
 {%for semaphore in semaphores%}{{semaphore}}.release()
-{%endfor%}
+{%endfor%}{%endblock%}

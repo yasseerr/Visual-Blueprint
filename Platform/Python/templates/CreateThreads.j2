@@ -1,2 +1,2 @@
-
-t = threading.Thread(target=self.{{function_name}},args=[{%for arg in args%}{%if arg|slice:"0:5" != "self."%}{{arg}}{%if not forloop.last%} ,{%endif%}{%endif%}{% endfor %}]).start()
+{%extends "Python/templates/Node.j2"%}
+{%block content%}t = threading.Thread(target=self.{{function_name}},args=[{%for arg in args%}{%if arg|slice:"0:5" != "self."%}{{arg}}{%if not forloop.last%} ,{%endif%}{%endif%}{% endfor %}]).start(){%endblock%}

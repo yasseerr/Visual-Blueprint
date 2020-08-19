@@ -1,6 +1,5 @@
-
-#starting the if statement again
-{{scope_nodes}}
+{%extends "Python/templates/Node.j2"%}
+{%block content%}
 {{condition_declaration}}
 {%if boolean_require_lock%}{{condition_reference}}_lock.acquire(){%endif%}
 if({{condition_reference}}):
@@ -9,3 +8,4 @@ if({{condition_reference}}):
 else:
 	{%if boolean_require_lock%}{{condition_reference}}_lock.release(){%endif%}
 	{%for line in false_block %}{{line|indentString:"1"}}{%endfor%}
+{%endblock%}

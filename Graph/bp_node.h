@@ -27,6 +27,7 @@ class BP_FrameBranch;
 class BP_Slot;
 class BP_Thread;
 class BP_Async;
+class BP_FlowSlot;
 
 class BP_Node :public QObject, public QGraphicsItem
 {
@@ -42,6 +43,8 @@ class BP_Node :public QObject, public QGraphicsItem
     Q_PROPERTY(QList<BP_Node*> scopeNodes READ scopeNodes WRITE setScopeNodes NOTIFY scopeNodesChanged)
     Q_PROPERTY(BP_Node* scope READ scope WRITE setScope NOTIFY scopeChanged)
     Q_PROPERTY(bool bJoinWithMasterBranch READ bJoinWithMasterBranch WRITE setBJoinWithMasterBranch NOTIFY bJoinWithMasterBranchChanged)
+    Q_PROPERTY(QSet<BP_FlowSlot*> awaitedAsyncSlots READ awaitedAsyncSlots WRITE setAwaitedAsyncSlots NOTIFY awaitedAsyncSlotsChanged)
+
 
 
 
@@ -51,7 +54,6 @@ class BP_Node :public QObject, public QGraphicsItem
 protected:
     BP_Node* m_scope;
     QList<BP_Node*> m_scopeNodes;
-
     BP_CoreObject* m_coreObject;
     BP_GraphView* m_connectedGraph;
     bool m_bJoinWithMasterBranch;
@@ -70,6 +72,9 @@ protected:
     BP_Node* m_clotureNode;
 
 public :
+
+    QSet<BP_FlowSlot *> m_awaitedAsyncSlots;
+
     //painter members
     QRectF m_bounds;
     static int nodeCount;
@@ -129,6 +134,8 @@ public slots:
 
     void setBJoinWithMasterBranch(bool bJoinWithMasterBranch);
 
+    void setAwaitedAsyncSlots(QSet<BP_FlowSlot*> awaitedAsyncSlots);
+
 signals:
     void coreObjectChanged(BP_CoreObject* coreObject);
     void connectedGraphChanged(BP_GraphView* connectedGraph);
@@ -149,6 +156,8 @@ signals:
     void scopeChanged(BP_Node* scope);
 
     void bJoinWithMasterBranchChanged(bool bJoinWithMasterBranch);
+
+    void awaitedAsyncSlotsChanged(QSet<BP_FlowSlot*> awaitedAsyncSlots);
 
 public:
     virtual QRectF boundingRect() const override;
@@ -172,6 +181,7 @@ public:
     BP_Node* scope() const;
 
     bool bJoinWithMasterBranch() const;
+    QSet<BP_FlowSlot*> awaitedAsyncSlots() const;
 };
 
 #endif // BP_NODE_H

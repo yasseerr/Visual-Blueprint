@@ -346,6 +346,9 @@ QString BP_PythonManager::renderFunctionNode(BP_FunctionNode *node)
     }
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/Function.j2");
     QVariantHash mapping ;
+
+    insertBasicNodeValues(node,mapping);
+
     mapping.insert("function",QVariant::fromValue(node));
     mapping.insert("functionInputsDeclaration",functionInputsDeclaration);
     mapping.insert("required_semaphores",requiredSemaphores);
@@ -420,6 +423,9 @@ QString BP_PythonManager::renderClassInstanceNode(BP_ClassInstanceNode *node)
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/ClassInstance.j2");
     QVariantHash mapping ;
+
+    insertBasicNodeValues(node,mapping);
+
     mapping.insert("instance",QVariant::fromValue(node));
     mapping.insert("instanceInputsDeclaration",instanceInputsDeclaration);
     mapping.insert("returnName",node->outputSlot()->reference());
@@ -473,11 +479,13 @@ QString BP_PythonManager::renderIFStatement(BP_IFNode *node)
     // insert the result to the template
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/IFStatement.j2");
     QVariantHash mapping ;
+
+    insertBasicNodeValues(node,mapping);
+
     mapping.insert("condition_declaration",conditionRendered);
     mapping.insert("condition_reference",conditionReference);
     mapping.insert("true_block",trueBlock);
     mapping.insert("false_block",falseBlock);
-    mapping.insert("scope_nodes",scopeNodes);
     mapping.insert("boolean_require_lock",qobject_cast<BP_DataSlot*>(booleanSourceSlot)->requireSemaphore());
 
     // polish the results
@@ -510,13 +518,15 @@ QString BP_PythonManager::renderLoopStatement(BP_LoopNode *node)
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/LoopStatement.j2");
     QVariantHash mapping ;
+
+    insertBasicNodeValues(node,mapping);
+
     mapping.insert("loopInputsDeclaration",loopInputsDeclaration);
     mapping.insert("counter_name",node->counterSlot()->reference());
     mapping.insert("start",loopInputReferences[0]);
     mapping.insert("end",loopInputReferences[1]);
     mapping.insert("step",loopInputReferences[2]);
     mapping.insert("loop_block",loopBlockCompilation);
-    mapping.insert("scope_nodes",scopeNodes);
     mapping.insert("semaphores",semaphores);
     mapping.insert("counter_require_semaphore",node->counterSlot()->requireSemaphore());
 
@@ -546,6 +556,9 @@ QString BP_PythonManager::renderCreateThreadsNode(BP_CreateThreadsNode *node)
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/CreateThreads.j2");
     QVariantHash mapping ;
+
+    insertBasicNodeValues(node,mapping);
+
     mapping.insert("function_name",threadFunctionName);
     mapping.insert("args",slotsReferences+slotsSemaphores);
 
@@ -559,7 +572,6 @@ QString BP_PythonManager::renderRunAsyncNode(BP_RunAsyncNode *node)
     QString functionName = "async_slot_"+QString::number(node->asyncOutSlot().first()->slotID);
 
     auto scopeNodes  = QStringList();//renderScopeNodes(node);
-
     auto startNode = node->asyncOutSlot().first()->connectedLinks().first()->outSlot()->parentNode();
 
 
@@ -581,10 +593,12 @@ QString BP_PythonManager::renderRunAsyncNode(BP_RunAsyncNode *node)
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/RunAsync.j2");
     QVariantHash mapping ;
+
+    insertBasicNodeValues(node,mapping);
+
     mapping.insert("function_name",functionName);
     mapping.insert("args",slotsReferences+slotsSemaphores);
     mapping.insert("slot_id",node->asyncOutSlot().first()->slotID);
-    mapping.insert("scope_nodes",scopeNodes);
 
     Grantlee::Context c(mapping);
     return  projectTemplate->render(&c);
@@ -610,6 +624,9 @@ QString BP_PythonManager::renderDefaultOperationTool(BP_OperationToolNode *node,
 
     auto projectTemplate = grantleeEngine->loadByName("Python/templates/Operation.j2");
     QVariantHash mapping ;
+
+    insertBasicNodeValues(node,mapping);
+
     mapping.insert("inputs",inputs);
     mapping.insert("reference",node->outputSlot()->reference());
     mapping.insert("semaphores",semaphores);
@@ -644,6 +661,19 @@ QString BP_PythonManager::renderScopeNodes(BP_Node *node)
         returnString += scopeNode->renderNode(this) + "\n";
     }
     return returnString;
+}
+
+void BP_PythonManager::insertBasicNodeValues(BP_Node *node, QVariantHash &hash)
+{
+    auto scopeNodes = renderScopeNodes(node);
+    //renderitn the awaited slots
+    QStringList awaitedTasks;
+    foreach (auto slot, node->awaitedAsyncSlots()) {
+        awaitedTasks << "await t_"+QString::number(slot->slotID);
+    }
+    hash.insert("scope_nodes",scopeNodes);
+    hash.insert("awaited_tasks",awaitedTasks);
+
 }
 
 QString BP_PythonManager::getDocForCoreObject(BP_CoreObject *obj)

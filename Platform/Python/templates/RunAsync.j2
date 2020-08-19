@@ -1,3 +1,5 @@
 
-{{scope_nodes}}
+{%extends "Python/templates/Node.j2"%}
+{%block content%}
 t_{{slot_id}} = asyncio.create_task(self.{{function_name}}({%for arg in args%}{{arg}}{%if not forloop.last%} ,{%endif%}{% endfor %}))
+{%endblock%}

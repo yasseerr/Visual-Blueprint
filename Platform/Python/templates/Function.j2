@@ -1,6 +1,5 @@
-
-#function input declarations
-
+{%extends "Python/templates/Node.j2"%}
+{%block content%}#function input declarations
 {%for inputDeclaration in functionInputsDeclaration%}{{inputDeclaration}}
 {%endfor%}
 {%for semaphore in required_semaphores%}{{semaphore}}.acquire()
@@ -9,4 +8,4 @@
 {%if return_require_semaphore%}{{function.functionObject.name}}Ret_lock = threading.Lock(){%endif%}
 {{function.functionObject.name}}Ret ={%if function.functionObject.isMember%}{{owning_obj_ref}}.{%endif%}{{function.functionObject.name}}({%for param in parameterRefrences%}{{param}} {%if not forloop.last%},{%endif%}{% endfor %} )
 {%for semaphore in required_semaphores%}{{semaphore}}.release()
-{%endfor%}
+{%endfor%}{%endblock%}

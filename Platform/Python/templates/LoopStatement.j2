@@ -1,5 +1,5 @@
-#starting the Loop statement
-{{scope_nodes}}
+{%extends "Python/templates/Node.j2"%}
+{%block content%}
 #Loop input declarations{%for inputDeclaration in  loopInputsDeclaration%}
 {{inputDeclaration}}{%endfor%}
 {%for semaphore in semaphores%}{{semaphore}}.acquire()
@@ -9,3 +9,4 @@ for {{counter_name}} in range({{start}},{{end}},{{step}}):
 	{%for line in loop_block %}{{line|indentString:"1"}}{%endfor%}
 {%for semaphore in semaphores%}{{semaphore}}.release()
 {%endfor%}
+{%endblock%}

@@ -49,6 +49,9 @@ public slots:
 
     void setAsyncOutSlot(QList<BP_FlowSlot*> asyncOutSlots);
 
+    //
+    void addAwaitToClotureNode();
+
 signals:
     void flowInSlotChanged(BP_FlowSlot* flowInSlot);
     void flowOutSlotChanged(BP_FlowSlot* flowOutSlot);

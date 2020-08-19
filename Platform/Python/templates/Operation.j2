@@ -1,4 +1,5 @@
-#function input declarations
+{%extends "Python/templates/Node.j2"%}
+{%block content%}
 {%for inputDeclaration in inputs%}{{inputDeclaration}}
 {%endfor%}
 {%for semaphore in semaphores%}{{semaphore}}.acquire()
@@ -7,3 +8,4 @@
 {{reference}} = {{sentence}}
 {%for semaphore in semaphores%}{{semaphore}}.release()
 {%endfor%}
+{%endblock%}

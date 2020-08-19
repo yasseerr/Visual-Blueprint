@@ -32,6 +32,8 @@ BP_AsyncToolNode::BP_AsyncToolNode():BP_Node(),
     m_flowInSlot->setShowFlowName(false);
     m_flowInSlot->setParentItem(this);
     m_flowInSlot->setParentNode(this);
+
+    connect(this,&BP_AsyncToolNode::clotureNodeChanged,this,&BP_AsyncToolNode::addAwaitToClotureNode);
 }
 
 
@@ -75,6 +77,12 @@ void BP_AsyncToolNode::setAsyncOutSlot(QList<BP_FlowSlot *> asyncOutSlots)
 
     m_asyncOutSlots = asyncOutSlots;
     emit asyncOutSlotChanged(m_asyncOutSlots);
+}
+
+void BP_AsyncToolNode::addAwaitToClotureNode()
+{
+    if(!clotureNode()) return;
+    clotureNode()->m_awaitedAsyncSlots << asyncOutSlot().first();
 }
 
 void BP_AsyncToolNode::updateSlotsBranches(BP_Slot *slot)

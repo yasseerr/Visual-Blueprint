@@ -253,6 +253,15 @@ void BP_Node::setBJoinWithMasterBranch(bool bJoinWithMasterBranch)
     emit bJoinWithMasterBranchChanged(m_bJoinWithMasterBranch);
 }
 
+void BP_Node::setAwaitedAsyncSlots(QSet<BP_FlowSlot *> awaitedAsyncSlots)
+{
+    if (m_awaitedAsyncSlots == awaitedAsyncSlots)
+        return;
+
+    m_awaitedAsyncSlots = awaitedAsyncSlots;
+    emit awaitedAsyncSlotsChanged(m_awaitedAsyncSlots);
+}
+
 QRectF BP_Node::boundingRect() const
 {
     return  m_bounds;
@@ -365,5 +374,10 @@ BP_Node *BP_Node::scope() const
 bool BP_Node::bJoinWithMasterBranch() const
 {
     return m_bJoinWithMasterBranch;
+}
+
+QSet<BP_FlowSlot *> BP_Node::awaitedAsyncSlots() const
+{
+    return m_awaitedAsyncSlots;
 }
 
