@@ -234,6 +234,10 @@ void BP_IFNode::updateSlotsBranches(BP_Slot *slot)
 
         trueFlowSlot()->frameBranches().values().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
         falseFlowSlot()->frameBranches().values().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        QSet<BP_Async*> asyncs;
+        m_flowInSlot->getJoinedAsyncs(asyncs);
+        m_trueFlowSlot->frameBranches().values().first()->m_asyncs.unite(asyncs);
+        m_falseFlowSlot->frameBranches().values().first()->m_asyncs.unite(asyncs);
 
         m_trueFlowSlot->notifyConnectedNodes();
         m_falseFlowSlot->notifyConnectedNodes();

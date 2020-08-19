@@ -191,6 +191,14 @@ void BP_Slot::getAllAsyncs(QSet<BP_Async *> &asyncs)
     }
 }
 
+void BP_Slot::getJoinedAsyncs(QSet<BP_Async *> &asyncs)
+{
+    auto branches = getJoinedBranches();
+    foreach (auto branch, branches) {
+        asyncs.unite(branch->asyncs());
+    }
+}
+
 void BP_Slot::notifyConnectedNodes()
 {
     foreach (auto link, m_connectedLinks) {

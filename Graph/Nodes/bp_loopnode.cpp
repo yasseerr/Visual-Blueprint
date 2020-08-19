@@ -197,6 +197,9 @@ void BP_LoopNode::updateSlotsBranches(BP_Slot *slot)
 
         m_flowOutSlot->setFrameBranches(QSet<BP_FrameBranch*>(m_originalBranches));
         m_loopFlowSlot->frameBranches().values().first()->m_threads.unite(m_flowInSlot->getJoinedThreads());
+        QSet<BP_Async*> asyncs;
+        m_flowInSlot->getJoinedAsyncs(asyncs);
+        m_loopFlowSlot->frameBranches().values().first()->m_asyncs.unite(asyncs);
 
         m_flowOutSlot->notifyConnectedNodes();
         m_loopFlowSlot->notifyConnectedNodes();
