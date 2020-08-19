@@ -117,10 +117,29 @@ BP_Node *BP_AsyncToolNode::nextNode()
 
 void BP_AsyncToolNode::fromVariant(QVariant var)
 {
+    BP_Node::fromVariant(var);
+    auto varMap = var.toMap();
 
+    m_flowInSlot->fromVariant(varMap["flowInSlot"]);
+    m_flowOutSlot->fromVariant(varMap["flowOutSlot"]);
+    auto ayncsVariantList = varMap["asyncsSlots"].toList();
+    for (int i = 0; i < m_asyncOutSlots.size(); ++i) {
+        m_asyncOutSlots[i]->fromVariant(ayncsVariantList[i]);
+    }
 }
 
 QVariant BP_AsyncToolNode::toVariantBP()
 {
-    return "";
+    QVariantMap retMap = BP_Node::toVariantBP().toMap();
+    retMap["type"] = getNodeTypeString();
+
+    retMap["flowInSlot"] = m_flowInSlot->toVariantBP();
+    retMap["flowOutSlot"] = m_flowOutSlot->toVariantBP();
+    QVariantList asyncsSlotsVar;
+    foreach (auto asyncSlot, m_asyncOutSlots) {
+        asyncsSlotsVar << asyncSlot->toVariantBP();
+    }
+    retMap["asyncsSlots"] = asyncsSlotsVar;
+
+    return retMap;
 }
