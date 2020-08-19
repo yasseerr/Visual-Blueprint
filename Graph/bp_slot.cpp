@@ -184,6 +184,13 @@ QSet<BP_Thread *> BP_Slot::getAllThreads()
     return QSet<BP_Thread*>(retSet);
 }
 
+void BP_Slot::getAllAsyncs(QSet<BP_Async *> &asyncs)
+{
+    foreach (auto branch, m_frameBranches) {
+        asyncs.unite(branch->m_asyncs);
+    }
+}
+
 void BP_Slot::notifyConnectedNodes()
 {
     foreach (auto link, m_connectedLinks) {

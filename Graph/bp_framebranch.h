@@ -17,6 +17,7 @@
 
 class BP_Node;
 class BP_Thread;
+class BP_Async;
 
 class BP_FrameBranch : public QObject
 {
@@ -28,6 +29,7 @@ class BP_FrameBranch : public QObject
     Q_PROPERTY(QColor branchColor READ branchColor WRITE setBranchColor NOTIFY branchColorChanged)
     Q_PROPERTY(int branchLevel READ branchLevel WRITE setBranchLevel NOTIFY branchLevelChanged)
     Q_PROPERTY(QSet<BP_Thread*> threads READ threads WRITE setThreads NOTIFY threadsChanged)
+    Q_PROPERTY(QSet<BP_Async*> asyncs READ asyncs WRITE setAsyncs NOTIFY asyncsChanged)
 
     int m_branchID;
 
@@ -40,9 +42,11 @@ class BP_FrameBranch : public QObject
 
     int m_branchLevel;
 
+
 public:
     QSet<BP_Thread*> m_threads;
     QList<BP_FrameBranch*> m_previousBranches;
+    QSet<BP_Async*> m_asyncs;
 
 public:
     explicit BP_FrameBranch(QObject *parent = nullptr);
@@ -64,6 +68,8 @@ public:
 
     QSet<BP_Thread*> threads() const;
 
+    QSet<BP_Async*> asyncs() const;
+
 public slots:
     void setBranchID(int branchID);
 
@@ -77,6 +83,8 @@ public slots:
 
     void setThreads(QSet<BP_Thread*> threads);
 
+    void setAsyncs(QSet<BP_Async*> asyncs);
+
 signals:
 
     void branchIDChanged(int branchID);
@@ -85,6 +93,7 @@ signals:
     void branchColorChanged(QColor branchColor);
     void branchLevelChanged(int branchLevel);
     void threadsChanged(QSet<BP_Thread*> threads);
+    void asyncsChanged(QSet<BP_Async*> asyncs);
 };
 
 #endif // BP_FRAMEBRANCH_H

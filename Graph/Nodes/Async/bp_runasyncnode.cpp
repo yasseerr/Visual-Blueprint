@@ -11,6 +11,7 @@
 
 #include <Graph/Slots/bp_flowslot.h>
 
+#include <Graph/bp_async.h>
 #include <Graph/bp_framebranch.h>
 
 #include <QPainter>
@@ -33,7 +34,9 @@ BP_RunAsyncNode::BP_RunAsyncNode():BP_AsyncToolNode()
     m_asyncOutSlots << newAsync1Slot;
 
     BP_FrameBranch *newBranch = new BP_FrameBranch(newAsync1Slot);
+    BP_Async *newAsync =new BP_Async(newBranch);
     newBranch->setSplitNode(this);
+    newBranch->m_asyncs << newAsync;
     m_subBranches << newBranch;
     newAsync1Slot->m_frameBranches << newBranch;
 
@@ -42,6 +45,8 @@ BP_RunAsyncNode::BP_RunAsyncNode():BP_AsyncToolNode()
     getOriginalThreads(originalThreads);
 
     newBranch->m_threads.unite(originalThreads);
+
+    slotToAsyncMap[newAsync1Slot] = newAsync;
 
     calculateBounds();
 }

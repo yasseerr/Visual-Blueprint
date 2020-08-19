@@ -29,6 +29,7 @@ class BP_Link;
 
 class BP_FrameBranch;
 class BP_Thread;
+class BP_Async;
 
 class BP_Slot : public QObject , public QGraphicsItem
 {
@@ -82,6 +83,7 @@ public:
     QSet<BP_FrameBranch*> getJoinedBranches(bool joinWithMaster = false);
     QSet<BP_Thread*> getJoinedThreads(); ///< return the set of theads fromt the joined branches
     QSet<BP_Thread*> getAllThreads();
+    void getAllAsyncs(QSet<BP_Async*> &asyncs);
     void notifyConnectedNodes(); ///< update the connected nodes branches
     BP_Node* getLCAForBranches();///< get the lowest commom incestor
 

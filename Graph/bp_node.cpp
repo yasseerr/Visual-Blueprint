@@ -127,6 +127,15 @@ void BP_Node::connectSelfSlot(BP_Slot *selfSlot)
 
 }
 
+void BP_Node::getOriginalAsyncs(QSet<BP_Async *> &asyncsOut)
+{
+    foreach (auto branch, m_originalBranches) {
+        foreach (auto async, branch->asyncs()) {
+            asyncsOut.insert(async);
+        }
+    }
+}
+
 
 BP_Node *BP_Node::Create()
 {

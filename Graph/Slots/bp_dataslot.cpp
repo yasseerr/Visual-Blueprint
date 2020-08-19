@@ -16,6 +16,7 @@
 
 #include <Core/bp_parameter.h>
 
+#include <Graph/bp_async.h>
 #include <Graph/bp_framebranch.h>
 #include <Graph/bp_node.h>
 #include <Graph/bp_thread.h>
@@ -161,6 +162,21 @@ bool BP_DataSlot::acceptConnection(BP_Slot *secondSlot)
             }else{
                 this->setRequireSemaphore(false);
             }
+
+            //insert the references for the asyncs
+            //TODO copy this to the case where the slot is an input
+            QSet<BP_Async*> asyncs;
+            this->getAllAsyncs(asyncs);
+            if(asyncs.size()>1){
+                QSet<BP_Async*> originalAsyncs;
+                parentNode()->getOriginalAsyncs(originalAsyncs);
+                foreach (auto async, asyncs) {
+                    if(originalAsyncs.contains(async)) continue;
+                    async->m_sharedRefsSlots.insert(this);
+                }
+
+            }
+
 //        }else{
 //            //TODO handle outgoing dataslots flows like the output of a function
 //        }

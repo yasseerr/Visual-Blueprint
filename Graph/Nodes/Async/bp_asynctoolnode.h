@@ -33,6 +33,9 @@ protected:
 
     QList<BP_FlowSlot *> m_asyncOutSlots;
 
+public :
+    QMap<BP_FlowSlot*,BP_Async*> slotToAsyncMap;
+
 public:
     BP_AsyncToolNode();
     BP_FlowSlot* flowInSlot() const;

@@ -7,6 +7,7 @@
  *   School: National School of Computer Science Sidi-Bel-Abbes Algeria    *
  *   Supervisor: Bendaoud Faysal                                           *
  ***************************************************************************/
+#include "bp_async.h"
 #include "bp_framebranch.h"
 #include "bp_graphutils.h"
 #include "bp_graphview.h"
@@ -36,7 +37,9 @@ BP_GraphView::BP_GraphView():QGraphicsView(),m_graphName("New Graph"),m_scene(ne
     m_entryNode->setEventName("Entry");
     auto enteredEvent = m_entryNode->createFlow("entered");
     BP_Thread *mainThread  = new BP_Thread(enteredEvent);
+    BP_Async *mainAsync = new BP_Async(enteredEvent);
     enteredEvent->m_frameBranches.values().first()->m_threads << mainThread;
+    enteredEvent->m_frameBranches.values().first()->m_asyncs << mainAsync;
 
     //BP_GraphUtils::getInstance()->setNodeParentBranches(m_entryNode,QList<int>() << -1);
     //branch 0 the start

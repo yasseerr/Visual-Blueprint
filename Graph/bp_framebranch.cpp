@@ -86,6 +86,11 @@ QSet<BP_Thread *> BP_FrameBranch::threads() const
     return m_threads;
 }
 
+QSet<BP_Async *> BP_FrameBranch::asyncs() const
+{
+    return m_asyncs;
+}
+
 void BP_FrameBranch::setBranchID(int branchID)
 {
     if (m_branchID == branchID)
@@ -138,4 +143,13 @@ void BP_FrameBranch::setThreads(QSet<BP_Thread *> threads)
 
     m_threads = threads;
     emit threadsChanged(m_threads);
+}
+
+void BP_FrameBranch::setAsyncs(QSet<BP_Async *> asyncs)
+{
+    if (m_asyncs == asyncs)
+        return;
+
+    m_asyncs = asyncs;
+    emit asyncsChanged(m_asyncs);
 }

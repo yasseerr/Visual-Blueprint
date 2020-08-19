@@ -19,6 +19,7 @@
 
 #include <Core/bp_project.h>
 
+#include <Graph/bp_async.h>
 #include <Graph/bp_framebranch.h>
 #include <Graph/bp_graphview.h>
 #include <Graph/bp_node.h>
@@ -565,6 +566,14 @@ QString BP_PythonManager::renderRunAsyncNode(BP_RunAsyncNode *node)
     //add the shared references
     QStringList slotsReferences;
     QStringList slotsSemaphores;
+
+    foreach (auto refSlot, node->slotToAsyncMap.values().first()->sharedRefsSlots()) {
+        slotsReferences << refSlot->reference();
+        auto refSlotData = qobject_cast<BP_DataSlot*>(refSlot);
+        if(refSlotData && refSlotData->requireSemaphore()) slotsReferences << refSlotData->reference()+"_lock";
+        qDebug() << "adding reference to the thread args " << refSlot->reference();
+        //TODO add the semaphore when required
+    }
 
 
     appendMemberFunction(startNode,
